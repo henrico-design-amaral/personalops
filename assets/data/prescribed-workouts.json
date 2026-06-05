@@ -1,0 +1,590 @@
+[
+  {
+    "id": "pw-01",
+    "studentId": "std-01",
+    "professionalId": "prof-01",
+    "title": "Treino A - Peito e Ombro",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-12",
+        "loadSuggestion": "60kg",
+        "restSeconds": 120,
+        "notes": "Foco em controlar a fase excêntrica."
+      },
+      {
+        "exerciseId": "ex-02",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "22kg cada halter",
+        "restSeconds": 90,
+        "notes": "Mantenha o banco em 30 graus."
+      },
+      {
+        "exerciseId": "ex-07",
+        "order": 3,
+        "sets": 4,
+        "reps": "12-15",
+        "loadSuggestion": "10kg cada halter",
+        "restSeconds": 60,
+        "notes": "Evite usar o trapézio."
+      },
+      {
+        "exerciseId": "ex-04",
+        "order": 4,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "20kg",
+        "restSeconds": 60,
+        "notes": "Aperte o tríceps no final do movimento."
+      }
+    ]
+  },
+  {
+    "id": "pw-02",
+    "studentId": "std-01",
+    "professionalId": "prof-01",
+    "title": "Treino B - Costas e Bíceps",
+    "scheduledDate": "2026-06-04",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-14",
+        "order": 1,
+        "sets": 4,
+        "reps": "10-12",
+        "loadSuggestion": "50kg",
+        "restSeconds": 75,
+        "notes": "Puxe com os cotovelos."
+      },
+      {
+        "exerciseId": "ex-13",
+        "order": 2,
+        "sets": 3,
+        "reps": "8-10",
+        "loadSuggestion": "40kg",
+        "restSeconds": 90,
+        "notes": "Mantenha a postura firme."
+      },
+      {
+        "exerciseId": "ex-15",
+        "order": 3,
+        "sets": 4,
+        "reps": "10",
+        "loadSuggestion": "25kg",
+        "restSeconds": 60,
+        "notes": "Não balance o corpo."
+      }
+    ]
+  },
+  {
+    "id": "pw-03",
+    "studentId": "std-01",
+    "professionalId": "prof-01",
+    "title": "Treino C - Pernas Completo",
+    "scheduledDate": "2026-06-03",
+    "status": "completed",
+    "estimatedDurationMinutes": 70,
+    "exercises": [
+      {
+        "exerciseId": "ex-08",
+        "order": 1,
+        "sets": 4,
+        "reps": "8",
+        "loadSuggestion": "80kg",
+        "restSeconds": 120,
+        "notes": "Agachamento profundo."
+      },
+      {
+        "exerciseId": "ex-11",
+        "order": 2,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "40kg",
+        "restSeconds": 60,
+        "notes": "Fase excêntrica lenta."
+      }
+    ]
+  },
+  {
+    "id": "pw-04",
+    "studentId": "std-02",
+    "professionalId": "prof-01",
+    "title": "Treino HIIT Pernas",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 45,
+    "exercises": [
+      {
+        "exerciseId": "ex-09",
+        "order": 1,
+        "sets": 4,
+        "reps": "12",
+        "loadSuggestion": "100kg",
+        "restSeconds": 60,
+        "notes": "Calcanhares bem apoiados."
+      },
+      {
+        "exerciseId": "ex-23",
+        "order": 2,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "12kg cada halter",
+        "restSeconds": 60,
+        "notes": "Passos firmes."
+      }
+    ]
+  },
+  {
+    "id": "pw-05",
+    "studentId": "std-02",
+    "professionalId": "prof-01",
+    "title": "Treino HIIT Superiores",
+    "scheduledDate": "2026-06-04",
+    "status": "completed",
+    "estimatedDurationMinutes": 45,
+    "exercises": [
+      {
+        "exerciseId": "ex-22",
+        "order": 1,
+        "sets": 4,
+        "reps": "15",
+        "loadSuggestion": "Peso corporal",
+        "restSeconds": 45,
+        "notes": "Pode apoiar os joelhos se cansar."
+      }
+    ]
+  },
+  {
+    "id": "pw-06",
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "title": "Força Máxima - Agachamento",
+    "scheduledDate": "2026-06-06",
+    "status": "pending",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-08",
+        "order": 1,
+        "sets": 5,
+        "reps": "5",
+        "loadSuggestion": "120kg",
+        "restSeconds": 180,
+        "notes": "Use o cinturão e rack de segurança."
+      }
+    ]
+  },
+  {
+    "id": "pw-07",
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "title": "Força Máxima - Supino/Terra",
+    "scheduledDate": "2026-06-02",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 5,
+        "reps": "5",
+        "loadSuggestion": "100kg",
+        "restSeconds": 180,
+        "notes": "Pressione os pés no chão."
+      }
+    ]
+  },
+  {
+    "id": "pw-08",
+    "studentId": "std-04",
+    "professionalId": "prof-01",
+    "title": "Adaptação Geral A",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 50,
+    "exercises": [
+      {
+        "exerciseId": "ex-22",
+        "order": 1,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "Peso corporal (joelhos no solo)",
+        "restSeconds": 60,
+        "notes": "Mantenha o abdômen contraído."
+      },
+      {
+        "exerciseId": "ex-10",
+        "order": 2,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "20kg",
+        "restSeconds": 60,
+        "notes": "Extensão completa."
+      }
+    ]
+  },
+  {
+    "id": "pw-09",
+    "studentId": "std-04",
+    "professionalId": "prof-01",
+    "title": "Adaptação Geral B",
+    "scheduledDate": "2026-06-03",
+    "status": "completed",
+    "estimatedDurationMinutes": 50,
+    "exercises": [
+      {
+        "exerciseId": "ex-14",
+        "order": 1,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "30kg",
+        "restSeconds": 60,
+        "notes": "Puxe no peito."
+      }
+    ]
+  },
+  {
+    "id": "pw-10",
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "title": "Inferiores Adaptado",
+    "scheduledDate": "2026-06-06",
+    "status": "pending",
+    "estimatedDurationMinutes": 50,
+    "exercises": [
+      {
+        "exerciseId": "ex-10",
+        "order": 1,
+        "sets": 3,
+        "reps": "15",
+        "loadSuggestion": "15kg",
+        "restSeconds": 60,
+        "notes": "Atenção à condromalácia, sem carga explosiva."
+      },
+      {
+        "exerciseId": "ex-11",
+        "order": 2,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "25kg",
+        "restSeconds": 60,
+        "notes": "Movimento bem cadenciado."
+      }
+    ]
+  },
+  {
+    "id": "pw-11",
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "title": "Superiores Adaptado",
+    "scheduledDate": "2026-06-04",
+    "status": "completed",
+    "estimatedDurationMinutes": 50,
+    "exercises": [
+      {
+        "exerciseId": "ex-37",
+        "order": 1,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "20kg",
+        "restSeconds": 60,
+        "notes": "Foco na contração do peitoral."
+      }
+    ]
+  },
+  {
+    "id": "pw-12",
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "title": "Push Superior Avançado",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8",
+        "loadSuggestion": "90kg",
+        "restSeconds": 120,
+        "notes": "Cadência 3-0-1-0."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10",
+        "loadSuggestion": "26kg cada halter",
+        "restSeconds": 90,
+        "notes": "Tronco bem apoiado."
+      }
+    ]
+  },
+  {
+    "id": "pw-13",
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "title": "Pull Superior Avançado",
+    "scheduledDate": "2026-06-04",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-13",
+        "order": 1,
+        "sets": 4,
+        "reps": "8",
+        "loadSuggestion": "60kg",
+        "restSeconds": 90,
+        "notes": "Foco na pegada supinada."
+      }
+    ]
+  },
+  {
+    "id": "pw-14",
+    "studentId": "std-07",
+    "professionalId": "prof-02",
+    "title": "Circuito Definição",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 45,
+    "exercises": [
+      {
+        "exerciseId": "ex-22",
+        "order": 1,
+        "sets": 4,
+        "reps": "15",
+        "loadSuggestion": "Peso corporal",
+        "restSeconds": 30,
+        "notes": "Mantenha o ritmo."
+      },
+      {
+        "exerciseId": "ex-30",
+        "order": 2,
+        "sets": 4,
+        "reps": "20",
+        "loadSuggestion": "Peso corporal",
+        "restSeconds": 30,
+        "notes": "Subida explosiva."
+      }
+    ]
+  },
+  {
+    "id": "pw-15",
+    "studentId": "std-08",
+    "professionalId": "prof-02",
+    "title": "Cardio e Core",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-21",
+        "order": 1,
+        "sets": 3,
+        "reps": "60s",
+        "loadSuggestion": "Isometria",
+        "restSeconds": 60,
+        "notes": "Mantenha o core rígido."
+      },
+      {
+        "exerciseId": "ex-20",
+        "order": 2,
+        "sets": 3,
+        "reps": "20",
+        "loadSuggestion": "Peso corporal",
+        "restSeconds": 45,
+        "notes": "Expulsão do ar no topo."
+      }
+    ]
+  },
+  {
+    "id": "pw-16",
+    "studentId": "std-09",
+    "professionalId": "prof-02",
+    "title": "Mobilidade e Base",
+    "scheduledDate": "2026-06-06",
+    "status": "pending",
+    "estimatedDurationMinutes": 50,
+    "exercises": [
+      {
+        "exerciseId": "ex-22",
+        "order": 1,
+        "sets": 3,
+        "reps": "10",
+        "loadSuggestion": "Peso corporal",
+        "restSeconds": 60,
+        "notes": "Foco na amplitude."
+      }
+    ]
+  },
+  {
+    "id": "pw-17",
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "title": "Hipertrofia ABC - A",
+    "scheduledDate": "2026-06-06",
+    "status": "pending",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "10",
+        "loadSuggestion": "50kg",
+        "restSeconds": 90,
+        "notes": "Retorne aos treinos com cautela."
+      }
+    ]
+  },
+  {
+    "id": "pw-18",
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "title": "Hipertrofia ABC - B",
+    "scheduledDate": "2026-05-25",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-14",
+        "order": 1,
+        "sets": 4,
+        "reps": "10",
+        "loadSuggestion": "40kg",
+        "restSeconds": 90,
+        "notes": "Puxe com controle."
+      }
+    ]
+  },
+  {
+    "id": "pw-19",
+    "studentId": "std-11",
+    "professionalId": "prof-02",
+    "title": "Queima Avançada",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 45,
+    "exercises": [
+      {
+        "exerciseId": "ex-23",
+        "order": 1,
+        "sets": 4,
+        "reps": "15",
+        "loadSuggestion": "14kg cada halter",
+        "restSeconds": 45,
+        "notes": "Estocadas consecutivas."
+      }
+    ]
+  },
+  {
+    "id": "pw-20",
+    "studentId": "std-12",
+    "professionalId": "prof-01",
+    "title": "Estabilização de Core",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-21",
+        "order": 1,
+        "sets": 4,
+        "reps": "45s",
+        "loadSuggestion": "Isometria",
+        "restSeconds": 60,
+        "notes": "Sem sobrecarga na lombar."
+      }
+    ]
+  },
+  {
+    "id": "pw-21",
+    "studentId": "std-13",
+    "professionalId": "prof-02",
+    "title": "Adaptação A",
+    "scheduledDate": "2026-06-06",
+    "status": "pending",
+    "estimatedDurationMinutes": 50,
+    "exercises": [
+      {
+        "exerciseId": "ex-10",
+        "order": 1,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "15kg",
+        "restSeconds": 60,
+        "notes": "Adaptação."
+      }
+    ]
+  },
+  {
+    "id": "pw-22",
+    "studentId": "std-14",
+    "professionalId": "prof-01",
+    "title": "Treino de Peitoral Densidade",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "6-8",
+        "loadSuggestion": "95kg",
+        "restSeconds": 120,
+        "notes": "Busque falha técnica próxima."
+      }
+    ]
+  },
+  {
+    "id": "pw-23",
+    "studentId": "std-15",
+    "professionalId": "prof-02",
+    "title": "Foco Glúteos/Posterior",
+    "scheduledDate": "2026-06-05",
+    "status": "pending",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-24",
+        "order": 1,
+        "sets": 4,
+        "reps": "10",
+        "loadSuggestion": "30kg",
+        "restSeconds": 90,
+        "notes": "Sinta alongar o posterior."
+      }
+    ]
+  },
+  {
+    "id": "pw-24",
+    "studentId": "std-16",
+    "professionalId": "prof-02",
+    "title": "Treino Express Manutenção",
+    "scheduledDate": "2026-06-06",
+    "status": "pending",
+    "estimatedDurationMinutes": 30,
+    "exercises": [
+      {
+        "exerciseId": "ex-35",
+        "order": 1,
+        "sets": 3,
+        "reps": "12",
+        "loadSuggestion": "40kg",
+        "restSeconds": 45,
+        "notes": "Tempo de descanso curto."
+      }
+    ]
+  }
+]

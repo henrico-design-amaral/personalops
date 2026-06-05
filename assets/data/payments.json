@@ -1,0 +1,118 @@
+[
+  {
+    "id": "pay-01",
+    "studentId": "std-01",
+    "planName": "Consultoria Híbrida Mensal",
+    "amount": 250.00,
+    "status": "paid",
+    "dueDate": "2026-06-05",
+    "paidAt": "2026-06-04T10:15:00Z",
+    "paymentMethod": "PIX"
+  },
+  {
+    "id": "pay-02",
+    "studentId": "std-02",
+    "planName": "Consultoria Online Trimestral",
+    "amount": 450.00,
+    "status": "paid",
+    "dueDate": "2026-06-10",
+    "paidAt": "2026-06-02T16:45:00Z",
+    "paymentMethod": "Cartão de Crédito"
+  },
+  {
+    "id": "pay-03",
+    "studentId": "std-03",
+    "planName": "Personal Presencial 3x/semana",
+    "amount": 800.00,
+    "status": "pending",
+    "dueDate": "2026-06-08",
+    "paymentMethod": "PIX"
+  },
+  {
+    "id": "pay-04",
+    "studentId": "std-04",
+    "planName": "Consultoria Híbrida Mensal",
+    "amount": 250.00,
+    "status": "paid",
+    "dueDate": "2026-06-01",
+    "paidAt": "2026-06-01T08:00:00Z",
+    "paymentMethod": "PIX"
+  },
+  {
+    "id": "pay-05",
+    "studentId": "std-05",
+    "planName": "Consultoria Online Mensal",
+    "amount": 180.00,
+    "status": "paid",
+    "dueDate": "2026-06-04",
+    "paidAt": "2026-06-03T11:20:00Z",
+    "paymentMethod": "PIX"
+  },
+  {
+    "id": "pay-06",
+    "studentId": "std-06",
+    "planName": "Personal Presencial 5x/semana",
+    "amount": 1200.00,
+    "status": "paid",
+    "dueDate": "2026-06-05",
+    "paidAt": "2026-06-05T09:00:00Z",
+    "paymentMethod": "PIX"
+  },
+  {
+    "id": "pay-07",
+    "studentId": "std-07",
+    "planName": "Consultoria Híbrida Mensal",
+    "amount": 250.00,
+    "status": "paid",
+    "dueDate": "2026-06-03",
+    "paidAt": "2026-06-02T19:30:00Z",
+    "paymentMethod": "Cartão de Crédito"
+  },
+  {
+    "id": "pay-08",
+    "studentId": "std-08",
+    "planName": "Consultoria Online Mensal",
+    "amount": 180.00,
+    "status": "overdue",
+    "dueDate": "2026-05-28",
+    "paymentMethod": "Boleto"
+  },
+  {
+    "id": "pay-09",
+    "studentId": "std-09",
+    "planName": "Personal Presencial 2x/semana",
+    "amount": 600.00,
+    "status": "paid",
+    "dueDate": "2026-06-02",
+    "paidAt": "2026-06-01T15:00:00Z",
+    "paymentMethod": "PIX"
+  },
+  {
+    "id": "pay-10",
+    "studentId": "std-10",
+    "planName": "Consultoria Híbrida Mensal",
+    "amount": 250.00,
+    "status": "overdue",
+    "dueDate": "2026-05-25",
+    "paymentMethod": "PIX"
+  },
+  {
+    "id": "pay-11",
+    "studentId": "std-11",
+    "planName": "Consultoria Online Semestral",
+    "amount": 850.00,
+    "status": "paid",
+    "dueDate": "2026-06-01",
+    "paidAt": "2026-05-30T10:00:00Z",
+    "paymentMethod": "Cartão de Crédito"
+  },
+  {
+    "id": "pay-12",
+    "studentId": "std-12",
+    "planName": "Personal Presencial 3x/semana",
+    "amount": 800.00,
+    "status": "pending",
+    "dueDate": "2026-06-10",
+    "paymentMethod": "PIX"
+  }
+]

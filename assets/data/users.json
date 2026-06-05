@@ -1,0 +1,23 @@
+{
+  "admin@personalops.test": {
+    "password": "admin123",
+    "role": "admin",
+    "name": "Admin",
+    "avatar": "A",
+    "admin": true
+  },
+  "professor@personalops.test": {
+    "password": "prof123",
+    "role": "professor",
+    "name": "Prof. Silva",
+    "avatar": "S",
+    "professionalId": "prof-01"
+  },
+  "aluno@personalops.test": {
+    "password": "aluno123",
+    "role": "aluno",
+    "name": "Carlos Mendes",
+    "avatar": "C",
+    "studentId": "std-01"
+  }
+}

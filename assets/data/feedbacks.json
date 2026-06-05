@@ -1,0 +1,196 @@
+[
+  {
+    "id": "fb-01",
+    "studentId": "std-01",
+    "workoutId": "pw-02",
+    "sentiment": "positive",
+    "intensity": 4,
+    "message": "Treino excelente, senti bem os dorsais e o bíceps no pulley!",
+    "requiresReview": false,
+    "createdAt": "2026-06-04T07:36:00Z"
+  },
+  {
+    "id": "fb-02",
+    "studentId": "std-01",
+    "workoutId": "pw-03",
+    "exerciseId": "ex-01",
+    "sentiment": "negative",
+    "intensity": 3,
+    "message": "Leve dor no ombro esquerdo ao final do supino reto. A articulação parece estalar um pouco.",
+    "requiresReview": true,
+    "createdAt": "2026-06-03T07:33:00Z"
+  },
+  {
+    "id": "fb-03",
+    "studentId": "std-02",
+    "workoutId": "pw-05",
+    "sentiment": "positive",
+    "intensity": 5,
+    "message": "Circuito super dinâmico! Cansativo mas muito bom para suar.",
+    "requiresReview": false,
+    "createdAt": "2026-06-04T06:51:00Z"
+  },
+  {
+    "id": "fb-04",
+    "studentId": "std-03",
+    "workoutId": "pw-07",
+    "exerciseId": "ex-01",
+    "sentiment": "neutral",
+    "intensity": 5,
+    "message": "RPE 9 no supino reto. Quase falhei na quinta repetição da última série.",
+    "requiresReview": false,
+    "createdAt": "2026-06-02T18:29:00Z"
+  },
+  {
+    "id": "fb-05",
+    "studentId": "std-04",
+    "workoutId": "pw-09",
+    "sentiment": "positive",
+    "intensity": 3,
+    "message": "Primeira semana concluída com sucesso! Sentindo o corpo ativo e sem dores musculares tardias excessivas.",
+    "requiresReview": false,
+    "createdAt": "2026-06-03T18:51:00Z"
+  },
+  {
+    "id": "fb-06",
+    "studentId": "std-05",
+    "workoutId": "pw-11",
+    "exerciseId": "ex-10",
+    "sentiment": "neutral",
+    "intensity": 2,
+    "message": "Cadeira extensora estava ocupada no horário, fiz agachamento livre apenas com peso corporal.",
+    "requiresReview": false,
+    "createdAt": "2026-06-04T09:56:00Z"
+  },
+  {
+    "id": "fb-07",
+    "studentId": "std-06",
+    "workoutId": "pw-13",
+    "sentiment": "positive",
+    "intensity": 4,
+    "message": "Treino curto mas muito denso. Cargas subindo gradualmente!",
+    "requiresReview": false,
+    "createdAt": "2026-06-04T11:53:00Z"
+  },
+  {
+    "id": "fb-08",
+    "studentId": "std-10",
+    "workoutId": "pw-18",
+    "sentiment": "neutral",
+    "intensity": 3,
+    "message": "Treino B completado antes da viagem. Vou ficar cerca de 10 dias em trânsito e sem acesso fácil a academia comercial.",
+    "requiresReview": true,
+    "createdAt": "2026-05-25T19:00:00Z"
+  },
+  {
+    "id": "fb-09",
+    "studentId": "std-11",
+    "sentiment": "negative",
+    "intensity": 4,
+    "message": "Achei o volume de agachamentos muito alto hoje. Senti a lombar um pouco cansada no fim.",
+    "requiresReview": true,
+    "createdAt": "2026-06-04T18:20:00Z"
+  },
+  {
+    "id": "fb-10",
+    "studentId": "std-12",
+    "sentiment": "positive",
+    "intensity": 2,
+    "message": "Nenhuma dor ou desconforto na lombar hoje durante a prancha isométrica frontal.",
+    "requiresReview": false,
+    "createdAt": "2026-06-03T10:45:00Z"
+  },
+  {
+    "id": "fb-11",
+    "studentId": "std-13",
+    "exerciseId": "ex-22",
+    "sentiment": "negative",
+    "intensity": 4,
+    "message": "A flexão de braço no solo está muito difícil de executar com amplitude completa. Tem algum exercício para substituir?",
+    "requiresReview": true,
+    "createdAt": "2026-06-04T20:45:00Z"
+  },
+  {
+    "id": "fb-12",
+    "studentId": "std-14",
+    "sentiment": "positive",
+    "intensity": 5,
+    "message": "Treino insano! Progredi carga no supino para 95kg totais.",
+    "requiresReview": false,
+    "createdAt": "2026-06-04T07:15:00Z"
+  },
+  {
+    "id": "fb-13",
+    "studentId": "std-15",
+    "exerciseId": "ex-23",
+    "sentiment": "negative",
+    "intensity": 3,
+    "message": "Senti um incômodo leve no joelho direito ao realizar a descida profunda no afundo.",
+    "requiresReview": true,
+    "createdAt": "2026-06-03T12:00:00Z"
+  },
+  {
+    "id": "fb-14",
+    "studentId": "std-16",
+    "sentiment": "negative",
+    "intensity": 4,
+    "message": "Semana muito corrida com viagens de trabalho. Mal consegui terminar a metade do treino express.",
+    "requiresReview": true,
+    "createdAt": "2026-05-30T07:35:00Z"
+  },
+  {
+    "id": "fb-15",
+    "studentId": "std-01",
+    "exerciseId": "ex-13",
+    "sentiment": "neutral",
+    "intensity": 3,
+    "message": "Dificuldade na pegada da remada curvada no final do set. O antebraço falhou antes das costas.",
+    "requiresReview": false,
+    "createdAt": "2026-06-01T07:40:00Z"
+  },
+  {
+    "id": "fb-16",
+    "studentId": "std-02",
+    "sentiment": "neutral",
+    "intensity": 3,
+    "message": "Gostaria de mudar o treino de membros inferiores na próxima planilha para dar mais foco nos glúteos e menos em quadríceps.",
+    "requiresReview": true,
+    "createdAt": "2026-06-02T08:30:00Z"
+  },
+  {
+    "id": "fb-17",
+    "studentId": "std-03",
+    "sentiment": "neutral",
+    "intensity": 3,
+    "message": "Como estava sem parceiro de treino hoje, preferi não arriscar a última série pesada com 120kg no agachamento.",
+    "requiresReview": false,
+    "createdAt": "2026-06-01T19:00:00Z"
+  },
+  {
+    "id": "fb-18",
+    "studentId": "std-05",
+    "sentiment": "positive",
+    "intensity": 2,
+    "message": "A dor patelar sumiu completamente após realizar a redução da amplitude sugerida no agachamento búlgaro.",
+    "requiresReview": false,
+    "createdAt": "2026-06-02T11:00:00Z"
+  },
+  {
+    "id": "fb-19",
+    "studentId": "std-08",
+    "sentiment": "negative",
+    "intensity": 3,
+    "message": "Ontem a pressão subiu um pouco antes do treino. Preferi fazer apenas 20 min de caminhada leve.",
+    "requiresReview": true,
+    "createdAt": "2026-06-01T08:00:00Z"
+  },
+  {
+    "id": "fb-20",
+    "studentId": "std-09",
+    "sentiment": "positive",
+    "intensity": 3,
+    "message": "Foco total na postura! Executando com calma e sentindo bastante a musculatura-alvo.",
+    "requiresReview": false,
+    "createdAt": "2026-06-03T16:00:00Z"
+  }
+]

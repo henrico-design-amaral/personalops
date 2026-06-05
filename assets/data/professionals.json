@@ -1,0 +1,24 @@
+[
+  {
+    "id": "prof-01",
+    "name": "Prof. Silva",
+    "specialty": "Hipertrofia & Reabilitação",
+    "methodSummary": "Método híbrido focado em progressão de carga, consistência diária e biomecânica precisa.",
+    "communicationTone": "Direto, técnico e motivador",
+    "activeStudentsCount": 6,
+    "weeklyCheckinDay": "Sexta-feira",
+    "defaultWorkoutSplit": "ABC",
+    "aiRules": "Evitar exercícios de impacto articular alto nos dias seguintes a treinos de perna. Priorizar RPE entre 7 e 9."
+  },
+  {
+    "id": "prof-02",
+    "name": "Profa. Camila",
+    "specialty": "Emagrecimento & Condicionamento",
+    "methodSummary": "Acompanhamento online diário com foco em queima calórica e rotinas sustentáveis para home gym e condomínio.",
+    "communicationTone": "Acolhedor, atencioso e empático",
+    "activeStudentsCount": 10,
+    "weeklyCheckinDay": "Segunda-feira",
+    "defaultWorkoutSplit": "Fullbody / HIIT",
+    "aiRules": "Monitorar hidratação e fadiga semanal. Sugerir exercícios com peso corporal em caso de falta de equipamento."
+  }
+]

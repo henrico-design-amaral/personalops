@@ -3,12 +3,23 @@
    Basic cache-first for static assets
 ═══════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'personalops-v1';
+const CACHE_NAME = 'personalops-v1.2';
 const ASSETS = [
   './',
   './index.html',
   './assets/css/app.css',
   './assets/js/app.js',
+  './assets/js/data-store.js',
+  './assets/data/users.json',
+  './assets/data/professionals.json',
+  './assets/data/students.json',
+  './assets/data/exercises.json',
+  './assets/data/workout-templates.json',
+  './assets/data/prescribed-workouts.json',
+  './assets/data/workout-events.json',
+  './assets/data/feedbacks.json',
+  './assets/data/assessments.json',
+  './assets/data/payments.json',
   './manifest.webmanifest',
 ];
 
