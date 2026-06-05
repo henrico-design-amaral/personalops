@@ -57,6 +57,19 @@ Antes de realizar qualquer mudança estrutural ou codificação:
 - **Validações**:
   - Roteiro de QA verificado com simulação offline no DevTools com sucesso.
 
+### 2026-06-05 — Session 003 — Public Memorial Home
+- **Branch**: `feature/add-public-memorial-home`
+- **Objetivo**: Adicionar uma entrada pública/memorial antes do login demo preservando a SPA estática e os três perfis existentes.
+- **Alterações**:
+  - **App (`assets/js/app.js`)**: Criada tela pública com CTA para `#/entrar`, rota hash simples para memorial/login e retorno ao memorial após logout.
+  - **Estilos (`assets/css/app.css`)**: Adicionada interface institucional dark premium com blocos operacionais, cards, seção de hipóteses e aviso de validação.
+  - **Service Worker (`service-worker.js`)**: Cache atualizado para `personalops-v1-cache-004`.
+  - **Documentação (`README.md`)**: Registrada a entrada pública antes do login.
+- **Validações**:
+  - `node --check assets/js/app.js` executado com sucesso.
+  - QA local em `http://127.0.0.1:4174/`: memorial, login, professor, logout, aluno, treino e registro de série verificados sem erros críticos de console.
+  - Checagem mobile em viewport 390x844 sem overflow horizontal e com CTA/login funcionais.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO

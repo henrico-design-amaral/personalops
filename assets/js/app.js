@@ -74,8 +74,13 @@ let DOM = {};
 
 function initDOM() {
   DOM = {
+    screenLanding: $('screen-landing'),
     screenLogin: $('screen-login'),
     screenApp:   $('screen-app'),
+    btnEnterApp: $('btn-enter-app'),
+    btnHeroEnterApp: $('btn-hero-enter-app'),
+    btnProductProposal: $('btn-product-proposal'),
+    btnBackLanding: $('btn-back-landing'),
     formLogin:   $('form-login'),
     loginEmail:  $('login-email'),
     loginPass:   $('login-password'),
@@ -163,6 +168,7 @@ const App = {
     renderApp();
     initDOM();
 
+    this.bindPublicRoutes();
     this.bindLogin();
     this.bindDemoPills();
     this.bindLogout();
@@ -181,10 +187,66 @@ const App = {
       try {
         state.user = JSON.parse(saved);
         this.enterApp();
+        return;
       } catch {
         sessionStorage.removeItem('personalops_session');
       }
     }
+
+    this.handlePublicRoute();
+  },
+
+  // ── Public route ─────────────────────────────────────
+  bindPublicRoutes() {
+    const goToLogin = () => {
+      location.hash = '#/entrar';
+      this.handlePublicRoute();
+    };
+
+    [DOM.btnEnterApp, DOM.btnHeroEnterApp].forEach(btn => {
+      if (btn) btn.addEventListener('click', goToLogin);
+    });
+
+    if (DOM.btnBackLanding) {
+      DOM.btnBackLanding.addEventListener('click', () => {
+        location.hash = '#/';
+        this.handlePublicRoute();
+      });
+    }
+
+    if (DOM.btnProductProposal) {
+      DOM.btnProductProposal.addEventListener('click', () => {
+        const target = $('landing-validation');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    window.addEventListener('hashchange', () => this.handlePublicRoute());
+  },
+
+  handlePublicRoute() {
+    if (state.user) return;
+    const route = location.hash.replace(/^#/, '') || '/';
+
+    if (route === '/entrar') {
+      this.showLogin();
+      return;
+    }
+
+    this.showLanding();
+  },
+
+  showLanding() {
+    DOM.screenLanding.classList.remove('hidden');
+    DOM.screenLogin.classList.add('hidden');
+    DOM.screenApp.classList.add('hidden');
+  },
+
+  showLogin() {
+    DOM.screenLanding.classList.add('hidden');
+    DOM.screenLogin.classList.remove('hidden');
+    DOM.screenApp.classList.add('hidden');
+    DOM.loginEmail.focus();
   },
 
   // ── Auth ───────────────────────────────────────────────
@@ -236,9 +298,11 @@ const App = {
     state.user = null;
     sessionStorage.removeItem('personalops_session');
     DOM.screenApp.classList.add('hidden');
-    DOM.screenLogin.classList.remove('hidden');
+    DOM.screenLogin.classList.add('hidden');
+    DOM.screenLanding.classList.remove('hidden');
     DOM.loginEmail.value = '';
     DOM.loginPass.value  = '';
+    location.hash = '#/';
   },
 
   // ── App enter ─────────────────────────────────────────
@@ -275,6 +339,7 @@ const App = {
       }
     }
 
+    DOM.screenLanding.classList.add('hidden');
     DOM.screenLogin.classList.add('hidden');
     DOM.screenApp.classList.remove('hidden');
 
@@ -1059,9 +1124,113 @@ function renderApp() {
   if (!app) return;
   app.innerHTML = `
 <!-- ═══════════════════════════════════════════════════════════
+     PUBLIC MEMORIAL HOME
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-landing" class="screen active">
+  <main class="landing-shell" aria-labelledby="landing-title">
+    <section class="landing-hero">
+      <div class="landing-hero-content">
+        <div class="landing-kicker">Protótipo operacional V1</div>
+        <h1 id="landing-title" class="landing-title">PersonalOps</h1>
+        <p class="landing-subtitle">O cockpit operacional do personal trainer.</p>
+        <div class="landing-copy">
+          <p>O PersonalOps é um protótipo de sistema para personal trainers criarem, entregarem e acompanharem treinos com mais clareza, velocidade e confiabilidade.</p>
+          <p>Ele nasce de uma dor simples: o treino real acontece em ambientes imperfeitos. Academia sem internet boa, aluno treinando sozinho, carga esquecida, pausa confusa, feedback perdido e aplicativos que nem sempre acompanham o ritmo da rotina.</p>
+          <p>O objetivo do PersonalOps é transformar essa operação em um fluxo mais claro: o personal prescreve, o aluno executa, o app registra e o profissional acompanha os sinais importantes para ajustar o treino com mais precisão.</p>
+        </div>
+        <div class="landing-actions">
+          <button id="btn-enter-app" class="btn btn-primary landing-cta" type="button">Entrar na aplicação</button>
+          <button id="btn-product-proposal" class="btn btn-ghost" type="button">Ver proposta do produto</button>
+        </div>
+      </div>
+
+      <div class="ops-panel" aria-label="Fluxo operacional do PersonalOps">
+        <div class="ops-panel-header">
+          <span class="ops-status"></span>
+          <span>Fluxo de treino</span>
+        </div>
+        <div class="ops-flow">
+          <div class="ops-step">
+            <span class="ops-step-index">01</span>
+            <strong>Prescrever</strong>
+            <span>Treino estruturado pelo profissional</span>
+          </div>
+          <div class="ops-line"></div>
+          <div class="ops-step">
+            <span class="ops-step-index">02</span>
+            <strong>Executar</strong>
+            <span>Carga, séries, repetições e descanso</span>
+          </div>
+          <div class="ops-line"></div>
+          <div class="ops-step">
+            <span class="ops-step-index">03</span>
+            <strong>Acompanhar</strong>
+            <span>Sinais importantes para ajuste do treino</span>
+          </div>
+        </div>
+        <div class="ops-metrics">
+          <div><span>offline</span><strong>fila local</strong></div>
+          <div><span>dados</span><strong>simulados</strong></div>
+          <div><span>escopo</span><strong>validação</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-blocks" aria-label="Proposta por público e validação">
+      <article class="landing-card">
+        <span class="landing-card-label">Para o personal</span>
+        <h2>Prescrição com menos atrito</h2>
+        <p>Organize alunos, treinos, feedbacks e sinais de evolução em uma visão operacional simples.</p>
+      </article>
+      <article class="landing-card">
+        <span class="landing-card-label">Para o aluno</span>
+        <h2>Treino mais claro na prática</h2>
+        <p>Acompanhe o treino do dia, registre carga, séries e repetições, use timer de descanso e mantenha o progresso salvo.</p>
+      </article>
+      <article class="landing-card">
+        <span class="landing-card-label">Para validação</span>
+        <h2>Protótipo em evolução</h2>
+        <p>Esta versão é estática, usa dados simulados e existe para validar fluxo, clareza, utilidade e experiência antes de qualquer banco real.</p>
+      </article>
+      <article class="landing-card landing-card-accent">
+        <span class="landing-card-label">Diferencial</span>
+        <h2>Offline-first como princípio</h2>
+        <p>Nada que acontece durante o treino deveria depender totalmente da internet. A V1 já simula fila local para eventos de treino.</p>
+      </article>
+    </section>
+
+    <section id="landing-validation" class="landing-validation">
+      <div>
+        <span class="landing-section-label">O que estamos validando</span>
+        <h2>Hipóteses antes de qualquer banco real</h2>
+      </div>
+      <ul class="validation-list">
+        <li>O personal entende melhor seus alunos com uma visão operacional?</li>
+        <li>O aluno consegue seguir o treino com menos fricção?</li>
+        <li>O timer e o registro de série melhoram a execução?</li>
+        <li>A fila offline resolve uma dor real de academia?</li>
+        <li>O produto parece útil antes de ter banco real?</li>
+      </ul>
+    </section>
+
+    <section class="landing-warning" role="note">
+      <strong>Aviso de validação</strong>
+      <p>Esta é uma versão de validação. Nenhum dado real de saúde, aluno, pagamento ou avaliação física deve ser inserido.</p>
+    </section>
+
+    <section class="landing-final-cta">
+      <h2>PersonalOps</h2>
+      <button id="btn-hero-enter-app" class="btn btn-primary landing-cta" type="button">Entrar na aplicação</button>
+    </section>
+
+    <footer class="landing-footer">PersonalOps V1 — protótipo estático para validação inicial.</footer>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
      LOGIN SCREEN
 ═══════════════════════════════════════════════════════════ -->
-<div id="screen-login" class="screen active">
+<div id="screen-login" class="screen hidden">
   <div class="login-wrap">
     <div class="login-brand">
       <span class="brand-icon">⚡</span>
@@ -1094,6 +1263,7 @@ function renderApp() {
     <p class="login-disclaimer">
       <strong>Protótipo estático.</strong> Autenticação e dados são simulados. Nenhuma informação real é processada.
     </p>
+    <button id="btn-back-landing" class="login-back-link" type="button">Voltar ao memorial</button>
   </div>
 </div>
 
