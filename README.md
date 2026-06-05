@@ -1,24 +1,36 @@
 ﻿# PersonalOps
 
-PersonalOps é um SaaS para personal trainers criarem, entregarem e acompanharem treinos com mais velocidade, clareza e confiabilidade.
+> **AVISO:** Autenticacao e banco de dados sao completamente simulados (mockados). Nenhuma credencial real e verificada. Nenhum dado real e processado ou armazenado em servidor.
 
-A proposta não é criar apenas mais um app de treino. O PersonalOps deve funcionar como um cockpit operacional do personal trainer: prescrição rápida, execução assistida pelo aluno, biblioteca visual segura, funcionamento offline-first, IA contextual e comandos por voz em pontos específicos do fluxo.
+Prototipo estatico de validacao — V1 publicado em GitHub Pages.
 
-## Tese
+**URL:** https://henrico-design-amaral.github.io/personalops/
 
-O mercado já possui apps completos para personal trainers, como MFIT, Tecnofit Personal, Mobitrainer, Wiki4Fit e plataformas internacionais. A oportunidade do PersonalOps está em resolver melhor a operação real do treino:
+## Acessos demo
 
-- criar treino com menos atrito;
-- entregar treino de forma clara;
-- permitir execução assistida;
-- registrar carga, séries, repetições e feedback;
-- funcionar mesmo com internet ruim;
-- devolver sinais úteis para o personal ajustar e acompanhar alunos.
+| Perfil | E-mail | Senha |
+|---|---|---|
+| Administrativo | admin@personalops.test | admin123 |
+| Professor | professor@personalops.test | prof123 |
+| Aluno | aluno@personalops.test | aluno123 |
 
-## Princípio
+## Funcionalidades V1
 
-MVP não é produto malfeito. MVP é produto pequeno, mas confiável.
+- Login simulado com tres perfis
+- Perfil Admin: visao geral, usuarios, hipoteses, configuracoes
+- Perfil Professor: lista de alunos, criador de treino por texto livre, feedbacks
+- Perfil Aluno: treino do dia, modo treino assistido, timer de descanso, registro de carga/reps/RPE, fila offline, evolucao, anamnese
+- Boneco CSS com destaque muscular por exercicio
+- Status online/offline e fila offline via localStorage
+- Service Worker com cache basico
 
-## Frase de direção
+## Stack
 
-Pense simples. Faça melhor. Torne-se inevitável.
+HTML + CSS + JavaScript puro - sem dependencias. GitHub Pages.
+
+## O que NAO existe nesta V1
+
+- Autenticacao real (nao usar senhas reais aqui)
+- Banco de dados (tudo e mockado)
+- Backend/API
+- Dados reais de alunos

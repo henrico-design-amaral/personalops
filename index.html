@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>PersonalOps</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-login" class="screen active">
+  <div class="login-wrap">
+    <div class="login-brand">
+      <span class="brand-icon">⚡</span>
+      <h1 class="brand-name">PersonalOps</h1>
+      <p class="brand-tagline">Gestão de treinos personalizada</p>
+    </div>
+
+    <form id="form-login" class="login-form" novalidate>
+      <div class="field-group">
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+      </div>
+      <div class="field-group">
+        <label for="login-password">Senha</label>
+        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+      </div>
+      <div id="login-error" class="login-error hidden">E-mail ou senha incorretos.</div>
+      <button type="submit" class="btn btn-primary btn-full">Entrar</button>
+    </form>
+
+    <div class="login-demos">
+      <p class="demos-label">Acessos demo</p>
+      <div class="demo-pills">
+        <button class="demo-pill" data-email="admin@personalops.test" data-pass="admin123">Administrativo</button>
+        <button class="demo-pill" data-email="professor@personalops.test" data-pass="prof123">Professor</button>
+        <button class="demo-pill" data-email="aluno@personalops.test" data-pass="aluno123">Aluno</button>
+      </div>
+    </div>
+
+    <p class="login-disclaimer">
+      <strong>Protótipo estático.</strong> Autenticação e dados são simulados. Nenhuma informação real é processada.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     APP SHELL (shared across all profiles)
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-app" class="screen hidden">
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <button id="btn-menu" class="topbar-menu" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="topbar-brand">
+      <span class="brand-icon-sm">⚡</span>
+      <span class="topbar-title">PersonalOps</span>
+    </div>
+    <div class="topbar-right">
+      <span id="status-indicator" class="status-dot online" title="Online"></span>
+      <button id="btn-logout" class="topbar-logout" aria-label="Sair">⎋</button>
+    </div>
+  </header>
+
+  <!-- Sidebar Nav -->
+  <nav id="sidebar" class="sidebar">
+    <div class="sidebar-profile">
+      <div class="avatar" id="nav-avatar">A</div>
+      <div>
+        <div class="profile-name" id="nav-name">Usuário</div>
+        <div class="profile-role" id="nav-role">Perfil</div>
+      </div>
+    </div>
+    <ul class="nav-list" id="nav-list"></ul>
+    <div class="sidebar-footer">
+      <span class="version-label">PersonalOps v1.0 — Protótipo</span>
+    </div>
+  </nav>
+  <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
+  <!-- Main Content -->
+  <main id="main-content" class="main-content">
+
+    <!-- ── ADMIN VIEWS ───────────────────────────────── -->
+    <div id="view-admin-overview" class="view hidden" data-role="admin">
+      <div class="page-header">
+        <h2>Visão Geral</h2>
+        <p class="page-sub">Dashboard administrativo — dados mockados</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">Perfis ativos</div></div>
+        <div class="stat-card"><div class="stat-value">1</div><div class="stat-label">Professores</div></div>
+        <div class="stat-card"><div class="stat-value">6</div><div class="stat-label">Alunos mockados</div></div>
+        <div class="stat-card"><div class="stat-value">12</div><div class="stat-label">Treinos registrados</div></div>
+      </div>
+      <div class="section-block">
+        <h3 class="section-title">Hipóteses em validação</h3>
+        <div class="hypothesis-list">
+          <div class="hypothesis-item">
+            <span class="hyp-badge pending">Em teste</span>
+            <span class="hyp-text">Alunos registram séries com mais precisão via RPE do que % de 1RM</span>
+          </div>
+          <div class="hypothesis-item">
+            <span class="hyp-badge pending">Em teste</span>
+            <span class="hyp-text">Professor gasta menos de 5 min criando treino por texto</span>
+          </div>
+          <div class="hypothesis-item">
+            <span class="hyp-badge success">Validada</span>
+            <span class="hyp-text">Interface dark reduz fadiga visual em sessões longas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-admin-users" class="view hidden" data-role="admin">
+      <div class="page-header">
+        <h2>Usuários Demo</h2>
+        <p class="page-sub">Contas simuladas para validação</p>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>E-mail</th><th>Perfil</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>admin@personalops.test</td><td><span class="role-badge admin">Admin</span></td><td><span class="status-active">Ativo</span></td></tr>
+            <tr><td>professor@personalops.test</td><td><span class="role-badge professor">Professor</span></td><td><span class="status-active">Ativo</span></td></tr>
+            <tr><td>aluno@personalops.test</td><td><span class="role-badge aluno">Aluno</span></td><td><span class="status-active">Ativo</span></td></tr>
+            <tr><td>aluno2@personalops.test</td><td><span class="role-badge aluno">Aluno</span></td><td><span class="status-inactive">Inativo</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="view-admin-hypotheses" class="view hidden" data-role="admin">
+      <div class="page-header">
+        <h2>Hipóteses</h2>
+        <p class="page-sub">Hipóteses de produto em validação nesta V1</p>
+      </div>
+      <div class="card-list">
+        <div class="card">
+          <div class="card-title">H1 — Criação de treino por texto</div>
+          <div class="card-body">Professor consegue criar treino completo em texto livre e o sistema organiza em estrutura utilizável.</div>
+          <div class="card-meta"><span class="hyp-badge pending">Em teste</span> · Meta: &lt;5 min</div>
+        </div>
+        <div class="card">
+          <div class="card-title">H2 — Registro de carga via RPE</div>
+          <div class="card-body">Aluno prefere registrar percepção de esforço (RPE) vs porcentagem de carga máxima.</div>
+          <div class="card-meta"><span class="hyp-badge pending">Em teste</span> · Métrica: preferência declarada</div>
+        </div>
+        <div class="card">
+          <div class="card-title">H3 — Modo offline</div>
+          <div class="card-body">Aluno consegue registrar treino sem conexão e dados sincronizam ao reconectar.</div>
+          <div class="card-meta"><span class="hyp-badge pending">Em teste</span> · Implementado via localStorage</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-admin-settings" class="view hidden" data-role="admin">
+      <div class="page-header">
+        <h2>Configurações da V1</h2>
+        <p class="page-sub">Parâmetros desta versão de protótipo</p>
+      </div>
+      <div class="settings-list">
+        <div class="settings-row">
+          <div class="settings-label">Versão</div>
+          <div class="settings-value">1.0.0-prototype</div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">Ambiente</div>
+          <div class="settings-value">GitHub Pages (estático)</div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">Autenticação</div>
+          <div class="settings-value"><span class="badge-warn">Mockada — não segura</span></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">Banco de dados</div>
+          <div class="settings-value"><span class="badge-warn">localStorage apenas</span></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">Service Worker</div>
+          <div class="settings-value">Cache básico ativo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROFESSOR VIEWS ───────────────────────────── -->
+    <div id="view-prof-overview" class="view hidden" data-role="professor">
+      <div class="page-header">
+        <h2>Visão Geral</h2>
+        <p class="page-sub">Olá, Prof. Silva. Resumo de hoje.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value">6</div><div class="stat-label">Alunos ativos</div></div>
+        <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">Treinos esta semana</div></div>
+        <div class="stat-card"><div class="stat-value">2</div><div class="stat-label">Feedbacks pendentes</div></div>
+        <div class="stat-card"><div class="stat-value">94%</div><div class="stat-label">Adesão (30d)</div></div>
+      </div>
+      <div class="section-block">
+        <h3 class="section-title">Atividade recente</h3>
+        <div class="activity-list">
+          <div class="activity-item"><span class="activity-time">Hoje, 07h22</span><span>Carlos completou Treino A — 4/5 séries</span></div>
+          <div class="activity-item"><span class="activity-time">Hoje, 06h55</span><span>Ana enviou feedback sobre RPE 9 no Supino</span></div>
+          <div class="activity-item"><span class="activity-time">Ontem, 18h30</span><span>Pedro não realizou treino agendado</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-prof-alunos" class="view hidden" data-role="professor">
+      <div class="page-header">
+        <h2>Alunos</h2>
+        <p class="page-sub">Lista mockada para validação</p>
+      </div>
+      <div class="student-list">
+        <div class="student-card" data-id="1">
+          <div class="student-avatar">C</div>
+          <div class="student-info">
+            <div class="student-name">Carlos Mendes</div>
+            <div class="student-meta">Hipertrofia · 3x/semana · Treino A hoje</div>
+          </div>
+          <span class="student-status active">Ativo</span>
+        </div>
+        <div class="student-card" data-id="2">
+          <div class="student-avatar">A</div>
+          <div class="student-info">
+            <div class="student-name">Ana Rodrigues</div>
+            <div class="student-meta">Emagrecimento · 4x/semana · Treino B hoje</div>
+          </div>
+          <span class="student-status active">Ativo</span>
+        </div>
+        <div class="student-card" data-id="3">
+          <div class="student-avatar">P</div>
+          <div class="student-info">
+            <div class="student-name">Pedro Lima</div>
+            <div class="student-meta">Força · 5x/semana · Ausente ontem</div>
+          </div>
+          <span class="student-status warning">Alerta</span>
+        </div>
+        <div class="student-card" data-id="4">
+          <div class="student-avatar">M</div>
+          <div class="student-info">
+            <div class="student-name">Mariana Costa</div>
+            <div class="student-meta">Condicionamento · 3x/semana · Início recente</div>
+          </div>
+          <span class="student-status active">Ativo</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-prof-criar-treino" class="view hidden" data-role="professor">
+      <div class="page-header">
+        <h2>Criar Treino</h2>
+        <p class="page-sub">Digite em texto livre — o sistema organiza</p>
+      </div>
+      <div class="treino-creator">
+        <div class="creator-input-area">
+          <label for="treino-text-input" class="field-label">Descreva o treino</label>
+          <textarea id="treino-text-input" class="treino-textarea" placeholder="Ex: Supino reto 4x8-10 com 2 min de descanso, Crucifixo inclinado 3x12 1min descanso, Tríceps corda 4x15 45seg, Desenvolvimento halteres 3x10 90seg..."></textarea>
+          <div class="creator-actions">
+            <button id="btn-organizar-treino" class="btn btn-primary">Organizar treino</button>
+            <button id="btn-limpar-treino" class="btn btn-ghost">Limpar</button>
+          </div>
+        </div>
+
+        <div id="treino-draft-area" class="treino-draft-area hidden">
+          <h3 class="section-title">Rascunho estruturado</h3>
+          <div id="treino-draft-content" class="treino-draft-content"></div>
+          <div class="draft-actions">
+            <button id="btn-salvar-treino" class="btn btn-primary">Salvar treino</button>
+            <button id="btn-editar-treino" class="btn btn-ghost">Editar texto</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-prof-feedbacks" class="view hidden" data-role="professor">
+      <div class="page-header">
+        <h2>Feedbacks Recentes</h2>
+        <p class="page-sub">Comentários e registros dos alunos</p>
+      </div>
+      <div class="feedback-list">
+        <div class="feedback-card">
+          <div class="fb-header">
+            <span class="fb-student">Ana Rodrigues</span>
+            <span class="fb-date">Hoje, 06h55</span>
+          </div>
+          <div class="fb-exercise">Supino reto — Série 3</div>
+          <div class="fb-content">"RPE 9 nessa série. Achei pesado demais. Consegui completar mas forma ficou comprometida na última."</div>
+          <div class="fb-tags"><span class="tag">RPE 9</span><span class="tag">Técnica</span></div>
+        </div>
+        <div class="feedback-card">
+          <div class="fb-header">
+            <span class="fb-student">Carlos Mendes</span>
+            <span class="fb-date">Ontem, 08h12</span>
+          </div>
+          <div class="fb-exercise">Agachamento livre — Treino A completo</div>
+          <div class="fb-content">"Treino ótimo. Consegui aumentar 2.5kg no agachamento. Descanso de 2min foi suficiente."</div>
+          <div class="fb-tags"><span class="tag">Progressão</span><span class="tag">Positivo</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ALUNO VIEWS ────────────────────────────────── -->
+    <div id="view-aluno-overview" class="view hidden" data-role="aluno">
+      <div class="page-header">
+        <h2>Visão Geral</h2>
+        <p class="page-sub">Olá, Carlos. Bom treino hoje.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value">12</div><div class="stat-label">Treinos no mês</div></div>
+        <div class="stat-card"><div class="stat-value">94%</div><div class="stat-label">Adesão</div></div>
+        <div class="stat-card"><div class="stat-value">+2.5kg</div><div class="stat-label">Progresso no agachamento</div></div>
+        <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">Séries hoje</div></div>
+      </div>
+      <div class="section-block">
+        <div class="today-workout-preview">
+          <h3 class="section-title">Treino de hoje</h3>
+          <div class="workout-preview-name">Treino A — Peito e Tríceps</div>
+          <div class="workout-preview-meta">5 exercícios · ~55 min</div>
+          <button class="btn btn-primary" onclick="App.navigate('aluno-treino')">Iniciar treino</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-aluno-treino" class="view hidden" data-role="aluno">
+      <div class="page-header">
+        <h2>Treino de Hoje</h2>
+        <p class="page-sub">Treino A — Peito e Tríceps</p>
+      </div>
+      <div class="workout-exercise-list">
+        <div class="exercise-item" data-index="0">
+          <div class="ex-number">01</div>
+          <div class="ex-info">
+            <div class="ex-name">Supino Reto</div>
+            <div class="ex-meta">4 séries · 8–10 reps · 2 min descanso</div>
+          </div>
+          <button class="btn btn-sm btn-ghost" onclick="App.startWorkout(0)">Executar</button>
+        </div>
+        <div class="exercise-item" data-index="1">
+          <div class="ex-number">02</div>
+          <div class="ex-info">
+            <div class="ex-name">Crucifixo Inclinado</div>
+            <div class="ex-meta">3 séries · 12 reps · 1 min descanso</div>
+          </div>
+          <button class="btn btn-sm btn-ghost" onclick="App.startWorkout(1)">Executar</button>
+        </div>
+        <div class="exercise-item" data-index="2">
+          <div class="ex-number">03</div>
+          <div class="ex-info">
+            <div class="ex-name">Tríceps Corda</div>
+            <div class="ex-meta">4 séries · 15 reps · 45 seg descanso</div>
+          </div>
+          <button class="btn btn-sm btn-ghost" onclick="App.startWorkout(2)">Executar</button>
+        </div>
+        <div class="exercise-item" data-index="3">
+          <div class="ex-number">04</div>
+          <div class="ex-info">
+            <div class="ex-name">Desenvolvimento Halteres</div>
+            <div class="ex-meta">3 séries · 10 reps · 90 seg descanso</div>
+          </div>
+          <button class="btn btn-sm btn-ghost" onclick="App.startWorkout(3)">Executar</button>
+        </div>
+        <div class="exercise-item" data-index="4">
+          <div class="ex-number">05</div>
+          <div class="ex-info">
+            <div class="ex-name">Elevação Lateral</div>
+            <div class="ex-meta">3 séries · 15 reps · 60 seg descanso</div>
+          </div>
+          <button class="btn btn-sm btn-ghost" onclick="App.startWorkout(4)">Executar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-aluno-modo-treino" class="view hidden" data-role="aluno">
+      <div class="workout-mode-wrap">
+
+        <!-- Exercise header -->
+        <div class="wm-header">
+          <button class="btn btn-ghost btn-sm" onclick="App.navigate('aluno-treino')">← Voltar</button>
+          <div class="wm-exercise-name" id="wm-ex-name">Supino Reto</div>
+          <div class="wm-exercise-meta" id="wm-ex-meta">4 séries · 8–10 reps</div>
+        </div>
+
+        <!-- Body figure -->
+        <div class="body-figure-wrap">
+          <svg id="body-figure" class="body-figure" viewBox="0 0 120 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head -->
+            <circle cx="60" cy="25" r="18" class="fig-body"/>
+            <!-- Neck -->
+            <rect x="54" y="40" width="12" height="10" class="fig-body"/>
+            <!-- Torso -->
+            <rect x="35" y="50" width="50" height="60" rx="5" class="fig-body" id="fig-chest"/>
+            <!-- Left arm -->
+            <rect x="15" y="50" width="18" height="55" rx="8" class="fig-body fig-arm-l"/>
+            <!-- Right arm -->
+            <rect x="87" y="50" width="18" height="55" rx="8" class="fig-body fig-arm-r"/>
+            <!-- Left forearm -->
+            <rect x="10" y="108" width="14" height="40" rx="6" class="fig-body fig-forearm-l"/>
+            <!-- Right forearm -->
+            <rect x="96" y="108" width="14" height="40" rx="6" class="fig-body fig-forearm-r"/>
+            <!-- Left leg -->
+            <rect x="35" y="112" width="22" height="70" rx="8" class="fig-body"/>
+            <!-- Right leg -->
+            <rect x="63" y="112" width="22" height="70" rx="8" class="fig-body"/>
+            <!-- Left shin -->
+            <rect x="37" y="185" width="18" height="55" rx="7" class="fig-body"/>
+            <!-- Right shin -->
+            <rect x="65" y="185" width="18" height="55" rx="7" class="fig-body"/>
+          </svg>
+          <div class="body-figure-label" id="wm-muscle-label">Peitoral principal</div>
+        </div>
+
+        <!-- Set tracker -->
+        <div class="set-tracker">
+          <div class="set-progress">
+            <span id="wm-set-current">1</span>/<span id="wm-set-total">4</span> séries
+          </div>
+          <div class="set-inputs">
+            <div class="set-input-group">
+              <label>Carga (kg)</label>
+              <input type="number" id="wm-load" class="set-input" placeholder="60" min="0" step="0.5">
+            </div>
+            <div class="set-input-group">
+              <label>Reps</label>
+              <input type="number" id="wm-reps" class="set-input" placeholder="8" min="1" max="100">
+            </div>
+            <div class="set-input-group">
+              <label>RPE</label>
+              <input type="number" id="wm-rpe" class="set-input" placeholder="7" min="1" max="10" step="0.5">
+            </div>
+          </div>
+          <button id="btn-register-set" class="btn btn-primary btn-full">Registrar série</button>
+        </div>
+
+        <!-- Rest timer -->
+        <div id="rest-timer-wrap" class="rest-timer-wrap hidden">
+          <div class="rest-timer-label">Descanso</div>
+          <div class="rest-timer-display" id="rest-timer-display">02:00</div>
+          <div class="rest-timer-bar-track">
+            <div class="rest-timer-bar" id="rest-timer-bar"></div>
+          </div>
+          <button id="btn-skip-rest" class="btn btn-ghost btn-sm">Pular descanso</button>
+        </div>
+
+        <!-- Next exercise button -->
+        <button id="btn-next-exercise" class="btn btn-outline btn-full hidden">Próximo exercício →</button>
+
+        <!-- Offline queue indicator -->
+        <div id="offline-queue-indicator" class="offline-queue hidden">
+          <span class="offline-icon">📶</span>
+          <span id="offline-queue-count">0 eventos na fila offline</span>
+        </div>
+
+        <!-- Registered sets log -->
+        <div class="sets-log-wrap">
+          <h4 class="sets-log-title">Séries registradas</h4>
+          <div id="sets-log" class="sets-log"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="view-aluno-evolucao" class="view hidden" data-role="aluno">
+      <div class="page-header">
+        <h2>Evolução</h2>
+        <p class="page-sub">Progressão histórica — dados mockados</p>
+      </div>
+      <div class="evolution-list">
+        <div class="evo-card">
+          <div class="evo-exercise">Supino Reto</div>
+          <div class="evo-stats">
+            <span class="evo-value">72.5 kg</span>
+            <span class="evo-trend up">↑ +2.5kg (30d)</span>
+          </div>
+          <div class="evo-bar-wrap">
+            <div class="evo-bar" style="width: 72%"></div>
+          </div>
+        </div>
+        <div class="evo-card">
+          <div class="evo-exercise">Agachamento</div>
+          <div class="evo-stats">
+            <span class="evo-value">100 kg</span>
+            <span class="evo-trend up">↑ +5kg (30d)</span>
+          </div>
+          <div class="evo-bar-wrap">
+            <div class="evo-bar" style="width: 85%"></div>
+          </div>
+        </div>
+        <div class="evo-card">
+          <div class="evo-exercise">Terra</div>
+          <div class="evo-stats">
+            <span class="evo-value">120 kg</span>
+            <span class="evo-trend up">↑ +10kg (30d)</span>
+          </div>
+          <div class="evo-bar-wrap">
+            <div class="evo-bar" style="width: 91%"></div>
+          </div>
+        </div>
+        <div class="evo-card">
+          <div class="evo-exercise">Tríceps Corda</div>
+          <div class="evo-stats">
+            <span class="evo-value">35 kg</span>
+            <span class="evo-trend flat">→ estável (30d)</span>
+          </div>
+          <div class="evo-bar-wrap">
+            <div class="evo-bar" style="width: 55%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-aluno-perfil" class="view hidden" data-role="aluno">
+      <div class="page-header">
+        <h2>Perfil / Anamnese</h2>
+        <p class="page-sub">Dados mockados — não editáveis nesta versão</p>
+      </div>
+      <div class="profile-section">
+        <div class="profile-avatar-large">C</div>
+        <div class="profile-name-large">Carlos Mendes</div>
+        <div class="profile-email">aluno@personalops.test</div>
+      </div>
+      <div class="anamnese-list">
+        <div class="anamnese-row"><span class="an-label">Objetivo</span><span class="an-value">Hipertrofia muscular</span></div>
+        <div class="anamnese-row"><span class="an-label">Nível</span><span class="an-value">Intermediário</span></div>
+        <div class="anamnese-row"><span class="an-label">Frequência</span><span class="an-value">3x por semana</span></div>
+        <div class="anamnese-row"><span class="an-label">Restrições</span><span class="an-value">Leve dor no ombro esquerdo</span></div>
+        <div class="anamnese-row"><span class="an-label">Peso</span><span class="an-value">82 kg</span></div>
+        <div class="anamnese-row"><span class="an-label">Altura</span><span class="an-value">178 cm</span></div>
+        <div class="anamnese-row"><span class="an-label">IMC</span><span class="an-value">25.9</span></div>
+        <div class="anamnese-row"><span class="an-label">Professor</span><span class="an-value">Prof. Silva</span></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
