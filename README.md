@@ -6,6 +6,10 @@ Protótipo estático de validação operacional — V1.2 publicado no GitHub Pag
 
 **URL:** https://henrico-design-amaral.github.io/personalops/
 
+## Entrada Pública
+
+A raiz da aplicação abre um memorial público do produto antes do login. Use o botão **Entrar na aplicação** para acessar a tela de login demo.
+
 ## Acessos Demo (Credenciais Sintéticas)
 
 | Perfil | E-mail | Senha | Detalhes do Perfil |
@@ -29,4 +33,4 @@ Protótipo estático de validação operacional — V1.2 publicado no GitHub Pag
 
 ## Stack Tecnológica
 
-HTML5 + CSS3 + Vanilla JavaScript (ES6) estruturado de forma estática pura, sem frameworks ou build tools complexas.
+HTML5 + CSS3 + Vanilla JavaScript (ES6) estruturado de forma estática pura, sem frameworks ou build tools complexas.
