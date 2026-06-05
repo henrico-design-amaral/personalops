@@ -3,7 +3,7 @@
    Basic cache-first for static assets
 ═══════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'personalops-v1';
+const CACHE_NAME = 'personalops-v1-cache-002';
 const ASSETS = [
   './',
   './index.html',
