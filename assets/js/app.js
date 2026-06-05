@@ -1511,6 +1511,12 @@ function renderApp() {
           <div id="sets-log" class="sets-log"></div>
         </div>
 
+        <!-- Coaching Cues & Tips -->
+        <div class="sets-log-wrap" id="wm-coaching-tips-wrap">
+          <h4 class="sets-log-title">Orientações & Execução</h4>
+          <div id="wm-coaching-tips" class="coaching-tips" style="font-size: 0.85rem; line-height: 1.4; color: var(--text-dim); margin-top: 8px;"></div>
+        </div>
+
       </div>
     </div>
 
