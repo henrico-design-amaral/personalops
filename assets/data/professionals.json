@@ -2,23 +2,83 @@
   {
     "id": "prof-01",
     "name": "Prof. Silva",
-    "specialty": "Hipertrofia & Reabilitação",
-    "methodSummary": "Método híbrido focado em progressão de carga, consistência diária e biomecânica precisa.",
-    "communicationTone": "Direto, técnico e motivador",
-    "activeStudentsCount": 6,
-    "weeklyCheckinDay": "Sexta-feira",
-    "defaultWorkoutSplit": "ABC",
-    "aiRules": "Evitar exercícios de impacto articular alto nos dias seguintes a treinos de perna. Priorizar RPE entre 7 e 9."
+    "displayName": "Prof. Silva",
+    "specialty": "Hipertrofia e reabilitacao leve",
+    "methodSummary": "Progressao de carga com tecnica controlada, check-ins semanais e ajustes por aderencia.",
+    "communicationTone": "Direto, tecnico e humano",
+    "activeStudentsCount": 8,
+    "weeklyCheckinDay": "sexta-feira",
+    "defaultWorkoutSplit": "ABC com ajustes por disponibilidade",
+    "aiRules": [
+      "Nunca publicar treino sem revisao do professor.",
+      "Evitar impacto alto quando houver restricao articular leve.",
+      "Priorizar clareza de carga, descanso e tecnica."
+    ],
+    "financialProfile": {
+      "documentType": "cpf",
+      "documentMasked": "***.***.123-**",
+      "pixKeyType": "email",
+      "pixKeyMasked": "prof***@email.com",
+      "bankName": "Banco Exemplo",
+      "accountHolderName": "Professor Demo Silva",
+      "defaultBillingFrequency": "monthly",
+      "defaultReminderDays": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ],
+      "paymentProvider": "pix-manual-mock",
+      "futureProviders": [
+        "future-asaas",
+        "future-mercadopago",
+        "future-pagarme",
+        "future-open-finance"
+      ]
+    }
   },
   {
     "id": "prof-02",
-    "name": "Profa. Camila",
-    "specialty": "Emagrecimento & Condicionamento",
-    "methodSummary": "Acompanhamento online diário com foco em queima calórica e rotinas sustentáveis para home gym e condomínio.",
-    "communicationTone": "Acolhedor, atencioso e empático",
-    "activeStudentsCount": 10,
-    "weeklyCheckinDay": "Segunda-feira",
-    "defaultWorkoutSplit": "Fullbody / HIIT",
-    "aiRules": "Monitorar hidratação e fadiga semanal. Sugerir exercícios com peso corporal em caso de falta de equipamento."
+    "name": "Camila Rocha",
+    "displayName": "Profa. Camila",
+    "specialty": "Emagrecimento, condicionamento e consultoria online",
+    "methodSummary": "Rotinas sustentaveis com treinos curtos, monitoramento de fadiga e adaptacao para casa ou condominio.",
+    "communicationTone": "Acolhedor, objetivo e educativo",
+    "activeStudentsCount": 8,
+    "weeklyCheckinDay": "segunda-feira",
+    "defaultWorkoutSplit": "Full body e circuitos metabolicos",
+    "aiRules": [
+      "Sugerir alternativas sem maquinas quando necessario.",
+      "Nunca inferir dado de saude sensivel.",
+      "Encaminhar dor persistente para avaliacao profissional presencial."
+    ],
+    "financialProfile": {
+      "documentType": "cnpj",
+      "documentMasked": "**.***.456/0001-**",
+      "pixKeyType": "random",
+      "pixKeyMasked": "pix-demo-****-****-7890",
+      "bankName": "Banco Exemplo Empresas",
+      "accountHolderName": "Camila Rocha Treinamento Demo",
+      "defaultBillingFrequency": "monthly",
+      "defaultReminderDays": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ],
+      "paymentProvider": "pix-manual-mock",
+      "futureProviders": [
+        "future-asaas",
+        "future-mercadopago",
+        "future-pagarme",
+        "future-open-finance"
+      ]
+    }
   }
 ]

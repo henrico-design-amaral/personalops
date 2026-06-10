@@ -1,812 +1,506 @@
 [
   {
-    "id": "evt-001",
+    "id": "wevt-001",
     "studentId": "std-01",
-    "workoutId": "pw-02",
+    "workoutId": "pw-01-monday",
     "type": "workout_started",
-    "createdAt": "2026-06-04T07:00:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
+    "createdAt": "2026-06-05T07:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 1,
+      "load": 20,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_pending"
   },
   {
-    "id": "evt-002",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
+    "id": "wevt-002",
+    "studentId": "std-02",
+    "workoutId": "pw-02-monday",
     "type": "set_completed",
-    "createdAt": "2026-06-04T07:05:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 1, "reps": 12, "load": "50kg" },
+    "createdAt": "2026-06-06T08:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-06",
+      "setIndex": 2,
+      "load": 21,
+      "note": "Evento sintetico de treino."
+    },
     "syncStatus": "sync_completed"
   },
   {
-    "id": "evt-003",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
+    "id": "wevt-003",
+    "studentId": "std-03",
+    "workoutId": "pw-03-monday",
     "type": "rest_started",
-    "createdAt": "2026-06-04T07:05:05Z",
-    "payload": { "duration": 75 },
+    "createdAt": "2026-06-07T09:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-26",
+      "setIndex": 3,
+      "load": 22,
+      "note": "Evento sintetico de treino."
+    },
     "syncStatus": "sync_completed"
   },
   {
-    "id": "evt-004",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
+    "id": "wevt-004",
+    "studentId": "std-04",
+    "workoutId": "pw-04-monday",
     "type": "rest_finished",
-    "createdAt": "2026-06-04T07:06:20Z",
-    "payload": {},
+    "createdAt": "2026-06-08T10:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-21",
+      "setIndex": 4,
+      "load": 23,
+      "note": "Evento sintetico de treino."
+    },
     "syncStatus": "sync_completed"
   },
   {
-    "id": "evt-005",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:08:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 2, "reps": 12, "load": "50kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-006",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:11:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 3, "reps": 10, "load": "50kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-007",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:14:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 4, "reps": 10, "load": "50kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-008",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:18:00Z",
-    "payload": { "exerciseId": "ex-13", "setIndex": 1, "reps": 10, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-009",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:21:00Z",
-    "payload": { "exerciseId": "ex-13", "setIndex": 2, "reps": 10, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-010",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:24:00Z",
-    "payload": { "exerciseId": "ex-13", "setIndex": 3, "reps": 8, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-011",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:28:00Z",
-    "payload": { "exerciseId": "ex-15", "setIndex": 1, "reps": 10, "load": "25kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-012",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:30:00Z",
-    "payload": { "exerciseId": "ex-15", "setIndex": 2, "reps": 10, "load": "25kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-013",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T07:32:00Z",
-    "payload": { "exerciseId": "ex-15", "setIndex": 3, "reps": 10, "load": "25kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-014",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "workout_finished",
-    "createdAt": "2026-06-04T07:35:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-015",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "feedback_submitted",
-    "createdAt": "2026-06-04T07:36:00Z",
-    "payload": { "feedbackId": "fb-01" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-016",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "workout_started",
-    "createdAt": "2026-06-03T07:00:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-017",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T07:05:00Z",
-    "payload": { "exerciseId": "ex-08", "setIndex": 1, "reps": 8, "load": "80kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-018",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T07:09:00Z",
-    "payload": { "exerciseId": "ex-08", "setIndex": 2, "reps": 8, "load": "80kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-019",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T07:13:00Z",
-    "payload": { "exerciseId": "ex-08", "setIndex": 3, "reps": 8, "load": "80kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-020",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T07:17:00Z",
-    "payload": { "exerciseId": "ex-08", "setIndex": 4, "reps": 8, "load": "80kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-021",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T07:22:00Z",
-    "payload": { "exerciseId": "ex-11", "setIndex": 1, "reps": 12, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-022",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T07:25:00Z",
-    "payload": { "exerciseId": "ex-11", "setIndex": 2, "reps": 12, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-023",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T07:28:00Z",
-    "payload": { "exerciseId": "ex-11", "setIndex": 3, "reps": 12, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-024",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "workout_finished",
-    "createdAt": "2026-06-03T07:32:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-025",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "feedback_submitted",
-    "createdAt": "2026-06-03T07:33:00Z",
-    "payload": { "feedbackId": "fb-02" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-026",
-    "studentId": "std-02",
-    "workoutId": "pw-05",
-    "type": "workout_started",
-    "createdAt": "2026-06-04T06:30:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-027",
-    "studentId": "std-02",
-    "workoutId": "pw-05",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T06:35:00Z",
-    "payload": { "exerciseId": "ex-22", "setIndex": 1, "reps": 15, "load": "0kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-028",
-    "studentId": "std-02",
-    "workoutId": "pw-05",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T06:38:00Z",
-    "payload": { "exerciseId": "ex-22", "setIndex": 2, "reps": 15, "load": "0kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-029",
-    "studentId": "std-02",
-    "workoutId": "pw-05",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T06:41:00Z",
-    "payload": { "exerciseId": "ex-22", "setIndex": 3, "reps": 15, "load": "0kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-030",
-    "studentId": "std-02",
-    "workoutId": "pw-05",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T06:44:00Z",
-    "payload": { "exerciseId": "ex-22", "setIndex": 4, "reps": 15, "load": "0kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-031",
-    "studentId": "std-02",
-    "workoutId": "pw-05",
-    "type": "workout_finished",
-    "createdAt": "2026-06-04T06:50:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-032",
-    "studentId": "std-02",
-    "workoutId": "pw-05",
-    "type": "feedback_submitted",
-    "createdAt": "2026-06-04T06:51:00Z",
-    "payload": { "feedbackId": "fb-03" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-033",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "workout_started",
-    "createdAt": "2026-06-02T18:00:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-034",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "set_completed",
-    "createdAt": "2026-06-02T18:05:00Z",
-    "payload": { "exerciseId": "ex-01", "setIndex": 1, "reps": 5, "load": "100kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-035",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "set_completed",
-    "createdAt": "2026-06-02T18:10:00Z",
-    "payload": { "exerciseId": "ex-01", "setIndex": 2, "reps": 5, "load": "100kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-036",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
+    "id": "wevt-005",
+    "studentId": "std-05",
+    "workoutId": "pw-05-monday",
     "type": "load_changed",
-    "createdAt": "2026-06-02T18:12:00Z",
-    "payload": { "exerciseId": "ex-01", "oldLoad": "100kg", "newLoad": "105kg" },
+    "createdAt": "2026-06-09T11:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 1,
+      "load": 24,
+      "note": "Evento sintetico de treino."
+    },
     "syncStatus": "sync_completed"
   },
   {
-    "id": "evt-037",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "set_completed",
-    "createdAt": "2026-06-02T18:15:00Z",
-    "payload": { "exerciseId": "ex-01", "setIndex": 3, "reps": 5, "load": "105kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-038",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "set_completed",
-    "createdAt": "2026-06-02T18:20:00Z",
-    "payload": { "exerciseId": "ex-01", "setIndex": 4, "reps": 4, "load": "105kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-039",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "set_completed",
-    "createdAt": "2026-06-02T18:25:00Z",
-    "payload": { "exerciseId": "ex-01", "setIndex": 5, "reps": 3, "load": "105kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-040",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "workout_finished",
-    "createdAt": "2026-06-02T18:28:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-041",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "feedback_submitted",
-    "createdAt": "2026-06-02T18:29:00Z",
-    "payload": { "feedbackId": "fb-04" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-042",
-    "studentId": "std-04",
-    "workoutId": "pw-09",
-    "type": "workout_started",
-    "createdAt": "2026-06-03T18:30:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-043",
-    "studentId": "std-04",
-    "workoutId": "pw-09",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T18:35:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 1, "reps": 12, "load": "30kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-044",
-    "studentId": "std-04",
-    "workoutId": "pw-09",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T18:40:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 2, "reps": 12, "load": "30kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-045",
-    "studentId": "std-04",
-    "workoutId": "pw-09",
-    "type": "set_completed",
-    "createdAt": "2026-06-03T18:45:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 3, "reps": 12, "load": "30kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-046",
-    "studentId": "std-04",
-    "workoutId": "pw-09",
-    "type": "workout_finished",
-    "createdAt": "2026-06-03T18:50:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-047",
-    "studentId": "std-04",
-    "workoutId": "pw-09",
-    "type": "feedback_submitted",
-    "createdAt": "2026-06-03T18:51:00Z",
-    "payload": { "feedbackId": "fb-05" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-048",
-    "studentId": "std-05",
-    "workoutId": "pw-11",
-    "type": "workout_started",
-    "createdAt": "2026-06-04T09:30:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-049",
-    "studentId": "std-05",
-    "workoutId": "pw-11",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T09:36:00Z",
-    "payload": { "exerciseId": "ex-37", "setIndex": 1, "reps": 12, "load": "20kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-050",
-    "studentId": "std-05",
-    "workoutId": "pw-11",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T09:42:00Z",
-    "payload": { "exerciseId": "ex-37", "setIndex": 2, "reps": 12, "load": "20kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-051",
-    "studentId": "std-05",
-    "workoutId": "pw-11",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T09:48:00Z",
-    "payload": { "exerciseId": "ex-37", "setIndex": 3, "reps": 12, "load": "20kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-052",
-    "studentId": "std-05",
-    "workoutId": "pw-11",
-    "type": "workout_finished",
-    "createdAt": "2026-06-04T09:55:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-053",
-    "studentId": "std-05",
-    "workoutId": "pw-11",
-    "type": "feedback_submitted",
-    "createdAt": "2026-06-04T09:56:00Z",
-    "payload": { "feedbackId": "fb-06" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-054",
+    "id": "wevt-006",
     "studentId": "std-06",
-    "workoutId": "pw-13",
-    "type": "workout_started",
-    "createdAt": "2026-06-04T11:20:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-055",
-    "studentId": "std-06",
-    "workoutId": "pw-13",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T11:26:00Z",
-    "payload": { "exerciseId": "ex-13", "setIndex": 1, "reps": 8, "load": "60kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-056",
-    "studentId": "std-06",
-    "workoutId": "pw-13",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T11:32:00Z",
-    "payload": { "exerciseId": "ex-13", "setIndex": 2, "reps": 8, "load": "60kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-057",
-    "studentId": "std-06",
-    "workoutId": "pw-13",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T11:38:00Z",
-    "payload": { "exerciseId": "ex-13", "setIndex": 3, "reps": 8, "load": "60kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-058",
-    "studentId": "std-06",
-    "workoutId": "pw-13",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T11:44:00Z",
-    "payload": { "exerciseId": "ex-13", "setIndex": 4, "reps": 8, "load": "60kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-059",
-    "studentId": "std-06",
-    "workoutId": "pw-13",
-    "type": "workout_finished",
-    "createdAt": "2026-06-04T11:52:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-060",
-    "studentId": "std-06",
-    "workoutId": "pw-13",
-    "type": "feedback_submitted",
-    "createdAt": "2026-06-04T11:53:00Z",
-    "payload": { "feedbackId": "fb-07" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-061",
-    "studentId": "std-10",
-    "workoutId": "pw-18",
-    "type": "workout_started",
-    "createdAt": "2026-05-25T18:30:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-062",
-    "studentId": "std-10",
-    "workoutId": "pw-18",
-    "type": "set_completed",
-    "createdAt": "2026-05-25T18:36:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 1, "reps": 10, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-063",
-    "studentId": "std-10",
-    "workoutId": "pw-18",
-    "type": "set_completed",
-    "createdAt": "2026-05-25T18:42:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 2, "reps": 10, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-064",
-    "studentId": "std-10",
-    "workoutId": "pw-18",
-    "type": "set_completed",
-    "createdAt": "2026-05-25T18:48:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 3, "reps": 10, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-065",
-    "studentId": "std-10",
-    "workoutId": "pw-18",
-    "type": "set_completed",
-    "createdAt": "2026-05-25T18:54:00Z",
-    "payload": { "exerciseId": "ex-14", "setIndex": 4, "reps": 10, "load": "40kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-066",
-    "studentId": "std-10",
-    "workoutId": "pw-18",
-    "type": "workout_finished",
-    "createdAt": "2026-05-25T18:59:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-067",
-    "studentId": "std-10",
-    "workoutId": "pw-18",
-    "type": "feedback_submitted",
-    "createdAt": "2026-05-25T19:00:00Z",
-    "payload": { "feedbackId": "fb-08" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-068",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "rest_started",
-    "createdAt": "2026-06-04T07:08:05Z",
-    "payload": { "duration": 75 },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-069",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "rest_finished",
-    "createdAt": "2026-06-04T07:09:20Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-070",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "rest_started",
-    "createdAt": "2026-06-04T07:11:05Z",
-    "payload": { "duration": 75 },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-071",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "rest_finished",
-    "createdAt": "2026-06-04T07:12:20Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-072",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "rest_started",
-    "createdAt": "2026-06-04T07:18:05Z",
-    "payload": { "duration": 90 },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-073",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "rest_finished",
-    "createdAt": "2026-06-04T07:19:35Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-074",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "rest_started",
-    "createdAt": "2026-06-04T07:21:05Z",
-    "payload": { "duration": 90 },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-075",
-    "studentId": "std-01",
-    "workoutId": "pw-02",
-    "type": "rest_finished",
-    "createdAt": "2026-06-04T07:22:35Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-076",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "rest_started",
-    "createdAt": "2026-06-03T07:05:05Z",
-    "payload": { "duration": 120 },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-077",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "rest_finished",
-    "createdAt": "2026-06-03T07:07:05Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-078",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "rest_started",
-    "createdAt": "2026-06-03T07:09:05Z",
-    "payload": { "duration": 120 },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-079",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "rest_finished",
-    "createdAt": "2026-06-03T07:11:05Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-080",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "rest_started",
-    "createdAt": "2026-06-03T07:13:05Z",
-    "payload": { "duration": 120 },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-081",
-    "studentId": "std-01",
-    "workoutId": "pw-03",
-    "type": "rest_finished",
-    "createdAt": "2026-06-03T07:15:05Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-082",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "rest_started",
-    "createdAt": "2026-06-02T18:05:05Z",
-    "payload": { "duration": 180 },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-083",
-    "studentId": "std-03",
-    "workoutId": "pw-07",
-    "type": "rest_finished",
-    "createdAt": "2026-06-02T18:08:05Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-084",
-    "studentId": "std-02",
-    "workoutId": "pw-05",
+    "workoutId": "pw-06-monday",
     "type": "exercise_skipped",
-    "createdAt": "2026-06-04T06:45:00Z",
-    "payload": { "exerciseId": "ex-20", "reason": "Falta de tempo" },
+    "createdAt": "2026-06-10T12:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-26",
+      "setIndex": 2,
+      "load": 25,
+      "note": "Evento sintetico de treino."
+    },
     "syncStatus": "sync_completed"
   },
   {
-    "id": "evt-085",
-    "studentId": "std-08",
-    "workoutId": "pw-15",
-    "type": "workout_started",
-    "createdAt": "2026-06-05T07:00:00Z",
-    "payload": {},
-    "syncStatus": "sync_pending"
-  },
-  {
-    "id": "evt-086",
-    "studentId": "std-08",
-    "workoutId": "pw-15",
-    "type": "set_completed",
-    "createdAt": "2026-06-05T07:05:00Z",
-    "payload": { "exerciseId": "ex-21", "setIndex": 1, "reps": "60s", "load": "Isometria" },
-    "syncStatus": "sync_pending"
-  },
-  {
-    "id": "evt-087",
-    "studentId": "std-08",
-    "workoutId": "pw-15",
-    "type": "set_completed",
-    "createdAt": "2026-06-05T07:10:00Z",
-    "payload": { "exerciseId": "ex-21", "setIndex": 2, "reps": "60s", "load": "Isometria" },
-    "syncStatus": "sync_pending"
-  },
-  {
-    "id": "evt-088",
-    "studentId": "std-11",
-    "workoutId": "pw-19",
-    "type": "workout_started",
-    "createdAt": "2026-06-04T18:00:00Z",
-    "payload": {},
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-089",
-    "studentId": "std-11",
-    "workoutId": "pw-19",
-    "type": "set_completed",
-    "createdAt": "2026-06-04T18:05:00Z",
-    "payload": { "exerciseId": "ex-23", "setIndex": 1, "reps": 15, "load": "14kg" },
-    "syncStatus": "sync_completed"
-  },
-  {
-    "id": "evt-090",
-    "studentId": "std-11",
-    "workoutId": "pw-19",
+    "id": "wevt-007",
+    "studentId": "std-07",
+    "workoutId": "pw-07-monday",
     "type": "workout_finished",
-    "createdAt": "2026-06-04T18:15:00Z",
-    "payload": {},
+    "createdAt": "2026-06-05T13:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-05",
+      "setIndex": 3,
+      "load": 26,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-008",
+    "studentId": "std-08",
+    "workoutId": "pw-08-monday",
+    "type": "feedback_submitted",
+    "createdAt": "2026-06-06T14:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 4,
+      "load": 27,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-009",
+    "studentId": "std-09",
+    "workoutId": "pw-09-monday",
+    "type": "sync_pending",
+    "createdAt": "2026-06-07T15:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 1,
+      "load": 28,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-010",
+    "studentId": "std-10",
+    "workoutId": "pw-10-monday",
+    "type": "sync_completed",
+    "createdAt": "2026-06-08T16:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 2,
+      "load": 29,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_pending"
+  },
+  {
+    "id": "wevt-011",
+    "studentId": "std-11",
+    "workoutId": "pw-11-monday",
+    "type": "workout_started",
+    "createdAt": "2026-06-09T17:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-41",
+      "setIndex": 3,
+      "load": 30,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-012",
+    "studentId": "std-12",
+    "workoutId": "pw-12-monday",
+    "type": "set_completed",
+    "createdAt": "2026-06-10T18:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-05",
+      "setIndex": 4,
+      "load": 31,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-013",
+    "studentId": "std-13",
+    "workoutId": "pw-13-monday",
+    "type": "rest_started",
+    "createdAt": "2026-06-05T07:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-50",
+      "setIndex": 1,
+      "load": 32,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-014",
+    "studentId": "std-14",
+    "workoutId": "pw-14-monday",
+    "type": "rest_finished",
+    "createdAt": "2026-06-06T08:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-05",
+      "setIndex": 2,
+      "load": 33,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-015",
+    "studentId": "std-15",
+    "workoutId": "pw-15-monday",
+    "type": "load_changed",
+    "createdAt": "2026-06-07T09:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-27",
+      "setIndex": 3,
+      "load": 34,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-016",
+    "studentId": "std-16",
+    "workoutId": "pw-16-monday",
+    "type": "exercise_skipped",
+    "createdAt": "2026-06-08T10:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-05",
+      "setIndex": 4,
+      "load": 35,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-017",
+    "studentId": "std-01",
+    "workoutId": "pw-01-monday",
+    "type": "workout_finished",
+    "createdAt": "2026-06-09T11:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 1,
+      "load": 36,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-018",
+    "studentId": "std-02",
+    "workoutId": "pw-02-monday",
+    "type": "feedback_submitted",
+    "createdAt": "2026-06-10T12:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-06",
+      "setIndex": 2,
+      "load": 37,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-019",
+    "studentId": "std-03",
+    "workoutId": "pw-03-monday",
+    "type": "sync_pending",
+    "createdAt": "2026-06-05T13:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-26",
+      "setIndex": 3,
+      "load": 38,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_pending"
+  },
+  {
+    "id": "wevt-020",
+    "studentId": "std-04",
+    "workoutId": "pw-04-monday",
+    "type": "sync_completed",
+    "createdAt": "2026-06-06T14:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-21",
+      "setIndex": 4,
+      "load": 39,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-021",
+    "studentId": "std-05",
+    "workoutId": "pw-05-monday",
+    "type": "workout_started",
+    "createdAt": "2026-06-07T15:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 1,
+      "load": 40,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-022",
+    "studentId": "std-06",
+    "workoutId": "pw-06-monday",
+    "type": "set_completed",
+    "createdAt": "2026-06-08T16:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-26",
+      "setIndex": 2,
+      "load": 41,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-023",
+    "studentId": "std-07",
+    "workoutId": "pw-07-monday",
+    "type": "rest_started",
+    "createdAt": "2026-06-09T17:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-05",
+      "setIndex": 3,
+      "load": 42,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-024",
+    "studentId": "std-08",
+    "workoutId": "pw-08-monday",
+    "type": "rest_finished",
+    "createdAt": "2026-06-10T18:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 4,
+      "load": 43,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-025",
+    "studentId": "std-09",
+    "workoutId": "pw-09-monday",
+    "type": "load_changed",
+    "createdAt": "2026-06-05T07:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 1,
+      "load": 44,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-026",
+    "studentId": "std-10",
+    "workoutId": "pw-10-monday",
+    "type": "exercise_skipped",
+    "createdAt": "2026-06-06T08:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 2,
+      "load": 45,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-027",
+    "studentId": "std-11",
+    "workoutId": "pw-11-monday",
+    "type": "workout_finished",
+    "createdAt": "2026-06-07T09:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-41",
+      "setIndex": 3,
+      "load": 46,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-028",
+    "studentId": "std-12",
+    "workoutId": "pw-12-monday",
+    "type": "feedback_submitted",
+    "createdAt": "2026-06-08T10:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-05",
+      "setIndex": 4,
+      "load": 47,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_pending"
+  },
+  {
+    "id": "wevt-029",
+    "studentId": "std-13",
+    "workoutId": "pw-13-monday",
+    "type": "sync_pending",
+    "createdAt": "2026-06-09T11:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-50",
+      "setIndex": 1,
+      "load": 48,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-030",
+    "studentId": "std-14",
+    "workoutId": "pw-14-monday",
+    "type": "sync_completed",
+    "createdAt": "2026-06-10T12:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-05",
+      "setIndex": 2,
+      "load": 49,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-031",
+    "studentId": "std-15",
+    "workoutId": "pw-15-monday",
+    "type": "workout_started",
+    "createdAt": "2026-06-05T13:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-27",
+      "setIndex": 3,
+      "load": 50,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-032",
+    "studentId": "std-16",
+    "workoutId": "pw-16-monday",
+    "type": "set_completed",
+    "createdAt": "2026-06-06T14:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-05",
+      "setIndex": 4,
+      "load": 51,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-033",
+    "studentId": "std-01",
+    "workoutId": "pw-01-monday",
+    "type": "rest_started",
+    "createdAt": "2026-06-07T15:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-01",
+      "setIndex": 1,
+      "load": 52,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-034",
+    "studentId": "std-02",
+    "workoutId": "pw-02-monday",
+    "type": "rest_finished",
+    "createdAt": "2026-06-08T16:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-06",
+      "setIndex": 2,
+      "load": 53,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-035",
+    "studentId": "std-03",
+    "workoutId": "pw-03-monday",
+    "type": "load_changed",
+    "createdAt": "2026-06-09T17:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-26",
+      "setIndex": 3,
+      "load": 54,
+      "note": "Evento sintetico de treino."
+    },
+    "syncStatus": "sync_completed"
+  },
+  {
+    "id": "wevt-036",
+    "studentId": "std-04",
+    "workoutId": "pw-04-monday",
+    "type": "exercise_skipped",
+    "createdAt": "2026-06-10T18:15:00-03:00",
+    "payload": {
+      "exerciseId": "ex-21",
+      "setIndex": 4,
+      "load": 55,
+      "note": "Evento sintetico de treino."
+    },
     "syncStatus": "sync_completed"
   }
 ]

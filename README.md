@@ -1,36 +1,61 @@
-# PersonalOps — V1.2 (Data-Rich Prototype)
+# PersonalOps — V1.2 Data-Rich Prototype
 
-> **AVISO:** Autenticação e banco de dados são completamente simulados (mockados) no lado do cliente. Nenhuma credencial ou informação pessoal real deve ser utilizada.
+Protótipo estático de validação operacional para o cockpit do personal trainer: alunos, treinos, recebimentos e sinais importantes em um só fluxo.
 
-Protótipo estático de validação operacional — V1.2 publicado no GitHub Pages.
-
-**URL:** https://henrico-design-amaral.github.io/personalops/
+**URL pública:** https://henrico-design-amaral.github.io/personalops/
 
 ## Entrada Pública
 
-A raiz da aplicação abre um memorial público do produto antes do login. Use o botão **Entrar na aplicação** para acessar a tela de login demo.
+A raiz abre o memorial público. Use **Entrar na aplicação** para acessar o login demo.
 
-## Acessos Demo (Credenciais Sintéticas)
+## Credenciais Demo
 
-| Perfil | E-mail | Senha | Detalhes do Perfil |
-|---|---|---|---|
-| **Administrativo** | `admin@personalops.test` | `admin123` | Visão geral de métricas agregadas e controle de hipóteses |
-| **Professor** | `professor@personalops.test` | `prof123` | Vinculado ao *Prof. Silva* (`prof-01`) gerenciando 8 alunos e feedbacks |
-| **Aluno** | `aluno@personalops.test` | `aluno123` | Vinculado a *Carlos Mendes* (`std-01`) com planilhas e histórico ativo |
+| Perfil | E-mail | Senha |
+|---|---|---|
+| Administrativo | `admin@personalops.test` | `admin123` |
+| Professor | `professor@personalops.test` | `prof123` |
+| Aluno | `aluno@personalops.test` | `aluno123` |
 
-## Funcionalidades V1.2 (Evolução Operacional)
+## Estado da Versão
 
-- **Camada de Dados Sintéticos**: Migração dos arrays estáticos inline para 10 arquivos JSON (`assets/data/*.json`) relacionais, modelando 16 alunos com perfis reais de adesão, risco de evasão, limitações físicas e feedbacks.
-- **Data Store Layer (`data-store.js`)**: Gerenciador de requisições assíncronas via `fetch` local com **fallbacks inline redundantes** caso o aplicativo seja executado offline ou através do protocolo `file://` (duplo clique local).
-- **Orientações & Segurança**: Exibição de coaching cues, erros comuns e notas de segurança contextuais de cada um dos 40 exercícios cadastrados na tela de execução do aluno.
-- **Fila Offline & Sincronização**: Registro local de séries completadas e eventos (`set_completed`, `workout_finished`, etc.) via `localStorage` com reconexão automática e sincronização transparente ao recuperar sinal de rede.
-- **Service Worker Avançado**: Precaching offline configurado para englobar toda a nova arquitetura de dados e lógica (`service-worker.js`).
+- Dados sintéticos estruturados em `assets/data/*.json`.
+- Login, perfis, treinos, cobranças, lembretes e eventos são simulados no cliente.
+- Pix é mockado com QR Code demonstrativo e copia e cola falso.
+- Não há pagamento real, gateway real, Open Finance real ou WhatsApp real.
+- Não há backend, banco real, autenticação real ou coleta de dados reais.
+- Não usar CPF, chave Pix, dados bancários, fotos, documentos, alunos ou professores reais.
 
-## Documentação Técnica
+## Fluxos Validados
 
-- [Especificação de Dados e Cenários (TEST_FIXTURES.md)](file:///C:/Users/henri/Documents/04_PROJETOS_CONTEÚDO/01_ACTIVE/PersonalOps/docs/data/TEST_FIXTURES.md)
-- [Plano de Teste e Validação (V1_2_TEST_PLAN.md)](file:///C:/Users/henri/Documents/04_PROJETOS_CONTEÚDO/01_ACTIVE/PersonalOps/docs/qa/V1_2_TEST_PLAN.md)
+- Admin: receita prevista, cobranças Pix em aberto, vencidas, notificações e gateway mockado.
+- Professor: alunos, vencimentos, inadimplentes, dados Pix mascarados, biblioteca, clonagem de treino e rascunhos de voz/texto.
+- Aluno: plano atual, vencimento, QR Code Pix demonstrativo, Pix copia e cola, treino da semana, treino do dia, timer, registro local e fila offline.
 
-## Stack Tecnológica
+## Cache e Service Worker
 
-HTML5 + CSS3 + Vanilla JavaScript (ES6) estruturado de forma estática pura, sem frameworks ou build tools complexas.
+O service worker usa o cache `personalops-v1-cache-005`.
+
+Para limpar estado local em testes:
+
+1. Abrir DevTools.
+2. Application > Service Workers > Unregister.
+3. Application > Storage > Clear site data.
+4. Recarregar com `Ctrl+F5`.
+
+## Teste Local
+
+```bash
+node --check assets/js/app.js
+node --check assets/js/data-store.js
+git diff --check
+```
+
+Também validar manualmente memorial, login dos três perfis, Pix mockado, clonagem, treino do dia, timer, registro de série, fila offline e viewport mobile sem overflow horizontal.
+
+## Documentação
+
+- `docs/data/TEST_FIXTURES.md`
+- `docs/product/ADMIN_BILLING_REQUIREMENTS.md`
+- `docs/product/PIX_BILLING_REQUIREMENTS.md`
+- `docs/product/WORKOUT_LIBRARY_REQUIREMENTS.md`
+- `docs/qa/V1_2_TEST_PLAN.md`

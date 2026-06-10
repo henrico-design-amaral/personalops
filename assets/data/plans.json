@@ -1,0 +1,92 @@
+[
+  {
+    "id": "plan-01",
+    "professionalId": "prof-01",
+    "name": "Consultoria mensal",
+    "description": "Treino mensal com check-in semanal",
+    "frequency": "monthly",
+    "amount": 249.9,
+    "currency": "BRL",
+    "includes": [
+      "Treino mensal",
+      "Check-in semanal",
+      "Ajuste por feedback"
+    ],
+    "isActive": true
+  },
+  {
+    "id": "plan-02",
+    "professionalId": "prof-01",
+    "name": "Presencial 2x semana",
+    "description": "Acompanhamento presencial duas vezes por semana",
+    "frequency": "monthly",
+    "amount": 780,
+    "currency": "BRL",
+    "includes": [
+      "8 sessoes presenciais",
+      "Planilha no app",
+      "Feedback de execucao"
+    ],
+    "isActive": true
+  },
+  {
+    "id": "plan-03",
+    "professionalId": "prof-01",
+    "name": "Presencial 3x semana",
+    "description": "Rotina presencial para hipertrofia e tecnica",
+    "frequency": "monthly",
+    "amount": 1050,
+    "currency": "BRL",
+    "includes": [
+      "12 sessoes presenciais",
+      "Ajustes semanais",
+      "Controle de carga"
+    ],
+    "isActive": true
+  },
+  {
+    "id": "plan-04",
+    "professionalId": "prof-02",
+    "name": "Online premium",
+    "description": "Consultoria online com acompanhamento proximo",
+    "frequency": "monthly",
+    "amount": 349.9,
+    "currency": "BRL",
+    "includes": [
+      "Treino semanal",
+      "Check-in por app",
+      "Adaptacao para casa/academia"
+    ],
+    "isActive": true
+  },
+  {
+    "id": "plan-05",
+    "professionalId": "prof-02",
+    "name": "Trimestral com acompanhamento",
+    "description": "Pacote trimestral com revisao mensal",
+    "frequency": "quarterly",
+    "amount": 899.7,
+    "currency": "BRL",
+    "includes": [
+      "3 meses",
+      "Revisao mensal",
+      "Relatorio de aderencia"
+    ],
+    "isActive": true
+  },
+  {
+    "id": "plan-06",
+    "professionalId": "prof-01",
+    "name": "Avulso avaliacao + treino",
+    "description": "Avaliacao inicial e prescricao unica",
+    "frequency": "single",
+    "amount": 199.9,
+    "currency": "BRL",
+    "includes": [
+      "Avaliacao inicial mockada",
+      "Treino unico",
+      "Sem recorrencia"
+    ],
+    "isActive": true
+  }
+]

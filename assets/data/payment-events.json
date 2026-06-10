@@ -1,0 +1,729 @@
+[
+  {
+    "id": "payevt-01-1",
+    "invoiceId": "inv-0001",
+    "studentId": "std-01",
+    "professionalId": "prof-01",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:00:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-01-2",
+    "invoiceId": "inv-0001",
+    "studentId": "std-01",
+    "professionalId": "prof-01",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:00:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0001"
+    }
+  },
+  {
+    "id": "payevt-01-3",
+    "invoiceId": "inv-0001",
+    "studentId": "std-01",
+    "professionalId": "prof-01",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:00:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-02-1",
+    "invoiceId": "inv-0002",
+    "studentId": "std-02",
+    "professionalId": "prof-01",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:01:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-02-2",
+    "invoiceId": "inv-0002",
+    "studentId": "std-02",
+    "professionalId": "prof-01",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:01:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0002"
+    }
+  },
+  {
+    "id": "payevt-02-3",
+    "invoiceId": "inv-0002",
+    "studentId": "std-02",
+    "professionalId": "prof-01",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:01:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-03-1",
+    "invoiceId": "inv-0003",
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:02:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-03-2",
+    "invoiceId": "inv-0003",
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:02:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0003"
+    }
+  },
+  {
+    "id": "payevt-03-3",
+    "invoiceId": "inv-0003",
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:02:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-03-4",
+    "invoiceId": "inv-0003",
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "type": "payment_overdue",
+    "createdAt": "2026-06-05T10:02:00-03:00",
+    "payload": {
+      "daysOverdue": 4
+    }
+  },
+  {
+    "id": "payevt-04-1",
+    "invoiceId": "inv-0004",
+    "studentId": "std-04",
+    "professionalId": "prof-01",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:03:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-04-2",
+    "invoiceId": "inv-0004",
+    "studentId": "std-04",
+    "professionalId": "prof-01",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:03:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0004"
+    }
+  },
+  {
+    "id": "payevt-04-3",
+    "invoiceId": "inv-0004",
+    "studentId": "std-04",
+    "professionalId": "prof-01",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:03:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-05-1",
+    "invoiceId": "inv-0005",
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:04:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-05-2",
+    "invoiceId": "inv-0005",
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:04:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0005"
+    }
+  },
+  {
+    "id": "payevt-05-3",
+    "invoiceId": "inv-0005",
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:04:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-06-1",
+    "invoiceId": "inv-0006",
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:05:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-06-2",
+    "invoiceId": "inv-0006",
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:05:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0006"
+    }
+  },
+  {
+    "id": "payevt-06-3",
+    "invoiceId": "inv-0006",
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:05:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-06-4",
+    "invoiceId": "inv-0006",
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "type": "payment_confirmed",
+    "createdAt": "2026-06-05T10:05:00-03:00",
+    "payload": {
+      "confirmation": "manual-mock"
+    }
+  },
+  {
+    "id": "payevt-07-1",
+    "invoiceId": "inv-0007",
+    "studentId": "std-07",
+    "professionalId": "prof-02",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:06:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-07-2",
+    "invoiceId": "inv-0007",
+    "studentId": "std-07",
+    "professionalId": "prof-02",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:06:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0007"
+    }
+  },
+  {
+    "id": "payevt-07-3",
+    "invoiceId": "inv-0007",
+    "studentId": "std-07",
+    "professionalId": "prof-02",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:06:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-08-1",
+    "invoiceId": "inv-0008",
+    "studentId": "std-08",
+    "professionalId": "prof-02",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:07:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-08-2",
+    "invoiceId": "inv-0008",
+    "studentId": "std-08",
+    "professionalId": "prof-02",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:07:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0008"
+    }
+  },
+  {
+    "id": "payevt-08-3",
+    "invoiceId": "inv-0008",
+    "studentId": "std-08",
+    "professionalId": "prof-02",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:07:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-09-1",
+    "invoiceId": "inv-0009",
+    "studentId": "std-09",
+    "professionalId": "prof-02",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:08:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-09-2",
+    "invoiceId": "inv-0009",
+    "studentId": "std-09",
+    "professionalId": "prof-02",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:08:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0009"
+    }
+  },
+  {
+    "id": "payevt-09-3",
+    "invoiceId": "inv-0009",
+    "studentId": "std-09",
+    "professionalId": "prof-02",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:08:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-10-1",
+    "invoiceId": "inv-0010",
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:09:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-10-2",
+    "invoiceId": "inv-0010",
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:09:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0010"
+    }
+  },
+  {
+    "id": "payevt-10-3",
+    "invoiceId": "inv-0010",
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:09:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-10-4",
+    "invoiceId": "inv-0010",
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "type": "payment_overdue",
+    "createdAt": "2026-06-05T10:09:00-03:00",
+    "payload": {
+      "daysOverdue": 6
+    }
+  },
+  {
+    "id": "payevt-11-1",
+    "invoiceId": "inv-0011",
+    "studentId": "std-11",
+    "professionalId": "prof-02",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:10:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-11-2",
+    "invoiceId": "inv-0011",
+    "studentId": "std-11",
+    "professionalId": "prof-02",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:10:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0011"
+    }
+  },
+  {
+    "id": "payevt-11-3",
+    "invoiceId": "inv-0011",
+    "studentId": "std-11",
+    "professionalId": "prof-02",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:10:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-12-1",
+    "invoiceId": "inv-0012",
+    "studentId": "std-12",
+    "professionalId": "prof-01",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:11:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-12-2",
+    "invoiceId": "inv-0012",
+    "studentId": "std-12",
+    "professionalId": "prof-01",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:11:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0012"
+    }
+  },
+  {
+    "id": "payevt-12-3",
+    "invoiceId": "inv-0012",
+    "studentId": "std-12",
+    "professionalId": "prof-01",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:11:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-13-1",
+    "invoiceId": "inv-0013",
+    "studentId": "std-13",
+    "professionalId": "prof-02",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:12:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-13-2",
+    "invoiceId": "inv-0013",
+    "studentId": "std-13",
+    "professionalId": "prof-02",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:12:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0013"
+    }
+  },
+  {
+    "id": "payevt-13-3",
+    "invoiceId": "inv-0013",
+    "studentId": "std-13",
+    "professionalId": "prof-02",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:12:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-13-4",
+    "invoiceId": "inv-0013",
+    "studentId": "std-13",
+    "professionalId": "prof-02",
+    "type": "payment_confirmed",
+    "createdAt": "2026-06-05T10:12:00-03:00",
+    "payload": {
+      "confirmation": "manual-mock"
+    }
+  },
+  {
+    "id": "payevt-14-1",
+    "invoiceId": "inv-0014",
+    "studentId": "std-14",
+    "professionalId": "prof-01",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:13:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-14-2",
+    "invoiceId": "inv-0014",
+    "studentId": "std-14",
+    "professionalId": "prof-01",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:13:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0014"
+    }
+  },
+  {
+    "id": "payevt-14-3",
+    "invoiceId": "inv-0014",
+    "studentId": "std-14",
+    "professionalId": "prof-01",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:13:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-15-1",
+    "invoiceId": "inv-0015",
+    "studentId": "std-15",
+    "professionalId": "prof-02",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:14:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-15-2",
+    "invoiceId": "inv-0015",
+    "studentId": "std-15",
+    "professionalId": "prof-02",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:14:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0015"
+    }
+  },
+  {
+    "id": "payevt-15-3",
+    "invoiceId": "inv-0015",
+    "studentId": "std-15",
+    "professionalId": "prof-02",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:14:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-16-1",
+    "invoiceId": "inv-0016",
+    "studentId": "std-16",
+    "professionalId": "prof-02",
+    "type": "invoice_created",
+    "createdAt": "2026-06-02T10:15:00-03:00",
+    "payload": {
+      "source": "fixture",
+      "gatewayProvider": "pix-manual-mock"
+    }
+  },
+  {
+    "id": "payevt-16-2",
+    "invoiceId": "inv-0016",
+    "studentId": "std-16",
+    "professionalId": "prof-02",
+    "type": "pix_qr_generated",
+    "createdAt": "2026-06-03T10:15:00-03:00",
+    "payload": {
+      "qrCodeMock": "PIX-QR-DEMO-0016"
+    }
+  },
+  {
+    "id": "payevt-16-3",
+    "invoiceId": "inv-0016",
+    "studentId": "std-16",
+    "professionalId": "prof-02",
+    "type": "reminder_scheduled",
+    "createdAt": "2026-06-04T10:15:00-03:00",
+    "payload": {
+      "offsets": [
+        7,
+        3,
+        1,
+        0,
+        -1,
+        -3,
+        -7
+      ]
+    }
+  },
+  {
+    "id": "payevt-16-4",
+    "invoiceId": "inv-0016",
+    "studentId": "std-16",
+    "professionalId": "prof-02",
+    "type": "invoice_canceled",
+    "createdAt": "2026-06-05T10:15:00-03:00",
+    "payload": {
+      "reason": "subscription canceled mock"
+    }
+  }
+]

@@ -1,705 +1,389 @@
 /* =========================================================================
    PersonalOps — Data Store Layer V1.2
-   Handles dynamic loading of synthetic JSON fixtures with inline fallbacks.
+   Static synthetic fixtures with inline fallback for GitHub Pages/file usage.
    ========================================================================= */
 
 'use strict';
 
 window.DataStore = {
-  // Loaded datasets (either from JSON fetch or inline fallbacks)
   data: {
     users: {},
     professionals: [],
     students: [],
+    plans: [],
+    subscriptions: [],
+    invoices: [],
+    paymentEvents: [],
+    notificationRules: [],
+    notificationEvents: [],
     exercises: [],
+    workoutLibrary: [],
     workoutTemplates: [],
+    weeklySchedules: [],
     prescribedWorkouts: [],
     workoutEvents: [],
     feedbacks: [],
     assessments: [],
-    payments: []
+    voiceDrafts: []
   },
 
-  // State to check if data was loaded from network or fallback
   loadedFromNetwork: false,
 
-  // Fallbacks used when fetching fails (e.g. offline, file:// protocol)
   fallbacks: {
     users: {
-      "admin@personalops.test": {
-        "password": "admin123",
-        "role": "admin",
-        "name": "Admin",
-        "avatar": "A",
-        "admin": true
+      'admin@personalops.test': {
+        id: 'usr-admin-01',
+        name: 'Admin PersonalOps',
+        email: 'admin@personalops.test',
+        password: 'admin123',
+        role: 'admin',
+        roleLabel: 'Administrativo',
+        avatar: 'A',
+        admin: true
       },
-      "professor@personalops.test": {
-        "password": "prof123",
-        "role": "professor",
-        "name": "Prof. Silva",
-        "avatar": "S",
-        "professionalId": "prof-01"
+      'professor@personalops.test': {
+        id: 'usr-prof-01',
+        name: 'Prof. Silva',
+        email: 'professor@personalops.test',
+        password: 'prof123',
+        role: 'professor',
+        roleLabel: 'Professor',
+        avatar: 'S',
+        professionalId: 'prof-01'
       },
-      "aluno@personalops.test": {
-        "password": "aluno123",
-        "role": "aluno",
-        "name": "Carlos Mendes",
-        "avatar": "C",
-        "studentId": "std-01"
+      'aluno@personalops.test': {
+        id: 'usr-student-01',
+        name: 'Carlos Mendes',
+        email: 'aluno@personalops.test',
+        password: 'aluno123',
+        role: 'aluno',
+        roleLabel: 'Aluno',
+        avatar: 'C',
+        studentId: 'std-01'
       }
     },
     professionals: [
       {
-        "id": "prof-01",
-        "name": "Prof. Silva",
-        "specialty": "Hipertrofia & Reabilitação",
-        "methodSummary": "Método híbrido focado em progressão de carga, consistência diária e biomecânica precisa.",
-        "communicationTone": "Direto, técnico e motivador",
-        "activeStudentsCount": 6,
-        "weeklyCheckinDay": "Sexta-feira",
-        "defaultWorkoutSplit": "ABC",
-        "aiRules": "Evitar exercícios de impacto articular alto nos dias seguintes a treinos de perna. Priorizar RPE entre 7 e 9."
-      },
-      {
-        "id": "prof-02",
-        "name": "Profa. Camila",
-        "specialty": "Emagrecimento & Condicionamento",
-        "methodSummary": "Acompanhamento online diário com foco em queima calórica e rotinas sustentáveis para home gym e condomínio.",
-        "communicationTone": "Acolhedor, atencioso e empático",
-        "activeStudentsCount": 10,
-        "weeklyCheckinDay": "Segunda-feira",
-        "defaultWorkoutSplit": "Fullbody / HIIT",
-        "aiRules": "Monitorar hidratação e fadiga semanal. Sugerir exercícios com peso corporal em caso de falta de equipamento."
+        id: 'prof-01',
+        name: 'Prof. Silva',
+        displayName: 'Prof. Silva',
+        financialProfile: {
+          documentType: 'cpf',
+          documentMasked: '***.***.123-**',
+          pixKeyType: 'email',
+          pixKeyMasked: 'prof***@email.com',
+          bankName: 'Banco Exemplo',
+          accountHolderName: 'Professor Demo Silva',
+          defaultBillingFrequency: 'monthly',
+          defaultReminderDays: [7, 3, 1, 0, -1, -3, -7],
+          paymentProvider: 'pix-manual-mock',
+          futureProviders: ['future-asaas', 'future-mercadopago', 'future-pagarme', 'future-open-finance']
+        }
       }
     ],
     students: [
       {
-        "id": "std-01",
-        "professionalId": "prof-01",
-        "name": "Carlos Mendes",
-        "goal": "Hipertrofia muscular",
-        "trainingMode": "Híbrido",
-        "level": "Intermediário",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-04T07:22:00Z",
-        "nextWorkoutAt": "2026-06-05T07:00:00Z",
-        "restrictions": ["Leve dor no ombro esquerdo"],
-        "preferredGymContext": "Academia comercial",
-        "usesBluetooth": true,
-        "internetQuality": "boa",
-        "notes": "Focar em progressão de carga no supino mantendo técnica estrita."
-      },
+        id: 'std-01',
+        professionalId: 'prof-01',
+        name: 'Carlos Mendes',
+        goal: 'Hipertrofia muscular',
+        trainingMode: 'hibrido',
+        level: 'intermediario',
+        adherenceStatus: 'Alta',
+        riskLevel: 'low',
+        restrictions: ['Leve desconforto no ombro esquerdo'],
+        planId: 'plan-01',
+        subscriptionId: 'sub-01',
+        billingFrequency: 'monthly',
+        nextDueDate: '2026-06-18',
+        paymentStatus: 'active',
+        reminderOptIn: true,
+        preferredReminderChannel: 'whatsapp-mock',
+        weeklyScheduleId: 'ws-01',
+        notes: 'Fallback sintético.'
+      }
+    ],
+    plans: [
       {
-        "id": "std-02",
-        "professionalId": "prof-01",
-        "name": "Ana Rodrigues",
-        "goal": "Emagrecimento",
-        "trainingMode": "Online",
-        "level": "Intermediário",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-04T06:55:00Z",
-        "nextWorkoutAt": "2026-06-05T08:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Condomínio",
-        "usesBluetooth": false,
-        "internetQuality": "excelente",
-        "notes": "Sentiu RPE 9 no supino reto na última sessão."
-      },
+        id: 'plan-01',
+        professionalId: 'prof-01',
+        name: 'Consultoria mensal',
+        description: 'Treino mensal com check-in semanal',
+        frequency: 'monthly',
+        amount: 249.9,
+        currency: 'BRL',
+        includes: ['Treino mensal', 'Check-in semanal'],
+        isActive: true
+      }
+    ],
+    invoices: [
       {
-        "id": "std-03",
-        "professionalId": "prof-01",
-        "name": "Pedro Lima",
-        "goal": "Força máxima",
-        "trainingMode": "Presencial",
-        "level": "Avançado",
-        "adherenceStatus": "Baixa",
-        "riskLevel": "Médio",
-        "lastWorkoutAt": "2026-06-02T18:30:00Z",
-        "nextWorkoutAt": "2026-06-06T18:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Academia de powerlifting",
-        "usesBluetooth": true,
-        "internetQuality": "instável",
-        "notes": "Ausente ontem. Apresenta dificuldades de conciliar horários de trabalho."
-      },
-      {
-        "id": "std-04",
-        "professionalId": "prof-01",
-        "name": "Mariana Costa",
-        "goal": "Condicionamento físico",
-        "trainingMode": "Híbrido",
-        "level": "Iniciante",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-03T19:00:00Z",
-        "nextWorkoutAt": "2026-06-05T19:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Academia comercial",
-        "usesBluetooth": false,
-        "internetQuality": "boa",
-        "notes": "Início recente. Muito motivada. Excelente resposta na adaptação anatômica."
-      },
-      {
-        "id": "std-05",
-        "professionalId": "prof-02",
-        "name": "Luiza Santos",
-        "goal": "Emagrecimento",
-        "trainingMode": "Online",
-        "level": "Iniciante",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-04T10:00:00Z",
-        "nextWorkoutAt": "2026-06-06T10:00:00Z",
-        "restrictions": ["Condromalácia patelar grau I"],
-        "preferredGymContext": "Home gym",
-        "usesBluetooth": false,
-        "internetQuality": "boa",
-        "notes": "Evitar agachamentos profundos. Focar em controle de amplitude."
-      },
-      {
-        "id": "std-06",
-        "professionalId": "prof-01",
-        "name": "Julio Cesar",
-        "goal": "Hipertrofia",
-        "trainingMode": "Presencial",
-        "level": "Avançado",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-04T12:00:00Z",
-        "nextWorkoutAt": "2026-06-05T12:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Academia comercial",
-        "usesBluetooth": true,
-        "internetQuality": "excelente",
-        "notes": "Evolução de cargas consistente nos exercícios multiarticulares."
-      },
-      {
-        "id": "std-07",
-        "professionalId": "prof-02",
-        "name": "Gabriela Dias",
-        "goal": "Definição muscular",
-        "trainingMode": "Híbrido",
-        "level": "Intermediário",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-03T08:00:00Z",
-        "nextWorkoutAt": "2026-06-05T08:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Condomínio",
-        "usesBluetooth": false,
-        "internetQuality": "boa",
-        "notes": "Fazer treinos mais metabólicos com descansos curtos."
-      },
-      {
-        "id": "std-08",
-        "professionalId": "prof-02",
-        "name": "Roberto Alves",
-        "goal": "Saúde cardiovascular",
-        "trainingMode": "Online",
-        "level": "Intermediário",
-        "adherenceStatus": "Média",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-01T07:00:00Z",
-        "nextWorkoutAt": "2026-06-05T07:00:00Z",
-        "restrictions": ["Hipertensão sob controle"],
-        "preferredGymContext": "Home gym",
-        "usesBluetooth": true,
-        "internetQuality": "boa",
-        "notes": "Monitorar frequência cardíaca no descanso."
-      },
-      {
-        "id": "std-09",
-        "professionalId": "prof-02",
-        "name": "Felipe Neto",
-        "goal": "Condicionamento físico",
-        "trainingMode": "Presencial",
-        "level": "Iniciante",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-04T15:00:00Z",
-        "nextWorkoutAt": "2026-06-06T15:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Academia comercial",
-        "usesBluetooth": false,
-        "internetQuality": "boa",
-        "notes": "Trabalhar consciência corporal e padrão de movimento."
-      },
-      {
-        "id": "std-10",
-        "professionalId": "prof-01",
-        "name": "Lucas Sousa",
-        "goal": "Hipertrofia",
-        "trainingMode": "Híbrido",
-        "level": "Intermediário",
-        "adherenceStatus": "Baixa",
-        "riskLevel": "Alto",
-        "lastWorkoutAt": "2026-05-25T19:00:00Z",
-        "nextWorkoutAt": "2026-06-06T19:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Academia comercial",
-        "usesBluetooth": false,
-        "internetQuality": "boa",
-        "notes": "Sem treinar há mais de 10 dias. Alto risco de evasão."
-      },
-      {
-        "id": "std-11",
-        "professionalId": "prof-02",
-        "name": "Patricia Lima",
-        "goal": "Emagrecimento",
-        "trainingMode": "Online",
-        "level": "Avançado",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-04T18:00:00Z",
-        "nextWorkoutAt": "2026-06-05T18:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Condomínio",
-        "usesBluetooth": true,
-        "internetQuality": "excelente",
-        "notes": "Feedback pendente de análise sobre volume de treino."
-      },
-      {
-        "id": "std-12",
-        "professionalId": "prof-01",
-        "name": "Ricardo Santos",
-        "goal": "Condicionamento físico",
-        "trainingMode": "Presencial",
-        "level": "Intermediário",
-        "adherenceStatus": "Média",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-03T10:00:00Z",
-        "nextWorkoutAt": "2026-06-05T10:00:00Z",
-        "restrictions": ["Hérnia discal L4-L5 inativa"],
-        "preferredGymContext": "Academia comercial",
-        "usesBluetooth": false,
-        "internetQuality": "boa",
-        "notes": "Limitação na flexão da coluna. Focar em estabilidade lombo-pélvica."
-      },
-      {
-        "id": "std-13",
-        "professionalId": "prof-02",
-        "name": "Fernanda Melo",
-        "goal": "Massa muscular",
-        "trainingMode": "Híbrido",
-        "level": "Iniciante",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-04T20:00:00Z",
-        "nextWorkoutAt": "2026-06-06T20:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Home gym",
-        "usesBluetooth": false,
-        "internetQuality": "boa",
-        "notes": "Evolução excelente nas primeiras 4 semanas de treino estruturado."
-      },
-      {
-        "id": "std-14",
-        "professionalId": "prof-01",
-        "name": "Thiago Rocha",
-        "goal": "Hipertrofia",
-        "trainingMode": "Online",
-        "level": "Avançado",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-04T06:00:00Z",
-        "nextWorkoutAt": "2026-06-05T06:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Academia comercial",
-        "usesBluetooth": true,
-        "internetQuality": "boa",
-        "notes": "Treinos densos com cargas altas. Muito focado."
-      },
-      {
-        "id": "std-15",
-        "professionalId": "prof-02",
-        "name": "Camila Nogueira",
-        "goal": "Emagrecimento",
-        "trainingMode": "Híbrido",
-        "level": "Intermediário",
-        "adherenceStatus": "Alta",
-        "riskLevel": "Baixo",
-        "lastWorkoutAt": "2026-06-03T11:00:00Z",
-        "nextWorkoutAt": "2026-06-05T11:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Condomínio",
-        "usesBluetooth": false,
-        "internetQuality": "excelente",
-        "notes": "Acompanhamento alimentar e físico em ótima sinergia."
-      },
-      {
-        "id": "std-16",
-        "professionalId": "prof-02",
-        "name": "Bruno Fonseca",
-        "goal": "Condicionamento físico",
-        "trainingMode": "Online",
-        "level": "Iniciante",
-        "adherenceStatus": "Baixa",
-        "riskLevel": "Médio",
-        "lastWorkoutAt": "2026-05-30T07:00:00Z",
-        "nextWorkoutAt": "2026-06-06T07:00:00Z",
-        "restrictions": [],
-        "preferredGymContext": "Home gym",
-        "usesBluetooth": false,
-        "internetQuality": "boa",
-        "notes": "Falta de adesão recorrente por viagens. Reestruturar split para 2x/semana."
+        id: 'inv-0001',
+        subscriptionId: 'sub-01',
+        studentId: 'std-01',
+        professionalId: 'prof-01',
+        dueDate: '2026-06-18',
+        amount: 249.9,
+        status: 'open',
+        paymentMethod: 'pix',
+        paymentMethods: ['pix', 'manual'],
+        pixQrCodeMock: 'PIX-QR-DEMO-0001',
+        pixCopyPasteMock: 'personalops-demo-pix-copy-paste-invoice-0001',
+        paymentLinkMock: 'https://personalops.test/pay/mock/invoice-0001',
+        createdAt: '2026-06-01T09:00:00-03:00',
+        paidAt: null,
+        reminderStatus: 'scheduled'
       }
     ],
     exercises: [
       {
-        "id": "ex-01",
-        "name": "Supino Reto com Barra",
-        "category": "Peito",
-        "primaryMuscle": "Peitoral Maior",
-        "secondaryMuscles": ["Tríceps Braquial", "Deltoide Anterior"],
-        "equipment": "Barra & Banco",
-        "difficulty": "Intermediário",
-        "movementPattern": "Empurrar",
-        "defaultRestSeconds": 120,
-        "defaultTempo": "3-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-02",
-        "name": "Supino Inclinado com Halteres",
-        "category": "Peito",
-        "primaryMuscle": "Peitoral Superior",
-        "secondaryMuscles": ["Tríceps Braquial", "Deltoide Anterior"],
-        "equipment": "Halteres & Banco Inclinado",
-        "difficulty": "Intermediário",
-        "movementPattern": "Empurrar",
-        "defaultRestSeconds": 90,
-        "defaultTempo": "3-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-04",
-        "name": "Tríceps Pulley com Corda",
-        "category": "Braços",
-        "primaryMuscle": "Tríceps Braquial",
-        "secondaryMuscles": [],
-        "equipment": "Polia",
-        "difficulty": "Iniciante",
-        "movementPattern": "Empurrar",
-        "defaultRestSeconds": 45,
-        "defaultTempo": "2-0-1-1",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-06",
-        "name": "Desenvolvimento com Halteres",
-        "category": "Ombros",
-        "primaryMuscle": "Deltoide Anterior",
-        "secondaryMuscles": ["Tríceps Braquial", "Deltoide Lateral", "Trapézio"],
-        "equipment": "Halteres & Banco",
-        "difficulty": "Intermediário",
-        "movementPattern": "Empurrar",
-        "defaultRestSeconds": 90,
-        "defaultTempo": "3-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-07",
-        "name": "Elevação Lateral com Halteres",
-        "category": "Ombros",
-        "primaryMuscle": "Deltoide Lateral",
-        "secondaryMuscles": ["Trapézio", "Deltoide Anterior"],
-        "equipment": "Halteres",
-        "difficulty": "Iniciante",
-        "movementPattern": "Empurrar",
-        "defaultRestSeconds": 60,
-        "defaultTempo": "2-0-1-1",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-08",
-        "name": "Agachamento Livre com Barra",
-        "category": "Pernas",
-        "primaryMuscle": "Quadríceps",
-        "secondaryMuscles": ["Glúteo Máximo", "Isquiotibiais", "Eretores da Espinha"],
-        "equipment": "Barra & Rack de Agachamento",
-        "difficulty": "Avançado",
-        "movementPattern": "Agachar",
-        "defaultRestSeconds": 120,
-        "defaultTempo": "4-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-10",
-        "name": "Cadeira Extensora",
-        "category": "Pernas",
-        "primaryMuscle": "Quadríceps",
-        "secondaryMuscles": [],
-        "equipment": "Cadeira Extensora",
-        "difficulty": "Iniciante",
-        "movementPattern": "Agachar",
-        "defaultRestSeconds": 60,
-        "defaultTempo": "2-0-1-1",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-11",
-        "name": "Mesa Flexora",
-        "category": "Pernas",
-        "primaryMuscle": "Isquiotibiais",
-        "secondaryMuscles": ["Gastrocnêmio"],
-        "equipment": "Mesa Flexora",
-        "difficulty": "Iniciante",
-        "movementPattern": "Dobradiça Quadril",
-        "defaultRestSeconds": 60,
-        "defaultTempo": "3-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-13",
-        "name": "Remada Curvada com Barra",
-        "category": "Costas",
-        "primaryMuscle": "Latíssimo do Dorso",
-        "secondaryMuscles": ["Trapézio", "Romboides", "Deltoide Posterior", "Bíceps Braquial"],
-        "equipment": "Barra",
-        "difficulty": "Avançado",
-        "movementPattern": "Puxar",
-        "defaultRestSeconds": 90,
-        "defaultTempo": "3-0-1-1",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-14",
-        "name": "Puxada Alta no Pulley",
-        "category": "Costas",
-        "primaryMuscle": "Latíssimo do Dorso",
-        "secondaryMuscles": ["Bíceps Braquial", "Deltoide Posterior", "Romboides"],
-        "equipment": "Polia Alta",
-        "difficulty": "Iniciante",
-        "movementPattern": "Puxar",
-        "defaultRestSeconds": 75,
-        "defaultTempo": "3-0-1-1",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-15",
-        "name": "Rosca Direta com Barra",
-        "category": "Braços",
-        "primaryMuscle": "Bíceps Braquial",
-        "secondaryMuscles": ["Braquiorradial", "Antebraço"],
-        "equipment": "Barra W ou Reta",
-        "difficulty": "Iniciante",
-        "movementPattern": "Puxar",
-        "defaultRestSeconds": 60,
-        "defaultTempo": "3-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-20",
-        "name": "Abdominal Supra (Crunch)",
-        "category": "Core",
-        "primaryMuscle": "Reto do Abdômen",
-        "secondaryMuscles": ["Oblíquos"],
-        "equipment": "Colchonete",
-        "difficulty": "Iniciante",
-        "movementPattern": "Core",
-        "defaultRestSeconds": 45,
-        "defaultTempo": "2-0-1-1",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-21",
-        "name": "Prancha Isometrica Frontal",
-        "category": "Core",
-        "primaryMuscle": "Reto do Abdômen",
-        "secondaryMuscles": ["Transverso do Abdômen", "Oblíquos", "Eretores da Espinha"],
-        "equipment": "Colchonete",
-        "difficulty": "Iniciante",
-        "movementPattern": "Core",
-        "defaultRestSeconds": 60,
-        "defaultTempo": "Isometrico",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-22",
-        "name": "Flexão de Braço no Solo",
-        "category": "Peito",
-        "primaryMuscle": "Peitoral Maior",
-        "secondaryMuscles": ["Tríceps Braquial", "Deltoide Anterior", "Core"],
-        "equipment": "Peso Corporal",
-        "difficulty": "Iniciante",
-        "movementPattern": "Empurrar",
-        "defaultRestSeconds": 60,
-        "defaultTempo": "2-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-23",
-        "name": "Afundo com Halteres",
-        "category": "Pernas",
-        "primaryMuscle": "Quadríceps",
-        "secondaryMuscles": ["Glúteo Máximo", "Isquiotibiais"],
-        "equipment": "Halteres",
-        "difficulty": "Intermediário",
-        "movementPattern": "Estocada",
-        "defaultRestSeconds": 90,
-        "defaultTempo": "3-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      },
-      {
-        "id": "ex-24",
-        "name": "Levantamento Terra Stiff",
-        "category": "Pernas",
-        "primaryMuscle": "Isquiotibiais",
-        "secondaryMuscles": ["Glúteo Máximo", "Eretores da Espinha"],
-        "equipment": "Barra ou Halteres",
-        "difficulty": "Intermediário",
-        "movementPattern": "Dobradiça Quadril",
-        "defaultRestSeconds": 90,
-        "defaultTempo": "3-0-1-0",
-        "visualType": "css-mannequin",
-        "visualStatus": "placeholder"
-      }
-    ],
-    workoutTemplates: [
-      {
-        "id": "temp-01",
-        "professionalId": "prof-01",
-        "name": "Peito + Bíceps",
-        "goal": "Hipertrofia de tronco superior",
-        "level": "Intermediário",
-        "estimatedDurationMinutes": 60
-      },
-      {
-        "id": "temp-02",
-        "professionalId": "prof-01",
-        "name": "Costas + Tríceps",
-        "goal": "Foco em largura de costas e força de tríceps",
-        "level": "Intermediário",
-        "estimatedDurationMinutes": 60
+        id: 'ex-01',
+        name: 'Supino Reto com Barra',
+        category: 'peito',
+        primaryMuscle: 'peito',
+        secondaryMuscles: ['triceps', 'ombros'],
+        equipment: 'Barra e banco',
+        difficulty: 'intermediario',
+        movementPattern: 'empurrar',
+        defaultRestSeconds: 90,
+        defaultTempo: '3-0-1-0',
+        coachingCues: ['Controle a descida.', 'Mantenha as escapulas firmes.'],
+        commonMistakes: ['Usar carga acima da tecnica.'],
+        safetyNotes: 'Exercicio demonstrativo.',
+        substitutionIds: [],
+        visualType: 'css-mannequin',
+        visualStatus: 'placeholder'
       }
     ],
     prescribedWorkouts: [
       {
-        "id": "pw-01",
-        "studentId": "std-01",
-        "professionalId": "prof-01",
-        "title": "Treino A - Peito e Ombro",
-        "scheduledDate": "2026-06-05",
-        "status": "pending",
-        "estimatedDurationMinutes": 60,
-        "exercises": [
-          { "exerciseId": "ex-01", "order": 1, "sets": 4, "reps": "8-12", "loadSuggestion": "60kg", "restSeconds": 120 },
-          { "exerciseId": "ex-02", "order": 2, "sets": 3, "reps": "10-12", "loadSuggestion": "22kg cada halter", "restSeconds": 90 },
-          { "exerciseId": "ex-07", "order": 3, "sets": 4, "reps": "12-15", "loadSuggestion": "10kg cada halter", "restSeconds": 60 },
-          { "exerciseId": "ex-04", "order": 4, "sets": 3, "reps": "12", "loadSuggestion": "20kg", "restSeconds": 60 }
-        ]
-      },
-      {
-        "id": "pw-02",
-        "studentId": "std-01",
-        "professionalId": "prof-01",
-        "title": "Treino B - Costas e Bíceps",
-        "scheduledDate": "2026-06-04",
-        "status": "completed",
-        "estimatedDurationMinutes": 60,
-        "exercises": [
-          { "exerciseId": "ex-14", "order": 1, "sets": 4, "reps": "10-12", "loadSuggestion": "50kg", "restSeconds": 75 },
-          { "exerciseId": "ex-13", "order": 2, "sets": 3, "reps": "8-10", "loadSuggestion": "40kg", "restSeconds": 90 },
-          { "exerciseId": "ex-15", "order": 3, "sets": 4, "reps": "10", "loadSuggestion": "25kg", "restSeconds": 60 }
+        id: 'pw-01-wednesday',
+        sourceLibraryWorkoutId: 'lib-01',
+        studentId: 'std-01',
+        professionalId: 'prof-01',
+        title: 'Peito + Biceps',
+        scheduledDay: 'wednesday',
+        scheduledDate: '2026-06-10',
+        status: 'active',
+        estimatedDurationMinutes: 60,
+        exercises: [
+          { exerciseId: 'ex-01', order: 1, sets: 4, reps: '8-10', loadSuggestion: 'Carga moderada', restSeconds: 90, notes: 'Fallback sintético.' }
         ]
       }
     ],
-    workoutEvents: [],
-    feedbacks: [],
-    assessments: [],
-    payments: []
+    weeklySchedules: [
+      {
+        id: 'ws-01',
+        studentId: 'std-01',
+        professionalId: 'prof-01',
+        weekStartsOn: '2026-06-08',
+        days: {
+          sunday: { type: 'rest', title: 'Descanso', notes: 'Fallback.' },
+          monday: { type: 'workout', workoutId: 'pw-01-monday', title: 'Peito + Biceps', notes: 'Fallback.' },
+          tuesday: { type: 'cardio', title: 'Cardio leve', notes: 'Fallback.' },
+          wednesday: { type: 'workout', workoutId: 'pw-01-wednesday', title: 'Peito + Biceps', notes: 'Fallback.' },
+          thursday: { type: 'checkin', title: 'Check-in', notes: 'Fallback.' },
+          friday: { type: 'workout', workoutId: 'pw-01-friday', title: 'Costas + Triceps', notes: 'Fallback.' },
+          saturday: { type: 'assessment', title: 'Mobilidade', notes: 'Fallback.' }
+        }
+      }
+    ]
   },
 
+  datasets: [
+    ['users', 'users.json'],
+    ['professionals', 'professionals.json'],
+    ['students', 'students.json'],
+    ['plans', 'plans.json'],
+    ['subscriptions', 'subscriptions.json'],
+    ['invoices', 'invoices.json'],
+    ['paymentEvents', 'payment-events.json'],
+    ['notificationRules', 'notification-rules.json'],
+    ['notificationEvents', 'notification-events.json'],
+    ['exercises', 'exercises.json'],
+    ['workoutLibrary', 'workout-library.json'],
+    ['workoutTemplates', 'workout-templates.json'],
+    ['weeklySchedules', 'weekly-schedules.json'],
+    ['prescribedWorkouts', 'prescribed-workouts.json'],
+    ['workoutEvents', 'workout-events.json'],
+    ['feedbacks', 'feedbacks.json'],
+    ['assessments', 'assessments.json'],
+    ['voiceDrafts', 'voice-drafts.json']
+  ],
+
   async loadData() {
-    const fetchJson = async (filename) => {
-      const response = await fetch(`./assets/data/${filename}`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return await response.json();
-    };
+    let allLoaded = true;
 
-    const datasets = [
-      { key: 'users', file: 'users.json' },
-      { key: 'professionals', file: 'professionals.json' },
-      { key: 'students', file: 'students.json' },
-      { key: 'exercises', file: 'exercises.json' },
-      { key: 'workoutTemplates', file: 'workout-templates.json' },
-      { key: 'prescribedWorkouts', file: 'prescribed-workouts.json' },
-      { key: 'workoutEvents', file: 'workout-events.json' },
-      { key: 'feedbacks', file: 'feedbacks.json' },
-      { key: 'assessments', file: 'assessments.json' },
-      { key: 'payments', file: 'payments.json' }
-    ];
-
-    console.log('[DataStore] Loading synthetic fixtures...');
-
-    for (const item of datasets) {
+    for (const [key, file] of this.datasets) {
       try {
-        const result = await fetchJson(item.file);
-        this.data[item.key] = result;
-        console.log(`[DataStore] Loaded ${item.key} from network/disk.`);
-      } catch (err) {
-        console.warn(`[DataStore] Failed to load ${item.file} via fetch, utilizing inline fallback.`, err);
-        // If users or exercises or others are not loaded, we keep the inline fallback
-        if (!this.data[item.key] || (Array.isArray(this.data[item.key]) && this.data[item.key].length === 0)) {
-          this.data[item.key] = this.fallbacks[item.key] || [];
-        }
+        const response = await fetch(`./assets/data/${file}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const result = await response.json();
+        this.data[key] = key === 'users' ? this.normalizeUsers(result) : result;
+      } catch (error) {
+        allLoaded = false;
+        console.warn(`[DataStore] Failed to load ${file}; using fallback/default.`, error);
+        this.data[key] = this.fallbacks[key] || (key === 'users' ? {} : []);
       }
     }
 
-    this.loadedFromNetwork = true;
+    this.loadedFromNetwork = allLoaded;
     return this.data;
   },
 
-  getCurrentUser() {
-    const saved = sessionStorage.getItem('personalops_session');
-    return saved ? JSON.parse(saved) : null;
+  normalizeUsers(users) {
+    if (!Array.isArray(users)) return users || {};
+    return users.reduce((acc, user) => {
+      acc[user.email] = user;
+      return acc;
+    }, {});
   },
 
-  getStudentsByProfessional(profId) {
-    return this.data.students.filter(s => s.professionalId === profId);
+  getCurrentUser() {
+    try {
+      const saved = sessionStorage.getItem('personalops_session');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  },
+
+  getUsers() {
+    return Object.values(this.data.users || {});
+  },
+
+  getProfessionals() {
+    return this.data.professionals;
+  },
+
+  getProfessionalById(professionalId) {
+    return this.data.professionals.find(professional => professional.id === professionalId) || null;
+  },
+
+  getStudentsByProfessional(professionalId) {
+    return this.data.students.filter(student => student.professionalId === professionalId);
+  },
+
+  getStudentById(studentId) {
+    return this.data.students.find(student => student.id === studentId) || null;
+  },
+
+  getPlansByProfessional(professionalId) {
+    return this.data.plans.filter(plan => plan.professionalId === professionalId);
+  },
+
+  getSubscriptionsByProfessional(professionalId) {
+    return this.data.subscriptions.filter(subscription => subscription.professionalId === professionalId);
+  },
+
+  getInvoicesByProfessional(professionalId) {
+    return this.data.invoices.filter(invoice => invoice.professionalId === professionalId);
+  },
+
+  getInvoicesByStudent(studentId) {
+    return this.data.invoices.filter(invoice => invoice.studentId === studentId);
+  },
+
+  getOverdueInvoices(professionalId) {
+    return this.getInvoicesByProfessional(professionalId).filter(invoice => invoice.status === 'overdue');
+  },
+
+  getUpcomingInvoices(professionalId) {
+    return this.getInvoicesByProfessional(professionalId).filter(invoice => ['scheduled', 'open', 'due_soon'].includes(invoice.status));
+  },
+
+  getNotificationRules() {
+    return this.data.notificationRules;
+  },
+
+  getNotificationEvents(professionalId) {
+    const studentIds = this.getStudentsByProfessional(professionalId).map(student => student.id);
+    return this.data.notificationEvents.filter(event => studentIds.includes(event.studentId));
+  },
+
+  getWorkoutLibrary(professionalId) {
+    return this.data.workoutLibrary.filter(workout => workout.professionalId === professionalId || workout.isSystemTemplate);
+  },
+
+  getWeeklyScheduleByStudent(studentId) {
+    return this.data.weeklySchedules.find(schedule => schedule.studentId === studentId) || null;
   },
 
   getWorkoutsByStudent(studentId) {
-    return this.data.prescribedWorkouts.filter(w => w.studentId === studentId);
+    return this.data.prescribedWorkouts.filter(workout => workout.studentId === studentId);
   },
 
   getTodayWorkout(studentId) {
-    const todayStr = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
     const workouts = this.getWorkoutsByStudent(studentId);
-
-    // 1. Try to find a pending workout scheduled for today
-    let w = workouts.find(work => work.scheduledDate === todayStr && work.status === 'pending');
-    if (w) return w;
-
-    // 2. Try to find any pending workout
-    w = workouts.find(work => work.status === 'pending');
-    if (w) return w;
-
-    // 3. Fallback to the last workout
-    return workouts[workouts.length - 1] || null;
+    return workouts.find(workout => workout.scheduledDate === today && ['active', 'published'].includes(workout.status))
+      || workouts.find(workout => ['active', 'published'].includes(workout.status))
+      || workouts[0]
+      || null;
   },
 
-  getFeedbacksByProfessional(profId) {
-    const students = this.getStudentsByProfessional(profId);
-    const studentIds = students.map(s => s.id);
-    return this.data.feedbacks.filter(f => studentIds.includes(f.studentId));
+  getExercises() {
+    return this.data.exercises;
+  },
+
+  getExerciseById(exerciseId) {
+    return this.data.exercises.find(exercise => exercise.id === exerciseId) || null;
+  },
+
+  getFeedbacksByProfessional(professionalId) {
+    const studentIds = this.getStudentsByProfessional(professionalId).map(student => student.id);
+    return this.data.feedbacks.filter(feedback => studentIds.includes(feedback.studentId));
+  },
+
+  getAssessmentsByStudent(studentId) {
+    return this.data.assessments.filter(assessment => assessment.studentId === studentId);
+  },
+
+  cloneWorkoutMock(sourceWorkoutId, targetStudentId) {
+    const targetStudent = this.getStudentById(targetStudentId);
+    if (!targetStudent) throw new Error('Aluno de destino não encontrado.');
+
+    const sourcePrescribed = this.data.prescribedWorkouts.find(workout => workout.id === sourceWorkoutId);
+    const sourceLibrary = this.data.workoutLibrary.find(workout => workout.id === sourceWorkoutId);
+    if (!sourcePrescribed && !sourceLibrary) throw new Error('Treino de origem não encontrado.');
+
+    const sourceExercises = sourcePrescribed
+      ? sourcePrescribed.exercises
+      : (sourceLibrary.exerciseBlocks[0] ? sourceLibrary.exerciseBlocks[0].exercises : []);
+
+    const cloned = {
+      id: `pw-clone-${Date.now()}`,
+      sourceLibraryWorkoutId: sourcePrescribed ? sourcePrescribed.sourceLibraryWorkoutId : sourceLibrary.id,
+      clonedFromStudentId: sourcePrescribed ? sourcePrescribed.studentId : null,
+      studentId: targetStudentId,
+      professionalId: targetStudent.professionalId,
+      title: `${sourcePrescribed ? sourcePrescribed.title : sourceLibrary.name} (clone mock)`,
+      scheduledDay: 'friday',
+      scheduledDate: new Date().toISOString().split('T')[0],
+      status: 'draft',
+      estimatedDurationMinutes: sourcePrescribed ? sourcePrescribed.estimatedDurationMinutes : sourceLibrary.estimatedDurationMinutes,
+      exercises: sourceExercises.map((exercise, index) => ({
+        exerciseId: exercise.exerciseId,
+        order: index + 1,
+        sets: exercise.sets,
+        reps: exercise.reps,
+        loadSuggestion: exercise.loadSuggestion,
+        restSeconds: exercise.restSeconds,
+        notes: exercise.notes || 'Clone local demonstrativo.'
+      }))
+    };
+
+    this.data.prescribedWorkouts.unshift(cloned);
+    this.saveOfflineEvent({
+      type: 'workout_cloned_mock',
+      studentId: targetStudentId,
+      workoutId: cloned.id,
+      payload: { sourceWorkoutId, targetStudentId },
+      syncStatus: 'sync_pending',
+      offline: !navigator.onLine
+    });
+
+    return cloned;
   },
 
   getOfflineQueue() {
@@ -715,13 +399,12 @@ window.DataStore = {
       const queue = this.getOfflineQueue();
       queue.push({
         ...event,
-        id: event.id || `evt-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        id: event.id || `evt-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
         createdAt: event.createdAt || new Date().toISOString()
       });
       localStorage.setItem('personalops_queue', JSON.stringify(queue));
-      console.log('[DataStore] Offline event saved locally.', event);
-    } catch (err) {
-      console.error('[DataStore] Failed to save offline event.', err);
+    } catch (error) {
+      console.error('[DataStore] Failed to save offline event.', error);
     }
   }
 };

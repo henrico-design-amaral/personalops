@@ -1,22 +1,31 @@
 {
   "admin@personalops.test": {
+    "id": "usr-admin-01",
+    "name": "Admin PersonalOps",
+    "email": "admin@personalops.test",
     "password": "admin123",
     "role": "admin",
-    "name": "Admin",
+    "roleLabel": "Administrativo",
     "avatar": "A",
     "admin": true
   },
   "professor@personalops.test": {
+    "id": "usr-prof-01",
+    "name": "Prof. Silva",
+    "email": "professor@personalops.test",
     "password": "prof123",
     "role": "professor",
-    "name": "Prof. Silva",
+    "roleLabel": "Professor",
     "avatar": "S",
     "professionalId": "prof-01"
   },
   "aluno@personalops.test": {
+    "id": "usr-student-01",
+    "name": "Carlos Mendes",
+    "email": "aluno@personalops.test",
     "password": "aluno123",
     "role": "aluno",
-    "name": "Carlos Mendes",
+    "roleLabel": "Aluno",
     "avatar": "C",
     "studentId": "std-01"
   }

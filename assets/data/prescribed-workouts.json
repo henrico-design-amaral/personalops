@@ -1,589 +1,2428 @@
 [
   {
-    "id": "pw-01",
+    "id": "pw-01-monday",
+    "sourceLibraryWorkoutId": "lib-01",
+    "clonedFromStudentId": null,
     "studentId": "std-01",
     "professionalId": "prof-01",
-    "title": "Treino A - Peito e Ombro",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
+    "title": "Peito + Biceps",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
     "estimatedDurationMinutes": 60,
     "exercises": [
       {
         "exerciseId": "ex-01",
         "order": 1,
         "sets": 4,
-        "reps": "8-12",
-        "loadSuggestion": "60kg",
-        "restSeconds": 120,
-        "notes": "Foco em controlar a fase excêntrica."
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
       },
       {
         "exerciseId": "ex-02",
         "order": 2,
         "sets": 3,
         "reps": "10-12",
-        "loadSuggestion": "22kg cada halter",
-        "restSeconds": 90,
-        "notes": "Mantenha o banco em 30 graus."
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       },
       {
-        "exerciseId": "ex-07",
+        "exerciseId": "ex-11",
         "order": 3,
-        "sets": 4,
-        "reps": "12-15",
-        "loadSuggestion": "10kg cada halter",
-        "restSeconds": 60,
-        "notes": "Evite usar o trapézio."
-      },
-      {
-        "exerciseId": "ex-04",
-        "order": 4,
         "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "20kg",
-        "restSeconds": 60,
-        "notes": "Aperte o tríceps no final do movimento."
-      }
-    ]
-  },
-  {
-    "id": "pw-02",
-    "studentId": "std-01",
-    "professionalId": "prof-01",
-    "title": "Treino B - Costas e Bíceps",
-    "scheduledDate": "2026-06-04",
-    "status": "completed",
-    "estimatedDurationMinutes": 60,
-    "exercises": [
-      {
-        "exerciseId": "ex-14",
-        "order": 1,
-        "sets": 4,
         "reps": "10-12",
-        "loadSuggestion": "50kg",
-        "restSeconds": 75,
-        "notes": "Puxe com os cotovelos."
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       },
       {
         "exerciseId": "ex-13",
-        "order": 2,
+        "order": 4,
         "sets": 3,
-        "reps": "8-10",
-        "loadSuggestion": "40kg",
-        "restSeconds": 90,
-        "notes": "Mantenha a postura firme."
-      },
-      {
-        "exerciseId": "ex-15",
-        "order": 3,
-        "sets": 4,
-        "reps": "10",
-        "loadSuggestion": "25kg",
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
         "restSeconds": 60,
-        "notes": "Não balance o corpo."
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-03",
+    "id": "pw-01-wednesday",
+    "sourceLibraryWorkoutId": "lib-02",
+    "clonedFromStudentId": null,
     "studentId": "std-01",
     "professionalId": "prof-01",
-    "title": "Treino C - Pernas Completo",
-    "scheduledDate": "2026-06-03",
-    "status": "completed",
-    "estimatedDurationMinutes": 70,
-    "exercises": [
-      {
-        "exerciseId": "ex-08",
-        "order": 1,
-        "sets": 4,
-        "reps": "8",
-        "loadSuggestion": "80kg",
-        "restSeconds": 120,
-        "notes": "Agachamento profundo."
-      },
-      {
-        "exerciseId": "ex-11",
-        "order": 2,
-        "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "40kg",
-        "restSeconds": 60,
-        "notes": "Fase excêntrica lenta."
-      }
-    ]
-  },
-  {
-    "id": "pw-04",
-    "studentId": "std-02",
-    "professionalId": "prof-01",
-    "title": "Treino HIIT Pernas",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
-    "estimatedDurationMinutes": 45,
-    "exercises": [
-      {
-        "exerciseId": "ex-09",
-        "order": 1,
-        "sets": 4,
-        "reps": "12",
-        "loadSuggestion": "100kg",
-        "restSeconds": 60,
-        "notes": "Calcanhares bem apoiados."
-      },
-      {
-        "exerciseId": "ex-23",
-        "order": 2,
-        "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "12kg cada halter",
-        "restSeconds": 60,
-        "notes": "Passos firmes."
-      }
-    ]
-  },
-  {
-    "id": "pw-05",
-    "studentId": "std-02",
-    "professionalId": "prof-01",
-    "title": "Treino HIIT Superiores",
-    "scheduledDate": "2026-06-04",
-    "status": "completed",
-    "estimatedDurationMinutes": 45,
-    "exercises": [
-      {
-        "exerciseId": "ex-22",
-        "order": 1,
-        "sets": 4,
-        "reps": "15",
-        "loadSuggestion": "Peso corporal",
-        "restSeconds": 45,
-        "notes": "Pode apoiar os joelhos se cansar."
-      }
-    ]
-  },
-  {
-    "id": "pw-06",
-    "studentId": "std-03",
-    "professionalId": "prof-01",
-    "title": "Força Máxima - Agachamento",
-    "scheduledDate": "2026-06-06",
-    "status": "pending",
+    "title": "Costas + Triceps",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
     "estimatedDurationMinutes": 60,
     "exercises": [
       {
-        "exerciseId": "ex-08",
+        "exerciseId": "ex-06",
         "order": 1,
-        "sets": 5,
-        "reps": "5",
-        "loadSuggestion": "120kg",
-        "restSeconds": 180,
-        "notes": "Use o cinturão e rack de segurança."
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-16",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-17",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-07",
-    "studentId": "std-03",
+    "id": "pw-01-friday",
+    "sourceLibraryWorkoutId": "lib-03",
+    "clonedFromStudentId": null,
+    "studentId": "std-01",
     "professionalId": "prof-01",
-    "title": "Força Máxima - Supino/Terra",
-    "scheduledDate": "2026-06-02",
+    "title": "Pernas + Core",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-26",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-27",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-38",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-02-monday",
+    "sourceLibraryWorkoutId": "lib-02",
+    "clonedFromStudentId": null,
+    "studentId": "std-02",
+    "professionalId": "prof-01",
+    "title": "Costas + Triceps",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
     "status": "completed",
     "estimatedDurationMinutes": 60,
     "exercises": [
       {
-        "exerciseId": "ex-01",
+        "exerciseId": "ex-06",
         "order": 1,
-        "sets": 5,
-        "reps": "5",
-        "loadSuggestion": "100kg",
-        "restSeconds": 180,
-        "notes": "Pressione os pés no chão."
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-16",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-17",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-08",
-    "studentId": "std-04",
+    "id": "pw-02-wednesday",
+    "sourceLibraryWorkoutId": "lib-03",
+    "clonedFromStudentId": null,
+    "studentId": "std-02",
     "professionalId": "prof-01",
-    "title": "Adaptação Geral A",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
-    "estimatedDurationMinutes": 50,
+    "title": "Pernas + Core",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
     "exercises": [
+      {
+        "exerciseId": "ex-26",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-27",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-38",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-02-friday",
+    "sourceLibraryWorkoutId": "lib-04",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-02",
+    "professionalId": "prof-01",
+    "title": "Ombros + Abdomen",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-21",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
       {
         "exerciseId": "ex-22",
-        "order": 1,
-        "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "Peso corporal (joelhos no solo)",
-        "restSeconds": 60,
-        "notes": "Mantenha o abdômen contraído."
-      },
-      {
-        "exerciseId": "ex-10",
         "order": 2,
         "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "20kg",
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
         "restSeconds": 60,
-        "notes": "Extensão completa."
-      }
-    ]
-  },
-  {
-    "id": "pw-09",
-    "studentId": "std-04",
-    "professionalId": "prof-01",
-    "title": "Adaptação Geral B",
-    "scheduledDate": "2026-06-03",
-    "status": "completed",
-    "estimatedDurationMinutes": 50,
-    "exercises": [
-      {
-        "exerciseId": "ex-14",
-        "order": 1,
-        "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "30kg",
-        "restSeconds": 60,
-        "notes": "Puxe no peito."
-      }
-    ]
-  },
-  {
-    "id": "pw-10",
-    "studentId": "std-05",
-    "professionalId": "prof-02",
-    "title": "Inferiores Adaptado",
-    "scheduledDate": "2026-06-06",
-    "status": "pending",
-    "estimatedDurationMinutes": 50,
-    "exercises": [
-      {
-        "exerciseId": "ex-10",
-        "order": 1,
-        "sets": 3,
-        "reps": "15",
-        "loadSuggestion": "15kg",
-        "restSeconds": 60,
-        "notes": "Atenção à condromalácia, sem carga explosiva."
+        "notes": "Prescricao demonstrativa para prototipo."
       },
-      {
-        "exerciseId": "ex-11",
-        "order": 2,
-        "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "25kg",
-        "restSeconds": 60,
-        "notes": "Movimento bem cadenciado."
-      }
-    ]
-  },
-  {
-    "id": "pw-11",
-    "studentId": "std-05",
-    "professionalId": "prof-02",
-    "title": "Superiores Adaptado",
-    "scheduledDate": "2026-06-04",
-    "status": "completed",
-    "estimatedDurationMinutes": 50,
-    "exercises": [
       {
         "exerciseId": "ex-37",
-        "order": 1,
+        "order": 3,
         "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "20kg",
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
         "restSeconds": 60,
-        "notes": "Foco na contração do peitoral."
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-40",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-12",
-    "studentId": "std-06",
+    "id": "pw-03-monday",
+    "sourceLibraryWorkoutId": "lib-03",
+    "clonedFromStudentId": null,
+    "studentId": "std-03",
     "professionalId": "prof-01",
-    "title": "Push Superior Avançado",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
+    "title": "Pernas + Core",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-26",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-27",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-38",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-03-wednesday",
+    "sourceLibraryWorkoutId": "lib-04",
+    "clonedFromStudentId": null,
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "title": "Ombros + Abdomen",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-21",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-22",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-37",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-40",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-03-friday",
+    "sourceLibraryWorkoutId": "lib-05",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "title": "Superior completo",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
     "estimatedDurationMinutes": 60,
     "exercises": [
       {
         "exerciseId": "ex-01",
         "order": 1,
         "sets": 4,
-        "reps": "8",
-        "loadSuggestion": "90kg",
-        "restSeconds": 120,
-        "notes": "Cadência 3-0-1-0."
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
       },
       {
         "exerciseId": "ex-06",
         "order": 2,
         "sets": 3,
-        "reps": "10",
-        "loadSuggestion": "26kg cada halter",
-        "restSeconds": 90,
-        "notes": "Tronco bem apoiado."
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-16",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-13",
-    "studentId": "std-06",
+    "id": "pw-04-monday",
+    "sourceLibraryWorkoutId": "lib-04",
+    "clonedFromStudentId": null,
+    "studentId": "std-04",
     "professionalId": "prof-01",
-    "title": "Pull Superior Avançado",
-    "scheduledDate": "2026-06-04",
+    "title": "Ombros + Abdomen",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
     "status": "completed",
     "estimatedDurationMinutes": 60,
     "exercises": [
       {
-        "exerciseId": "ex-13",
+        "exerciseId": "ex-21",
         "order": 1,
         "sets": 4,
-        "reps": "8",
-        "loadSuggestion": "60kg",
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
         "restSeconds": 90,
-        "notes": "Foco na pegada supinada."
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-22",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-37",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-40",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-14",
-    "studentId": "std-07",
-    "professionalId": "prof-02",
-    "title": "Circuito Definição",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
-    "estimatedDurationMinutes": 45,
+    "id": "pw-04-wednesday",
+    "sourceLibraryWorkoutId": "lib-05",
+    "clonedFromStudentId": null,
+    "studentId": "std-04",
+    "professionalId": "prof-01",
+    "title": "Superior completo",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
     "exercises": [
       {
-        "exerciseId": "ex-22",
+        "exerciseId": "ex-01",
         "order": 1,
         "sets": 4,
-        "reps": "15",
-        "loadSuggestion": "Peso corporal",
-        "restSeconds": 30,
-        "notes": "Mantenha o ritmo."
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-16",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-04-friday",
+    "sourceLibraryWorkoutId": "lib-06",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-04",
+    "professionalId": "prof-01",
+    "title": "Inferior completo",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-26",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-29",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-31",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-05-monday",
+    "sourceLibraryWorkoutId": "lib-05",
+    "clonedFromStudentId": null,
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "title": "Superior completo",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-16",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-05-wednesday",
+    "sourceLibraryWorkoutId": "lib-06",
+    "clonedFromStudentId": null,
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "title": "Inferior completo",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-26",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-29",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-31",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-05-friday",
+    "sourceLibraryWorkoutId": "lib-07",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "title": "Full body iniciante",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-27",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-41",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-06-monday",
+    "sourceLibraryWorkoutId": "lib-06",
+    "clonedFromStudentId": null,
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "title": "Inferior completo",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-26",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-29",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-31",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-06-wednesday",
+    "sourceLibraryWorkoutId": "lib-07",
+    "clonedFromStudentId": null,
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "title": "Full body iniciante",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-27",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-41",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-06-friday",
+    "sourceLibraryWorkoutId": "lib-08",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "title": "Full body intermediario",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-07-monday",
+    "sourceLibraryWorkoutId": "lib-07",
+    "clonedFromStudentId": null,
+    "studentId": "std-07",
+    "professionalId": "prof-02",
+    "title": "Full body iniciante",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-27",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-41",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-07-wednesday",
+    "sourceLibraryWorkoutId": "lib-08",
+    "clonedFromStudentId": null,
+    "studentId": "std-07",
+    "professionalId": "prof-02",
+    "title": "Full body intermediario",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-07-friday",
+    "sourceLibraryWorkoutId": "lib-09",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-07",
+    "professionalId": "prof-02",
+    "title": "Hipertrofia 4x semana",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-08-monday",
+    "sourceLibraryWorkoutId": "lib-08",
+    "clonedFromStudentId": null,
+    "studentId": "std-08",
+    "professionalId": "prof-02",
+    "title": "Full body intermediario",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-08-wednesday",
+    "sourceLibraryWorkoutId": "lib-09",
+    "clonedFromStudentId": null,
+    "studentId": "std-08",
+    "professionalId": "prof-02",
+    "title": "Hipertrofia 4x semana",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-08-friday",
+    "sourceLibraryWorkoutId": "lib-10",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-08",
+    "professionalId": "prof-02",
+    "title": "Hipertrofia 5x semana",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-07",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-31",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 5,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-09-monday",
+    "sourceLibraryWorkoutId": "lib-09",
+    "clonedFromStudentId": null,
+    "studentId": "std-09",
+    "professionalId": "prof-02",
+    "title": "Hipertrofia 4x semana",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-06",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-09-wednesday",
+    "sourceLibraryWorkoutId": "lib-10",
+    "clonedFromStudentId": null,
+    "studentId": "std-09",
+    "professionalId": "prof-02",
+    "title": "Hipertrofia 5x semana",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-07",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-31",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 5,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-09-friday",
+    "sourceLibraryWorkoutId": "lib-11",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-09",
+    "professionalId": "prof-02",
+    "title": "Emagrecimento circuito",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-41",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-05",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-30",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-10-monday",
+    "sourceLibraryWorkoutId": "lib-10",
+    "clonedFromStudentId": null,
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "title": "Hipertrofia 5x semana",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-01",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-07",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-26",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-31",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-21",
+        "order": 5,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-10-wednesday",
+    "sourceLibraryWorkoutId": "lib-11",
+    "clonedFromStudentId": null,
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "title": "Emagrecimento circuito",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-41",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-05",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-30",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-10-friday",
+    "sourceLibraryWorkoutId": "lib-12",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "title": "Treino rapido 30 minutos",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 30,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-12",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-42",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-11-monday",
+    "sourceLibraryWorkoutId": "lib-11",
+    "clonedFromStudentId": null,
+    "studentId": "std-11",
+    "professionalId": "prof-02",
+    "title": "Emagrecimento circuito",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-41",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-05",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-30",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-11-wednesday",
+    "sourceLibraryWorkoutId": "lib-12",
+    "clonedFromStudentId": null,
+    "studentId": "std-11",
+    "professionalId": "prof-02",
+    "title": "Treino rapido 30 minutos",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 30,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-12",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-42",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-11-friday",
+    "sourceLibraryWorkoutId": "lib-13",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-11",
+    "professionalId": "prof-02",
+    "title": "Retorno com baixa carga",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-50",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-49",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-41",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-38",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-12-monday",
+    "sourceLibraryWorkoutId": "lib-12",
+    "clonedFromStudentId": null,
+    "studentId": "std-12",
+    "professionalId": "prof-01",
+    "title": "Treino rapido 30 minutos",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 30,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-12",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-42",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-12-wednesday",
+    "sourceLibraryWorkoutId": "lib-13",
+    "clonedFromStudentId": null,
+    "studentId": "std-12",
+    "professionalId": "prof-01",
+    "title": "Retorno com baixa carga",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 60,
+    "exercises": [
+      {
+        "exerciseId": "ex-50",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-49",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-41",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-38",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-12-friday",
+    "sourceLibraryWorkoutId": "lib-14",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-12",
+    "professionalId": "prof-01",
+    "title": "Treino sem maquinas",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
       },
       {
         "exerciseId": "ex-30",
         "order": 2,
-        "sets": 4,
-        "reps": "20",
-        "loadSuggestion": "Peso corporal",
-        "restSeconds": 30,
-        "notes": "Subida explosiva."
-      }
-    ]
-  },
-  {
-    "id": "pw-15",
-    "studentId": "std-08",
-    "professionalId": "prof-02",
-    "title": "Cardio e Core",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
-    "estimatedDurationMinutes": 40,
-    "exercises": [
-      {
-        "exerciseId": "ex-21",
-        "order": 1,
         "sets": 3,
-        "reps": "60s",
-        "loadSuggestion": "Isometria",
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
         "restSeconds": 60,
-        "notes": "Mantenha o core rígido."
+        "notes": "Prescricao demonstrativa para prototipo."
       },
       {
-        "exerciseId": "ex-20",
-        "order": 2,
+        "exerciseId": "ex-36",
+        "order": 3,
         "sets": 3,
-        "reps": "20",
-        "loadSuggestion": "Peso corporal",
-        "restSeconds": 45,
-        "notes": "Expulsão do ar no topo."
-      }
-    ]
-  },
-  {
-    "id": "pw-16",
-    "studentId": "std-09",
-    "professionalId": "prof-02",
-    "title": "Mobilidade e Base",
-    "scheduledDate": "2026-06-06",
-    "status": "pending",
-    "estimatedDurationMinutes": 50,
-    "exercises": [
-      {
-        "exerciseId": "ex-22",
-        "order": 1,
-        "sets": 3,
-        "reps": "10",
-        "loadSuggestion": "Peso corporal",
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
         "restSeconds": 60,
-        "notes": "Foco na amplitude."
-      }
-    ]
-  },
-  {
-    "id": "pw-17",
-    "studentId": "std-10",
-    "professionalId": "prof-01",
-    "title": "Hipertrofia ABC - A",
-    "scheduledDate": "2026-06-06",
-    "status": "pending",
-    "estimatedDurationMinutes": 60,
-    "exercises": [
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
       {
-        "exerciseId": "ex-01",
-        "order": 1,
-        "sets": 4,
-        "reps": "10",
-        "loadSuggestion": "50kg",
-        "restSeconds": 90,
-        "notes": "Retorne aos treinos com cautela."
+        "exerciseId": "ex-47",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-18",
-    "studentId": "std-10",
-    "professionalId": "prof-01",
-    "title": "Hipertrofia ABC - B",
-    "scheduledDate": "2026-05-25",
+    "id": "pw-13-monday",
+    "sourceLibraryWorkoutId": "lib-13",
+    "clonedFromStudentId": null,
+    "studentId": "std-13",
+    "professionalId": "prof-02",
+    "title": "Retorno com baixa carga",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
     "status": "completed",
     "estimatedDurationMinutes": 60,
     "exercises": [
       {
-        "exerciseId": "ex-14",
+        "exerciseId": "ex-50",
         "order": 1,
         "sets": 4,
-        "reps": "10",
-        "loadSuggestion": "40kg",
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
         "restSeconds": 90,
-        "notes": "Puxe com controle."
-      }
-    ]
-  },
-  {
-    "id": "pw-19",
-    "studentId": "std-11",
-    "professionalId": "prof-02",
-    "title": "Queima Avançada",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
-    "estimatedDurationMinutes": 45,
-    "exercises": [
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
       {
-        "exerciseId": "ex-23",
-        "order": 1,
-        "sets": 4,
-        "reps": "15",
-        "loadSuggestion": "14kg cada halter",
-        "restSeconds": 45,
-        "notes": "Estocadas consecutivas."
+        "exerciseId": "ex-49",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-41",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-38",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-20",
-    "studentId": "std-12",
-    "professionalId": "prof-01",
-    "title": "Estabilização de Core",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
+    "id": "pw-13-wednesday",
+    "sourceLibraryWorkoutId": "lib-14",
+    "clonedFromStudentId": null,
+    "studentId": "std-13",
+    "professionalId": "prof-02",
+    "title": "Treino sem maquinas",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
     "estimatedDurationMinutes": 40,
     "exercises": [
       {
-        "exerciseId": "ex-21",
+        "exerciseId": "ex-05",
         "order": 1,
         "sets": 4,
-        "reps": "45s",
-        "loadSuggestion": "Isometria",
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-30",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
         "restSeconds": 60,
-        "notes": "Sem sobrecarga na lombar."
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-47",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-21",
+    "id": "pw-13-friday",
+    "sourceLibraryWorkoutId": "lib-15",
+    "clonedFromStudentId": "std-01",
     "studentId": "std-13",
     "professionalId": "prof-02",
-    "title": "Adaptação A",
-    "scheduledDate": "2026-06-06",
-    "status": "pending",
-    "estimatedDurationMinutes": 50,
+    "title": "Treino em condominio",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 40,
     "exercises": [
       {
-        "exerciseId": "ex-10",
+        "exerciseId": "ex-27",
         "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 2,
         "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "15kg",
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
         "restSeconds": 60,
-        "notes": "Adaptação."
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-42",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-46",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-22",
+    "id": "pw-14-monday",
+    "sourceLibraryWorkoutId": "lib-14",
+    "clonedFromStudentId": null,
     "studentId": "std-14",
     "professionalId": "prof-01",
-    "title": "Treino de Peitoral Densidade",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
+    "title": "Treino sem maquinas",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-30",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-47",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-14-wednesday",
+    "sourceLibraryWorkoutId": "lib-15",
+    "clonedFromStudentId": null,
+    "studentId": "std-14",
+    "professionalId": "prof-01",
+    "title": "Treino em condominio",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-27",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-42",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-46",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-14-friday",
+    "sourceLibraryWorkoutId": "lib-16",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-14",
+    "professionalId": "prof-01",
+    "title": "Treino em casa",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-35",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-47",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-15-monday",
+    "sourceLibraryWorkoutId": "lib-15",
+    "clonedFromStudentId": null,
+    "studentId": "std-15",
+    "professionalId": "prof-02",
+    "title": "Treino em condominio",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-27",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-42",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-46",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-15-wednesday",
+    "sourceLibraryWorkoutId": "lib-16",
+    "clonedFromStudentId": null,
+    "studentId": "std-15",
+    "professionalId": "prof-02",
+    "title": "Treino em casa",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-35",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-47",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-15-friday",
+    "sourceLibraryWorkoutId": "lib-01",
+    "clonedFromStudentId": "std-01",
+    "studentId": "std-15",
+    "professionalId": "prof-02",
+    "title": "Peito + Biceps",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
     "estimatedDurationMinutes": 60,
     "exercises": [
       {
         "exerciseId": "ex-01",
         "order": 1,
         "sets": 4,
-        "reps": "6-8",
-        "loadSuggestion": "95kg",
-        "restSeconds": 120,
-        "notes": "Busque falha técnica próxima."
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-02",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-11",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-13",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-23",
-    "studentId": "std-15",
+    "id": "pw-16-monday",
+    "sourceLibraryWorkoutId": "lib-16",
+    "clonedFromStudentId": null,
+    "studentId": "std-16",
     "professionalId": "prof-02",
-    "title": "Foco Glúteos/Posterior",
-    "scheduledDate": "2026-06-05",
-    "status": "pending",
+    "title": "Treino em casa",
+    "scheduledDay": "monday",
+    "scheduledDate": "2026-06-08",
+    "status": "completed",
+    "estimatedDurationMinutes": 40,
+    "exercises": [
+      {
+        "exerciseId": "ex-05",
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-35",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-36",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-47",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      }
+    ]
+  },
+  {
+    "id": "pw-16-wednesday",
+    "sourceLibraryWorkoutId": "lib-01",
+    "clonedFromStudentId": null,
+    "studentId": "std-16",
+    "professionalId": "prof-02",
+    "title": "Peito + Biceps",
+    "scheduledDay": "wednesday",
+    "scheduledDate": "2026-06-10",
+    "status": "active",
     "estimatedDurationMinutes": 60,
     "exercises": [
       {
-        "exerciseId": "ex-24",
+        "exerciseId": "ex-01",
         "order": 1,
         "sets": 4,
-        "reps": "10",
-        "loadSuggestion": "30kg",
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
         "restSeconds": 90,
-        "notes": "Sinta alongar o posterior."
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-02",
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-11",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-13",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   },
   {
-    "id": "pw-24",
+    "id": "pw-16-friday",
+    "sourceLibraryWorkoutId": "lib-02",
+    "clonedFromStudentId": "std-01",
     "studentId": "std-16",
     "professionalId": "prof-02",
-    "title": "Treino Express Manutenção",
-    "scheduledDate": "2026-06-06",
-    "status": "pending",
-    "estimatedDurationMinutes": 30,
+    "title": "Costas + Triceps",
+    "scheduledDay": "friday",
+    "scheduledDate": "2026-06-12",
+    "status": "published",
+    "estimatedDurationMinutes": 60,
     "exercises": [
       {
-        "exerciseId": "ex-35",
+        "exerciseId": "ex-06",
         "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "loadSuggestion": "Carga moderada",
+        "restSeconds": 90,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-08",
+        "order": 2,
         "sets": 3,
-        "reps": "12",
-        "loadSuggestion": "40kg",
-        "restSeconds": 45,
-        "notes": "Tempo de descanso curto."
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-16",
+        "order": 3,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
+      },
+      {
+        "exerciseId": "ex-17",
+        "order": 4,
+        "sets": 3,
+        "reps": "10-12",
+        "loadSuggestion": "Tecnica antes da carga",
+        "restSeconds": 60,
+        "notes": "Prescricao demonstrativa para prototipo."
       }
     ]
   }
