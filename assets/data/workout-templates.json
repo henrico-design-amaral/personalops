@@ -1,123 +1,498 @@
 [
   {
-    "id": "temp-01",
-    "professionalId": "prof-01",
-    "name": "Peito + Bíceps",
-    "goal": "Hipertrofia de tronco superior",
-    "level": "Intermediário",
+    "id": "tpl-01",
+    "professionalId": "prof-02",
+    "name": "Peito + Biceps",
+    "category": "forca",
+    "goal": "Hipertrofia e consistencia",
+    "level": "intermediario",
     "estimatedDurationMinutes": 60,
+    "tags": [
+      "mockado",
+      "biblioteca",
+      "clonavel"
+    ],
     "exerciseBlocks": [
-      { "exerciseId": "ex-01", "sets": 4, "reps": "8-12", "restSeconds": 120 },
-      { "exerciseId": "ex-02", "sets": 3, "reps": "10-12", "restSeconds": 90 },
-      { "exerciseId": "ex-03", "sets": 3, "reps": "12", "restSeconds": 60 },
-      { "exerciseId": "ex-15", "sets": 4, "reps": "10", "restSeconds": 60 },
-      { "exerciseId": "ex-16", "sets": 3, "reps": "12", "restSeconds": 60 }
-    ]
+      {
+        "blockName": "Bloco principal",
+        "exercises": [
+          {
+            "exerciseId": "ex-01",
+            "order": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "restSeconds": 90,
+            "loadSuggestion": "Carga moderada",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-02",
+            "order": 2,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-11",
+            "order": 3,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-13",
+            "order": 4,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          }
+        ]
+      }
+    ],
+    "canClone": true,
+    "isSystemTemplate": false,
+    "sourceLibraryWorkoutId": "lib-01",
+    "templateScope": "professional-reusable",
+    "notes": "Template reutilizavel pelo professor; diferente da prescricao vinculada a aluno."
   },
   {
-    "id": "temp-02",
+    "id": "tpl-02",
     "professionalId": "prof-01",
-    "name": "Costas + Tríceps",
-    "goal": "Foco em largura de costas e força de tríceps",
-    "level": "Intermediário",
+    "name": "Costas + Triceps",
+    "category": "forca",
+    "goal": "Hipertrofia e consistencia",
+    "level": "intermediario",
     "estimatedDurationMinutes": 60,
+    "tags": [
+      "mockado",
+      "biblioteca",
+      "clonavel"
+    ],
     "exerciseBlocks": [
-      { "exerciseId": "ex-14", "sets": 4, "reps": "10-12", "restSeconds": 75 },
-      { "exerciseId": "ex-13", "sets": 3, "reps": "8-10", "restSeconds": 90 },
-      { "exerciseId": "ex-34", "sets": 3, "reps": "12", "restSeconds": 75 },
-      { "exerciseId": "ex-04", "sets": 4, "reps": "12", "restSeconds": 45 },
-      { "exerciseId": "ex-05", "sets": 3, "reps": "10", "restSeconds": 60 }
-    ]
+      {
+        "blockName": "Bloco principal",
+        "exercises": [
+          {
+            "exerciseId": "ex-06",
+            "order": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "restSeconds": 90,
+            "loadSuggestion": "Carga moderada",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-08",
+            "order": 2,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-16",
+            "order": 3,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-17",
+            "order": 4,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          }
+        ]
+      }
+    ],
+    "canClone": true,
+    "isSystemTemplate": false,
+    "sourceLibraryWorkoutId": "lib-02",
+    "templateScope": "professional-reusable",
+    "notes": "Template reutilizavel pelo professor; diferente da prescricao vinculada a aluno."
   },
   {
-    "id": "temp-03",
+    "id": "tpl-03",
     "professionalId": "prof-01",
     "name": "Pernas + Core",
-    "goal": "Desenvolvimento de membros inferiores e estabilização",
-    "level": "Avançado",
-    "estimatedDurationMinutes": 70,
+    "category": "forca",
+    "goal": "Hipertrofia e consistencia",
+    "level": "iniciante",
+    "estimatedDurationMinutes": 60,
+    "tags": [
+      "mockado",
+      "biblioteca",
+      "clonavel"
+    ],
     "exerciseBlocks": [
-      { "exerciseId": "ex-08", "sets": 4, "reps": "6-8", "restSeconds": 120 },
-      { "exerciseId": "ex-09", "sets": 3, "reps": "10", "restSeconds": 90 },
-      { "exerciseId": "ex-11", "sets": 3, "reps": "12", "restSeconds": 60 },
-      { "exerciseId": "ex-24", "sets": 4, "reps": "10", "restSeconds": 90 },
-      { "exerciseId": "ex-20", "sets": 3, "reps": "20", "restSeconds": 45 },
-      { "exerciseId": "ex-21", "sets": 3, "reps": "Prancha 60s", "restSeconds": 60 }
-    ]
+      {
+        "blockName": "Bloco principal",
+        "exercises": [
+          {
+            "exerciseId": "ex-26",
+            "order": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "restSeconds": 90,
+            "loadSuggestion": "Carga moderada",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-27",
+            "order": 2,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-36",
+            "order": 3,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-38",
+            "order": 4,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          }
+        ]
+      }
+    ],
+    "canClone": true,
+    "isSystemTemplate": false,
+    "sourceLibraryWorkoutId": "lib-03",
+    "templateScope": "professional-reusable",
+    "notes": "Template reutilizavel pelo professor; diferente da prescricao vinculada a aluno."
   },
   {
-    "id": "temp-04",
+    "id": "tpl-04",
+    "professionalId": "prof-02",
+    "name": "Ombros + Abdomen",
+    "category": "forca",
+    "goal": "Hipertrofia e consistencia",
+    "level": "avancado",
+    "estimatedDurationMinutes": 60,
+    "tags": [
+      "mockado",
+      "biblioteca",
+      "clonavel"
+    ],
+    "exerciseBlocks": [
+      {
+        "blockName": "Bloco principal",
+        "exercises": [
+          {
+            "exerciseId": "ex-21",
+            "order": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "restSeconds": 90,
+            "loadSuggestion": "Carga moderada",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-22",
+            "order": 2,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-37",
+            "order": 3,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-40",
+            "order": 4,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          }
+        ]
+      }
+    ],
+    "canClone": true,
+    "isSystemTemplate": false,
+    "sourceLibraryWorkoutId": "lib-04",
+    "templateScope": "professional-reusable",
+    "notes": "Template reutilizavel pelo professor; diferente da prescricao vinculada a aluno."
+  },
+  {
+    "id": "tpl-05",
+    "professionalId": "prof-01",
+    "name": "Superior completo",
+    "category": "forca",
+    "goal": "Hipertrofia e consistencia",
+    "level": "intermediario",
+    "estimatedDurationMinutes": 60,
+    "tags": [
+      "mockado",
+      "biblioteca",
+      "clonavel"
+    ],
+    "exerciseBlocks": [
+      {
+        "blockName": "Bloco principal",
+        "exercises": [
+          {
+            "exerciseId": "ex-01",
+            "order": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "restSeconds": 90,
+            "loadSuggestion": "Carga moderada",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-06",
+            "order": 2,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-21",
+            "order": 3,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-16",
+            "order": 4,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          }
+        ]
+      }
+    ],
+    "canClone": true,
+    "isSystemTemplate": false,
+    "sourceLibraryWorkoutId": "lib-05",
+    "templateScope": "professional-reusable",
+    "notes": "Template reutilizavel pelo professor; diferente da prescricao vinculada a aluno."
+  },
+  {
+    "id": "tpl-06",
+    "professionalId": "prof-01",
+    "name": "Inferior completo",
+    "category": "forca",
+    "goal": "Hipertrofia e consistencia",
+    "level": "intermediario",
+    "estimatedDurationMinutes": 60,
+    "tags": [
+      "mockado",
+      "biblioteca",
+      "clonavel"
+    ],
+    "exerciseBlocks": [
+      {
+        "blockName": "Bloco principal",
+        "exercises": [
+          {
+            "exerciseId": "ex-26",
+            "order": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "restSeconds": 90,
+            "loadSuggestion": "Carga moderada",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-29",
+            "order": 2,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-31",
+            "order": 3,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-36",
+            "order": 4,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          }
+        ]
+      }
+    ],
+    "canClone": true,
+    "isSystemTemplate": false,
+    "sourceLibraryWorkoutId": "lib-06",
+    "templateScope": "professional-reusable",
+    "notes": "Template reutilizavel pelo professor; diferente da prescricao vinculada a aluno."
+  },
+  {
+    "id": "tpl-07",
     "professionalId": "prof-02",
     "name": "Full body iniciante",
-    "goal": "Adaptação anatômica e fortalecimento geral",
-    "level": "Iniciante",
-    "estimatedDurationMinutes": 50,
-    "exerciseBlocks": [
-      { "exerciseId": "ex-22", "sets": 3, "reps": "10-12", "restSeconds": 60 },
-      { "exerciseId": "ex-14", "sets": 3, "reps": "12", "restSeconds": 75 },
-      { "exerciseId": "ex-10", "sets": 3, "reps": "15", "restSeconds": 60 },
-      { "exerciseId": "ex-16", "sets": 3, "reps": "12", "restSeconds": 60 },
-      { "exerciseId": "ex-20", "sets": 3, "reps": "15", "restSeconds": 45 }
-    ]
-  },
-  {
-    "id": "temp-05",
-    "professionalId": "prof-01",
-    "name": "Hipertrofia superior",
-    "goal": "Foco em ombros, peitoral e dorsais",
-    "level": "Avançado",
+    "category": "forca",
+    "goal": "Hipertrofia e consistencia",
+    "level": "iniciante",
     "estimatedDurationMinutes": 60,
+    "tags": [
+      "mockado",
+      "biblioteca",
+      "clonavel"
+    ],
     "exerciseBlocks": [
-      { "exerciseId": "ex-01", "sets": 4, "reps": "8", "restSeconds": 120 },
-      { "exerciseId": "ex-13", "sets": 4, "reps": "8", "restSeconds": 90 },
-      { "exerciseId": "ex-06", "sets": 3, "reps": "10-12", "restSeconds": 90 },
-      { "exerciseId": "ex-07", "sets": 3, "reps": "12-15", "restSeconds": 60 },
-      { "exerciseId": "ex-15", "sets": 3, "reps": "10", "restSeconds": 60 },
-      { "exerciseId": "ex-04", "sets": 3, "reps": "12", "restSeconds": 45 }
-    ]
+      {
+        "blockName": "Bloco principal",
+        "exercises": [
+          {
+            "exerciseId": "ex-05",
+            "order": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "restSeconds": 90,
+            "loadSuggestion": "Carga moderada",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-27",
+            "order": 2,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-08",
+            "order": 3,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-41",
+            "order": 4,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          }
+        ]
+      }
+    ],
+    "canClone": true,
+    "isSystemTemplate": false,
+    "sourceLibraryWorkoutId": "lib-07",
+    "templateScope": "professional-reusable",
+    "notes": "Template reutilizavel pelo professor; diferente da prescricao vinculada a aluno."
   },
   {
-    "id": "temp-06",
-    "professionalId": "prof-02",
-    "name": "Emagrecimento circuito",
-    "goal": "Aumento do gasto calórico e condicionamento",
-    "level": "Intermediário",
-    "estimatedDurationMinutes": 45,
+    "id": "tpl-08",
+    "professionalId": "prof-01",
+    "name": "Full body intermediario",
+    "category": "forca",
+    "goal": "Hipertrofia e consistencia",
+    "level": "avancado",
+    "estimatedDurationMinutes": 60,
+    "tags": [
+      "mockado",
+      "biblioteca",
+      "clonavel"
+    ],
     "exerciseBlocks": [
-      { "exerciseId": "ex-22", "sets": 4, "reps": "15", "restSeconds": 30 },
-      { "exerciseId": "ex-23", "sets": 4, "reps": "12 (cada lado)", "restSeconds": 30 },
-      { "exerciseId": "ex-14", "sets": 4, "reps": "15", "restSeconds": 30 },
-      { "exerciseId": "ex-20", "sets": 4, "reps": "20", "restSeconds": 30 },
-      { "exerciseId": "ex-30", "sets": 4, "reps": "15", "restSeconds": 60 }
-    ]
-  },
-  {
-    "id": "temp-07",
-    "professionalId": "prof-02",
-    "name": "Retorno com baixa carga",
-    "goal": "Recondicionamento de articulações e retorno gradual",
-    "level": "Iniciante",
-    "estimatedDurationMinutes": 40,
-    "exerciseBlocks": [
-      { "exerciseId": "ex-10", "sets": 3, "reps": "12-15", "restSeconds": 60 },
-      { "exerciseId": "ex-37", "sets": 3, "reps": "12", "restSeconds": 60 },
-      { "exerciseId": "ex-34", "sets": 3, "reps": "12", "restSeconds": 60 },
-      { "exerciseId": "ex-07", "sets": 3, "reps": "15", "restSeconds": 60 },
-      { "exerciseId": "ex-21", "sets": 3, "reps": "Prancha 30s", "restSeconds": 60 }
-    ]
-  },
-  {
-    "id": "temp-08",
-    "professionalId": "prof-02",
-    "name": "Treino rápido 30 minutos",
-    "goal": "Manutenção muscular expressa para dias corridos",
-    "level": "Intermediário",
-    "estimatedDurationMinutes": 30,
-    "exerciseBlocks": [
-      { "exerciseId": "ex-35", "sets": 3, "reps": "10", "restSeconds": 45 },
-      { "exerciseId": "ex-39", "sets": 3, "reps": "12", "restSeconds": 45 },
-      { "exerciseId": "ex-23", "sets": 3, "reps": "10", "restSeconds": 45 },
-      { "exerciseId": "ex-38", "sets": 3, "reps": "12", "restSeconds": 45 }
-    ]
+      {
+        "blockName": "Bloco principal",
+        "exercises": [
+          {
+            "exerciseId": "ex-01",
+            "order": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "restSeconds": 90,
+            "loadSuggestion": "Carga moderada",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-06",
+            "order": 2,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-26",
+            "order": 3,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          },
+          {
+            "exerciseId": "ex-36",
+            "order": 4,
+            "sets": 3,
+            "reps": "10-12",
+            "restSeconds": 60,
+            "loadSuggestion": "Tecnica antes da carga",
+            "notes": "Prescricao demonstrativa para prototipo."
+          }
+        ]
+      }
+    ],
+    "canClone": true,
+    "isSystemTemplate": false,
+    "sourceLibraryWorkoutId": "lib-08",
+    "templateScope": "professional-reusable",
+    "notes": "Template reutilizavel pelo professor; diferente da prescricao vinculada a aluno."
   }
 ]

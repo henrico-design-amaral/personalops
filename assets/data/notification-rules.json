@@ -1,0 +1,58 @@
+[
+  {
+    "id": "rule-01",
+    "name": "7 dias antes",
+    "offsetDays": 7,
+    "channel": "whatsapp-mock",
+    "template": "Olá, {{studentName}}. Sua mensalidade do plano {{planName}} vence em {{dueDate}}. Você pode realizar o pagamento via Pix pelo app.",
+    "active": true
+  },
+  {
+    "id": "rule-02",
+    "name": "3 dias antes",
+    "offsetDays": 3,
+    "channel": "email-mock",
+    "template": "Oi, {{studentName}}. Passando para lembrar que seu plano {{planName}} vence em {{dueDate}}. O Pix demonstrativo está no app.",
+    "active": true
+  },
+  {
+    "id": "rule-03",
+    "name": "1 dia antes",
+    "offsetDays": 1,
+    "channel": "in-app",
+    "template": "Olá, {{studentName}}. Seu vencimento é amanhã. Veja o Pix demonstrativo do plano {{planName}} no PersonalOps.",
+    "active": true
+  },
+  {
+    "id": "rule-04",
+    "name": "No dia do vencimento",
+    "offsetDays": 0,
+    "channel": "whatsapp-mock",
+    "template": "{{studentName}}, sua mensalidade vence hoje. A cobrança Pix demonstrativa está disponível no app.",
+    "active": true
+  },
+  {
+    "id": "rule-05",
+    "name": "1 dia após vencimento",
+    "offsetDays": -1,
+    "channel": "email-mock",
+    "template": "Olá, {{studentName}}. Identificamos vencimento pendente do plano {{planName}}. Regularize pelo Pix demonstrativo no app.",
+    "active": true
+  },
+  {
+    "id": "rule-06",
+    "name": "3 dias após vencimento",
+    "offsetDays": -3,
+    "channel": "in-app",
+    "template": "Oi, {{studentName}}. Sua cobrança segue pendente. Se já pagou, desconsidere este lembrete mockado.",
+    "active": true
+  },
+  {
+    "id": "rule-07",
+    "name": "7 dias após vencimento",
+    "offsetDays": -7,
+    "channel": "whatsapp-mock",
+    "template": "{{studentName}}, sua assinatura aparece vencida há 7 dias neste ambiente demonstrativo. Fale com seu professor para ajustar.",
+    "active": true
+  }
+]

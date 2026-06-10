@@ -3,7 +3,7 @@
    Basic cache-first for static assets
 ═══════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'personalops-v1-cache-004';
+const CACHE_NAME = 'personalops-v1-cache-005';
 const ASSETS = [
   './',
   './index.html',
@@ -13,13 +13,21 @@ const ASSETS = [
   './assets/data/users.json',
   './assets/data/professionals.json',
   './assets/data/students.json',
+  './assets/data/plans.json',
+  './assets/data/subscriptions.json',
+  './assets/data/invoices.json',
+  './assets/data/payment-events.json',
+  './assets/data/notification-rules.json',
+  './assets/data/notification-events.json',
   './assets/data/exercises.json',
+  './assets/data/workout-library.json',
   './assets/data/workout-templates.json',
+  './assets/data/weekly-schedules.json',
   './assets/data/prescribed-workouts.json',
   './assets/data/workout-events.json',
   './assets/data/feedbacks.json',
   './assets/data/assessments.json',
-  './assets/data/payments.json',
+  './assets/data/voice-drafts.json',
   './manifest.webmanifest',
 ];
 

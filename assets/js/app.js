@@ -28,6 +28,63 @@ const formatEventTime = (isoString) => {
   return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} ${pad(d.getHours())}h${pad(d.getMinutes())}`;
 };
 
+const formatDateBR = (isoDate) => {
+  if (!isoDate) return '—';
+  const [year, month, day] = isoDate.split('T')[0].split('-');
+  return `${day}/${month}/${year}`;
+};
+
+const formatCurrencyBR = (value) => {
+  return Number(value || 0).toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+};
+
+const billingFrequencyLabel = (frequency) => ({
+  weekly: 'Semanal',
+  biweekly: 'Quinzenal',
+  monthly: 'Mensal',
+  quarterly: 'Trimestral',
+  semiannual: 'Semestral',
+  annual: 'Anual',
+  single: 'Avulso'
+}[frequency] || frequency || '—');
+
+const paymentStatusLabel = (status) => ({
+  active: 'Em dia',
+  due_soon: 'A vencer',
+  overdue: 'Inadimplente',
+  paused: 'Pausado',
+  canceled: 'Cancelado',
+  scheduled: 'Agendada',
+  open: 'Aberta',
+  paid: 'Paga',
+  failed: 'Falhou'
+}[status] || status || '—');
+
+const statusTone = (status) => ({
+  active: 'active',
+  paid: 'active',
+  open: 'warning',
+  due_soon: 'warning',
+  scheduled: 'warning',
+  overdue: 'danger',
+  failed: 'danger',
+  paused: 'warning',
+  canceled: 'danger'
+}[status] || 'warning');
+
+const getDayLabel = (day) => ({
+  sunday: 'Dom',
+  monday: 'Seg',
+  tuesday: 'Ter',
+  wednesday: 'Qua',
+  thursday: 'Qui',
+  friday: 'Sex',
+  saturday: 'Sab'
+}[day] || day);
+
 // ── Nav structure per role ────────────────────────────────
 const NAV = {
   admin: [
@@ -118,6 +175,14 @@ const OfflineQueue = {
       workoutId: state.workout.exerciseIndex !== undefined && state.workout.exercises[state.workout.exerciseIndex]
         ? `pw-01` // Mocking link to current active workout id
         : null,
+      payload: event.payload || {
+        exerciseId: event.exerciseId || null,
+        exercise: event.exercise || null,
+        setIndex: event.set || null,
+        load: event.load || 0,
+        reps: event.reps || 0,
+        rpe: event.rpe || null
+      },
       timestamp: Date.now(),
       createdAt: new Date().toISOString(),
       offline: isOffline,
@@ -426,13 +491,84 @@ const App = {
   },
 
   renderAdminOverview() {
-    const stats = $('view-admin-overview').querySelectorAll('.stat-value');
-    if (stats.length >= 4) {
-      stats[0].textContent = Object.keys(DataStore.data.users).length;
-      stats[1].textContent = DataStore.data.professionals.length;
-      stats[2].textContent = DataStore.data.students.length;
-      stats[3].textContent = DataStore.data.workoutEvents.filter(e => e.type === 'workout_finished').length;
-    }
+    const view = $('view-admin-overview');
+    const invoices = DataStore.data.invoices;
+    const students = DataStore.data.students;
+    const scheduledNotifications = DataStore.data.notificationEvents.filter(event => event.status === 'scheduled');
+    const openInvoices = invoices.filter(invoice => ['open', 'due_soon'].includes(invoice.status));
+    const overdueInvoices = invoices.filter(invoice => invoice.status === 'overdue');
+    const projectedRevenue = invoices
+      .filter(invoice => ['open', 'due_soon', 'scheduled'].includes(invoice.status))
+      .reduce((sum, invoice) => sum + Number(invoice.amount || 0), 0);
+    const activeStudents = students.filter(student => !['paused', 'canceled'].includes(student.paymentStatus));
+    const delinquentStudents = students.filter(student => student.paymentStatus === 'overdue');
+
+    view.innerHTML = `
+      <div class="page-header">
+        <h2>Administrativo</h2>
+        <p class="page-sub">Cockpit financeiro mockado — nenhum pagamento real é processado.</p>
+      </div>
+      <div class="stats-grid stats-grid-six">
+        <div class="stat-card"><div class="stat-value">${formatCurrencyBR(projectedRevenue)}</div><div class="stat-label">Receita prevista</div></div>
+        <div class="stat-card"><div class="stat-value">${openInvoices.length}</div><div class="stat-label">Cobranças Pix em aberto</div></div>
+        <div class="stat-card"><div class="stat-value">${overdueInvoices.length}</div><div class="stat-label">Cobranças vencidas</div></div>
+        <div class="stat-card"><div class="stat-value">${scheduledNotifications.length}</div><div class="stat-label">Notificações agendadas</div></div>
+        <div class="stat-card"><div class="stat-value">${activeStudents.length}</div><div class="stat-label">Alunos ativos</div></div>
+        <div class="stat-card"><div class="stat-value">${delinquentStudents.length}</div><div class="stat-label">Alunos inadimplentes</div></div>
+      </div>
+      <div class="demo-warning">Pagamentos, QR Code Pix, links e notificações são demonstrativos. Não realizar pagamento real.</div>
+      <div class="ops-grid">
+        <section class="section-block">
+          <h3 class="section-title">Cobranças recentes</h3>
+          <div class="invoice-list">
+            ${invoices.slice(0, 8).map(invoice => {
+              const student = DataStore.getStudentById(invoice.studentId);
+              return `
+                <div class="invoice-row">
+                  <div>
+                    <strong>${student ? student.name : invoice.studentId}</strong>
+                    <span>${formatDateBR(invoice.dueDate)} · ${invoice.paymentMethod.toUpperCase()} mockado</span>
+                  </div>
+                  <div class="invoice-row-right">
+                    <strong>${formatCurrencyBR(invoice.amount)}</strong>
+                    <span class="student-status ${statusTone(invoice.status)}">${paymentStatusLabel(invoice.status)}</span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+        <section class="section-block">
+          <h3 class="section-title">Régua de notificações</h3>
+          <div class="notification-list">
+            ${DataStore.data.notificationEvents.slice(0, 8).map(event => {
+              const student = DataStore.getStudentById(event.studentId);
+              return `
+                <div class="notification-row">
+                  <span class="student-status ${statusTone(event.status === 'sent' ? 'paid' : event.status)}">${event.status}</span>
+                  <div>
+                    <strong>${student ? student.name : event.studentId}</strong>
+                    <span>${event.channel} · ${formatEventTime(event.scheduledFor)}</span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+      </div>
+      <section class="section-block">
+        <h3 class="section-title">Gateway mockado</h3>
+        <div class="gateway-grid">
+          ${DataStore.data.professionals.map(professional => `
+            <div class="gateway-card">
+              <strong>${professional.displayName || professional.name}</strong>
+              <span>Provider ativo: ${professional.financialProfile.paymentProvider}</span>
+              <span>Futuros: ${professional.financialProfile.futureProviders.join(', ')}</span>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    `;
   },
 
   renderAdminUsers() {
@@ -441,7 +577,7 @@ const App = {
       tbody.innerHTML = Object.entries(DataStore.data.users).map(([email, user]) => {
         return `<tr>
           <td>${email}</td>
-          <td><span class="role-badge ${user.role}">${user.role.charAt(0).toUpperCase() + user.role.slice(1)}</span></td>
+          <td><span class="role-badge ${user.role}">${user.roleLabel || user.role.charAt(0).toUpperCase() + user.role.slice(1)}</span></td>
           <td><span class="status-active">Ativo</span></td>
         </tr>`;
       }).join('');
@@ -450,69 +586,94 @@ const App = {
 
   renderProfOverview() {
     const profId = state.user.professionalId;
+    const professional = DataStore.getProfessionalById(profId);
     const students = DataStore.getStudentsByProfessional(profId);
     const studentIds = students.map(s => s.id);
+    const invoices = DataStore.getInvoicesByProfessional(profId);
+    const upcomingInvoices = DataStore.getUpcomingInvoices(profId);
+    const overdueInvoices = DataStore.getOverdueInvoices(profId);
+    const library = DataStore.getWorkoutLibrary(profId);
+    const voiceDrafts = DataStore.data.voiceDrafts.filter(draft => draft.professionalId === profId);
     
     const subEl = $('view-prof-overview').querySelector('.page-sub');
-    if (subEl) subEl.textContent = `Olá, ${state.user.name}. Resumo de hoje.`;
+    if (subEl) subEl.textContent = `Olá, ${state.user.name}. Alunos, treinos e recebimentos em um só fluxo.`;
 
     const stats = $('view-prof-overview').querySelectorAll('.stat-value');
     if (stats.length >= 4) {
       const workoutsThisWeek = DataStore.data.prescribedWorkouts.filter(w => studentIds.includes(w.studentId)).length;
       const pendingFeedbacks = DataStore.getFeedbacksByProfessional(profId).filter(f => f.requiresReview).length;
-      const highAdherence = students.filter(s => s.adherenceStatus === 'Alta').length;
-      const totalStudents = students.length || 1;
-      const adherencePct = Math.round((highAdherence / totalStudents) * 100);
 
       stats[0].textContent = students.length;
-      stats[1].textContent = workoutsThisWeek;
-      stats[2].textContent = pendingFeedbacks;
-      stats[3].textContent = `${adherencePct}%`;
+      stats[1].textContent = upcomingInvoices.length;
+      stats[2].textContent = overdueInvoices.length;
+      stats[3].textContent = pendingFeedbacks;
+
+      const labels = $('view-prof-overview').querySelectorAll('.stat-label');
+      if (labels.length >= 4) {
+        labels[0].textContent = 'Alunos ativos';
+        labels[1].textContent = 'Vencimentos próximos';
+        labels[2].textContent = 'Inadimplentes';
+        labels[3].textContent = 'Feedbacks pendentes';
+      }
     }
 
     const activityList = $('view-prof-overview').querySelector('.activity-list');
     if (activityList) {
-      const profEvents = DataStore.data.workoutEvents
-        .filter(e => studentIds.includes(e.studentId))
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 5);
-
-      if (profEvents.length === 0) {
-        activityList.innerHTML = '<div class="activity-item">Sem atividades recentes.</div>';
-      } else {
-        const getActivityText = (event) => {
-          const student = DataStore.data.students.find(s => s.id === event.studentId);
-          const studentName = student ? student.name : 'Aluno';
-          const workout = DataStore.data.prescribedWorkouts.find(w => w.id === event.workoutId);
-          const workoutTitle = workout ? workout.title : 'Treino';
-
-          switch (event.type) {
-            case 'workout_started':
-              return `${studentName} iniciou o ${workoutTitle}`;
-            case 'workout_finished':
-              return `${studentName} concluiu o ${workoutTitle}`;
-            case 'set_completed':
-              const ex = DataStore.data.exercises.find(x => x.id === event.payload.exerciseId);
-              const exName = ex ? ex.name : (event.payload.exercise || 'Exercício');
-              return `${studentName} realizou Série ${event.payload.setIndex} de ${exName} (${event.payload.load}kg)`;
-            case 'load_changed':
-              return `${studentName} alterou a carga de ${event.payload.oldLoad} para ${event.payload.newLoad}`;
-            case 'exercise_skipped':
-              return `${studentName} pulou um exercício`;
-            case 'feedback_submitted':
-              return `${studentName} enviou um feedback de treino`;
-            default:
-              return `${studentName} registrou evento: ${event.type}`;
-          }
-        };
-
-        activityList.innerHTML = profEvents.map(e => {
-          return `<div class="activity-item">
-            <span class="activity-time">${formatEventTime(e.createdAt)}</span>
-            <span>${getActivityText(e)}</span>
-          </div>`;
-        }).join('');
-      }
+      activityList.innerHTML = `
+        <div class="ops-grid">
+          <div>
+            <h3 class="section-title">Dados Pix mockados</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="settings-label">Titular</span><span class="settings-value">${professional.financialProfile.accountHolderName}</span></div>
+              <div class="settings-row"><span class="settings-label">Documento</span><span class="settings-value">${professional.financialProfile.documentMasked}</span></div>
+              <div class="settings-row"><span class="settings-label">Chave Pix</span><span class="settings-value">${professional.financialProfile.pixKeyMasked}</span></div>
+              <div class="settings-row"><span class="settings-label">Provider</span><span class="settings-value">${professional.financialProfile.paymentProvider}</span></div>
+            </div>
+          </div>
+          <div>
+            <h3 class="section-title">Vencimentos próximos</h3>
+            <div class="invoice-list">
+              ${upcomingInvoices.slice(0, 5).map(invoice => {
+                const student = DataStore.getStudentById(invoice.studentId);
+                return `<div class="invoice-row">
+                  <div><strong>${student.name}</strong><span>${formatDateBR(invoice.dueDate)} · ${formatCurrencyBR(invoice.amount)}</span></div>
+                  <span class="student-status ${statusTone(invoice.status)}">${paymentStatusLabel(invoice.status)}</span>
+                </div>`;
+              }).join('') || '<div class="activity-item">Sem vencimentos próximos.</div>'}
+            </div>
+          </div>
+        </div>
+        <div class="ops-grid">
+          <div>
+            <h3 class="section-title">Biblioteca de treinos</h3>
+            <div class="library-list">
+              ${library.slice(0, 6).map(workout => `
+                <div class="library-card">
+                  <div>
+                    <strong>${workout.name}</strong>
+                    <span>${workout.level} · ${workout.estimatedDurationMinutes} min</span>
+                  </div>
+                  <button class="btn btn-sm btn-ghost" onclick="App.cloneWorkoutMock('${workout.id}', '${students[0].id}')">Clonar treino</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          <div>
+            <h3 class="section-title">Voz/texto assistido</h3>
+            <div class="voice-list">
+              ${voiceDrafts.map(draft => {
+                const student = DataStore.getStudentById(draft.studentId);
+                return `<div class="voice-card">
+                  <strong>${student ? student.name : draft.studentId} · ${draft.parsedResult.workoutTitle}</strong>
+                  <span>Confiança ${Math.round(draft.confidence * 100)}% · revisão obrigatória</span>
+                  <p>${draft.rawTranscript}</p>
+                </div>`;
+              }).join('') || '<div class="activity-item">Sem rascunhos para revisar.</div>'}
+            </div>
+          </div>
+        </div>
+        <div id="clone-toast" class="clone-toast hidden"></div>
+      `;
     }
   },
 
@@ -524,25 +685,27 @@ const App = {
       
       studentListEl.innerHTML = myStudents.map(s => {
         const avatar = s.name.charAt(0);
-        let statusClass = 'active';
-        let statusLabel = 'Ativo';
-        if (s.riskLevel === 'Médio') {
-          statusClass = 'warning';
-          statusLabel = 'Atenção';
-        } else if (s.riskLevel === 'Alto') {
-          statusClass = 'danger';
-          statusLabel = 'Alto Risco';
-        }
+        const invoice = DataStore.getInvoicesByStudent(s.id)[0];
+        const plan = DataStore.data.plans.find(p => p.id === s.planId);
+        const riskClass = s.riskLevel === 'high' ? 'danger' : (s.riskLevel === 'medium' ? 'warning' : 'active');
+        const riskLabel = s.riskLevel === 'high' ? 'Alto risco' : (s.riskLevel === 'medium' ? 'Atenção' : 'Baixo risco');
+        const schedule = DataStore.getWeeklyScheduleByStudent(s.id);
+        const weekSummary = schedule ? Object.values(schedule.days).filter(day => day.type === 'workout').map(day => day.title).join(' · ') : 'Sem grade';
         
         return `
           <div class="student-card" data-id="${s.id}">
             <div class="student-avatar">${avatar}</div>
             <div class="student-info">
               <div class="student-name">${s.name}</div>
-              <div class="student-meta">${s.goal} · ${s.trainingMode} · ${s.level}</div>
-              <div class="student-notes" style="font-size: 0.8rem; color: var(--text-dim); margin-top: 4px;">${s.notes || ''}</div>
+              <div class="student-meta">${s.goal} · ${s.trainingMode} · ${s.level} · ${plan ? plan.name : 'Sem plano'}</div>
+              <div class="student-meta">Vencimento: ${formatDateBR(s.nextDueDate)} · ${billingFrequencyLabel(s.billingFrequency)} · ${weekSummary}</div>
+              <div class="student-notes">${s.notes || ''}</div>
             </div>
-            <span class="student-status ${statusClass}">${statusLabel}</span>
+            <div class="student-card-actions">
+              <span class="student-status ${statusTone(s.paymentStatus)}">${paymentStatusLabel(s.paymentStatus)}</span>
+              <span class="student-status ${riskClass}">${riskLabel}</span>
+              ${invoice ? `<button class="btn btn-sm btn-ghost" onclick="App.cloneWorkoutMock('lib-01', '${s.id}')">Clonar treino</button>` : ''}
+            </div>
           </div>
         `;
       }).join('');
@@ -589,34 +752,97 @@ const App = {
     }
   },
 
+  cloneWorkoutMock(sourceWorkoutId, targetStudentId) {
+    try {
+      const cloned = DataStore.cloneWorkoutMock(sourceWorkoutId, targetStudentId);
+      if (state.currentView) this.renderView(state.currentView);
+      this.showToast(`Treino clonado como rascunho para ${DataStore.getStudentById(targetStudentId).name}.`);
+      return cloned;
+    } catch (error) {
+      this.showToast(error.message || 'Não foi possível clonar o treino.');
+      return null;
+    }
+  },
+
+  showToast(message) {
+    let toast = $('clone-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'clone-toast';
+      toast.className = 'clone-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.remove('hidden');
+    clearTimeout(this.toastTimer);
+    this.toastTimer = setTimeout(() => toast.classList.add('hidden'), 2600);
+  },
+
   renderAlunoOverview() {
     const studentId = state.user.studentId;
-    const studentObj = DataStore.data.students.find(s => s.id === studentId);
+    const studentObj = DataStore.getStudentById(studentId);
     const studentName = studentObj ? studentObj.name.split(' ')[0] : state.user.name;
+    const plan = studentObj ? DataStore.data.plans.find(p => p.id === studentObj.planId) : null;
+    const invoice = DataStore.getInvoicesByStudent(studentId)
+      .find(item => ['open', 'due_soon', 'overdue', 'scheduled'].includes(item.status))
+      || DataStore.getInvoicesByStudent(studentId)[0];
+    const schedule = DataStore.getWeeklyScheduleByStudent(studentId);
 
     const subEl = $('view-aluno-overview').querySelector('.page-sub');
-    if (subEl) subEl.textContent = `Olá, ${studentName}. Bom treino hoje.`;
+    if (subEl) subEl.textContent = `Olá, ${studentName}. Seu treino e sua cobrança mockada estão organizados.`;
 
     const todayWorkout = DataStore.getTodayWorkout(studentId);
 
     const workoutPreviewWrap = $('view-aluno-overview').querySelector('.today-workout-preview');
     if (workoutPreviewWrap) {
-      if (todayWorkout) {
-        const numExercises = todayWorkout.exercises.length;
-        const duration = todayWorkout.estimatedDurationMinutes;
-        workoutPreviewWrap.innerHTML = `
-          <h3 class="section-title">Treino de hoje</h3>
-          <div class="workout-preview-name">${todayWorkout.title}</div>
-          <div class="workout-preview-meta">${numExercises} exercício${numExercises !== 1 ? 's' : ''} · ~${duration} min</div>
-          <button class="btn btn-primary" onclick="App.navigate('aluno-treino')">Iniciar treino</button>
-        `;
-      } else {
-        workoutPreviewWrap.innerHTML = `
-          <h3 class="section-title">Treino de hoje</h3>
-          <div class="workout-preview-name">Nenhum treino agendado para hoje.</div>
-          <div class="workout-preview-meta">Descanse ou converse com seu professor.</div>
-        `;
-      }
+      workoutPreviewWrap.innerHTML = `
+        <div class="ops-grid">
+          <section>
+            <h3 class="section-title">Plano atual</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="settings-label">Plano</span><span class="settings-value">${plan ? plan.name : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Periodicidade</span><span class="settings-value">${studentObj ? billingFrequencyLabel(studentObj.billingFrequency) : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Status</span><span class="settings-value">${studentObj ? paymentStatusLabel(studentObj.paymentStatus) : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Próximo vencimento</span><span class="settings-value">${studentObj ? formatDateBR(studentObj.nextDueDate) : '—'}</span></div>
+            </div>
+          </section>
+          <section>
+            <h3 class="section-title">Cobrança Pix mockada</h3>
+            ${invoice ? `
+              <div class="pix-panel">
+                <div class="mock-qr" aria-label="QR Code Pix demonstrativo"><span>PIX<br>DEMO</span></div>
+                <div class="pix-copy">
+                  <strong>${formatCurrencyBR(invoice.amount)}</strong>
+                  <span>QR Code Pix demonstrativo. Não realizar pagamento real.</span>
+                  <code>${invoice.pixCopyPasteMock}</code>
+                </div>
+              </div>
+            ` : '<div class="activity-item">Nenhuma cobrança mockada disponível.</div>'}
+          </section>
+        </div>
+        <div class="demo-warning">Ambiente de demonstração. Não realizar pagamento real.</div>
+        <div class="ops-grid">
+          <section>
+            <h3 class="section-title">Treino de hoje</h3>
+            ${todayWorkout ? `
+              <div class="workout-preview-name">${todayWorkout.title}</div>
+              <div class="workout-preview-meta">${todayWorkout.exercises.length} exercício${todayWorkout.exercises.length !== 1 ? 's' : ''} · ~${todayWorkout.estimatedDurationMinutes} min</div>
+              <button class="btn btn-primary" onclick="App.navigate('aluno-treino')">Iniciar treino</button>
+            ` : '<div class="workout-preview-name">Nenhum treino agendado para hoje.</div>'}
+          </section>
+          <section>
+            <h3 class="section-title">Semana de treino</h3>
+            <div class="week-grid-mini">
+              ${schedule ? Object.entries(schedule.days).map(([day, item]) => `
+                <div class="week-day">
+                  <strong>${getDayLabel(day)}</strong>
+                  <span>${item.title}</span>
+                </div>
+              `).join('') : '<div class="activity-item">Sem grade semanal.</div>'}
+            </div>
+          </section>
+        </div>
+      `;
     }
 
     const stats = $('view-aluno-overview').querySelectorAll('.stat-value');
@@ -634,6 +860,7 @@ const App = {
   renderAlunoTreino() {
     const studentId = state.user.studentId;
     const todayWorkout = DataStore.getTodayWorkout(studentId);
+    const schedule = DataStore.getWeeklyScheduleByStudent(studentId);
     
     const viewHeaderSub = $('view-aluno-treino').querySelector('.page-sub');
     if (viewHeaderSub && todayWorkout) {
@@ -648,7 +875,22 @@ const App = {
       return;
     }
 
-    listEl.innerHTML = state.workout.exercises.map((ex, idx) => {
+    const weekHtml = schedule ? `
+      <div class="section-block">
+        <h3 class="section-title">Grade semanal</h3>
+        <div class="week-grid">
+          ${Object.entries(schedule.days).map(([day, item]) => `
+            <div class="week-day ${item.type}">
+              <strong>${getDayLabel(day)}</strong>
+              <span>${item.title}</span>
+              <small>${item.type}</small>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    const exercisesHtml = state.workout.exercises.map((ex, idx) => {
       const restText = ex.rest >= 60 ? `${Math.floor(ex.rest / 60)} min` : `${ex.rest} seg`;
       return `
         <div class="exercise-item" data-index="${idx}">
@@ -662,13 +904,16 @@ const App = {
         </div>
       `;
     }).join('');
+
+    listEl.innerHTML = `${weekHtml}${exercisesHtml}`;
   },
 
   renderAlunoPerfil() {
     const studentId = state.user.studentId;
-    const studentObj = DataStore.data.students.find(s => s.id === studentId);
-    const assessment = DataStore.data.assessments.find(a => a.studentId === studentId);
-    const professional = DataStore.data.professionals.find(p => p.id === (studentObj ? studentObj.professionalId : ''));
+    const studentObj = DataStore.getStudentById(studentId);
+    const assessment = DataStore.getAssessmentsByStudent(studentId)[0];
+    const professional = DataStore.getProfessionalById(studentObj ? studentObj.professionalId : '');
+    const plan = studentObj ? DataStore.data.plans.find(p => p.id === studentObj.planId) : null;
 
     const avatarEl = $('view-aluno-perfil').querySelector('.profile-avatar-large');
     if (avatarEl) avatarEl.textContent = state.user.avatar;
@@ -687,6 +932,8 @@ const App = {
         <div class="anamnese-row"><span class="an-label">Modo</span><span class="an-value">${studentObj ? studentObj.trainingMode : '—'}</span></div>
         <div class="anamnese-row"><span class="an-label">Frequência</span><span class="an-value">${assessment ? assessment.weeklyFrequency + 'x por semana' : '—'}</span></div>
         <div class="anamnese-row"><span class="an-label">Disponibilidade</span><span class="an-value">${assessment ? assessment.availability : '—'}</span></div>
+        <div class="anamnese-row"><span class="an-label">Plano</span><span class="an-value">${plan ? plan.name : '—'}</span></div>
+        <div class="anamnese-row"><span class="an-label">Vencimento</span><span class="an-value">${studentObj ? formatDateBR(studentObj.nextDueDate) : '—'}</span></div>
         <div class="anamnese-row"><span class="an-label">Restrições</span><span class="an-value">${studentObj && studentObj.restrictions.length > 0 ? studentObj.restrictions.join(', ') : 'Nenhuma'}</span></div>
         <div class="anamnese-row"><span class="an-label">Professor</span><span class="an-value">${professional ? professional.name : 'Sem professor'}</span></div>
         <div class="anamnese-row"><span class="an-label">Conexão BT</span><span class="an-value">${studentObj && studentObj.usesBluetooth ? 'Habilitado' : 'Desativado'}</span></div>

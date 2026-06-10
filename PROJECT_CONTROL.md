@@ -70,6 +70,16 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - QA local em `http://127.0.0.1:4174/`: memorial, login, professor, logout, aluno, treino e registro de série verificados sem erros críticos de console.
   - Checagem mobile em viewport 390x844 sem overflow horizontal e com CTA/login funcionais.
 
+### 2026-06-10 — Session 004 — Pix Billing & Workout Operations Fixtures
+- **Branch**: `data/add-pix-billing-admin-and-workout-fixtures`
+- **Objetivo**: Expandir a V1.2 para validação operacional com cobrança Pix mockada, régua de notificações, biblioteca de treinos, clonagem, grade semanal e criação assistida por voz/texto.
+- **Alterações planejadas**:
+  - **Fixtures JSON** (`assets/data/*.json`): dados sintéticos estruturados para usuários, profissionais, alunos, planos, assinaturas, cobranças, eventos de pagamento, notificações, exercícios, biblioteca, templates, grades semanais, prescrições, eventos, feedbacks, avaliações e rascunhos de voz.
+  - **Data Store (`assets/js/data-store.js`)**: carregamento assíncrono dos novos datasets, fallbacks mínimos e consultas por perfil.
+  - **App (`assets/js/app.js`)**: telas administrativas financeiras, visão operacional do professor e painel do aluno com plano, vencimento, Pix mockado e treino semanal.
+  - **Service Worker**: cache atualizado para `personalops-v1-cache-005`.
+  - **Documentação**: requisitos de billing/admin/Pix/biblioteca e plano de QA V1.2.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO

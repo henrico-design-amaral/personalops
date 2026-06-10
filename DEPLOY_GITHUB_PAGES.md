@@ -49,6 +49,9 @@ gh api repos/henrico-design-amaral/personalops/pages \
 A URL estará disponível em alguns minutos em:
 https://henrico-design-amaral.github.io/personalops/
 
+Para validar a V1.2 após novo push e evitar cache antigo do navegador, usar:
+https://henrico-design-amaral.github.io/personalops/?v=pix-v12
+
 ## Arquivos obrigatórios para GitHub Pages
 
 - `.nojekyll` — presente (evita processamento Jekyll)
