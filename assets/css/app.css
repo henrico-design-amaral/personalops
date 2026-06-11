@@ -1318,6 +1318,217 @@ body {
   z-index: 500;
 }
 
+.platform-dashboard {
+  display: block;
+}
+
+.admin-mobile-notice {
+  display: none;
+}
+
+.platform-metric-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  margin-bottom: 20px;
+}
+
+.platform-stat {
+  min-height: 112px;
+}
+
+.platform-stat .stat-value {
+  font-size: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+.admin-section-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-logs-block,
+.profile-full-row {
+  grid-column: 1 / -1;
+}
+
+.usage-bars {
+  display: grid;
+  gap: 10px;
+}
+
+.usage-bars div {
+  align-items: center;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+}
+
+.usage-bars span {
+  color: var(--text-secondary);
+  font-size: .82rem;
+}
+
+.usage-bars strong {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.prof-action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.voice-card.critical,
+.feedback-card.critical {
+  border-color: rgba(239,68,68,.42);
+  border-left-color: var(--danger);
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-button {
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+.ops-modal {
+  align-items: flex-start;
+  background: rgba(0,0,0,.72);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 28px 16px;
+  position: fixed;
+  z-index: 600;
+}
+
+.ops-modal.hidden {
+  display: none;
+}
+
+.ops-modal-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 80px rgba(0,0,0,.46);
+  max-width: 1180px;
+  padding: 24px;
+  position: relative;
+  width: 100%;
+}
+
+.ops-modal-close {
+  align-items: center;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  font-size: 1.2rem;
+  height: 34px;
+  justify-content: center;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 34px;
+}
+
+.profile-detail-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-right: 42px;
+}
+
+.profile-detail-header h2 {
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.profile-detail-header p {
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+.profile-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.profile-detail-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mock-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.mock-form label {
+  color: var(--text-secondary);
+  display: grid;
+  font-size: .78rem;
+  gap: 6px;
+  text-transform: uppercase;
+}
+
+.mock-form input,
+.mock-form select,
+.mock-form textarea {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: .92rem;
+  min-height: 40px;
+  padding: 9px 11px;
+  text-transform: none;
+}
+
+.mock-form textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.checkbox-row {
+  align-content: center;
+  display: flex !important;
+  flex-direction: row;
+  gap: 8px !important;
+  text-transform: none !important;
+}
+
+.checkbox-row input {
+  min-height: auto;
+}
+
 /* ── Treino Creator ───────────────────────────────────── */
 .treino-creator {
   display: flex;
@@ -1952,6 +2163,43 @@ body {
 
   .ops-grid {
     grid-template-columns: 1fr;
+  }
+
+  .platform-dashboard {
+    display: none;
+  }
+
+  .admin-mobile-notice {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: block;
+    line-height: 1.6;
+    padding: 22px;
+  }
+
+  .admin-mobile-notice h2 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+
+  .admin-mobile-notice p {
+    color: var(--text-secondary);
+  }
+
+  .admin-section-grid,
+  .profile-detail-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-detail-header {
+    flex-direction: column;
+    padding-right: 36px;
+  }
+
+  .profile-detail-actions {
+    justify-content: flex-start;
   }
 
   .student-card {

@@ -85,6 +85,27 @@ const getDayLabel = (day) => ({
   saturday: 'Sab'
 }[day] || day);
 
+const perceivedEffortLabel = (effort) => ({
+  leve: 'Leve',
+  moderado: 'Moderado',
+  pesado: 'Pesado',
+  muito_pesado: 'Muito pesado'
+}[effort] || effort || '—');
+
+const completionStatusLabel = (status) => ({
+  completo: 'Completo',
+  parcial: 'Parcial',
+  nao_consegui: 'Não consegui'
+}[status] || status || '—');
+
+const riskLabel = (student, summary) => {
+  if (!student) return '—';
+  if (student.riskLevel === 'high' || (summary && summary.adherenceRate < 60)) return 'risco alto';
+  if (student.riskLevel === 'medium' || (summary && summary.adherenceRate < 75)) return 'atenção';
+  if (summary && summary.latest && summary.latest.strengthTrend === 'evoluindo bem') return 'evoluindo bem';
+  return 'em dia';
+};
+
 // ── Nav structure per role ────────────────────────────────
 const NAV = {
   admin: [
@@ -116,12 +137,16 @@ const state = {
     currentSet: 1,
     registeredSets: [],
     exercises: [],
+    activeWorkoutId: null,
+    finishedWorkoutId: null,
   },
   timer: {
     id: null,
     remaining: 0,
     total: 0,
   },
+  selectedStudentId: null,
+  toastTimer: null,
 };
 
 // ── DOM refs (resolved once on boot) ─────────────────────
@@ -241,6 +266,7 @@ const App = {
     this.bindOnlineStatus();
     this.bindWorkoutMode();
     this.bindTreinoCreator();
+    this.bindOperationalForms();
 
     // Trigger initial offline queue sync if online
     if (navigator.onLine) {
@@ -384,6 +410,7 @@ const App = {
     if (role === 'aluno' && studentId) {
       const todayWorkout = DataStore.getTodayWorkout(studentId);
       if (todayWorkout) {
+        state.workout.activeWorkoutId = todayWorkout.id;
         state.workout.exercises = todayWorkout.exercises.map(we => {
           const originalEx = DataStore.data.exercises.find(e => e.id === we.exerciseId);
           return {
@@ -492,82 +519,144 @@ const App = {
 
   renderAdminOverview() {
     const view = $('view-admin-overview');
-    const invoices = DataStore.data.invoices;
-    const students = DataStore.data.students;
-    const scheduledNotifications = DataStore.data.notificationEvents.filter(event => event.status === 'scheduled');
-    const openInvoices = invoices.filter(invoice => ['open', 'due_soon'].includes(invoice.status));
-    const overdueInvoices = invoices.filter(invoice => invoice.status === 'overdue');
-    const projectedRevenue = invoices
+    const metrics = DataStore.getPlatformUsageMetrics();
+    const expectedRevenue = DataStore.data.invoices
       .filter(invoice => ['open', 'due_soon', 'scheduled'].includes(invoice.status))
       .reduce((sum, invoice) => sum + Number(invoice.amount || 0), 0);
-    const activeStudents = students.filter(student => !['paused', 'canceled'].includes(student.paymentStatus));
-    const delinquentStudents = students.filter(student => student.paymentStatus === 'overdue');
+    const mediaPending = DataStore.data.exercises.filter(exercise => exercise.visualStatus !== 'placeholder');
 
     view.innerHTML = `
-      <div class="page-header">
-        <h2>Administrativo</h2>
-        <p class="page-sub">Cockpit financeiro mockado — nenhum pagamento real é processado.</p>
+      <div class="admin-mobile-notice">
+        <h2>Painel desktop-only</h2>
+        <p>O painel administrativo da plataforma PersonalOps foi desenhado para desktop. Acesse em uma tela maior para visualizar métricas, biblioteca global, cobranças e saúde do sistema.</p>
       </div>
-      <div class="stats-grid stats-grid-six">
-        <div class="stat-card"><div class="stat-value">${formatCurrencyBR(projectedRevenue)}</div><div class="stat-label">Receita prevista</div></div>
-        <div class="stat-card"><div class="stat-value">${openInvoices.length}</div><div class="stat-label">Cobranças Pix em aberto</div></div>
-        <div class="stat-card"><div class="stat-value">${overdueInvoices.length}</div><div class="stat-label">Cobranças vencidas</div></div>
-        <div class="stat-card"><div class="stat-value">${scheduledNotifications.length}</div><div class="stat-label">Notificações agendadas</div></div>
-        <div class="stat-card"><div class="stat-value">${activeStudents.length}</div><div class="stat-label">Alunos ativos</div></div>
-        <div class="stat-card"><div class="stat-value">${delinquentStudents.length}</div><div class="stat-label">Alunos inadimplentes</div></div>
-      </div>
-      <div class="demo-warning">Pagamentos, QR Code Pix, links e notificações são demonstrativos. Não realizar pagamento real.</div>
-      <div class="ops-grid">
-        <section class="section-block">
-          <h3 class="section-title">Cobranças recentes</h3>
-          <div class="invoice-list">
-            ${invoices.slice(0, 8).map(invoice => {
-              const student = DataStore.getStudentById(invoice.studentId);
-              return `
-                <div class="invoice-row">
-                  <div>
-                    <strong>${student ? student.name : invoice.studentId}</strong>
-                    <span>${formatDateBR(invoice.dueDate)} · ${invoice.paymentMethod.toUpperCase()} mockado</span>
-                  </div>
-                  <div class="invoice-row-right">
-                    <strong>${formatCurrencyBR(invoice.amount)}</strong>
-                    <span class="student-status ${statusTone(invoice.status)}">${paymentStatusLabel(invoice.status)}</span>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </section>
-        <section class="section-block">
-          <h3 class="section-title">Régua de notificações</h3>
-          <div class="notification-list">
-            ${DataStore.data.notificationEvents.slice(0, 8).map(event => {
-              const student = DataStore.getStudentById(event.studentId);
-              return `
-                <div class="notification-row">
-                  <span class="student-status ${statusTone(event.status === 'sent' ? 'paid' : event.status)}">${event.status}</span>
-                  <div>
-                    <strong>${student ? student.name : event.studentId}</strong>
-                    <span>${event.channel} · ${formatEventTime(event.scheduledFor)}</span>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </section>
-      </div>
-      <section class="section-block">
-        <h3 class="section-title">Gateway mockado</h3>
-        <div class="gateway-grid">
-          ${DataStore.data.professionals.map(professional => `
-            <div class="gateway-card">
-              <strong>${professional.displayName || professional.name}</strong>
-              <span>Provider ativo: ${professional.financialProfile.paymentProvider}</span>
-              <span>Futuros: ${professional.financialProfile.futureProviders.join(', ')}</span>
-            </div>
+      <div class="platform-dashboard">
+        <div class="page-header">
+          <h2>Admin PersonalOps</h2>
+          <p class="page-sub">Dashboard da plataforma: uso, professores, alunos, cobranças, biblioteca e saúde técnica.</p>
+        </div>
+        <div class="platform-metric-grid">
+          ${[
+            ['Professores cadastrados', metrics.totalProfessionals],
+            ['Alunos totais da plataforma', metrics.totalStudents],
+            ['Alunos ativos', metrics.activeStudents],
+            ['Alunos com baixa adesão', metrics.lowAdherenceStudents],
+            ['Treinos executados na semana', metrics.completedWorkoutsThisWeek],
+            ['Feedbacks pós-treino recebidos', metrics.feedbacksThisWeek],
+            ['Cobranças Pix mockadas geradas', DataStore.data.invoices.length],
+            ['Cobranças vencidas', metrics.overdueInvoices],
+            ['Receita mockada prevista', formatCurrencyBR(expectedRevenue)],
+            ['Notificações agendadas', metrics.scheduledNotifications],
+            ['Exercícios cadastrados', metrics.exercisesRegistered],
+            ['Treinos na biblioteca', metrics.workoutsInLibrary],
+            ['Mídias pendentes', metrics.mediaAssetsPending],
+            ['Eventos offline registrados', metrics.offlineEventsPending]
+          ].map(([label, value]) => `
+            <div class="stat-card platform-stat"><div class="stat-value">${value}</div><div class="stat-label">${label}</div></div>
           `).join('')}
         </div>
-      </section>
+        <div class="demo-warning">Todos os indicadores são sintéticos. Pix, QR Code, WhatsApp e Open Finance são demonstrativos e não executam transações reais.</div>
+        <div class="admin-section-grid">
+          <section class="section-block">
+            <h3 class="section-title">Profissionais cadastrados</h3>
+            <div class="table-wrap soft-table">
+              <table class="data-table">
+                <thead><tr><th>Profissional</th><th>Especialidade</th><th>Alunos</th><th>Provider</th></tr></thead>
+                <tbody>
+                  ${DataStore.data.professionals.map(professional => `
+                    <tr>
+                      <td>${professional.displayName || professional.name}</td>
+                      <td>${professional.specialty || '—'}</td>
+                      <td>${professional.activeStudentsCount || DataStore.getStudentsByProfessional(professional.id).length}</td>
+                      <td>${professional.financialProfile.paymentProvider}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Uso do sistema</h3>
+            <div class="usage-bars">
+              <div><span>Treinos concluídos</span><strong>${metrics.completedWorkoutsThisWeek}/${metrics.workoutsThisWeek}</strong></div>
+              <div><span>Faltas/no-show</span><strong>${metrics.missedWorkoutsThisWeek}</strong></div>
+              <div><span>Feedbacks críticos</span><strong>${metrics.criticalFeedbacks}</strong></div>
+              <div><span>Eventos offline pendentes</span><strong>${metrics.offlineEventsPending}</strong></div>
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Frequência agregada dos alunos</h3>
+            <div class="invoice-list">
+              ${DataStore.data.progressSnapshots.slice(0, 8).map(snapshot => {
+                const student = DataStore.getStudentById(snapshot.studentId);
+                return `<div class="invoice-row">
+                  <div><strong>${student ? student.name : snapshot.studentId}</strong><span>${snapshot.completedWorkouts} concluídos · ${snapshot.missedWorkouts} perdidos</span></div>
+                  <span class="student-status ${snapshot.adherenceRate < 70 ? 'danger' : 'active'}">${snapshot.adherenceRate}% adesão</span>
+                </div>`;
+              }).join('')}
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Cobranças e Pix mockado</h3>
+            <div class="invoice-list">
+              ${DataStore.data.invoices.slice(0, 6).map(invoice => {
+                const student = DataStore.getStudentById(invoice.studentId);
+                return `<div class="invoice-row">
+                  <div><strong>${student ? student.name : invoice.studentId}</strong><span>${formatDateBR(invoice.dueDate)} · ${invoice.pixQrCodeMock}</span></div>
+                  <div class="invoice-row-right"><strong>${formatCurrencyBR(invoice.amount)}</strong><span class="student-status ${statusTone(invoice.status)}">${paymentStatusLabel(invoice.status)}</span></div>
+                </div>`;
+              }).join('')}
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Notificações simuladas</h3>
+            <div class="notification-list">
+              ${DataStore.data.notificationEvents.slice(0, 6).map(event => {
+                const student = DataStore.getStudentById(event.studentId);
+                return `<div class="notification-row">
+                  <span class="student-status ${event.status === 'sent' ? 'active' : 'warning'}">${event.status}</span>
+                  <div><strong>${student ? student.name : event.studentId}</strong><span>${event.channel} · ${formatEventTime(event.scheduledFor)}</span></div>
+                </div>`;
+              }).join('')}
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Biblioteca global de exercícios</h3>
+            <div class="tag-cloud">
+              ${metrics.mostUsedExercises.map(item => `<span class="tag">${item.name} · ${item.usesThisWeek} usos</span>`).join('')}
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Biblioteca global de treinos</h3>
+            <div class="tag-cloud">
+              ${metrics.mostClonedWorkouts.map(item => `<span class="tag">${item.name} · ${item.clonesThisWeek} clones</span>`).join('')}
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Gestão de mídia de exercícios</h3>
+            <div class="invoice-list">
+              ${mediaPending.slice(0, 6).map(exercise => `<div class="invoice-row">
+                <div><strong>${exercise.name}</strong><span>${exercise.visualType}</span></div>
+                <span class="student-status warning">${exercise.visualStatus}</span>
+              </div>`).join('') || '<div class="activity-item">Sem mídias pendentes.</div>'}
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Saúde técnica do sistema</h3>
+            <div class="settings-list compact">
+              ${Object.entries(metrics.systemHealthMock || {}).map(([key, value]) => `
+                <div class="settings-row"><span class="settings-label">${key}</span><span class="settings-value">${value}</span></div>
+              `).join('')}
+            </div>
+          </section>
+          <section class="section-block admin-logs-block">
+            <h3 class="section-title">Logs mockados</h3>
+            <div class="activity-list">
+              ${(metrics.logsMock || []).map(log => `<div class="activity-item"><span class="activity-time">${formatEventTime(log.createdAt)}</span><span>${log.level.toUpperCase()} · ${log.message}</span></div>`).join('')}
+            </div>
+          </section>
+        </div>
+      </div>
     `;
   },
 
@@ -589,37 +678,43 @@ const App = {
     const professional = DataStore.getProfessionalById(profId);
     const students = DataStore.getStudentsByProfessional(profId);
     const studentIds = students.map(s => s.id);
-    const invoices = DataStore.getInvoicesByProfessional(profId);
     const upcomingInvoices = DataStore.getUpcomingInvoices(profId);
     const overdueInvoices = DataStore.getOverdueInvoices(profId);
     const library = DataStore.getWorkoutLibrary(profId);
     const voiceDrafts = DataStore.data.voiceDrafts.filter(draft => draft.professionalId === profId);
+    const attendance = DataStore.getAttendanceByProfessional(profId);
+    const criticalFeedbacks = DataStore.getCriticalFeedbacksByProfessional(profId);
+    const atRiskStudents = DataStore.getStudentsAtRisk(profId);
+    const completedToday = attendance.filter(event => event.eventType === 'workout_completed').length;
+    const missed = attendance.filter(event => ['workout_missed', 'no_show'].includes(event.eventType)).length;
     
     const subEl = $('view-prof-overview').querySelector('.page-sub');
-    if (subEl) subEl.textContent = `Olá, ${state.user.name}. Alunos, treinos e recebimentos em um só fluxo.`;
+    if (subEl) subEl.textContent = `Olá, ${state.user.name}. Frequência, progresso, feedbacks e recebimentos em um só fluxo.`;
 
     const stats = $('view-prof-overview').querySelectorAll('.stat-value');
     if (stats.length >= 4) {
-      const workoutsThisWeek = DataStore.data.prescribedWorkouts.filter(w => studentIds.includes(w.studentId)).length;
-      const pendingFeedbacks = DataStore.getFeedbacksByProfessional(profId).filter(f => f.requiresReview).length;
-
       stats[0].textContent = students.length;
-      stats[1].textContent = upcomingInvoices.length;
-      stats[2].textContent = overdueInvoices.length;
-      stats[3].textContent = pendingFeedbacks;
+      stats[1].textContent = completedToday;
+      stats[2].textContent = missed;
+      stats[3].textContent = criticalFeedbacks.length;
 
       const labels = $('view-prof-overview').querySelectorAll('.stat-label');
       if (labels.length >= 4) {
         labels[0].textContent = 'Alunos ativos';
-        labels[1].textContent = 'Vencimentos próximos';
-        labels[2].textContent = 'Inadimplentes';
-        labels[3].textContent = 'Feedbacks pendentes';
+        labels[1].textContent = 'Treinos concluídos';
+        labels[2].textContent = 'Faltas/no-show';
+        labels[3].textContent = 'Feedbacks críticos';
       }
     }
 
     const activityList = $('view-prof-overview').querySelector('.activity-list');
     if (activityList) {
       activityList.innerHTML = `
+        <div class="prof-action-bar">
+          <button class="btn btn-primary" onclick="App.openStudentForm('new')">Novo aluno</button>
+          <button class="btn btn-ghost" onclick="App.navigate('prof-alunos')">Ver alunos</button>
+          <button class="btn btn-ghost" onclick="App.navigate('prof-feedbacks')">Feedbacks pós-treino</button>
+        </div>
         <div class="ops-grid">
           <div>
             <h3 class="section-title">Dados Pix mockados</h3>
@@ -631,15 +726,42 @@ const App = {
             </div>
           </div>
           <div>
-            <h3 class="section-title">Vencimentos próximos</h3>
+            <h3 class="section-title">Acompanhamento quase em tempo real</h3>
             <div class="invoice-list">
-              ${upcomingInvoices.slice(0, 5).map(invoice => {
-                const student = DataStore.getStudentById(invoice.studentId);
+              ${attendance.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 6).map(event => {
+                const student = DataStore.getStudentById(event.studentId);
                 return `<div class="invoice-row">
-                  <div><strong>${student.name}</strong><span>${formatDateBR(invoice.dueDate)} · ${formatCurrencyBR(invoice.amount)}</span></div>
-                  <span class="student-status ${statusTone(invoice.status)}">${paymentStatusLabel(invoice.status)}</span>
+                  <div><strong>${student ? student.name : event.studentId}</strong><span>${event.eventType} · ${formatEventTime(event.createdAt)}</span></div>
+                  <span class="student-status ${['workout_missed', 'no_show'].includes(event.eventType) ? 'danger' : 'active'}">${event.source}</span>
                 </div>`;
-              }).join('') || '<div class="activity-item">Sem vencimentos próximos.</div>'}
+              }).join('') || '<div class="activity-item">Sem eventos recentes.</div>'}
+            </div>
+          </div>
+        </div>
+        <div class="ops-grid">
+          <div>
+            <h3 class="section-title">Alunos em risco e progresso</h3>
+            <div class="invoice-list">
+              ${students.slice(0, 6).map(student => {
+                const summary = DataStore.getProgressSummaryByStudent(student.id);
+                return `<div class="invoice-row">
+                  <div><strong>${student.name}</strong><span>${summary.completedWorkouts} concluídos · ${summary.missedWorkouts} perdidos · nota ${summary.averageWorkoutRating}</span></div>
+                  <span class="student-status ${summary.adherenceRate < 70 || student.riskLevel === 'high' ? 'danger' : 'active'}">${summary.adherenceRate}%</span>
+                </div>`;
+              }).join('')}
+            </div>
+          </div>
+          <div>
+            <h3 class="section-title">Feedbacks pós-treino críticos</h3>
+            <div class="voice-list">
+              ${criticalFeedbacks.slice(0, 5).map(feedback => {
+                const student = DataStore.getStudentById(feedback.studentId);
+                return `<div class="voice-card critical">
+                  <strong>${student ? student.name : feedback.studentId} · nota ${feedback.workoutRating}/5</strong>
+                  <span>${perceivedEffortLabel(feedback.perceivedEffort)} · ${completionStatusLabel(feedback.completionStatus)}${feedback.painReported ? ' · dor: ' + feedback.painLocation : ''}</span>
+                  <p>${feedback.comment}</p>
+                </div>`;
+              }).join('') || '<div class="activity-item">Sem feedback crítico.</div>'}
             </div>
           </div>
         </div>
@@ -659,6 +781,20 @@ const App = {
             </div>
           </div>
           <div>
+            <h3 class="section-title">Vencimentos e inadimplência</h3>
+            <div class="invoice-list">
+              ${[...overdueInvoices, ...upcomingInvoices].slice(0, 5).map(invoice => {
+                const student = DataStore.getStudentById(invoice.studentId);
+                return `<div class="invoice-row">
+                  <div><strong>${student ? student.name : invoice.studentId}</strong><span>${formatDateBR(invoice.dueDate)} · ${formatCurrencyBR(invoice.amount)}</span></div>
+                  <span class="student-status ${statusTone(invoice.status)}">${paymentStatusLabel(invoice.status)}</span>
+                </div>`;
+              }).join('') || '<div class="activity-item">Sem cobranças em atenção.</div>'}
+            </div>
+          </div>
+        </div>
+        <div class="ops-grid">
+          <div>
             <h3 class="section-title">Voz/texto assistido</h3>
             <div class="voice-list">
               ${voiceDrafts.map(draft => {
@@ -671,6 +807,15 @@ const App = {
               }).join('') || '<div class="activity-item">Sem rascunhos para revisar.</div>'}
             </div>
           </div>
+          <div>
+            <h3 class="section-title">Alunos que precisam de ajuste</h3>
+            <div class="tag-cloud">
+              ${atRiskStudents.map(student => {
+                const summary = DataStore.getProgressSummaryByStudent(student.id);
+                return `<button class="tag tag-button" onclick="App.openStudentProfile('${student.id}')">${student.name} · ${riskLabel(student, summary)}</button>`;
+              }).join('') || '<span class="tag">Sem alertas críticos.</span>'}
+            </div>
+          </div>
         </div>
         <div id="clone-toast" class="clone-toast hidden"></div>
       `;
@@ -678,19 +823,29 @@ const App = {
   },
 
   renderProfAlunos() {
+    const view = $('view-prof-alunos');
+    const profId = state.user.professionalId;
+    const myStudents = DataStore.getStudentsByProfessional(profId);
+    view.querySelector('.page-header').innerHTML = `
+      <h2>Alunos</h2>
+      <p class="page-sub">Frequência, faltas, progresso, feedbacks e financeiro dos alunos.</p>
+      <div class="prof-action-bar">
+        <button class="btn btn-primary" onclick="App.openStudentForm('new')">Novo aluno</button>
+        <button class="btn btn-ghost" onclick="App.openStudentForm('edit', '${myStudents[0] ? myStudents[0].id : ''}')">Editar aluno</button>
+      </div>
+    `;
     const studentListEl = $('view-prof-alunos').querySelector('.student-list');
     if (studentListEl) {
-      const profId = state.user.professionalId;
-      const myStudents = DataStore.getStudentsByProfessional(profId);
-      
       studentListEl.innerHTML = myStudents.map(s => {
         const avatar = s.name.charAt(0);
         const invoice = DataStore.getInvoicesByStudent(s.id)[0];
         const plan = DataStore.data.plans.find(p => p.id === s.planId);
-        const riskClass = s.riskLevel === 'high' ? 'danger' : (s.riskLevel === 'medium' ? 'warning' : 'active');
-        const riskLabel = s.riskLevel === 'high' ? 'Alto risco' : (s.riskLevel === 'medium' ? 'Atenção' : 'Baixo risco');
         const schedule = DataStore.getWeeklyScheduleByStudent(s.id);
         const weekSummary = schedule ? Object.values(schedule.days).filter(day => day.type === 'workout').map(day => day.title).join(' · ') : 'Sem grade';
+        const summary = DataStore.getProgressSummaryByStudent(s.id);
+        const lastFeedback = summary.lastFeedback;
+        const status = riskLabel(s, summary);
+        const riskClass = status === 'risco alto' ? 'danger' : (status === 'atenção' ? 'warning' : 'active');
         
         return `
           <div class="student-card" data-id="${s.id}">
@@ -698,12 +853,15 @@ const App = {
             <div class="student-info">
               <div class="student-name">${s.name}</div>
               <div class="student-meta">${s.goal} · ${s.trainingMode} · ${s.level} · ${plan ? plan.name : 'Sem plano'}</div>
+              <div class="student-meta">Semana: ${summary.completedWorkouts} concluídos · ${summary.missedWorkouts} faltas · ${summary.adherenceRate}% adesão · nota média ${summary.averageWorkoutRating}</div>
               <div class="student-meta">Vencimento: ${formatDateBR(s.nextDueDate)} · ${billingFrequencyLabel(s.billingFrequency)} · ${weekSummary}</div>
-              <div class="student-notes">${s.notes || ''}</div>
+              <div class="student-notes">${lastFeedback ? `Último feedback: ${lastFeedback.comment}` : (s.notes || '')}</div>
             </div>
             <div class="student-card-actions">
               <span class="student-status ${statusTone(s.paymentStatus)}">${paymentStatusLabel(s.paymentStatus)}</span>
-              <span class="student-status ${riskClass}">${riskLabel}</span>
+              <span class="student-status ${riskClass}">${status}</span>
+              <button class="btn btn-sm btn-primary" onclick="App.openStudentProfile('${s.id}')">Perfil completo</button>
+              <button class="btn btn-sm btn-ghost" onclick="App.openStudentForm('edit', '${s.id}')">Editar aluno</button>
               ${invoice ? `<button class="btn btn-sm btn-ghost" onclick="App.cloneWorkoutMock('lib-01', '${s.id}')">Clonar treino</button>` : ''}
             </div>
           </div>
@@ -716,34 +874,45 @@ const App = {
     const feedbackListEl = $('view-prof-feedbacks').querySelector('.feedback-list');
     if (feedbackListEl) {
       const profId = state.user.professionalId;
-      const myFeedbacks = DataStore.getFeedbacksByProfessional(profId)
+      const postFeedbacks = DataStore.data.postWorkoutFeedbacks
+        .filter(feedback => feedback.professionalId === profId)
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const critical = postFeedbacks.filter(feedback => feedback.requiresReview);
+      const averageRating = postFeedbacks.length
+        ? (postFeedbacks.reduce((sum, feedback) => sum + Number(feedback.workoutRating || 0), 0) / postFeedbacks.length).toFixed(1)
+        : '—';
 
-      if (myFeedbacks.length === 0) {
+      $('view-prof-feedbacks').querySelector('.page-header').innerHTML = `
+        <h2>Feedbacks pós-treino</h2>
+        <p class="page-sub">Notas, esforço percebido, dor, conclusão e comentários livres dos alunos.</p>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-value">${postFeedbacks.length}</div><div class="stat-label">Feedbacks recebidos</div></div>
+          <div class="stat-card"><div class="stat-value">${critical.length}</div><div class="stat-label">Críticos</div></div>
+          <div class="stat-card"><div class="stat-value">${averageRating}</div><div class="stat-label">Nota média</div></div>
+          <div class="stat-card"><div class="stat-value">${DataStore.getStudentsAtRisk(profId).length}</div><div class="stat-label">Precisam de ajuste</div></div>
+        </div>
+      `;
+
+      if (postFeedbacks.length === 0) {
         feedbackListEl.innerHTML = '<div class="feedback-card">Nenhum feedback recebido ainda.</div>';
       } else {
-        feedbackListEl.innerHTML = myFeedbacks.map(f => {
-          const student = DataStore.data.students.find(s => s.id === f.studentId);
+        feedbackListEl.innerHTML = postFeedbacks.map(f => {
+          const student = DataStore.getStudentById(f.studentId);
           const studentName = student ? student.name : 'Aluno';
-          
-          const ex = DataStore.data.exercises.find(e => e.id === f.exerciseId);
-          const exName = ex ? ex.name : '';
-          const contextText = exName ? `${exName}` : 'Geral';
-
-          const tagClass = f.requiresReview ? 'tag-warn' : 'tag-success';
-          const tagText = f.requiresReview ? 'Revisão pendente' : 'Revisado';
 
           return `
-            <div class="feedback-card">
+            <div class="feedback-card ${f.requiresReview ? 'critical' : ''}">
               <div class="fb-header">
                 <span class="fb-student">${studentName}</span>
                 <span class="fb-date">${formatEventTime(f.createdAt)}</span>
               </div>
-              <div class="fb-exercise">Contexto: ${contextText}</div>
-              <div class="fb-content">"${f.message}"</div>
+              <div class="fb-exercise">Nota ${f.workoutRating}/5 · ${perceivedEffortLabel(f.perceivedEffort)} · ${completionStatusLabel(f.completionStatus)}</div>
+              <div class="fb-content">"${f.comment}"</div>
               <div class="fb-tags">
-                <span class="tag ${tagClass}">${tagText}</span>
-                <span class="tag">Intensidade: ${f.intensity}</span>
+                <span class="tag ${f.requiresReview ? 'tag-warn' : 'tag-success'}">${f.requiresReview ? 'Crítico/revisar' : 'Sem alerta'}</span>
+                <span class="tag">Humor: ${f.mood}</span>
+                ${f.painReported ? `<span class="tag tag-warn">Dor: ${f.painLocation || 'não informado'}</span>` : ''}
+                <button class="tag tag-button" onclick="App.openStudentProfile('${f.studentId}')">Abrir perfil</button>
               </div>
             </div>
           `;
@@ -778,6 +947,179 @@ const App = {
     this.toastTimer = setTimeout(() => toast.classList.add('hidden'), 2600);
   },
 
+  bindOperationalForms() {
+    document.addEventListener('submit', event => {
+      if (event.target && event.target.id === 'student-form-mock') {
+        event.preventDefault();
+        this.saveStudentForm(event.target);
+      }
+      if (event.target && event.target.id === 'post-workout-feedback-form') {
+        event.preventDefault();
+        this.savePostWorkoutFeedback(event.target);
+      }
+    });
+  },
+
+  ensureModal() {
+    let modal = $('ops-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'ops-modal';
+      modal.className = 'ops-modal hidden';
+      modal.innerHTML = '<div class="ops-modal-panel"><button class="ops-modal-close" onclick="App.closeModal()" aria-label="Fechar">×</button><div id="ops-modal-content"></div></div>';
+      document.body.appendChild(modal);
+    }
+    return modal;
+  },
+
+  closeModal() {
+    const modal = $('ops-modal');
+    if (modal) modal.classList.add('hidden');
+  },
+
+  openStudentProfile(studentId) {
+    const student = DataStore.getStudentById(studentId);
+    if (!student) return;
+    const plan = DataStore.data.plans.find(item => item.id === student.planId);
+    const invoice = DataStore.getInvoicesByStudent(studentId).find(item => ['open', 'due_soon', 'overdue'].includes(item.status));
+    const assessment = DataStore.getAssessmentsByStudent(studentId)[0];
+    const schedule = DataStore.getWeeklyScheduleByStudent(studentId);
+    const summary = DataStore.getProgressSummaryByStudent(studentId);
+    const progress = summary.latest;
+    const feedbacks = DataStore.getPostWorkoutFeedbacksByStudent(studentId);
+    const workouts = DataStore.getWorkoutsByStudent(studentId);
+    const attendance = DataStore.getAttendanceByStudent(studentId).slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const modal = this.ensureModal();
+    $('ops-modal-content').innerHTML = `
+      <div class="student-profile-detail">
+        <div class="profile-detail-header">
+          <div>
+            <span class="landing-card-label">Perfil completo do aluno</span>
+            <h2>${student.name}</h2>
+            <p>${student.goal} · ${student.level} · ${student.trainingMode}</p>
+          </div>
+          <div class="profile-detail-actions">
+            <button class="btn btn-primary" onclick="App.openStudentForm('edit', '${student.id}')">Editar aluno</button>
+            <button class="btn btn-ghost" onclick="App.cloneWorkoutMock('lib-01', '${student.id}')">Clonar treino</button>
+            <button class="btn btn-ghost" onclick="App.showToast('Cobrança Pix mockada pronta para ${student.name}.')">Gerar cobrança Pix mockada</button>
+          </div>
+        </div>
+        <div class="profile-detail-grid">
+          <section class="section-block"><h3 class="section-title">Dados básicos</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="settings-label">Objetivo</span><span class="settings-value">${student.goal}</span></div>
+              <div class="settings-row"><span class="settings-label">Modalidade</span><span class="settings-value">${student.trainingMode}</span></div>
+              <div class="settings-row"><span class="settings-label">Restrições</span><span class="settings-value">${student.restrictions.length ? student.restrictions.join(', ') : 'Nenhuma'}</span></div>
+              <div class="settings-row"><span class="settings-label">Contexto</span><span class="settings-value">${student.preferredGymContext}</span></div>
+            </div>
+          </section>
+          <section class="section-block"><h3 class="section-title">Anamnese</h3>
+            <p class="card-body">${assessment ? assessment.notes : 'Sem anamnese mockada.'}</p>
+            <div class="tag-cloud"><span class="tag">Disponibilidade: ${assessment ? assessment.weeklyAvailability : '—'}</span><span class="tag">Consentimento mockado: ${assessment && assessment.consentMock ? 'sim' : '—'}</span></div>
+          </section>
+          <section class="section-block"><h3 class="section-title">Avaliação física</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="settings-label">Peso</span><span class="settings-value">${assessment && assessment.physicalEvaluationMock ? assessment.physicalEvaluationMock.weightKgMock + ' kg' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Altura</span><span class="settings-value">${assessment && assessment.physicalEvaluationMock ? assessment.physicalEvaluationMock.heightCmMock + ' cm' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">IMC</span><span class="settings-value">${assessment && assessment.physicalEvaluationMock ? assessment.physicalEvaluationMock.bmiMock : '—'}</span></div>
+            </div>
+          </section>
+          <section class="section-block"><h3 class="section-title">Bioimpedância demonstrativa</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="settings-label">Gordura</span><span class="settings-value">${progress ? progress.bodyFatPercentageMock + '%' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Massa magra</span><span class="settings-value">${progress ? progress.leanMassMock + ' kg' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Água corporal</span><span class="settings-value">${progress ? progress.bodyWaterPercentageMock + '%' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Tendência</span><span class="settings-value">${progress ? progress.bodyTrend : '—'}</span></div>
+            </div>
+          </section>
+          <section class="section-block"><h3 class="section-title">Frequência e adesão</h3>
+            <div class="stats-grid">
+              <div class="stat-card"><div class="stat-value">${summary.completedWorkouts}</div><div class="stat-label">Concluídos</div></div>
+              <div class="stat-card"><div class="stat-value">${summary.missedWorkouts}</div><div class="stat-label">Perdidos</div></div>
+              <div class="stat-card"><div class="stat-value">${summary.adherenceRate}%</div><div class="stat-label">Adesão</div></div>
+              <div class="stat-card"><div class="stat-value">${summary.averageWorkoutRating}</div><div class="stat-label">Nota média</div></div>
+            </div>
+          </section>
+          <section class="section-block"><h3 class="section-title">Progresso</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="settings-label">Volume mockado</span><span class="settings-value">${progress ? progress.totalVolumeMock + ' kg' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">RPE médio</span><span class="settings-value">${progress ? progress.averageRpe : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Força</span><span class="settings-value">${progress ? progress.strengthTrend : '—'}</span></div>
+            </div>
+          </section>
+          <section class="section-block"><h3 class="section-title">Treino</h3>
+            <div class="week-grid-mini">
+              ${schedule ? Object.entries(schedule.days).map(([day, item]) => `<div class="week-day"><strong>${getDayLabel(day)}</strong><span>${item.title}</span></div>`).join('') : ''}
+            </div>
+            <div class="tag-cloud">${workouts.slice(0, 5).map(workout => `<span class="tag">${workout.title} · ${workout.status}</span>`).join('')}</div>
+          </section>
+          <section class="section-block"><h3 class="section-title">Financeiro</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="settings-label">Plano</span><span class="settings-value">${plan ? plan.name : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Periodicidade</span><span class="settings-value">${billingFrequencyLabel(student.billingFrequency)}</span></div>
+              <div class="settings-row"><span class="settings-label">Status</span><span class="settings-value">${paymentStatusLabel(student.paymentStatus)}</span></div>
+              <div class="settings-row"><span class="settings-label">Pix aberto</span><span class="settings-value">${invoice ? invoice.pixCopyPasteMock : '—'}</span></div>
+            </div>
+          </section>
+          <section class="section-block profile-full-row"><h3 class="section-title">Feedbacks e faltas recentes</h3>
+            <div class="ops-grid">
+              <div class="voice-list">${feedbacks.slice(0, 4).map(feedback => `<div class="voice-card ${feedback.requiresReview ? 'critical' : ''}"><strong>Nota ${feedback.workoutRating}/5 · ${perceivedEffortLabel(feedback.perceivedEffort)}</strong><p>${feedback.comment}</p></div>`).join('')}</div>
+              <div class="activity-list">${attendance.slice(0, 6).map(event => `<div class="activity-item"><span class="activity-time">${formatEventTime(event.createdAt)}</span><span>${event.eventType} · ${event.notes}</span></div>`).join('')}</div>
+            </div>
+          </section>
+        </div>
+      </div>
+    `;
+    modal.classList.remove('hidden');
+  },
+
+  openStudentForm(mode, studentId = null) {
+    const student = studentId ? DataStore.getStudentById(studentId) : null;
+    const profId = state.user.professionalId;
+    const plans = DataStore.getPlansByProfessional(profId);
+    const modal = this.ensureModal();
+    $('ops-modal-content').innerHTML = `
+      <h2>${mode === 'edit' ? 'Editar aluno' : 'Novo aluno'}</h2>
+      <p class="page-sub">Protótipo: cadastro simulado. Nenhum dado real foi salvo em servidor.</p>
+      <form id="student-form-mock" class="mock-form" data-mode="${mode}" data-student-id="${student ? student.id : ''}">
+        <div class="form-grid">
+          <label>Nome<input name="name" required value="${student ? student.name : ''}"></label>
+          <label>Objetivo<input name="goal" value="${student ? student.goal : ''}"></label>
+          <label>Modalidade<select name="trainingMode"><option value="online">online</option><option value="presencial">presencial</option><option value="hibrido">hibrido</option></select></label>
+          <label>Nível<select name="level"><option value="iniciante">iniciante</option><option value="intermediario">intermediario</option><option value="avancado">avancado</option></select></label>
+          <label>Restrições<input name="restrictions" value="${student ? student.restrictions.join(', ') : ''}"></label>
+          <label>Frequência semanal<input name="weeklyFrequency" value="${student ? '3x por semana' : ''}"></label>
+          <label>Dias preferenciais<input name="preferredDays" value="segunda, quarta, sexta"></label>
+          <label>Plano<select name="planId">${plans.map(plan => `<option value="${plan.id}" ${student && student.planId === plan.id ? 'selected' : ''}>${plan.name}</option>`).join('')}</select></label>
+          <label>Periodicidade<select name="billingFrequency"><option value="monthly">mensal</option><option value="weekly">semanal</option><option value="quarterly">trimestral</option><option value="single">avulso</option></select></label>
+          <label>Valor<input name="amount" type="number" step="0.01" value="${plans[0] ? plans[0].amount : 0}"></label>
+          <label>Vencimento<input name="nextDueDate" type="date" value="${student ? student.nextDueDate : '2026-06-25'}"></label>
+          <label>Canal de lembrete<select name="preferredReminderChannel"><option value="whatsapp-mock">whatsapp-mock</option><option value="email-mock">email-mock</option><option value="in-app">in-app</option></select></label>
+        </div>
+        <label>Observações<textarea name="notes">${student ? student.notes : ''}</textarea></label>
+        <div class="draft-actions">
+          <button class="btn btn-primary" type="submit">${mode === 'edit' ? 'Salvar edição mockada' : 'Salvar novo aluno mockado'}</button>
+          <button class="btn btn-ghost" type="button" onclick="App.closeModal()">Cancelar</button>
+        </div>
+      </form>
+    `;
+    modal.classList.remove('hidden');
+  },
+
+  saveStudentForm(form) {
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.professionalId = state.user.professionalId;
+    if (form.dataset.mode === 'edit') {
+      DataStore.updateStudentFormMock(form.dataset.studentId, data);
+      this.showToast('Aluno atualizado localmente. Protótipo: nada foi salvo em servidor.');
+    } else {
+      DataStore.saveStudentFormMock(data);
+      this.showToast('Aluno criado localmente. Protótipo: nada foi salvo em servidor.');
+    }
+    this.closeModal();
+    if (state.currentView) this.renderView(state.currentView);
+  },
+
   renderAlunoOverview() {
     const studentId = state.user.studentId;
     const studentObj = DataStore.getStudentById(studentId);
@@ -787,6 +1129,9 @@ const App = {
       .find(item => ['open', 'due_soon', 'overdue', 'scheduled'].includes(item.status))
       || DataStore.getInvoicesByStudent(studentId)[0];
     const schedule = DataStore.getWeeklyScheduleByStudent(studentId);
+    const summary = DataStore.getProgressSummaryByStudent(studentId);
+    const progress = summary.latest;
+    const postFeedbacks = DataStore.getPostWorkoutFeedbacksByStudent(studentId);
 
     const subEl = $('view-aluno-overview').querySelector('.page-sub');
     if (subEl) subEl.textContent = `Olá, ${studentName}. Seu treino e sua cobrança mockada estão organizados.`;
@@ -842,6 +1187,29 @@ const App = {
             </div>
           </section>
         </div>
+        <div class="ops-grid">
+          <section>
+            <h3 class="section-title">Minha evolução</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="settings-label">Peso mockado</span><span class="settings-value">${progress ? progress.weightMock + ' kg' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Gordura</span><span class="settings-value">${progress ? progress.bodyFatPercentageMock + '%' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Massa magra</span><span class="settings-value">${progress ? progress.leanMassMock + ' kg' : '—'}</span></div>
+              <div class="settings-row"><span class="settings-label">Frequência</span><span class="settings-value">${summary.adherenceRate}% adesão</span></div>
+            </div>
+          </section>
+          <section>
+            <h3 class="section-title">Meus feedbacks</h3>
+            <div class="voice-list">
+              ${postFeedbacks.slice(0, 3).map(feedback => `
+                <div class="voice-card ${feedback.requiresReview ? 'critical' : ''}">
+                  <strong>Nota ${feedback.workoutRating}/5 · ${perceivedEffortLabel(feedback.perceivedEffort)}</strong>
+                  <span>${completionStatusLabel(feedback.completionStatus)} · humor: ${feedback.mood}</span>
+                  <p>${feedback.comment}</p>
+                </div>
+              `).join('') || '<div class="activity-item">Você ainda não enviou feedback pós-treino.</div>'}
+            </div>
+          </section>
+        </div>
       `;
     }
 
@@ -851,8 +1219,8 @@ const App = {
       const completedCount = studentEvents.filter(e => e.type === 'workout_finished').length;
       
       stats[0].textContent = completedCount + 10;
-      stats[1].textContent = studentObj ? (studentObj.adherenceStatus === 'Alta' ? '94%' : '65%') : '94%';
-      stats[2].textContent = studentObj && studentObj.level === 'Avançado' ? '+5.0kg' : '+2.5kg';
+      stats[1].textContent = `${summary.adherenceRate}%`;
+      stats[2].textContent = progress ? progress.strengthTrend : '+2.5kg';
       stats[3].textContent = todayWorkout ? todayWorkout.exercises.reduce((sum, ex) => sum + parseInt(ex.sets), 0) : '0';
     }
   },
@@ -914,6 +1282,7 @@ const App = {
     const assessment = DataStore.getAssessmentsByStudent(studentId)[0];
     const professional = DataStore.getProfessionalById(studentObj ? studentObj.professionalId : '');
     const plan = studentObj ? DataStore.data.plans.find(p => p.id === studentObj.planId) : null;
+    const progress = DataStore.getProgressSummaryByStudent(studentId).latest;
 
     const avatarEl = $('view-aluno-perfil').querySelector('.profile-avatar-large');
     if (avatarEl) avatarEl.textContent = state.user.avatar;
@@ -934,6 +1303,10 @@ const App = {
         <div class="anamnese-row"><span class="an-label">Disponibilidade</span><span class="an-value">${assessment ? assessment.availability : '—'}</span></div>
         <div class="anamnese-row"><span class="an-label">Plano</span><span class="an-value">${plan ? plan.name : '—'}</span></div>
         <div class="anamnese-row"><span class="an-label">Vencimento</span><span class="an-value">${studentObj ? formatDateBR(studentObj.nextDueDate) : '—'}</span></div>
+        <div class="anamnese-row"><span class="an-label">Peso mockado</span><span class="an-value">${progress ? progress.weightMock + ' kg' : '—'}</span></div>
+        <div class="anamnese-row"><span class="an-label">Gordura mockada</span><span class="an-value">${progress ? progress.bodyFatPercentageMock + '%' : '—'}</span></div>
+        <div class="anamnese-row"><span class="an-label">Massa magra mockada</span><span class="an-value">${progress ? progress.leanMassMock + ' kg' : '—'}</span></div>
+        <div class="anamnese-row"><span class="an-label">IMC mockado</span><span class="an-value">${progress ? progress.bmiMock : '—'}</span></div>
         <div class="anamnese-row"><span class="an-label">Restrições</span><span class="an-value">${studentObj && studentObj.restrictions.length > 0 ? studentObj.restrictions.join(', ') : 'Nenhuma'}</span></div>
         <div class="anamnese-row"><span class="an-label">Professor</span><span class="an-value">${professional ? professional.name : 'Sem professor'}</span></div>
         <div class="anamnese-row"><span class="an-label">Conexão BT</span><span class="an-value">${studentObj && studentObj.usesBluetooth ? 'Habilitado' : 'Desativado'}</span></div>
@@ -946,6 +1319,9 @@ const App = {
     const studentId = state.user.studentId;
     const listEl = $('view-aluno-evolucao').querySelector('.evolution-list');
     if (listEl) {
+      const summary = DataStore.getProgressSummaryByStudent(studentId);
+      const progress = summary.latest;
+      const feedbacks = DataStore.getPostWorkoutFeedbacksByStudent(studentId);
       const setEvents = DataStore.data.workoutEvents.filter(e => e.studentId === studentId && e.type === 'set_completed');
       const loadsByEx = {};
       setEvents.forEach(e => {
@@ -961,8 +1337,34 @@ const App = {
       });
 
       const items = Object.entries(loadsByEx);
+      const progressHtml = `
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-value">${summary.adherenceRate}%</div><div class="stat-label">Frequência</div></div>
+          <div class="stat-card"><div class="stat-value">${summary.averageWorkoutRating}</div><div class="stat-label">Nota média</div></div>
+          <div class="stat-card"><div class="stat-value">${progress ? progress.weightMock + ' kg' : '—'}</div><div class="stat-label">Peso mockado</div></div>
+          <div class="stat-card"><div class="stat-value">${progress ? progress.bodyFatPercentageMock + '%' : '—'}</div><div class="stat-label">Gordura mockada</div></div>
+        </div>
+        <div class="ops-grid">
+          <section class="section-block">
+            <h3 class="section-title">Bioimpedância demonstrativa</h3>
+            <div class="settings-list compact">
+              <div class="settings-row"><span class="an-label">Massa magra</span><span class="an-value">${progress ? progress.leanMassMock + ' kg' : '—'}</span></div>
+              <div class="settings-row"><span class="an-label">Massa gorda</span><span class="an-value">${progress ? progress.fatMassMock + ' kg' : '—'}</span></div>
+              <div class="settings-row"><span class="an-label">Água corporal</span><span class="an-value">${progress ? progress.bodyWaterPercentageMock + '%' : '—'}</span></div>
+              <div class="settings-row"><span class="an-label">Tendência</span><span class="an-value">${progress ? progress.bodyTrend : '—'}</span></div>
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Percepção de esforço</h3>
+            <div class="voice-list">
+              ${feedbacks.slice(0, 4).map(feedback => `<div class="voice-card ${feedback.requiresReview ? 'critical' : ''}"><strong>Nota ${feedback.workoutRating}/5 · ${perceivedEffortLabel(feedback.perceivedEffort)}</strong><span>${formatEventTime(feedback.createdAt)}</span><p>${feedback.comment}</p></div>`).join('')}
+            </div>
+          </section>
+        </div>
+      `;
       if (items.length === 0) {
         listEl.innerHTML = `
+          ${progressHtml}
           <div class="evo-card">
             <div class="evo-exercise">Supino Reto com Barra</div>
             <div class="evo-stats"><span class="evo-value">60 kg (Sugerido)</span><span class="evo-trend flat">→ Estável</span></div>
@@ -975,7 +1377,7 @@ const App = {
           </div>
         `;
       } else {
-        listEl.innerHTML = items.map(([name, maxLoad]) => {
+        listEl.innerHTML = progressHtml + items.map(([name, maxLoad]) => {
           const pct = Math.min(100, Math.round((maxLoad / 150) * 100));
           return `
             <div class="evo-card">
@@ -1296,13 +1698,83 @@ const App = {
   finishWorkout() {
     $('rest-timer-wrap').classList.add('hidden');
     $('btn-next-exercise').classList.add('hidden');
+    state.workout.finishedWorkoutId = state.workout.activeWorkoutId;
     
     OfflineQueue.push({
       type: 'workout_finished',
+      workoutId: state.workout.finishedWorkoutId,
       online: navigator.onLine
     });
 
-    alert('Treino concluído! Todos os eventos foram registrados.');
+    this.openPostWorkoutFeedback();
+  },
+
+  openPostWorkoutFeedback() {
+    const student = DataStore.getStudentById(state.user.studentId);
+    const workout = DataStore.data.prescribedWorkouts.find(item => item.id === state.workout.finishedWorkoutId) || DataStore.getTodayWorkout(state.user.studentId);
+    const modal = this.ensureModal();
+    $('ops-modal-content').innerHTML = `
+      <h2>Feedback pós-treino</h2>
+      <p class="page-sub">${student ? student.name : 'Aluno'} · ${workout ? workout.title : 'Treino concluído'}</p>
+      <form id="post-workout-feedback-form" class="mock-form">
+        <input type="hidden" name="studentId" value="${state.user.studentId}">
+        <input type="hidden" name="professionalId" value="${student ? student.professionalId : ''}">
+        <input type="hidden" name="workoutId" value="${workout ? workout.id : ''}">
+        <div class="form-grid">
+          <label>Nota do treino
+            <select name="workoutRating" required>
+              <option value="5">5 · excelente</option>
+              <option value="4">4 · bom</option>
+              <option value="3">3 · mediano</option>
+              <option value="2">2 · ruim</option>
+              <option value="1">1 · crítico</option>
+            </select>
+          </label>
+          <label>Esforço percebido
+            <select name="perceivedEffort">
+              <option value="leve">leve</option>
+              <option value="moderado">moderado</option>
+              <option value="pesado">pesado</option>
+              <option value="muito_pesado">muito pesado</option>
+            </select>
+          </label>
+          <label>Conseguiu completar?
+            <select name="completionStatus">
+              <option value="completo">completo</option>
+              <option value="parcial">parcial</option>
+              <option value="nao_consegui">não consegui</option>
+            </select>
+          </label>
+          <label>Como se sentiu?
+            <select name="mood">
+              <option value="bem">bem</option>
+              <option value="normal">normal</option>
+              <option value="cansado">cansado</option>
+              <option value="desmotivado">desmotivado</option>
+            </select>
+          </label>
+          <label class="checkbox-row"><input type="checkbox" name="painReported" value="true"> Relatei dor</label>
+          <label>Local da dor<input name="painLocation" placeholder="ombro, joelho, lombar..."></label>
+        </div>
+        <label>Comentário livre<textarea name="comment" placeholder="Como foi o treino? Teve dúvida de carga, dor, falta de equipamento ou exercício difícil?"></textarea></label>
+        <div class="draft-actions">
+          <button class="btn btn-primary" type="submit">Enviar feedback mockado</button>
+          <button class="btn btn-ghost" type="button" onclick="App.closeModal(); App.navigate('aluno-overview')">Pular por enquanto</button>
+        </div>
+      </form>
+    `;
+    modal.classList.remove('hidden');
+  },
+
+  savePostWorkoutFeedback(form) {
+    const data = Object.fromEntries(new FormData(form).entries());
+    const feedback = DataStore.savePostWorkoutFeedback({
+      ...data,
+      workoutRating: Number(data.workoutRating),
+      painReported: data.painReported === 'true'
+    });
+    this.closeModal();
+    this.showToast(feedback.requiresReview ? 'Feedback crítico salvo localmente para revisão do professor.' : 'Feedback pós-treino salvo localmente.');
     this.navigate('aluno-overview');
   },
 
@@ -1377,24 +1849,24 @@ function renderApp() {
   <main class="landing-shell" aria-labelledby="landing-title">
     <section class="landing-hero">
       <div class="landing-hero-content">
-        <div class="landing-kicker">Protótipo operacional V1</div>
+        <div class="landing-kicker">Protótipo operacional V1.3</div>
         <h1 id="landing-title" class="landing-title">PersonalOps</h1>
         <p class="landing-subtitle">O cockpit operacional do personal trainer.</p>
         <div class="landing-copy">
-          <p>O PersonalOps é um protótipo de sistema para personal trainers criarem, entregarem e acompanharem treinos com mais clareza, velocidade e confiabilidade.</p>
-          <p>Ele nasce de uma dor simples: o treino real acontece em ambientes imperfeitos. Academia sem internet boa, aluno treinando sozinho, carga esquecida, pausa confusa, feedback perdido e aplicativos que nem sempre acompanham o ritmo da rotina.</p>
-          <p>O objetivo do PersonalOps é transformar essa operação em um fluxo mais claro: o personal prescreve, o aluno executa, o app registra e o profissional acompanha os sinais importantes para ajustar o treino com mais precisão.</p>
+          <p>PersonalOps é um protótipo de sistema operacional para personal trainers. Ele conecta prescrição de treino, acompanhamento do aluno, progresso, frequência, feedback pós-treino, cobrança Pix demonstrativa e gestão operacional em uma única experiência.</p>
+          <p>Ele nasce de uma dor simples: o treino real acontece entre agenda, faltas, cobrança, dúvida de carga, equipamento indisponível, feedback perdido e sinais de evolução que raramente ficam no mesmo lugar.</p>
+          <p>A versão atual separa três camadas: Admin PersonalOps para a plataforma, Professor para operação dos alunos e Aluno para execução, evolução, pagamento mockado e relato pós-treino.</p>
         </div>
         <div class="landing-actions">
           <button id="btn-enter-app" class="btn btn-primary landing-cta" type="button">Entrar na aplicação</button>
-          <button id="btn-product-proposal" class="btn btn-ghost" type="button">Ver proposta do produto</button>
+          <button id="btn-product-proposal" class="btn btn-ghost" type="button">Ver o que está sendo validado</button>
         </div>
       </div>
 
       <div class="ops-panel" aria-label="Fluxo operacional do PersonalOps">
         <div class="ops-panel-header">
           <span class="ops-status"></span>
-          <span>Fluxo de treino</span>
+          <span>Fluxo operacional</span>
         </div>
         <div class="ops-flow">
           <div class="ops-step">
@@ -1411,8 +1883,8 @@ function renderApp() {
           <div class="ops-line"></div>
           <div class="ops-step">
             <span class="ops-step-index">03</span>
-            <strong>Acompanhar</strong>
-            <span>Sinais importantes para ajuste do treino</span>
+            <strong>Ajustar</strong>
+            <span>Frequência, progresso, dor e nota pós-treino</span>
           </div>
         </div>
         <div class="ops-metrics">
@@ -1426,43 +1898,44 @@ function renderApp() {
     <section class="landing-blocks" aria-label="Proposta por público e validação">
       <article class="landing-card">
         <span class="landing-card-label">Para o personal</span>
-        <h2>Prescrição com menos atrito</h2>
-        <p>Organize alunos, treinos, feedbacks e sinais de evolução em uma visão operacional simples.</p>
+        <h2>Operação do aluno</h2>
+        <p>Organize anamnese, avaliação física, bioimpedância demonstrativa, treinos, frequência, faltas, feedbacks e cobranças.</p>
       </article>
       <article class="landing-card">
         <span class="landing-card-label">Para o aluno</span>
-        <h2>Treino mais claro na prática</h2>
-        <p>Acompanhe o treino do dia, registre carga, séries e repetições, use timer de descanso e mantenha o progresso salvo.</p>
+        <h2>Execução com feedback</h2>
+        <p>O aluno registra carga, séries, RPE, timer, nota do treino, esforço percebido, dor, humor e comentário livre.</p>
       </article>
       <article class="landing-card">
         <span class="landing-card-label">Para validação</span>
-        <h2>Protótipo em evolução</h2>
-        <p>Esta versão é estática, usa dados simulados e existe para validar fluxo, clareza, utilidade e experiência antes de qualquer banco real.</p>
+        <h2>Dashboard da plataforma</h2>
+        <p>O Admin PersonalOps vê professores, alunos, uso, biblioteca global, mídia pendente, Pix mockado, notificações e saúde técnica.</p>
       </article>
       <article class="landing-card landing-card-accent">
         <span class="landing-card-label">Diferencial</span>
-        <h2>Offline-first como princípio</h2>
-        <p>Nada que acontece durante o treino deveria depender totalmente da internet. A V1 já simula fila local para eventos de treino.</p>
+        <h2>Pix e offline mockados</h2>
+        <p>Pix, QR Code, WhatsApp, Open Finance e fila offline são demonstrativos. Nada executa transação real.</p>
       </article>
     </section>
 
     <section id="landing-validation" class="landing-validation">
       <div>
         <span class="landing-section-label">O que estamos validando</span>
-        <h2>Hipóteses antes de qualquer banco real</h2>
+        <h2>O que estamos validando agora</h2>
       </div>
       <ul class="validation-list">
-        <li>O personal entende melhor seus alunos com uma visão operacional?</li>
-        <li>O aluno consegue seguir o treino com menos fricção?</li>
-        <li>O timer e o registro de série melhoram a execução?</li>
-        <li>A fila offline resolve uma dor real de academia?</li>
-        <li>O produto parece útil antes de ter banco real?</li>
+        <li>O professor consegue acompanhar frequência e progresso sem depender de planilhas?</li>
+        <li>O aluno consegue registrar treino e feedback com pouco atrito?</li>
+        <li>A nota pós-treino ajuda o professor a ajustar a prescrição?</li>
+        <li>A grade semanal melhora a organização do aluno?</li>
+        <li>O Pix mockado ajuda a validar o fluxo de cobrança?</li>
+        <li>O dashboard da plataforma ajuda a visualizar o comportamento do sistema?</li>
       </ul>
     </section>
 
     <section class="landing-warning" role="note">
       <strong>Aviso de validação</strong>
-      <p>Esta é uma versão de validação. Nenhum dado real de saúde, aluno, pagamento ou avaliação física deve ser inserido.</p>
+      <p>Esta é uma versão de validação. Todos os dados são sintéticos. Pagamentos, Pix, QR Code, WhatsApp e Open Finance são demonstrativos e não executam transações reais.</p>
     </section>
 
     <section class="landing-final-cta">
@@ -1470,7 +1943,7 @@ function renderApp() {
       <button id="btn-hero-enter-app" class="btn btn-primary landing-cta" type="button">Entrar na aplicação</button>
     </section>
 
-    <footer class="landing-footer">PersonalOps V1 — protótipo estático para validação inicial.</footer>
+    <footer class="landing-footer">PersonalOps V1.3 — protótipo estático para validação operacional.</footer>
   </main>
 </div>
 
@@ -1545,7 +2018,7 @@ function renderApp() {
     </div>
     <ul class="nav-list" id="nav-list"></ul>
     <div class="sidebar-footer">
-      <span class="version-label">PersonalOps v1.0 — Protótipo</span>
+      <span class="version-label">PersonalOps v1.3 — Protótipo</span>
     </div>
   </nav>
   <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>

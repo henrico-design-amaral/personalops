@@ -24,7 +24,11 @@ window.DataStore = {
     workoutEvents: [],
     feedbacks: [],
     assessments: [],
-    voiceDrafts: []
+    voiceDrafts: [],
+    attendanceEvents: [],
+    progressSnapshots: [],
+    postWorkoutFeedbacks: [],
+    platformMetrics: {}
   },
 
   loadedFromNetwork: false,
@@ -187,7 +191,38 @@ window.DataStore = {
           saturday: { type: 'assessment', title: 'Mobilidade', notes: 'Fallback.' }
         }
       }
-    ]
+    ],
+    attendanceEvents: [],
+    progressSnapshots: [],
+    postWorkoutFeedbacks: [],
+    platformMetrics: {
+      totalProfessionals: 1,
+      activeProfessionals: 1,
+      totalStudents: 1,
+      activeStudents: 1,
+      lowAdherenceStudents: 0,
+      workoutsThisWeek: 1,
+      completedWorkoutsThisWeek: 0,
+      missedWorkoutsThisWeek: 0,
+      feedbacksThisWeek: 0,
+      criticalFeedbacks: 0,
+      openInvoices: 1,
+      overdueInvoices: 0,
+      scheduledNotifications: 0,
+      offlineEventsPending: 0,
+      exercisesRegistered: 1,
+      workoutsInLibrary: 0,
+      mediaAssetsPending: 0,
+      mostUsedExercises: [],
+      mostClonedWorkouts: [],
+      systemHealthMock: {
+        staticHosting: 'ok',
+        serviceWorkerCache: 'personalops-v1-cache-006',
+        auth: 'mocked-client-only',
+        paymentGateway: 'pix-manual-mock'
+      },
+      logsMock: []
+    }
   },
 
   datasets: [
@@ -208,7 +243,11 @@ window.DataStore = {
     ['workoutEvents', 'workout-events.json'],
     ['feedbacks', 'feedbacks.json'],
     ['assessments', 'assessments.json'],
-    ['voiceDrafts', 'voice-drafts.json']
+    ['voiceDrafts', 'voice-drafts.json'],
+    ['attendanceEvents', 'attendance-events.json'],
+    ['progressSnapshots', 'progress-snapshots.json'],
+    ['postWorkoutFeedbacks', 'post-workout-feedbacks.json'],
+    ['platformMetrics', 'platform-metrics.json']
   ],
 
   async loadData() {
@@ -337,6 +376,169 @@ window.DataStore = {
 
   getAssessmentsByStudent(studentId) {
     return this.data.assessments.filter(assessment => assessment.studentId === studentId);
+  },
+
+  getAttendanceByStudent(studentId) {
+    return this.data.attendanceEvents.filter(event => event.studentId === studentId);
+  },
+
+  getAttendanceByProfessional(professionalId) {
+    return this.data.attendanceEvents.filter(event => event.professionalId === professionalId);
+  },
+
+  getProgressSnapshotsByStudent(studentId) {
+    return this.data.progressSnapshots
+      .filter(snapshot => snapshot.studentId === studentId)
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+  },
+
+  getProgressSummaryByStudent(studentId) {
+    const snapshots = this.getProgressSnapshotsByStudent(studentId);
+    const latest = snapshots[0] || null;
+    const attendance = this.getAttendanceByStudent(studentId);
+    const postFeedbacks = this.getPostWorkoutFeedbacksByStudent(studentId);
+    const ratings = postFeedbacks.map(feedback => Number(feedback.workoutRating || 0)).filter(Boolean);
+    const averageRating = ratings.length
+      ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
+      : latest ? latest.averageWorkoutRating : 0;
+
+    return {
+      latest,
+      adherenceRate: latest ? latest.adherenceRate : this.getWorkoutCompletionRate(studentId),
+      completedWorkouts: latest ? latest.completedWorkouts : attendance.filter(event => event.eventType === 'workout_completed').length,
+      missedWorkouts: latest ? latest.missedWorkouts : attendance.filter(event => ['workout_missed', 'no_show'].includes(event.eventType)).length,
+      averageWorkoutRating: Number(averageRating.toFixed(1)),
+      lastActivity: attendance.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0] || null,
+      lastFeedback: postFeedbacks[0] || null
+    };
+  },
+
+  getPostWorkoutFeedbacksByStudent(studentId) {
+    return this.data.postWorkoutFeedbacks
+      .filter(feedback => feedback.studentId === studentId)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  },
+
+  getCriticalFeedbacksByProfessional(professionalId) {
+    return this.data.postWorkoutFeedbacks
+      .filter(feedback => feedback.professionalId === professionalId && feedback.requiresReview)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  },
+
+  getWorkoutCompletionRate(studentId) {
+    const attendance = this.getAttendanceByStudent(studentId);
+    const scheduled = attendance.filter(event => event.eventType === 'workout_scheduled').length;
+    const completed = attendance.filter(event => event.eventType === 'workout_completed').length;
+    if (!scheduled) return 0;
+    return Math.round((completed / scheduled) * 100);
+  },
+
+  getStudentsAtRisk(professionalId) {
+    return this.getStudentsByProfessional(professionalId).filter(student => {
+      const summary = this.getProgressSummaryByStudent(student.id);
+      const criticalFeedback = this.getPostWorkoutFeedbacksByStudent(student.id).some(feedback => feedback.requiresReview);
+      return student.riskLevel === 'high'
+        || summary.adherenceRate < 70
+        || summary.missedWorkouts >= 2
+        || criticalFeedback;
+    });
+  },
+
+  getPlatformUsageMetrics() {
+    const metrics = this.data.platformMetrics || {};
+    return {
+      ...metrics,
+      totalProfessionals: metrics.totalProfessionals ?? this.data.professionals.length,
+      totalStudents: metrics.totalStudents ?? this.data.students.length,
+      activeStudents: metrics.activeStudents ?? this.data.students.filter(student => !['paused', 'canceled'].includes(student.paymentStatus)).length,
+      exercisesRegistered: metrics.exercisesRegistered ?? this.data.exercises.length,
+      workoutsInLibrary: metrics.workoutsInLibrary ?? this.data.workoutLibrary.length,
+      offlineEventsPending: metrics.offlineEventsPending ?? this.getOfflineQueue().filter(event => event.syncStatus === 'sync_pending').length
+    };
+  },
+
+  savePostWorkoutFeedback(feedback) {
+    const enriched = {
+      id: feedback.id || `pwfb-local-${Date.now()}`,
+      ...feedback,
+      requiresReview: feedback.requiresReview
+        ?? (Number(feedback.workoutRating) <= 2
+          || feedback.painReported
+          || feedback.completionStatus !== 'completo'
+          || String(feedback.comment || '').toLowerCase().includes('duvida')
+          || String(feedback.comment || '').toLowerCase().includes('dúvida')),
+      createdAt: feedback.createdAt || new Date().toISOString()
+    };
+
+    this.data.postWorkoutFeedbacks.unshift(enriched);
+    this.saveOfflineEvent({
+      type: 'post_workout_feedback_saved',
+      studentId: enriched.studentId,
+      workoutId: enriched.workoutId,
+      payload: enriched,
+      syncStatus: 'sync_pending',
+      offline: !navigator.onLine
+    });
+    return enriched;
+  },
+
+  saveStudentFormMock(student) {
+    const enriched = {
+      id: student.id || `std-local-${Date.now()}`,
+      professionalId: student.professionalId,
+      name: student.name || 'Novo aluno mockado',
+      goal: student.goal || 'Objetivo a definir',
+      trainingMode: student.trainingMode || 'online',
+      level: student.level || 'iniciante',
+      adherenceStatus: 'Nova inscrição',
+      riskLevel: 'low',
+      lastWorkoutAt: null,
+      nextWorkoutAt: null,
+      restrictions: student.restrictions ? String(student.restrictions).split(',').map(item => item.trim()).filter(Boolean) : [],
+      preferredGymContext: student.preferredGymContext || 'A definir',
+      usesBluetooth: false,
+      internetQuality: 'boa',
+      notes: student.notes || 'Cadastro simulado em protótipo estático.',
+      planId: student.planId || 'plan-01',
+      subscriptionId: `sub-local-${Date.now()}`,
+      billingFrequency: student.billingFrequency || 'monthly',
+      nextDueDate: student.nextDueDate || new Date().toISOString().split('T')[0],
+      paymentStatus: 'active',
+      reminderOptIn: true,
+      preferredReminderChannel: student.preferredReminderChannel || 'whatsapp-mock',
+      weeklyScheduleId: `ws-local-${Date.now()}`
+    };
+
+    this.data.students.unshift(enriched);
+    this.saveOfflineEvent({
+      type: 'student_created_mock',
+      studentId: enriched.id,
+      payload: enriched,
+      syncStatus: 'sync_pending',
+      offline: !navigator.onLine
+    });
+    return enriched;
+  },
+
+  updateStudentFormMock(studentId, patch) {
+    const index = this.data.students.findIndex(student => student.id === studentId);
+    if (index < 0) throw new Error('Aluno não encontrado.');
+    const updated = {
+      ...this.data.students[index],
+      ...patch,
+      restrictions: patch.restrictions
+        ? String(patch.restrictions).split(',').map(item => item.trim()).filter(Boolean)
+        : this.data.students[index].restrictions
+    };
+    this.data.students[index] = updated;
+    this.saveOfflineEvent({
+      type: 'student_updated_mock',
+      studentId,
+      payload: patch,
+      syncStatus: 'sync_pending',
+      offline: !navigator.onLine
+    });
+    return updated;
   },
 
   cloneWorkoutMock(sourceWorkoutId, targetStudentId) {

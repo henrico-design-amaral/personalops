@@ -80,6 +80,19 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - **Service Worker**: cache atualizado para `personalops-v1-cache-005`.
   - **Documentação**: requisitos de billing/admin/Pix/biblioteca e plano de QA V1.2.
 
+### 2026-06-10 — Session 005 — Progress, Feedback & Platform Dashboard
+- **Branch**: `feature/refine-progress-feedback-and-platform-dashboard`
+- **Objetivo**: Refinar a separação entre Admin PersonalOps, Professor e Aluno com dashboard desktop-only da plataforma, frequência, faltas, progresso, bioimpedância demonstrativa e feedback pós-treino.
+- **Decisões**:
+  - Admin representa a plataforma, não o professor.
+  - Admin é desktop-only; Professor e Aluno seguem responsivos/mobile-first.
+  - Frequência, progresso, feedback e bioimpedância são sintéticos e carregados por JSON local.
+  - Feedback pós-treino é salvo localmente/mockado e sinalizado como crítico por nota baixa, dor, treino parcial ou dúvida.
+- **Escopo**:
+  - Novos datasets: `attendance-events.json`, `progress-snapshots.json`, `post-workout-feedbacks.json`, `platform-metrics.json`.
+  - Novas funções no `DataStore` para métricas, risco, frequência, progresso, feedback e formulários mockados.
+  - UI com perfil completo do aluno, novo/editar aluno mockado e dashboard de plataforma.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO

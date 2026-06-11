@@ -1,4 +1,6 @@
-# V1.2 Test Plan
+# V1.2 / V1.3 Test Plan
+
+Este arquivo permanece como trilha curta da V1.2. Para a validação completa de frequência, progresso, feedback pós-treino e dashboard da plataforma, usar `docs/qa/V1_3_TEST_PLAN.md`.
 
 ## Perfis
 
