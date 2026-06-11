@@ -55,6 +55,9 @@ https://henrico-design-amaral.github.io/personalops/?v=pix-v12
 Para validar a V1.3 após merge em `main`, usar:
 https://henrico-design-amaral.github.io/personalops/?v=progress-feedback
 
+Para validar a V1.4 visual após merge em `main`, usar:
+https://henrico-design-amaral.github.io/personalops/?v=visual-fluid
+
 ## Arquivos obrigatórios para GitHub Pages
 
 - `.nojekyll` — presente (evita processamento Jekyll)

@@ -17,7 +17,7 @@ Todos os arquivos em `assets/data/` usam dados sintéticos para validar operaç�
 - `attendance-events.json`: frequência, faltas, no-show, check-ins e atrasos simulados.
 - `progress-snapshots.json`: adesão, progresso, carga, RPE, peso, composição corporal e bioimpedância demonstrativa.
 - `post-workout-feedbacks.json`: 30 feedbacks pós-treino sintéticos com nota, esforço, dor, humor e comentário.
-- `platform-metrics.json`: métricas agregadas sintéticas para o Admin PersonalOps desktop-only.
+- `platform-metrics.json`: métricas agregadas sintéticas para o Admin PersonalOps desktop completo e mobile compacto.
 
 ## Relacionamentos
 
