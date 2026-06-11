@@ -12,7 +12,27 @@
     "availability": "2 dias por semana",
     "preferredWorkoutDuration": 30,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 164,
+      "weightKgMock": 62,
+      "bmiMock": 22,
+      "measuresMock": {
+        "chestCm": 88,
+        "waistCm": 74,
+        "hipCm": 96,
+        "thighCm": 52
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 28,
+      "leanMassMock": 42,
+      "fatMassMock": 18,
+      "bodyWaterPercentageMock": 48,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "descendo"
+    }
   },
   {
     "id": "asm-002",
@@ -25,7 +45,27 @@
     "availability": "3 dias por semana",
     "preferredWorkoutDuration": 45,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 165,
+      "weightKgMock": 63.8,
+      "bmiMock": 22.7,
+      "measuresMock": {
+        "chestCm": 89,
+        "waistCm": 75,
+        "hipCm": 97,
+        "thighCm": 53
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 26.9,
+      "leanMassMock": 43.1,
+      "fatMassMock": 17.3,
+      "bodyWaterPercentageMock": 49.2,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "estavel"
+    }
   },
   {
     "id": "asm-003",
@@ -38,7 +78,27 @@
     "availability": "4 dias por semana",
     "preferredWorkoutDuration": 60,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 166,
+      "weightKgMock": 65.6,
+      "bmiMock": 23.4,
+      "measuresMock": {
+        "chestCm": 90,
+        "waistCm": 76,
+        "hipCm": 98,
+        "thighCm": 54
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 25.8,
+      "leanMassMock": 44.3,
+      "fatMassMock": 16.6,
+      "bodyWaterPercentageMock": 50.4,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "subindo"
+    }
   },
   {
     "id": "asm-004",
@@ -51,7 +111,27 @@
     "availability": "5 dias por semana",
     "preferredWorkoutDuration": 75,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 167,
+      "weightKgMock": 67.4,
+      "bmiMock": 24.1,
+      "measuresMock": {
+        "chestCm": 91,
+        "waistCm": 77,
+        "hipCm": 99,
+        "thighCm": 55
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 24.7,
+      "leanMassMock": 45.5,
+      "fatMassMock": 15.9,
+      "bodyWaterPercentageMock": 51.6,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "descendo"
+    }
   },
   {
     "id": "asm-005",
@@ -66,7 +146,27 @@
     "availability": "2 dias por semana",
     "preferredWorkoutDuration": 30,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 168,
+      "weightKgMock": 69.2,
+      "bmiMock": 24.8,
+      "measuresMock": {
+        "chestCm": 92,
+        "waistCm": 78,
+        "hipCm": 100,
+        "thighCm": 56
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 23.6,
+      "leanMassMock": 46.6,
+      "fatMassMock": 15.2,
+      "bodyWaterPercentageMock": 52.8,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "estavel"
+    }
   },
   {
     "id": "asm-006",
@@ -79,7 +179,27 @@
     "availability": "3 dias por semana",
     "preferredWorkoutDuration": 45,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 169,
+      "weightKgMock": 71,
+      "bmiMock": 25.5,
+      "measuresMock": {
+        "chestCm": 93,
+        "waistCm": 79,
+        "hipCm": 101,
+        "thighCm": 57
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 22.5,
+      "leanMassMock": 47.8,
+      "fatMassMock": 14.5,
+      "bodyWaterPercentageMock": 54,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "subindo"
+    }
   },
   {
     "id": "asm-007",
@@ -92,7 +212,27 @@
     "availability": "4 dias por semana",
     "preferredWorkoutDuration": 60,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 170,
+      "weightKgMock": 72.8,
+      "bmiMock": 22,
+      "measuresMock": {
+        "chestCm": 94,
+        "waistCm": 80,
+        "hipCm": 102,
+        "thighCm": 52
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 21.4,
+      "leanMassMock": 48.9,
+      "fatMassMock": 18,
+      "bodyWaterPercentageMock": 55.2,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "descendo"
+    }
   },
   {
     "id": "asm-008",
@@ -107,7 +247,27 @@
     "availability": "5 dias por semana",
     "preferredWorkoutDuration": 75,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 171,
+      "weightKgMock": 74.6,
+      "bmiMock": 22.7,
+      "measuresMock": {
+        "chestCm": 95,
+        "waistCm": 81,
+        "hipCm": 103,
+        "thighCm": 53
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 20.3,
+      "leanMassMock": 50,
+      "fatMassMock": 17.3,
+      "bodyWaterPercentageMock": 48,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "estavel"
+    }
   },
   {
     "id": "asm-009",
@@ -120,7 +280,27 @@
     "availability": "2 dias por semana",
     "preferredWorkoutDuration": 30,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 172,
+      "weightKgMock": 76.4,
+      "bmiMock": 23.4,
+      "measuresMock": {
+        "chestCm": 96,
+        "waistCm": 82,
+        "hipCm": 104,
+        "thighCm": 54
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 28,
+      "leanMassMock": 51.2,
+      "fatMassMock": 16.6,
+      "bodyWaterPercentageMock": 49.2,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "subindo"
+    }
   },
   {
     "id": "asm-010",
@@ -133,7 +313,27 @@
     "availability": "3 dias por semana",
     "preferredWorkoutDuration": 45,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 173,
+      "weightKgMock": 78.2,
+      "bmiMock": 24.1,
+      "measuresMock": {
+        "chestCm": 97,
+        "waistCm": 83,
+        "hipCm": 105,
+        "thighCm": 55
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 26.9,
+      "leanMassMock": 52.4,
+      "fatMassMock": 15.9,
+      "bodyWaterPercentageMock": 50.4,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "descendo"
+    }
   },
   {
     "id": "asm-011",
@@ -146,7 +346,27 @@
     "availability": "4 dias por semana",
     "preferredWorkoutDuration": 60,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 174,
+      "weightKgMock": 80,
+      "bmiMock": 24.8,
+      "measuresMock": {
+        "chestCm": 98,
+        "waistCm": 84,
+        "hipCm": 106,
+        "thighCm": 56
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 25.8,
+      "leanMassMock": 53.5,
+      "fatMassMock": 15.2,
+      "bodyWaterPercentageMock": 51.6,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "estavel"
+    }
   },
   {
     "id": "asm-012",
@@ -161,6 +381,26 @@
     "availability": "5 dias por semana",
     "preferredWorkoutDuration": 75,
     "notes": "Anamnese sintetica para validacao. Nao representa historico medico real.",
-    "consentMock": true
+    "consentMock": true,
+    "physicalEvaluationMock": {
+      "heightCmMock": 175,
+      "weightKgMock": 81.8,
+      "bmiMock": 25.5,
+      "measuresMock": {
+        "chestCm": 99,
+        "waistCm": 85,
+        "hipCm": 107,
+        "thighCm": 57
+      },
+      "professorNotes": "Avaliacao fisica demonstrativa. Nao usar como dado clinico real."
+    },
+    "bioimpedanceMock": {
+      "bodyFatPercentageMock": 24.7,
+      "leanMassMock": 54.6,
+      "fatMassMock": 14.5,
+      "bodyWaterPercentageMock": 52.8,
+      "lastAssessmentDate": "2026-06-01",
+      "trend": "subindo"
+    }
   }
 ]

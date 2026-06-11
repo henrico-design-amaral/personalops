@@ -14,10 +14,16 @@ Todos os arquivos em `assets/data/` usam dados sintéticos para validar operaç�
 - `workout-templates.json`: modelos reutilizáveis pelo professor.
 - `prescribed-workouts.json`: treinos publicados para alunos específicos.
 - `workout-events.json`, `feedbacks.json`, `assessments.json`, `voice-drafts.json`: execução, feedback, anamnese sintética e criação assistida por voz/texto.
+- `attendance-events.json`: frequência, faltas, no-show, check-ins e atrasos simulados.
+- `progress-snapshots.json`: adesão, progresso, carga, RPE, peso, composição corporal e bioimpedância demonstrativa.
+- `post-workout-feedbacks.json`: 30 feedbacks pós-treino sintéticos com nota, esforço, dor, humor e comentário.
+- `platform-metrics.json`: métricas agregadas sintéticas para o Admin PersonalOps desktop-only.
 
 ## Relacionamentos
 
 Aluno aponta para `professionalId`, `planId`, `subscriptionId` e `weeklyScheduleId`. Assinatura aponta para plano e aluno. Cobrança aponta para assinatura. Treino prescrito aponta para aluno e biblioteca. Eventos de treino e feedbacks apontam para aluno e treino.
+
+Eventos de frequência e snapshots de progresso apontam para `studentId` e `professionalId`. Feedback pós-treino aponta para aluno, professor e treino prescrito.
 
 ## Biblioteca, Template e Prescrição
 
