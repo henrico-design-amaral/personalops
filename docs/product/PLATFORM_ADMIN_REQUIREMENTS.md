@@ -4,9 +4,11 @@
 
 Admin PersonalOps não é professor. O Admin representa a plataforma e deve responder perguntas sobre uso, saúde técnica, biblioteca global, cobrança mockada e comportamento agregado.
 
-## Desktop-only
+## Desktop e mobile compacto
 
-O dashboard administrativo foi desenhado para desktop. Em telas menores, o app deve mostrar o aviso: "O painel administrativo da plataforma PersonalOps foi desenhado para desktop. Acesse em uma tela maior para visualizar métricas, biblioteca global, cobranças e saúde do sistema."
+O dashboard administrativo completo é mantido para desktop. Em telas menores, o app deve mostrar uma visão compacta para consulta rápida com a mensagem: "Visão compacta da plataforma. Para análise completa, acesse em desktop."
+
+A versão compacta mobile deve mostrar professores ativos, alunos totais, treinos executados na semana, feedbacks críticos, cobranças vencidas, receita mockada prevista, notificações pendentes, saúde do sistema, pagamentos mockados e mídia/biblioteca pendente em formato resumido.
 
 ## Métricas
 

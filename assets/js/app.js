@@ -106,6 +106,59 @@ const riskLabel = (student, summary) => {
   return 'em dia';
 };
 
+const riskTone = (student, summary) => {
+  const label = riskLabel(student, summary);
+  if (label === 'risco alto') return 'danger';
+  if (label === 'atenção') return 'warning';
+  return 'active';
+};
+
+const renderStatusBadge = (label, tone = 'active') => `<span class="status-badge ${tone}">${label}</span>`;
+
+const renderProgressBar = (value, label = '') => {
+  const pct = Math.max(0, Math.min(100, Number(value || 0)));
+  return `
+    <div class="progress-row" aria-label="${label || 'Progresso'} ${pct}%">
+      <div class="progress-row-top"><span>${label}</span><strong>${pct}%</strong></div>
+      <div class="progress-track"><span style="width:${pct}%"></span></div>
+    </div>
+  `;
+};
+
+const renderStatCard = (label, value, tone = '') => `
+  <div class="stat-card ${tone ? `tone-${tone}` : ''}">
+    <div class="stat-value">${value}</div>
+    <div class="stat-label">${label}</div>
+  </div>
+`;
+
+const renderWeeklyScheduleStrip = (weeklyPlan, compact = false) => `
+  <div class="${compact ? 'week-strip compact' : 'week-strip'}">
+    ${weeklyPlan.map(item => `
+      <div class="week-strip-day ${item.type}">
+        <strong>${compact ? getDayLabel(item.day) : item.label}</strong>
+        <span>${item.title}</span>
+        <small>${item.type}</small>
+      </div>
+    `).join('')}
+  </div>
+`;
+
+const renderFeedbackRating = (rating) => {
+  const value = Number(rating || 0);
+  return `<span class="feedback-rating" aria-label="Nota ${value} de 5">${'●'.repeat(value)}${'○'.repeat(Math.max(0, 5 - value))}</span>`;
+};
+
+const getWorkoutTypeLabel = (type) => ({
+  workout: 'Treino',
+  rest: 'Descanso',
+  cardio: 'Cardio',
+  checkin: 'Check-in',
+  assessment: 'Avaliação'
+}[type] || type || 'Treino');
+
+const escapeAttr = (value) => String(value || '').replace(/"/g, '&quot;');
+
 // ── Nav structure per role ────────────────────────────────
 const NAV = {
   admin: [
@@ -496,6 +549,9 @@ const App = {
         case 'prof-alunos':
           this.renderProfAlunos();
           break;
+        case 'prof-criar-treino':
+          this.renderProfCriarTreino();
+          break;
         case 'prof-feedbacks':
           this.renderProfFeedbacks();
           break;
@@ -520,15 +576,54 @@ const App = {
   renderAdminOverview() {
     const view = $('view-admin-overview');
     const metrics = DataStore.getPlatformUsageMetrics();
+    const compact = DataStore.getCompactPlatformMetrics();
     const expectedRevenue = DataStore.data.invoices
       .filter(invoice => ['open', 'due_soon', 'scheduled'].includes(invoice.status))
       .reduce((sum, invoice) => sum + Number(invoice.amount || 0), 0);
     const mediaPending = DataStore.data.exercises.filter(exercise => exercise.visualStatus !== 'placeholder');
 
     view.innerHTML = `
-      <div class="admin-mobile-notice">
-        <h2>Painel desktop-only</h2>
-        <p>O painel administrativo da plataforma PersonalOps foi desenhado para desktop. Acesse em uma tela maior para visualizar métricas, biblioteca global, cobranças e saúde do sistema.</p>
+      <div class="admin-mobile-compact">
+        <div class="compact-admin-hero">
+          <span class="landing-card-label">Admin PersonalOps</span>
+          <h2>Visão compacta da plataforma</h2>
+          <p>Para análise completa, acesse em desktop.</p>
+        </div>
+        <div class="mobile-compact-grid">
+          ${renderStatCard('Professores ativos', compact.activeProfessionals)}
+          ${renderStatCard('Alunos totais', compact.totalStudents)}
+          ${renderStatCard('Treinos na semana', compact.completedWorkoutsThisWeek)}
+          ${renderStatCard('Feedbacks críticos', compact.criticalFeedbacks, compact.criticalFeedbacks ? 'danger' : '')}
+          ${renderStatCard('Cobranças vencidas', compact.overdueInvoices, compact.overdueInvoices ? 'danger' : '')}
+          ${renderStatCard('Receita prevista', formatCurrencyBR(compact.expectedRevenue))}
+        </div>
+        <details class="compact-admin-section" open>
+          <summary>Alertas e notificações</summary>
+          <div class="compact-list">
+            <div><span>Notificações pendentes</span><strong>${compact.scheduledNotifications}</strong></div>
+            <div><span>Feedbacks para revisão</span><strong>${compact.criticalFeedbacks}</strong></div>
+            <div><span>Cobranças vencidas</span><strong>${compact.overdueInvoices}</strong></div>
+          </div>
+        </details>
+        <details class="compact-admin-section">
+          <summary>Saúde do sistema</summary>
+          <div class="compact-list">
+            ${Object.entries(compact.systemHealth).map(([key, value]) => `<div><span>${key}</span><strong>${value}</strong></div>`).join('')}
+          </div>
+        </details>
+        <details class="compact-admin-section">
+          <summary>Pagamentos e mídia mockados</summary>
+          <div class="compact-list">
+            <div><span>Pix mockados gerados</span><strong>${DataStore.data.invoices.length}</strong></div>
+            <div><span>Mídias pendentes</span><strong>${metrics.mediaAssetsPending}</strong></div>
+            <div><span>Treinos na biblioteca</span><strong>${metrics.workoutsInLibrary}</strong></div>
+          </div>
+        </details>
+        <div class="compact-shortcuts">
+          <button class="btn btn-primary" onclick="App.navigate('admin-users')">Ver usuários demo</button>
+          <button class="btn btn-ghost" onclick="App.navigate('admin-hypotheses')">Ver hipóteses</button>
+        </div>
+        <div class="demo-warning">Todos os dados são sintéticos. Pix, QR Code, WhatsApp, Open Finance e pagamentos são demonstrativos.</div>
       </div>
       <div class="platform-dashboard">
         <div class="page-header">
@@ -674,152 +769,151 @@ const App = {
   },
 
   renderProfOverview() {
+    const view = $('view-prof-overview');
     const profId = state.user.professionalId;
-    const professional = DataStore.getProfessionalById(profId);
     const students = DataStore.getStudentsByProfessional(profId);
-    const studentIds = students.map(s => s.id);
+    const summary = DataStore.getProfessorDashboardSummary(profId);
     const upcomingInvoices = DataStore.getUpcomingInvoices(profId);
     const overdueInvoices = DataStore.getOverdueInvoices(profId);
-    const library = DataStore.getWorkoutLibrary(profId);
-    const voiceDrafts = DataStore.data.voiceDrafts.filter(draft => draft.professionalId === profId);
-    const attendance = DataStore.getAttendanceByProfessional(profId);
+    const library = DataStore.getWorkoutLibrary(profId).slice(0, 4);
     const criticalFeedbacks = DataStore.getCriticalFeedbacksByProfessional(profId);
-    const atRiskStudents = DataStore.getStudentsAtRisk(profId);
-    const completedToday = attendance.filter(event => event.eventType === 'workout_completed').length;
-    const missed = attendance.filter(event => ['workout_missed', 'no_show'].includes(event.eventType)).length;
-    
-    const subEl = $('view-prof-overview').querySelector('.page-sub');
-    if (subEl) subEl.textContent = `Olá, ${state.user.name}. Frequência, progresso, feedbacks e recebimentos em um só fluxo.`;
+    const attentionList = DataStore.getStudentAttentionList(profId);
+    const progressing = students
+      .map(student => ({ student, summary: DataStore.getProgressSummaryByStudent(student.id) }))
+      .sort((a, b) => b.summary.adherenceRate - a.summary.adherenceRate);
 
-    const stats = $('view-prof-overview').querySelectorAll('.stat-value');
-    if (stats.length >= 4) {
-      stats[0].textContent = students.length;
-      stats[1].textContent = completedToday;
-      stats[2].textContent = missed;
-      stats[3].textContent = criticalFeedbacks.length;
+    view.innerHTML = `
+      <div class="prof-dashboard">
+        <section class="prof-hero">
+          <div>
+            <span class="landing-card-label">Cockpit do professor</span>
+            <h2>Olá, ${state.user.name}</h2>
+            <p>Prioridades, alunos, treino e cobrança no mesmo painel.</p>
+          </div>
+          <div class="prof-action-bar">
+            <button class="btn btn-primary" onclick="App.openStudentForm('new')">Novo aluno</button>
+            <button class="btn btn-ghost" onclick="App.navigate('prof-criar-treino')">Criar treino</button>
+            <button class="btn btn-ghost" onclick="App.navigate('prof-feedbacks')">Ver feedbacks</button>
+          </div>
+        </section>
 
-      const labels = $('view-prof-overview').querySelectorAll('.stat-label');
-      if (labels.length >= 4) {
-        labels[0].textContent = 'Alunos ativos';
-        labels[1].textContent = 'Treinos concluídos';
-        labels[2].textContent = 'Faltas/no-show';
-        labels[3].textContent = 'Feedbacks críticos';
-      }
-    }
+        <div class="stats-grid stats-grid-six">
+          ${renderStatCard('Alunos ativos', summary.activeStudents)}
+          ${renderStatCard('Em atenção', summary.attentionStudents, summary.attentionStudents ? 'warning' : '')}
+          ${renderStatCard('Treinos hoje', summary.workoutsToday)}
+          ${renderStatCard('Feedbacks críticos', summary.criticalFeedbacks, summary.criticalFeedbacks ? 'danger' : '')}
+          ${renderStatCard('Cobranças vencidas', summary.overdueInvoices, summary.overdueInvoices ? 'danger' : '')}
+          ${renderStatCard('Adesão média', `${summary.averageAdherence}%`)}
+        </div>
 
-    const activityList = $('view-prof-overview').querySelector('.activity-list');
-    if (activityList) {
-      activityList.innerHTML = `
-        <div class="prof-action-bar">
-          <button class="btn btn-primary" onclick="App.openStudentForm('new')">Novo aluno</button>
-          <button class="btn btn-ghost" onclick="App.navigate('prof-alunos')">Ver alunos</button>
-          <button class="btn btn-ghost" onclick="App.navigate('prof-feedbacks')">Feedbacks pós-treino</button>
-        </div>
-        <div class="ops-grid">
-          <div>
-            <h3 class="section-title">Dados Pix mockados</h3>
-            <div class="settings-list compact">
-              <div class="settings-row"><span class="settings-label">Titular</span><span class="settings-value">${professional.financialProfile.accountHolderName}</span></div>
-              <div class="settings-row"><span class="settings-label">Documento</span><span class="settings-value">${professional.financialProfile.documentMasked}</span></div>
-              <div class="settings-row"><span class="settings-label">Chave Pix</span><span class="settings-value">${professional.financialProfile.pixKeyMasked}</span></div>
-              <div class="settings-row"><span class="settings-label">Provider</span><span class="settings-value">${professional.financialProfile.paymentProvider}</span></div>
-            </div>
+        <section class="section-block priority-band">
+          <div class="section-heading-row">
+            <h3 class="section-title">Atenção agora</h3>
+            <span>${attentionList.length} prioridade${attentionList.length !== 1 ? 's' : ''}</span>
           </div>
-          <div>
-            <h3 class="section-title">Acompanhamento quase em tempo real</h3>
-            <div class="invoice-list">
-              ${attendance.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 6).map(event => {
-                const student = DataStore.getStudentById(event.studentId);
-                return `<div class="invoice-row">
-                  <div><strong>${student ? student.name : event.studentId}</strong><span>${event.eventType} · ${formatEventTime(event.createdAt)}</span></div>
-                  <span class="student-status ${['workout_missed', 'no_show'].includes(event.eventType) ? 'danger' : 'active'}">${event.source}</span>
-                </div>`;
-              }).join('') || '<div class="activity-item">Sem eventos recentes.</div>'}
-            </div>
+          <div class="priority-grid">
+            ${attentionList.slice(0, 5).map(item => `
+              <article class="alert-card ${item.priority > 2 ? 'danger' : 'warning'}">
+                <div>
+                  <strong>${item.student.name}</strong>
+                  <p>${item.reasons.join(' · ')}</p>
+                </div>
+                ${renderStatusBadge(riskLabel(item.student, item.summary), riskTone(item.student, item.summary))}
+                <button class="btn btn-sm btn-primary" onclick="App.openStudentProfile('${item.student.id}')">Ver aluno</button>
+              </article>
+            `).join('') || '<div class="empty-state">Nenhum aluno em atenção crítica neste momento.</div>'}
           </div>
-        </div>
-        <div class="ops-grid">
-          <div>
-            <h3 class="section-title">Alunos em risco e progresso</h3>
-            <div class="invoice-list">
-              ${students.slice(0, 6).map(student => {
-                const summary = DataStore.getProgressSummaryByStudent(student.id);
-                return `<div class="invoice-row">
-                  <div><strong>${student.name}</strong><span>${summary.completedWorkouts} concluídos · ${summary.missedWorkouts} perdidos · nota ${summary.averageWorkoutRating}</span></div>
-                  <span class="student-status ${summary.adherenceRate < 70 || student.riskLevel === 'high' ? 'danger' : 'active'}">${summary.adherenceRate}%</span>
-                </div>`;
-              }).join('')}
-            </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading-row">
+            <h3 class="section-title">Alunos em acompanhamento</h3>
+            <button class="btn btn-sm btn-ghost" onclick="App.navigate('prof-alunos')">Ver todos</button>
           </div>
-          <div>
-            <h3 class="section-title">Feedbacks pós-treino críticos</h3>
-            <div class="voice-list">
-              ${criticalFeedbacks.slice(0, 5).map(feedback => {
-                const student = DataStore.getStudentById(feedback.studentId);
-                return `<div class="voice-card critical">
-                  <strong>${student ? student.name : feedback.studentId} · nota ${feedback.workoutRating}/5</strong>
-                  <span>${perceivedEffortLabel(feedback.perceivedEffort)} · ${completionStatusLabel(feedback.completionStatus)}${feedback.painReported ? ' · dor: ' + feedback.painLocation : ''}</span>
-                  <p>${feedback.comment}</p>
-                </div>`;
-              }).join('') || '<div class="activity-item">Sem feedback crítico.</div>'}
-            </div>
-          </div>
-        </div>
-        <div class="ops-grid">
-          <div>
-            <h3 class="section-title">Biblioteca de treinos</h3>
-            <div class="library-list">
-              ${library.slice(0, 6).map(workout => `
-                <div class="library-card">
-                  <div>
-                    <strong>${workout.name}</strong>
-                    <span>${workout.level} · ${workout.estimatedDurationMinutes} min</span>
+          <div class="student-card-grid">
+            ${students.slice(0, 6).map(student => {
+              const studentSummary = DataStore.getProgressSummaryByStudent(student.id);
+              const invoice = DataStore.getInvoicesByStudent(student.id)[0];
+              return `
+                <article class="smart-student-card">
+                  <div class="smart-student-head">
+                    <div class="student-avatar">${student.name.charAt(0)}</div>
+                    <div><strong>${student.name}</strong><span>${student.goal}</span></div>
                   </div>
-                  <button class="btn btn-sm btn-ghost" onclick="App.cloneWorkoutMock('${workout.id}', '${students[0].id}')">Clonar treino</button>
+                  ${renderProgressBar(studentSummary.adherenceRate, 'Adesão semanal')}
+                  <div class="smart-student-meta">
+                    ${renderStatusBadge(paymentStatusLabel(student.paymentStatus), statusTone(student.paymentStatus))}
+                    ${renderStatusBadge(riskLabel(student, studentSummary), riskTone(student, studentSummary))}
+                  </div>
+                  <div class="smart-student-facts">
+                    <span>Último treino: ${studentSummary.lastActivity ? formatEventTime(studentSummary.lastActivity.createdAt) : 'sem registro'}</span>
+                    <span>Última nota: ${studentSummary.lastFeedback ? `${studentSummary.lastFeedback.workoutRating}/5` : '—'}</span>
+                  </div>
+                  <button class="btn btn-sm btn-primary" onclick="App.openStudentProfile('${student.id}')">Ver aluno</button>
+                </article>
+              `;
+            }).join('')}
+          </div>
+        </section>
+
+        <div class="ops-grid">
+          <section class="section-block">
+            <h3 class="section-title">Progresso recente</h3>
+            <div class="progress-stack">
+              ${progressing.slice(0, 5).map(({ student, summary: studentSummary }) => `
+                <div class="progress-mini-row">
+                  <div><strong>${student.name}</strong><span>${studentSummary.latest ? studentSummary.latest.strengthTrend : 'sem snapshot'}</span></div>
+                  ${renderProgressBar(studentSummary.adherenceRate, 'Frequência')}
                 </div>
               `).join('')}
             </div>
-          </div>
-          <div>
-            <h3 class="section-title">Vencimentos e inadimplência</h3>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Cobranças e vencimentos</h3>
             <div class="invoice-list">
-              ${[...overdueInvoices, ...upcomingInvoices].slice(0, 5).map(invoice => {
+              ${[...overdueInvoices, ...upcomingInvoices].slice(0, 6).map(invoice => {
                 const student = DataStore.getStudentById(invoice.studentId);
                 return `<div class="invoice-row">
                   <div><strong>${student ? student.name : invoice.studentId}</strong><span>${formatDateBR(invoice.dueDate)} · ${formatCurrencyBR(invoice.amount)}</span></div>
-                  <span class="student-status ${statusTone(invoice.status)}">${paymentStatusLabel(invoice.status)}</span>
+                  <div class="invoice-row-right">${renderStatusBadge(paymentStatusLabel(invoice.status), statusTone(invoice.status))}<button class="btn btn-sm btn-ghost" onclick="App.showToast('Pix mockado gerado para ${student ? student.name : 'aluno'}. Nenhuma transação real foi criada.')">Gerar Pix mockado</button></div>
                 </div>`;
-              }).join('') || '<div class="activity-item">Sem cobranças em atenção.</div>'}
+              }).join('') || '<div class="empty-state">Sem cobranças em atenção.</div>'}
             </div>
-          </div>
+          </section>
         </div>
+
         <div class="ops-grid">
-          <div>
-            <h3 class="section-title">Voz/texto assistido</h3>
+          <section class="section-block">
+            <div class="section-heading-row">
+              <h3 class="section-title">Biblioteca e criação de treino</h3>
+              <button class="btn btn-sm btn-primary" onclick="App.navigate('prof-criar-treino')">Abrir criação</button>
+            </div>
+            <div class="workout-template-grid compact">
+              ${library.map(workout => `
+                <article class="workout-template-card">
+                  <strong>${workout.name}</strong>
+                  <span>${workout.goal} · ${workout.level} · ${workout.estimatedDurationMinutes} min</span>
+                  <button class="btn btn-sm btn-ghost" onclick="App.openWorkoutBuilder('library', '${workout.id}')">Selecionar</button>
+                </article>
+              `).join('')}
+            </div>
+          </section>
+          <section class="section-block">
+            <h3 class="section-title">Feedbacks pós-treino</h3>
             <div class="voice-list">
-              ${voiceDrafts.map(draft => {
-                const student = DataStore.getStudentById(draft.studentId);
-                return `<div class="voice-card">
-                  <strong>${student ? student.name : draft.studentId} · ${draft.parsedResult.workoutTitle}</strong>
-                  <span>Confiança ${Math.round(draft.confidence * 100)}% · revisão obrigatória</span>
-                  <p>${draft.rawTranscript}</p>
+              ${criticalFeedbacks.slice(0, 4).map(feedback => {
+                const student = DataStore.getStudentById(feedback.studentId);
+                return `<div class="voice-card critical">
+                  <strong>${student ? student.name : feedback.studentId} · ${renderFeedbackRating(feedback.workoutRating)}</strong>
+                  <span>${perceivedEffortLabel(feedback.perceivedEffort)} · ${completionStatusLabel(feedback.completionStatus)}${feedback.painReported ? ' · dor: ' + feedback.painLocation : ''}</span>
+                  <p>${feedback.comment}</p>
                 </div>`;
-              }).join('') || '<div class="activity-item">Sem rascunhos para revisar.</div>'}
+              }).join('') || '<div class="empty-state">Sem feedback crítico.</div>'}
             </div>
-          </div>
-          <div>
-            <h3 class="section-title">Alunos que precisam de ajuste</h3>
-            <div class="tag-cloud">
-              ${atRiskStudents.map(student => {
-                const summary = DataStore.getProgressSummaryByStudent(student.id);
-                return `<button class="tag tag-button" onclick="App.openStudentProfile('${student.id}')">${student.name} · ${riskLabel(student, summary)}</button>`;
-              }).join('') || '<span class="tag">Sem alertas críticos.</span>'}
-            </div>
-          </div>
+          </section>
         </div>
-        <div id="clone-toast" class="clone-toast hidden"></div>
-      `;
-    }
+      </div>
+    `;
   },
 
   renderProfAlunos() {
@@ -867,6 +961,253 @@ const App = {
           </div>
         `;
       }).join('');
+    }
+  },
+
+  renderProfCriarTreino() {
+    const view = $('view-prof-criar-treino');
+    if (!view) return;
+    const profId = state.user.professionalId;
+    const students = DataStore.getStudentsForCloneTarget(profId);
+    const library = DataStore.getWorkoutTemplatesForLibrary({});
+    const systemCount = DataStore.getSystemWorkoutLibrary().length;
+    const professionalCount = DataStore.getProfessionalWorkoutLibrary(profId).length;
+    const sourceWorkouts = DataStore.data.prescribedWorkouts.filter(workout => workout.professionalId === profId);
+
+    view.innerHTML = `
+      <div class="page-header">
+        <h2>Criar treino</h2>
+        <p class="page-sub">Biblioteca primeiro, clonagem depois, voz/texto como alternativa de rascunho.</p>
+      </div>
+      <div class="workout-builder">
+        <div class="builder-mode-tabs" role="tablist" aria-label="Modos de criação de treino">
+          <button class="builder-mode active" data-mode="library" onclick="App.switchWorkoutBuilderMode('library')">Selecionar da biblioteca</button>
+          <button class="builder-mode" data-mode="clone" onclick="App.switchWorkoutBuilderMode('clone')">Clonar existente</button>
+          <button class="builder-mode" data-mode="voice" onclick="App.switchWorkoutBuilderMode('voice')">Criar por voz/texto</button>
+        </div>
+
+        <section class="builder-panel active" data-builder-panel="library">
+          <div class="builder-summary-row">
+            ${renderStatCard('Treinos do sistema', systemCount)}
+            ${renderStatCard('Treinos do professor', professionalCount)}
+            ${renderStatCard('Modelos filtráveis', library.length)}
+          </div>
+          <form class="library-filter-grid" onsubmit="event.preventDefault(); App.applyWorkoutLibraryFilters(this);">
+            <label>Objetivo
+              <select name="goal">
+                <option value="">Todos</option>
+                <option value="Hipertrofia">Hipertrofia</option>
+                <option value="Emagrecimento">Emagrecimento</option>
+                <option value="Forca">Força</option>
+                <option value="Condicionamento">Condicionamento</option>
+              </select>
+            </label>
+            <label>Grupo muscular
+              <select name="muscle">
+                <option value="">Todos</option>
+                <option value="peito">Peito</option>
+                <option value="costas">Costas</option>
+                <option value="perna">Pernas</option>
+                <option value="ombro">Ombros</option>
+              </select>
+            </label>
+            <label>Nível
+              <select name="level">
+                <option value="">Todos</option>
+                <option value="iniciante">Iniciante</option>
+                <option value="intermediario">Intermediário</option>
+                <option value="avancado">Avançado</option>
+              </select>
+            </label>
+            <label>Duração máxima
+              <select name="duration">
+                <option value="">Todas</option>
+                <option value="30">30 min</option>
+                <option value="45">45 min</option>
+                <option value="60">60 min</option>
+                <option value="75">75 min</option>
+              </select>
+            </label>
+            <label>Equipamento
+              <select name="equipment">
+                <option value="">Todos</option>
+                <option value="halter">Halter</option>
+                <option value="barra">Barra</option>
+                <option value="maquina">Máquina</option>
+                <option value="peso corporal">Peso corporal</option>
+              </select>
+            </label>
+            <label>Local
+              <select name="location">
+                <option value="">Todos</option>
+                <option value="academia">Academia</option>
+                <option value="casa">Casa</option>
+                <option value="condominio">Condomínio</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" type="submit">Filtrar biblioteca</button>
+          </form>
+          <div id="workout-library-results" class="workout-template-grid">
+            ${this.renderWorkoutTemplateCards(library, students)}
+          </div>
+        </section>
+
+        <section class="builder-panel" data-builder-panel="clone">
+          <form class="mock-form clone-form" onsubmit="event.preventDefault(); App.cloneWorkoutFromForm(this);">
+            <div class="form-grid">
+              <label>Aluno de origem
+                <select name="sourceStudentId" onchange="App.refreshCloneWorkoutOptions(this.value)">
+                  ${students.map(student => `<option value="${student.id}">${student.name}</option>`).join('')}
+                </select>
+              </label>
+              <label>Treino de origem
+                <select name="sourceWorkoutId" id="clone-source-workout">
+                  ${sourceWorkouts.filter(workout => workout.studentId === (students[0] ? students[0].id : '')).map(workout => `<option value="${workout.id}">${workout.title}</option>`).join('')}
+                </select>
+              </label>
+              <label>Aluno de destino
+                <select name="targetStudentId">
+                  ${students.map(student => `<option value="${student.id}">${student.name}</option>`).join('')}
+                </select>
+              </label>
+              <label>Dia da semana
+                <select name="targetDay">
+                  <option value="monday">Segunda</option>
+                  <option value="tuesday">Terça</option>
+                  <option value="wednesday">Quarta</option>
+                  <option value="thursday">Quinta</option>
+                  <option value="friday">Sexta</option>
+                  <option value="saturday">Sábado</option>
+                  <option value="sunday">Domingo</option>
+                </select>
+              </label>
+            </div>
+            <div class="draft-actions">
+              <button class="btn btn-primary" type="submit">Confirmar clonagem mockada</button>
+              <button class="btn btn-ghost" type="button" onclick="App.showToast('Clonagem cancelada. Nenhum treino foi criado.')">Cancelar</button>
+            </div>
+          </form>
+          <div id="clone-confirmation" class="confirmation-panel hidden"></div>
+        </section>
+
+        <section class="builder-panel" data-builder-panel="voice">
+          <div class="treino-creator">
+            <div class="demo-warning">Voz/texto gera rascunho estruturado. Revise antes de publicar.</div>
+            <div class="creator-input-area">
+              <textarea id="treino-text-input" class="treino-textarea" placeholder="Ex: Supino reto 4x8 90seg, remada baixa 3x10 60seg, prancha 3x40s"></textarea>
+              <div class="creator-actions">
+                <button id="btn-organizar-treino" class="btn btn-primary" type="button" onclick="App.parseTreino()">Organizar rascunho</button>
+                <button id="btn-limpar-treino" class="btn btn-ghost" type="button" onclick="App.clearTreino()">Limpar</button>
+              </div>
+            </div>
+            <div id="treino-draft-area" class="treino-draft-area hidden">
+              <h3 class="section-title">Rascunho estruturado</h3>
+              <div id="treino-draft-content" class="treino-draft-content"></div>
+              <div class="draft-actions">
+                <button id="btn-salvar-treino" class="btn btn-primary" type="button" onclick="App.saveTreino()">Salvar rascunho local</button>
+                <button id="btn-editar-treino" class="btn btn-ghost" type="button" onclick="App.editTreino()">Editar texto</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    `;
+  },
+
+  renderWorkoutTemplateCards(library, students) {
+    return library.map(workout => {
+      const exercises = (workout.exerciseBlocks || []).flatMap(block => block.exercises || []);
+      const firstStudent = students[0];
+      return `
+        <article class="workout-template-card">
+          <div class="template-head">
+            <strong>${workout.name}</strong>
+            ${renderStatusBadge(workout.isSystemTemplate ? 'Sistema' : 'Professor', workout.isSystemTemplate ? 'active' : 'warning')}
+          </div>
+          <span>${workout.goal} · ${workout.level} · ${workout.estimatedDurationMinutes} min</span>
+          <div class="template-exercises">
+            ${exercises.slice(0, 5).map(item => {
+              const exercise = DataStore.getExerciseById(item.exerciseId);
+              return `<div><span>${exercise ? exercise.name : item.exerciseId}</span><strong>${item.sets}x${item.reps}</strong></div>`;
+            }).join('')}
+          </div>
+          <div class="template-actions">
+            <button class="btn btn-sm btn-ghost" onclick="App.previewWorkoutTemplate('${workout.id}')">Visualizar</button>
+            <button class="btn btn-sm btn-primary" onclick="App.assignLibraryWorkoutMock('${workout.id}', '${firstStudent ? firstStudent.id : ''}', 'monday')">Atribuir ao aluno</button>
+          </div>
+        </article>
+      `;
+    }).join('') || '<div class="empty-state">Nenhum treino encontrado com esses filtros.</div>';
+  },
+
+  switchWorkoutBuilderMode(mode) {
+    document.querySelectorAll('.builder-mode').forEach(btn => btn.classList.toggle('active', btn.dataset.mode === mode));
+    document.querySelectorAll('[data-builder-panel]').forEach(panel => panel.classList.toggle('active', panel.dataset.builderPanel === mode));
+  },
+
+  applyWorkoutLibraryFilters(form) {
+    const filters = Object.fromEntries(new FormData(form).entries());
+    const profId = state.user.professionalId;
+    const students = DataStore.getStudentsForCloneTarget(profId);
+    const results = DataStore.getWorkoutTemplatesForLibrary(filters);
+    const target = $('workout-library-results');
+    if (target) target.innerHTML = this.renderWorkoutTemplateCards(results, students);
+  },
+
+  previewWorkoutTemplate(workoutId) {
+    const workout = DataStore.data.workoutLibrary.find(item => item.id === workoutId);
+    if (!workout) return;
+    const modal = this.ensureModal();
+    $('ops-modal-content').innerHTML = `
+      <h2>${workout.name}</h2>
+      <p class="page-sub">${workout.goal} · ${workout.level} · ${workout.estimatedDurationMinutes} min</p>
+      <div class="workout-step-list">
+        ${(workout.exerciseBlocks || []).map(block => `
+          <section class="section-block">
+            <h3 class="section-title">${block.blockName}</h3>
+            ${(block.exercises || []).map(item => {
+              const exercise = DataStore.getExerciseById(item.exerciseId);
+              return `<div class="workout-step-card">
+                <div><strong>${exercise ? exercise.name : item.exerciseId}</strong><span>${exercise ? exercise.primaryMuscle : 'grupo'} · ${item.notes || ''}</span></div>
+                <div class="step-prescription">${item.sets} séries · ${item.reps} reps · ${item.restSeconds}s</div>
+              </div>`;
+            }).join('')}
+          </section>
+        `).join('')}
+      </div>
+    `;
+    modal.classList.remove('hidden');
+  },
+
+  assignLibraryWorkoutMock(workoutId, targetStudentId, targetDay) {
+    if (!targetStudentId) {
+      this.showToast('Selecione um aluno antes de atribuir treino.');
+      return;
+    }
+    const cloned = this.cloneWorkoutMock(workoutId, targetStudentId, targetDay);
+    if (cloned) this.showToast(`Treino clonado para ${DataStore.getStudentById(targetStudentId).name}. Revise antes de publicar.`);
+  },
+
+  refreshCloneWorkoutOptions(sourceStudentId) {
+    const select = $('clone-source-workout');
+    if (!select) return;
+    const workouts = DataStore.getWorkoutsByStudent(sourceStudentId);
+    select.innerHTML = workouts.map(workout => `<option value="${workout.id}">${workout.title}</option>`).join('');
+  },
+
+  cloneWorkoutFromForm(form) {
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      const cloned = DataStore.cloneWorkoutMock(data.sourceWorkoutId, data.targetStudentId, data.targetDay);
+      const targetStudent = DataStore.getStudentById(data.targetStudentId);
+      const confirmation = $('clone-confirmation');
+      if (cloned && confirmation) {
+        confirmation.classList.remove('hidden');
+        confirmation.innerHTML = `Treino clonado para ${targetStudent ? targetStudent.name : 'aluno destino'}. Revise antes de publicar.`;
+      }
+      this.showToast(`Treino clonado para ${targetStudent ? targetStudent.name : 'aluno destino'}. Revise antes de publicar.`);
+    } catch (error) {
+      this.showToast(error.message || 'Não foi possível clonar o treino.');
     }
   },
 
@@ -921,11 +1262,11 @@ const App = {
     }
   },
 
-  cloneWorkoutMock(sourceWorkoutId, targetStudentId) {
+  cloneWorkoutMock(sourceWorkoutId, targetStudentId, targetDay = 'friday') {
     try {
-      const cloned = DataStore.cloneWorkoutMock(sourceWorkoutId, targetStudentId);
+      const cloned = DataStore.cloneWorkoutMock(sourceWorkoutId, targetStudentId, targetDay);
       if (state.currentView) this.renderView(state.currentView);
-      this.showToast(`Treino clonado como rascunho para ${DataStore.getStudentById(targetStudentId).name}.`);
+      this.showToast(`Treino clonado para ${DataStore.getStudentById(targetStudentId).name}. Revise antes de publicar.`);
       return cloned;
     } catch (error) {
       this.showToast(error.message || 'Não foi possível clonar o treino.');
@@ -984,6 +1325,7 @@ const App = {
     const invoice = DataStore.getInvoicesByStudent(studentId).find(item => ['open', 'due_soon', 'overdue'].includes(item.status));
     const assessment = DataStore.getAssessmentsByStudent(studentId)[0];
     const schedule = DataStore.getWeeklyScheduleByStudent(studentId);
+    const weeklyPlan = DataStore.getStudentWeeklyPlan(studentId);
     const summary = DataStore.getProgressSummaryByStudent(studentId);
     const progress = summary.latest;
     const feedbacks = DataStore.getPostWorkoutFeedbacksByStudent(studentId);
@@ -997,6 +1339,11 @@ const App = {
             <span class="landing-card-label">Perfil completo do aluno</span>
             <h2>${student.name}</h2>
             <p>${student.goal} · ${student.level} · ${student.trainingMode}</p>
+            <div class="smart-student-meta">
+              ${renderStatusBadge(riskLabel(student, summary), riskTone(student, summary))}
+              ${renderStatusBadge(paymentStatusLabel(student.paymentStatus), statusTone(student.paymentStatus))}
+              ${renderStatusBadge(`${summary.adherenceRate}% adesão`, summary.adherenceRate < 70 ? 'warning' : 'active')}
+            </div>
           </div>
           <div class="profile-detail-actions">
             <button class="btn btn-primary" onclick="App.openStudentForm('edit', '${student.id}')">Editar aluno</button>
@@ -1004,8 +1351,18 @@ const App = {
             <button class="btn btn-ghost" onclick="App.showToast('Cobrança Pix mockada pronta para ${student.name}.')">Gerar cobrança Pix mockada</button>
           </div>
         </div>
+        <div class="profile-tabs" role="tablist" aria-label="Seções do perfil do aluno">
+          ${[
+            ['overview', 'Visão geral'],
+            ['workouts', 'Treinos'],
+            ['progress', 'Progresso'],
+            ['feedbacks', 'Feedbacks'],
+            ['assessment', 'Avaliação'],
+            ['finance', 'Financeiro']
+          ].map(([tab, label], index) => `<button class="profile-tab ${index === 0 ? 'active' : ''}" data-profile-tab="${tab}" onclick="App.switchProfileTab('${tab}')">${label}</button>`).join('')}
+        </div>
         <div class="profile-detail-grid">
-          <section class="section-block"><h3 class="section-title">Dados básicos</h3>
+          <section class="section-block profile-tab-panel active" data-profile-panel="overview"><h3 class="section-title">Dados básicos</h3>
             <div class="settings-list compact">
               <div class="settings-row"><span class="settings-label">Objetivo</span><span class="settings-value">${student.goal}</span></div>
               <div class="settings-row"><span class="settings-label">Modalidade</span><span class="settings-value">${student.trainingMode}</span></div>
@@ -1013,18 +1370,18 @@ const App = {
               <div class="settings-row"><span class="settings-label">Contexto</span><span class="settings-value">${student.preferredGymContext}</span></div>
             </div>
           </section>
-          <section class="section-block"><h3 class="section-title">Anamnese</h3>
+          <section class="section-block profile-tab-panel" data-profile-panel="assessment"><h3 class="section-title">Anamnese</h3>
             <p class="card-body">${assessment ? assessment.notes : 'Sem anamnese mockada.'}</p>
             <div class="tag-cloud"><span class="tag">Disponibilidade: ${assessment ? assessment.weeklyAvailability : '—'}</span><span class="tag">Consentimento mockado: ${assessment && assessment.consentMock ? 'sim' : '—'}</span></div>
           </section>
-          <section class="section-block"><h3 class="section-title">Avaliação física</h3>
+          <section class="section-block profile-tab-panel" data-profile-panel="assessment"><h3 class="section-title">Avaliação física</h3>
             <div class="settings-list compact">
               <div class="settings-row"><span class="settings-label">Peso</span><span class="settings-value">${assessment && assessment.physicalEvaluationMock ? assessment.physicalEvaluationMock.weightKgMock + ' kg' : '—'}</span></div>
               <div class="settings-row"><span class="settings-label">Altura</span><span class="settings-value">${assessment && assessment.physicalEvaluationMock ? assessment.physicalEvaluationMock.heightCmMock + ' cm' : '—'}</span></div>
               <div class="settings-row"><span class="settings-label">IMC</span><span class="settings-value">${assessment && assessment.physicalEvaluationMock ? assessment.physicalEvaluationMock.bmiMock : '—'}</span></div>
             </div>
           </section>
-          <section class="section-block"><h3 class="section-title">Bioimpedância demonstrativa</h3>
+          <section class="section-block profile-tab-panel" data-profile-panel="assessment"><h3 class="section-title">Bioimpedância demonstrativa</h3>
             <div class="settings-list compact">
               <div class="settings-row"><span class="settings-label">Gordura</span><span class="settings-value">${progress ? progress.bodyFatPercentageMock + '%' : '—'}</span></div>
               <div class="settings-row"><span class="settings-label">Massa magra</span><span class="settings-value">${progress ? progress.leanMassMock + ' kg' : '—'}</span></div>
@@ -1032,7 +1389,7 @@ const App = {
               <div class="settings-row"><span class="settings-label">Tendência</span><span class="settings-value">${progress ? progress.bodyTrend : '—'}</span></div>
             </div>
           </section>
-          <section class="section-block"><h3 class="section-title">Frequência e adesão</h3>
+          <section class="section-block profile-tab-panel active" data-profile-panel="overview"><h3 class="section-title">Frequência e adesão</h3>
             <div class="stats-grid">
               <div class="stat-card"><div class="stat-value">${summary.completedWorkouts}</div><div class="stat-label">Concluídos</div></div>
               <div class="stat-card"><div class="stat-value">${summary.missedWorkouts}</div><div class="stat-label">Perdidos</div></div>
@@ -1040,20 +1397,20 @@ const App = {
               <div class="stat-card"><div class="stat-value">${summary.averageWorkoutRating}</div><div class="stat-label">Nota média</div></div>
             </div>
           </section>
-          <section class="section-block"><h3 class="section-title">Progresso</h3>
+          <section class="section-block profile-tab-panel" data-profile-panel="progress"><h3 class="section-title">Progresso</h3>
             <div class="settings-list compact">
               <div class="settings-row"><span class="settings-label">Volume mockado</span><span class="settings-value">${progress ? progress.totalVolumeMock + ' kg' : '—'}</span></div>
               <div class="settings-row"><span class="settings-label">RPE médio</span><span class="settings-value">${progress ? progress.averageRpe : '—'}</span></div>
               <div class="settings-row"><span class="settings-label">Força</span><span class="settings-value">${progress ? progress.strengthTrend : '—'}</span></div>
             </div>
           </section>
-          <section class="section-block"><h3 class="section-title">Treino</h3>
+          <section class="section-block profile-tab-panel" data-profile-panel="workouts"><h3 class="section-title">Treino</h3>
             <div class="week-grid-mini">
               ${schedule ? Object.entries(schedule.days).map(([day, item]) => `<div class="week-day"><strong>${getDayLabel(day)}</strong><span>${item.title}</span></div>`).join('') : ''}
             </div>
             <div class="tag-cloud">${workouts.slice(0, 5).map(workout => `<span class="tag">${workout.title} · ${workout.status}</span>`).join('')}</div>
           </section>
-          <section class="section-block"><h3 class="section-title">Financeiro</h3>
+          <section class="section-block profile-tab-panel" data-profile-panel="finance"><h3 class="section-title">Financeiro</h3>
             <div class="settings-list compact">
               <div class="settings-row"><span class="settings-label">Plano</span><span class="settings-value">${plan ? plan.name : '—'}</span></div>
               <div class="settings-row"><span class="settings-label">Periodicidade</span><span class="settings-value">${billingFrequencyLabel(student.billingFrequency)}</span></div>
@@ -1061,7 +1418,7 @@ const App = {
               <div class="settings-row"><span class="settings-label">Pix aberto</span><span class="settings-value">${invoice ? invoice.pixCopyPasteMock : '—'}</span></div>
             </div>
           </section>
-          <section class="section-block profile-full-row"><h3 class="section-title">Feedbacks e faltas recentes</h3>
+          <section class="section-block profile-full-row profile-tab-panel" data-profile-panel="feedbacks"><h3 class="section-title">Feedbacks e faltas recentes</h3>
             <div class="ops-grid">
               <div class="voice-list">${feedbacks.slice(0, 4).map(feedback => `<div class="voice-card ${feedback.requiresReview ? 'critical' : ''}"><strong>Nota ${feedback.workoutRating}/5 · ${perceivedEffortLabel(feedback.perceivedEffort)}</strong><p>${feedback.comment}</p></div>`).join('')}</div>
               <div class="activity-list">${attendance.slice(0, 6).map(event => `<div class="activity-item"><span class="activity-time">${formatEventTime(event.createdAt)}</span><span>${event.eventType} · ${event.notes}</span></div>`).join('')}</div>
@@ -1073,10 +1430,25 @@ const App = {
     modal.classList.remove('hidden');
   },
 
+  switchProfileTab(tab) {
+    document.querySelectorAll('.profile-tab').forEach(button => {
+      button.classList.toggle('active', button.dataset.profileTab === tab);
+    });
+    document.querySelectorAll('.profile-tab-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.dataset.profilePanel === tab);
+    });
+  },
+
   openStudentForm(mode, studentId = null) {
     const student = studentId ? DataStore.getStudentById(studentId) : null;
     const profId = state.user.professionalId;
     const plans = DataStore.getPlansByProfessional(profId);
+    const schedule = student ? DataStore.getWeeklyScheduleByStudent(student.id) : null;
+    const dayKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const selectedDays = schedule ? dayKeys.filter(day => schedule.days[day] && schedule.days[day].type !== 'rest') : ['monday', 'wednesday', 'friday'];
+    const objectives = ['hipertrofia', 'emagrecimento', 'força', 'condicionamento', 'saúde/postura', 'retorno aos treinos', 'performance', 'outro'];
+    const restrictions = student && student.restrictions ? student.restrictions : [];
+    const hasRestriction = value => restrictions.some(item => String(item).toLowerCase().includes(value));
     const modal = this.ensureModal();
     $('ops-modal-content').innerHTML = `
       <h2>${mode === 'edit' ? 'Editar aluno' : 'Novo aluno'}</h2>
@@ -1084,17 +1456,80 @@ const App = {
       <form id="student-form-mock" class="mock-form" data-mode="${mode}" data-student-id="${student ? student.id : ''}">
         <div class="form-grid">
           <label>Nome<input name="name" required value="${student ? student.name : ''}"></label>
-          <label>Objetivo<input name="goal" value="${student ? student.goal : ''}"></label>
-          <label>Modalidade<select name="trainingMode"><option value="online">online</option><option value="presencial">presencial</option><option value="hibrido">hibrido</option></select></label>
-          <label>Nível<select name="level"><option value="iniciante">iniciante</option><option value="intermediario">intermediario</option><option value="avancado">avancado</option></select></label>
-          <label>Restrições<input name="restrictions" value="${student ? student.restrictions.join(', ') : ''}"></label>
-          <label>Frequência semanal<input name="weeklyFrequency" value="${student ? '3x por semana' : ''}"></label>
-          <label>Dias preferenciais<input name="preferredDays" value="segunda, quarta, sexta"></label>
+          <label>Objetivo<select name="goal">
+            ${objectives.map(option => `<option value="${option}" ${student && String(student.goal).toLowerCase().includes(option) ? 'selected' : ''}>${option}</option>`).join('')}
+          </select></label>
+          <label>Frequência semanal<select name="weeklyFrequency">
+            ${[1, 2, 3, 4, 5, 6, 7].map(n => `<option value="${n}" ${selectedDays.length === n ? 'selected' : ''}>${n}x</option>`).join('')}
+          </select></label>
           <label>Plano<select name="planId">${plans.map(plan => `<option value="${plan.id}" ${student && student.planId === plan.id ? 'selected' : ''}>${plan.name}</option>`).join('')}</select></label>
-          <label>Periodicidade<select name="billingFrequency"><option value="monthly">mensal</option><option value="weekly">semanal</option><option value="quarterly">trimestral</option><option value="single">avulso</option></select></label>
-          <label>Valor<input name="amount" type="number" step="0.01" value="${plans[0] ? plans[0].amount : 0}"></label>
+          <label>Periodicidade<select name="billingFrequency">
+            ${[
+              ['weekly', 'semanal'],
+              ['biweekly', 'quinzenal'],
+              ['monthly', 'mensal'],
+              ['quarterly', 'trimestral'],
+              ['semiannual', 'semestral'],
+              ['annual', 'anual'],
+              ['single', 'avulso']
+            ].map(([value, label]) => `<option value="${value}" ${student && student.billingFrequency === value ? 'selected' : ''}>${label}</option>`).join('')}
+          </select></label>
           <label>Vencimento<input name="nextDueDate" type="date" value="${student ? student.nextDueDate : '2026-06-25'}"></label>
-          <label>Canal de lembrete<select name="preferredReminderChannel"><option value="whatsapp-mock">whatsapp-mock</option><option value="email-mock">email-mock</option><option value="in-app">in-app</option></select></label>
+        </div>
+        <div class="smart-form-section">
+          <span class="form-section-label">Modalidade</span>
+          <div class="segmented-control">
+            ${['presencial', 'online', 'hibrido'].map(value => `
+              <label><input type="radio" name="trainingMode" value="${value}" ${(student ? student.trainingMode : 'hibrido') === value ? 'checked' : ''}><span>${value === 'hibrido' ? 'híbrido' : value}</span></label>
+            `).join('')}
+          </div>
+        </div>
+        <div class="smart-form-section">
+          <span class="form-section-label">Nível</span>
+          <div class="segmented-control">
+            ${['iniciante', 'intermediario', 'avancado'].map(value => `
+              <label><input type="radio" name="level" value="${value}" ${(student ? student.level : 'iniciante') === value ? 'checked' : ''}><span>${value === 'avancado' ? 'avançado' : value}</span></label>
+            `).join('')}
+          </div>
+        </div>
+        <div class="smart-form-section">
+          <span class="form-section-label">Dias de treino e tipo por dia</span>
+          <div class="day-picker-grid">
+            ${dayKeys.map(day => {
+              const item = schedule && schedule.days[day] ? schedule.days[day] : null;
+              return `
+                <div class="day-picker-item">
+                  <label class="checkbox-row"><input type="checkbox" name="weeklyDays" value="${day}" ${selectedDays.includes(day) ? 'checked' : ''}> ${getDayLabel(day)}</label>
+                  <select name="dayType_${day}">
+                    ${['workout', 'rest', 'cardio', 'checkin', 'assessment'].map(type => `<option value="${type}" ${item && item.type === type ? 'selected' : ''}>${getWorkoutTypeLabel(type)}</option>`).join('')}
+                  </select>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+        <div class="smart-form-section">
+          <span class="form-section-label">Canal de lembrete</span>
+          <div class="checkbox-group">
+            ${[
+              ['whatsapp-mock', 'WhatsApp mockado'],
+              ['email-mock', 'e-mail mockado'],
+              ['in-app', 'app']
+            ].map(([value, label]) => `<label class="checkbox-row"><input type="checkbox" name="reminderChannels" value="${value}" ${(!student && value === 'in-app') || (student && student.preferredReminderChannel === value) ? 'checked' : ''}> ${label}</label>`).join('')}
+          </div>
+        </div>
+        <div class="smart-form-section">
+          <span class="form-section-label">Restrições</span>
+          <div class="checkbox-group">
+            ${[
+              ['joelho', 'joelho'],
+              ['ombro', 'ombro'],
+              ['coluna', 'coluna'],
+              ['punho', 'punho'],
+              ['nenhuma', 'nenhuma'],
+              ['outra', 'outra']
+            ].map(([value, label]) => `<label class="checkbox-row"><input type="checkbox" name="restrictions" value="${value}" ${hasRestriction(value) ? 'checked' : ''}> ${label}</label>`).join('')}
+          </div>
         </div>
         <label>Observações<textarea name="notes">${student ? student.notes : ''}</textarea></label>
         <div class="draft-actions">
@@ -1107,14 +1542,24 @@ const App = {
   },
 
   saveStudentForm(form) {
-    const data = Object.fromEntries(new FormData(form).entries());
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    data.weeklyDays = formData.getAll('weeklyDays');
+    data.restrictions = formData.getAll('restrictions').filter(item => item !== 'nenhuma');
+    data.reminderChannels = formData.getAll('reminderChannels');
+    data.preferredReminderChannel = data.reminderChannels[0] || 'in-app';
+    data.dayTypes = {};
+    ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].forEach(day => {
+      data.dayTypes[day] = formData.get(`dayType_${day}`) || 'rest';
+      delete data[`dayType_${day}`];
+    });
     data.professionalId = state.user.professionalId;
     if (form.dataset.mode === 'edit') {
-      DataStore.updateStudentFormMock(form.dataset.studentId, data);
-      this.showToast('Aluno atualizado localmente. Protótipo: nada foi salvo em servidor.');
+      DataStore.updateStudentDraftMock(form.dataset.studentId, data);
+      this.showToast('Cadastro simulado atualizado. Nenhum dado real foi salvo em servidor.');
     } else {
-      DataStore.saveStudentFormMock(data);
-      this.showToast('Aluno criado localmente. Protótipo: nada foi salvo em servidor.');
+      DataStore.saveStudentDraftMock(data);
+      this.showToast('Cadastro simulado. Nenhum dado real foi salvo em servidor.');
     }
     this.closeModal();
     if (state.currentView) this.renderView(state.currentView);
@@ -1129,12 +1574,13 @@ const App = {
       .find(item => ['open', 'due_soon', 'overdue', 'scheduled'].includes(item.status))
       || DataStore.getInvoicesByStudent(studentId)[0];
     const schedule = DataStore.getWeeklyScheduleByStudent(studentId);
+    const weeklyPlan = DataStore.getStudentWeeklyPlan(studentId);
     const summary = DataStore.getProgressSummaryByStudent(studentId);
     const progress = summary.latest;
     const postFeedbacks = DataStore.getPostWorkoutFeedbacksByStudent(studentId);
 
     const subEl = $('view-aluno-overview').querySelector('.page-sub');
-    if (subEl) subEl.textContent = `Olá, ${studentName}. Seu treino e sua cobrança mockada estão organizados.`;
+    if (subEl) subEl.textContent = `Olá, ${studentName}. Sua semana, treino do dia, cobrança mockada e progresso em blocos.`;
 
     const todayWorkout = DataStore.getTodayWorkout(studentId);
 
@@ -1166,9 +1612,19 @@ const App = {
           </section>
         </div>
         <div class="demo-warning">Ambiente de demonstração. Não realizar pagamento real.</div>
+        <section class="student-week-section">
+          <div class="section-heading-row">
+            <h3 class="section-title">Minha semana</h3>
+            <span>domingo a sábado</span>
+          </div>
+          ${weeklyPlan.length ? renderWeeklyScheduleStrip(weeklyPlan) : '<div class="activity-item">Sem grade semanal.</div>'}
+        </section>
         <div class="ops-grid">
-          <section>
-            <h3 class="section-title">Treino de hoje</h3>
+          <section class="today-focus-card">
+            <div class="section-heading-row">
+              <h3 class="section-title">Treino de hoje</h3>
+              ${todayWorkout ? renderStatusBadge('Pronto para iniciar', 'active') : renderStatusBadge('Sem treino', 'warning')}
+            </div>
             ${todayWorkout ? `
               <div class="workout-preview-name">${todayWorkout.title}</div>
               <div class="workout-preview-meta">${todayWorkout.exercises.length} exercício${todayWorkout.exercises.length !== 1 ? 's' : ''} · ~${todayWorkout.estimatedDurationMinutes} min</div>
@@ -1176,14 +1632,11 @@ const App = {
             ` : '<div class="workout-preview-name">Nenhum treino agendado para hoje.</div>'}
           </section>
           <section>
-            <h3 class="section-title">Semana de treino</h3>
-            <div class="week-grid-mini">
-              ${schedule ? Object.entries(schedule.days).map(([day, item]) => `
-                <div class="week-day">
-                  <strong>${getDayLabel(day)}</strong>
-                  <span>${item.title}</span>
-                </div>
-              `).join('') : '<div class="activity-item">Sem grade semanal.</div>'}
+            <h3 class="section-title">Como registrar</h3>
+            <div class="workout-step-list compact">
+              <div class="workout-step-card"><strong>1. Iniciar</strong><span>Abra o treino do dia.</span></div>
+              <div class="workout-step-card"><strong>2. Registrar</strong><span>Carga, reps e RPE por série.</span></div>
+              <div class="workout-step-card"><strong>3. Finalizar</strong><span>Envie nota, esforço, dor e comentário.</span></div>
             </div>
           </section>
         </div>
@@ -1228,7 +1681,7 @@ const App = {
   renderAlunoTreino() {
     const studentId = state.user.studentId;
     const todayWorkout = DataStore.getTodayWorkout(studentId);
-    const schedule = DataStore.getWeeklyScheduleByStudent(studentId);
+    const weeklyPlan = DataStore.getStudentWeeklyPlan(studentId);
     
     const viewHeaderSub = $('view-aluno-treino').querySelector('.page-sub');
     if (viewHeaderSub && todayWorkout) {
@@ -1243,35 +1696,44 @@ const App = {
       return;
     }
 
-    const weekHtml = schedule ? `
+    const weekHtml = weeklyPlan.length ? `
       <div class="section-block">
-        <h3 class="section-title">Grade semanal</h3>
-        <div class="week-grid">
-          ${Object.entries(schedule.days).map(([day, item]) => `
-            <div class="week-day ${item.type}">
-              <strong>${getDayLabel(day)}</strong>
-              <span>${item.title}</span>
-              <small>${item.type}</small>
-            </div>
-          `).join('')}
-        </div>
+        <h3 class="section-title">Minha semana</h3>
+        ${renderWeeklyScheduleStrip(weeklyPlan, true)}
       </div>
     ` : '';
 
-    const exercisesHtml = state.workout.exercises.map((ex, idx) => {
-      const restText = ex.rest >= 60 ? `${Math.floor(ex.rest / 60)} min` : `${ex.rest} seg`;
-      return `
-        <div class="exercise-item" data-index="${idx}">
-          <div class="ex-number">${String(idx + 1).padStart(2, '0')}</div>
-          <div class="ex-info">
-            <div class="ex-name">${ex.name}</div>
-            <div class="ex-meta">${ex.sets} séries · ${ex.reps} reps · ${restText} desc · Sugestão: ${ex.loadSuggestion}</div>
-            ${ex.notes ? `<div class="ex-notes" style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Obs: ${ex.notes}</div>` : ''}
-          </div>
-          <button class="btn btn-sm btn-ghost" onclick="App.startWorkout(${idx})">Executar</button>
+    const exercisesByBlock = [
+      ['Aquecimento', state.workout.exercises.slice(0, 1)],
+      ['Principal', state.workout.exercises.slice(1, Math.max(2, state.workout.exercises.length - 1))],
+      ['Complementar', state.workout.exercises.slice(Math.max(2, state.workout.exercises.length - 1))]
+    ].filter(([, items]) => items.length);
+
+    const exercisesHtml = exercisesByBlock.map(([blockName, items]) => `
+      <section class="section-block workout-block">
+        <div class="section-heading-row">
+          <h3 class="section-title">${blockName}</h3>
+          <span>${items.length} exercício${items.length !== 1 ? 's' : ''}</span>
         </div>
-      `;
-    }).join('');
+        ${items.map((ex) => {
+          const idx = state.workout.exercises.indexOf(ex);
+          const restText = ex.rest >= 60 ? `${Math.floor(ex.rest / 60)} min` : `${ex.rest} seg`;
+          const nextEx = state.workout.exercises[idx + 1];
+          return `
+            <div class="exercise-item workout-step-card" data-index="${idx}">
+              <div class="ex-number">${String(idx + 1).padStart(2, '0')}</div>
+              <div class="ex-info">
+                <div class="ex-name">${ex.name}</div>
+                <div class="ex-meta">${ex.muscle} · ${ex.sets} séries · ${ex.reps} reps · ${restText} desc · Carga: ${ex.loadSuggestion}</div>
+                ${ex.notes ? `<div class="ex-notes">Obs: ${ex.notes}</div>` : ''}
+                ${nextEx ? `<div class="ex-next">Próximo: ${nextEx.name}</div>` : '<div class="ex-next">Último exercício antes do feedback.</div>'}
+              </div>
+              <button class="btn btn-sm btn-primary" onclick="App.startWorkout(${idx})">Executar</button>
+            </div>
+          `;
+        }).join('')}
+      </section>
+    `).join('');
 
     listEl.innerHTML = `${weekHtml}${exercisesHtml}`;
   },
@@ -1849,12 +2311,12 @@ function renderApp() {
   <main class="landing-shell" aria-labelledby="landing-title">
     <section class="landing-hero">
       <div class="landing-hero-content">
-        <div class="landing-kicker">Protótipo operacional V1.3</div>
+        <div class="landing-kicker">Protótipo operacional V1.4</div>
         <h1 id="landing-title" class="landing-title">PersonalOps</h1>
         <p class="landing-subtitle">O cockpit operacional do personal trainer.</p>
         <div class="landing-copy">
-          <p>PersonalOps é um protótipo de sistema operacional para personal trainers. Ele conecta prescrição de treino, acompanhamento do aluno, progresso, frequência, feedback pós-treino, cobrança Pix demonstrativa e gestão operacional em uma única experiência.</p>
-          <p>Ele nasce de uma dor simples: o treino real acontece entre agenda, faltas, cobrança, dúvida de carga, equipamento indisponível, feedback perdido e sinais de evolução que raramente ficam no mesmo lugar.</p>
+          <p>PersonalOps é um cockpit operacional para personal trainers. Ele conecta gestão de alunos, frequência, progresso, feedback pós-treino, biblioteca de treinos, clonagem, criação por voz/texto, Pix mockado e dashboard da plataforma.</p>
+          <p>A nova fase organiza a experiência por prioridade: o professor vê quem precisa de ação, o aluno entende a semana de treino e o Admin consulta a plataforma também em mobile compacto.</p>
           <p>A versão atual separa três camadas: Admin PersonalOps para a plataforma, Professor para operação dos alunos e Aluno para execução, evolução, pagamento mockado e relato pós-treino.</p>
         </div>
         <div class="landing-actions">
@@ -1898,23 +2360,23 @@ function renderApp() {
     <section class="landing-blocks" aria-label="Proposta por público e validação">
       <article class="landing-card">
         <span class="landing-card-label">Para o personal</span>
-        <h2>Operação do aluno</h2>
-        <p>Organize anamnese, avaliação física, bioimpedância demonstrativa, treinos, frequência, faltas, feedbacks e cobranças.</p>
+        <h2>Cockpit do personal</h2>
+        <p>Identifique alunos em atenção, faltas, inadimplência, evolução, treinos vencidos e feedbacks críticos em poucos segundos.</p>
       </article>
       <article class="landing-card">
         <span class="landing-card-label">Para o aluno</span>
-        <h2>Execução com feedback</h2>
-        <p>O aluno registra carga, séries, RPE, timer, nota do treino, esforço percebido, dor, humor e comentário livre.</p>
+        <h2>Semana organizada</h2>
+        <p>O aluno vê domingo a sábado, treino do dia, sessão assistida, timer, registro de séries e feedback final.</p>
       </article>
       <article class="landing-card">
         <span class="landing-card-label">Para validação</span>
         <h2>Dashboard da plataforma</h2>
-        <p>O Admin PersonalOps vê professores, alunos, uso, biblioteca global, mídia pendente, Pix mockado, notificações e saúde técnica.</p>
+        <p>O Admin PersonalOps vê professores, alunos, uso, biblioteca global, mídia pendente, Pix mockado, notificações, saúde técnica e versão mobile compacta.</p>
       </article>
       <article class="landing-card landing-card-accent">
         <span class="landing-card-label">Diferencial</span>
-        <h2>Pix e offline mockados</h2>
-        <p>Pix, QR Code, WhatsApp, Open Finance e fila offline são demonstrativos. Nada executa transação real.</p>
+        <h2>Treinos reutilizáveis</h2>
+        <p>Biblioteca, clonagem entre alunos e criação por voz/texto reduzem trabalho repetitivo sem publicar nada automaticamente.</p>
       </article>
     </section>
 
@@ -1924,18 +2386,19 @@ function renderApp() {
         <h2>O que estamos validando agora</h2>
       </div>
       <ul class="validation-list">
-        <li>O professor consegue acompanhar frequência e progresso sem depender de planilhas?</li>
-        <li>O aluno consegue registrar treino e feedback com pouco atrito?</li>
-        <li>A nota pós-treino ajuda o professor a ajustar a prescrição?</li>
-        <li>A grade semanal melhora a organização do aluno?</li>
-        <li>O Pix mockado ajuda a validar o fluxo de cobrança?</li>
-        <li>O dashboard da plataforma ajuda a visualizar o comportamento do sistema?</li>
+        <li>O professor consegue identificar rapidamente alunos em atenção?</li>
+        <li>A interface ajuda o professor a agir sem procurar informação?</li>
+        <li>A criação de treino por biblioteca é mais eficiente que texto livre?</li>
+        <li>A clonagem de treino reduz trabalho repetitivo?</li>
+        <li>O aluno entende melhor sua semana de treino?</li>
+        <li>O feedback pós-treino melhora a leitura do professor?</li>
+        <li>O Admin mobile compacto é suficiente para consulta rápida da plataforma?</li>
       </ul>
     </section>
 
     <section class="landing-warning" role="note">
       <strong>Aviso de validação</strong>
-      <p>Esta é uma versão de validação. Todos os dados são sintéticos. Pagamentos, Pix, QR Code, WhatsApp e Open Finance são demonstrativos e não executam transações reais.</p>
+      <p>Todos os dados são sintéticos. Pix, QR Code, WhatsApp, Open Finance e pagamentos são demonstrativos. Nenhuma transação real é executada.</p>
     </section>
 
     <section class="landing-final-cta">
@@ -1943,7 +2406,7 @@ function renderApp() {
       <button id="btn-hero-enter-app" class="btn btn-primary landing-cta" type="button">Entrar na aplicação</button>
     </section>
 
-    <footer class="landing-footer">PersonalOps V1.3 — protótipo estático para validação operacional.</footer>
+    <footer class="landing-footer">PersonalOps V1.4 — protótipo estático para validação operacional.</footer>
   </main>
 </div>
 
@@ -2018,7 +2481,7 @@ function renderApp() {
     </div>
     <ul class="nav-list" id="nav-list"></ul>
     <div class="sidebar-footer">
-      <span class="version-label">PersonalOps v1.3 — Protótipo</span>
+      <span class="version-label">PersonalOps v1.4 — Protótipo</span>
     </div>
   </nav>
   <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>

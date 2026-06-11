@@ -344,6 +344,39 @@ window.DataStore = {
     return this.data.workoutLibrary.filter(workout => workout.professionalId === professionalId || workout.isSystemTemplate);
   },
 
+  getSystemWorkoutLibrary() {
+    return this.data.workoutLibrary.filter(workout => workout.isSystemTemplate);
+  },
+
+  getProfessionalWorkoutLibrary(professionalId) {
+    return this.data.workoutLibrary.filter(workout => workout.professionalId === professionalId && !workout.isSystemTemplate);
+  },
+
+  getWorkoutTemplatesForLibrary(filters = {}) {
+    const normalize = value => String(value || '').toLowerCase();
+    return this.data.workoutLibrary.filter(workout => {
+      const tags = (workout.tags || []).map(normalize);
+      const blocks = workout.exerciseBlocks || [];
+      const exerciseIds = blocks.flatMap(block => block.exercises || []).map(item => item.exerciseId);
+      const exercises = this.data.exercises.filter(exercise => exerciseIds.includes(exercise.id));
+      const equipment = exercises.map(exercise => normalize(exercise.equipment)).join(' ');
+      const muscles = exercises.map(exercise => normalize(exercise.primaryMuscle || exercise.category)).join(' ');
+      const duration = Number(workout.estimatedDurationMinutes || 0);
+
+      if (filters.goal && normalize(workout.goal).indexOf(normalize(filters.goal)) < 0 && !tags.includes(normalize(filters.goal))) return false;
+      if (filters.level && workout.level !== filters.level) return false;
+      if (filters.muscle && muscles.indexOf(normalize(filters.muscle)) < 0 && normalize(workout.category).indexOf(normalize(filters.muscle)) < 0) return false;
+      if (filters.equipment && equipment.indexOf(normalize(filters.equipment)) < 0) return false;
+      if (filters.location && !tags.includes(normalize(filters.location)) && equipment.indexOf(normalize(filters.location)) < 0) return false;
+      if (filters.duration && duration > Number(filters.duration)) return false;
+      return true;
+    });
+  },
+
+  getStudentsForCloneTarget(professionalId) {
+    return this.getStudentsByProfessional(professionalId).filter(student => student.paymentStatus !== 'canceled');
+  },
+
   getWeeklyScheduleByStudent(studentId) {
     return this.data.weeklySchedules.find(schedule => schedule.studentId === studentId) || null;
   },
@@ -444,6 +477,61 @@ window.DataStore = {
     });
   },
 
+  getStudentAttentionList(professionalId) {
+    return this.getStudentsByProfessional(professionalId)
+      .map(student => {
+        const summary = this.getProgressSummaryByStudent(student.id);
+        const invoice = this.getInvoicesByStudent(student.id).find(item => ['overdue', 'due_soon', 'open'].includes(item.status));
+        const feedback = this.getPostWorkoutFeedbacksByStudent(student.id).find(item => item.requiresReview);
+        const workouts = this.getWorkoutsByStudent(student.id);
+        const staleWorkout = workouts.find(workout => workout.status === 'draft') || workouts.find(workout => workout.status === 'expired');
+        const reasons = [];
+        if (feedback && feedback.painReported) reasons.push('dor reportada');
+        if (feedback && !feedback.painReported) reasons.push('feedback crítico');
+        if (summary.missedWorkouts >= 2 || summary.adherenceRate < 70) reasons.push('baixa adesão');
+        if (invoice && invoice.status === 'overdue') reasons.push('cobrança vencida');
+        if (staleWorkout) reasons.push('treino para revisar');
+        if (student.riskLevel === 'high') reasons.push('risco alto');
+
+        return {
+          student,
+          summary,
+          invoice,
+          feedback,
+          staleWorkout,
+          reasons,
+          priority: reasons.length + (student.riskLevel === 'high' ? 2 : 0) + (invoice && invoice.status === 'overdue' ? 1 : 0)
+        };
+      })
+      .filter(item => item.reasons.length > 0)
+      .sort((a, b) => b.priority - a.priority);
+  },
+
+  getProfessorDashboardSummary(professionalId) {
+    const students = this.getStudentsByProfessional(professionalId);
+    const attendance = this.getAttendanceByProfessional(professionalId);
+    const criticalFeedbacks = this.getCriticalFeedbacksByProfessional(professionalId);
+    const overdueInvoices = this.getOverdueInvoices(professionalId);
+    const today = new Date().toISOString().split('T')[0];
+    const workoutsToday = this.data.prescribedWorkouts.filter(workout =>
+      workout.professionalId === professionalId
+      && (workout.scheduledDate === today || workout.status === 'active')
+    );
+
+    return {
+      activeStudents: students.filter(student => student.paymentStatus !== 'canceled').length,
+      attentionStudents: this.getStudentAttentionList(professionalId).length,
+      workoutsToday: workoutsToday.length,
+      criticalFeedbacks: criticalFeedbacks.length,
+      overdueInvoices: overdueInvoices.length,
+      completedWorkouts: attendance.filter(event => event.eventType === 'workout_completed').length,
+      missedWorkouts: attendance.filter(event => ['workout_missed', 'no_show'].includes(event.eventType)).length,
+      averageAdherence: students.length
+        ? Math.round(students.reduce((sum, student) => sum + this.getProgressSummaryByStudent(student.id).adherenceRate, 0) / students.length)
+        : 0
+    };
+  },
+
   getPlatformUsageMetrics() {
     const metrics = this.data.platformMetrics || {};
     return {
@@ -455,6 +543,42 @@ window.DataStore = {
       workoutsInLibrary: metrics.workoutsInLibrary ?? this.data.workoutLibrary.length,
       offlineEventsPending: metrics.offlineEventsPending ?? this.getOfflineQueue().filter(event => event.syncStatus === 'sync_pending').length
     };
+  },
+
+  getCompactPlatformMetrics() {
+    const metrics = this.getPlatformUsageMetrics();
+    const expectedRevenue = this.data.invoices
+      .filter(invoice => ['open', 'due_soon', 'scheduled'].includes(invoice.status))
+      .reduce((sum, invoice) => sum + Number(invoice.amount || 0), 0);
+
+    return {
+      activeProfessionals: metrics.activeProfessionals ?? metrics.totalProfessionals,
+      totalStudents: metrics.totalStudents,
+      completedWorkoutsThisWeek: metrics.completedWorkoutsThisWeek,
+      criticalFeedbacks: metrics.criticalFeedbacks,
+      overdueInvoices: metrics.overdueInvoices,
+      expectedRevenue,
+      scheduledNotifications: metrics.scheduledNotifications,
+      systemHealth: metrics.systemHealthMock || {}
+    };
+  },
+
+  getStudentWeeklyPlan(studentId) {
+    const schedule = this.getWeeklyScheduleByStudent(studentId);
+    if (!schedule) return [];
+    return Object.entries(schedule.days).map(([day, item]) => ({
+      day,
+      label: {
+        sunday: 'Domingo',
+        monday: 'Segunda',
+        tuesday: 'Terça',
+        wednesday: 'Quarta',
+        thursday: 'Quinta',
+        friday: 'Sexta',
+        saturday: 'Sábado'
+      }[day] || day,
+      ...item
+    }));
   },
 
   savePostWorkoutFeedback(feedback) {
@@ -482,6 +606,10 @@ window.DataStore = {
     return enriched;
   },
 
+  saveStudentDraftMock(payload) {
+    return this.saveStudentFormMock(payload);
+  },
+
   saveStudentFormMock(student) {
     const enriched = {
       id: student.id || `std-local-${Date.now()}`,
@@ -494,7 +622,9 @@ window.DataStore = {
       riskLevel: 'low',
       lastWorkoutAt: null,
       nextWorkoutAt: null,
-      restrictions: student.restrictions ? String(student.restrictions).split(',').map(item => item.trim()).filter(Boolean) : [],
+      restrictions: Array.isArray(student.restrictions)
+        ? student.restrictions.filter(Boolean)
+        : student.restrictions ? String(student.restrictions).split(',').map(item => item.trim()).filter(Boolean) : [],
       preferredGymContext: student.preferredGymContext || 'A definir',
       usesBluetooth: false,
       internetQuality: 'boa',
@@ -510,6 +640,9 @@ window.DataStore = {
     };
 
     this.data.students.unshift(enriched);
+    if (student.weeklyDays && student.weeklyDays.length) {
+      this.data.weeklySchedules.unshift(this.buildWeeklyScheduleFromDraft(enriched, student));
+    }
     this.saveOfflineEvent({
       type: 'student_created_mock',
       studentId: enriched.id,
@@ -520,17 +653,29 @@ window.DataStore = {
     return enriched;
   },
 
+  updateStudentDraftMock(studentId, payload) {
+    return this.updateStudentFormMock(studentId, payload);
+  },
+
   updateStudentFormMock(studentId, patch) {
     const index = this.data.students.findIndex(student => student.id === studentId);
     if (index < 0) throw new Error('Aluno não encontrado.');
     const updated = {
       ...this.data.students[index],
       ...patch,
-      restrictions: patch.restrictions
+      restrictions: Array.isArray(patch.restrictions)
+        ? patch.restrictions.filter(Boolean)
+        : patch.restrictions
         ? String(patch.restrictions).split(',').map(item => item.trim()).filter(Boolean)
         : this.data.students[index].restrictions
     };
     this.data.students[index] = updated;
+    if (patch.weeklyDays && patch.weeklyDays.length) {
+      const scheduleIndex = this.data.weeklySchedules.findIndex(schedule => schedule.studentId === studentId);
+      const nextSchedule = this.buildWeeklyScheduleFromDraft(updated, patch);
+      if (scheduleIndex >= 0) this.data.weeklySchedules[scheduleIndex] = nextSchedule;
+      else this.data.weeklySchedules.unshift(nextSchedule);
+    }
     this.saveOfflineEvent({
       type: 'student_updated_mock',
       studentId,
@@ -541,7 +686,29 @@ window.DataStore = {
     return updated;
   },
 
-  cloneWorkoutMock(sourceWorkoutId, targetStudentId) {
+  buildWeeklyScheduleFromDraft(student, draft) {
+    const selected = Array.isArray(draft.weeklyDays) ? draft.weeklyDays : [];
+    const dayTypes = draft.dayTypes || {};
+    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].reduce((acc, day) => {
+      const type = selected.includes(day) ? (dayTypes[day] || 'workout') : 'rest';
+      acc[day] = {
+        type,
+        title: type === 'workout' ? 'Treino' : type === 'rest' ? 'Descanso' : type.charAt(0).toUpperCase() + type.slice(1),
+        notes: 'Grade simulada criada no protótipo.'
+      };
+      return acc;
+    }, {});
+
+    return {
+      id: student.weeklyScheduleId || `ws-local-${Date.now()}`,
+      studentId: student.id,
+      professionalId: student.professionalId,
+      weekStartsOn: new Date().toISOString().split('T')[0],
+      days
+    };
+  },
+
+  cloneWorkoutMock(sourceWorkoutId, targetStudentId, targetDay = 'friday') {
     const targetStudent = this.getStudentById(targetStudentId);
     if (!targetStudent) throw new Error('Aluno de destino não encontrado.');
 
@@ -551,7 +718,7 @@ window.DataStore = {
 
     const sourceExercises = sourcePrescribed
       ? sourcePrescribed.exercises
-      : (sourceLibrary.exerciseBlocks[0] ? sourceLibrary.exerciseBlocks[0].exercises : []);
+      : (sourceLibrary.exerciseBlocks || []).flatMap(block => block.exercises || []);
 
     const cloned = {
       id: `pw-clone-${Date.now()}`,
@@ -560,7 +727,7 @@ window.DataStore = {
       studentId: targetStudentId,
       professionalId: targetStudent.professionalId,
       title: `${sourcePrescribed ? sourcePrescribed.title : sourceLibrary.name} (clone mock)`,
-      scheduledDay: 'friday',
+      scheduledDay: targetDay,
       scheduledDate: new Date().toISOString().split('T')[0],
       status: 'draft',
       estimatedDurationMinutes: sourcePrescribed ? sourcePrescribed.estimatedDurationMinutes : sourceLibrary.estimatedDurationMinutes,
@@ -580,7 +747,7 @@ window.DataStore = {
       type: 'workout_cloned_mock',
       studentId: targetStudentId,
       workoutId: cloned.id,
-      payload: { sourceWorkoutId, targetStudentId },
+      payload: { sourceWorkoutId, targetStudentId, targetDay },
       syncStatus: 'sync_pending',
       offline: !navigator.onLine
     });

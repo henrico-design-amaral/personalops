@@ -93,6 +93,20 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Novas funções no `DataStore` para métricas, risco, frequência, progresso, feedback e formulários mockados.
   - UI com perfil completo do aluno, novo/editar aluno mockado e dashboard de plataforma.
 
+### 2026-06-10 — Session 006 — Visual Fluidity & Smart Workout UX
+- **Branch**: `feature/visual-fluidity-and-smart-workout-flows`
+- **Objetivo**: Refinar a experiência visual e operacional dos três perfis sem adicionar backend, banco real, autenticação real ou pagamento real.
+- **Decisões**:
+  - Admin mantém dashboard completo no desktop e passa a ter consulta mobile compacta.
+  - Professor passa a operar por prioridades: atenção agora, alunos em acompanhamento, progresso, cobranças, biblioteca e feedbacks críticos.
+  - Novo/Editar aluno usa campos inteligentes com selects, segmented controls e checkboxes.
+  - Criação de treino prioriza biblioteca, depois clonagem, depois voz/texto como rascunho.
+  - Aluno passa a ver semana organizada e sessão de treino por blocos.
+- **Escopo**:
+  - Novas funções auxiliares no `DataStore` para biblioteca, clonagem com dia, resumo do professor, métricas compactas e plano semanal.
+  - Componentes visuais locais para status, progresso, tabs, cards de prioridade, builder de treino e Admin mobile compacto.
+  - Documentação V1.4 de experiência visual e plano de QA visual.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
