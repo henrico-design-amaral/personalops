@@ -107,10 +107,45 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Componentes visuais locais para status, progresso, tabs, cards de prioridade, builder de treino e Admin mobile compacto.
   - Documentação V1.4 de experiência visual e plano de QA visual.
 
+### 2026-06-14 — Session 007 — Exercise System Specification
+- **Branch**: `main`
+- **Objetivo**: Definir como exercícios são representados como objetos operacionais de treino (não apenas vídeos).
+- **Alterações**:
+  - **Documentação**: Criado `docs/product/exercise-system.md` (especificação v1.0 estável, 500+ linhas).
+  - **Decisões**: Registrado modelo completo de exercícios, prescrições, execuções, histórico, progressões e substituições em DECISIONS.md.
+  - **Escopo Funcional**: Biblioteca (50+ exercícios), 4 contextos de card, tela de detalhe, execução assistida, body-figure SVG, prescrição do personal, histórico agregado.
+  - **Validação**: Sem implementação de telas agora (conforme requisito); documentação como referência para próximas etapas.
+- **Validações**:
+  - Documentação revisada e completa; pronta para implementação.
+
+### 2026-06-14 — Session 008 — Architecture Modernization (Astro-First)
+- **Branch**: `main`
+- **Objetivo**: Migrar PersonalOps de protótipo HTML/CSS/JS vanilla para Astro-first, mantendo 100% de paridade funcional e offline-first.
+- **Alterações**:
+  - **Estrutura Astro**: Criado `astro.config.mjs`, `tsconfig.json`, `package.json`, `src/layouts/`, `src/pages/`.
+  - **Componentes**: `src/layouts/BaseLayout.astro` renderiza idêntico ao `index.html` original.
+  - **Assets**: Copiados `public/assets/css/`, `public/assets/js/`, `public/assets/data/`, manifest, service-worker.
+  - **Build**: `npm run build` gera `dist/` com asset paths reescritos para `/personalops/` (GitHub Pages).
+  - **Service Worker**: Registration inline com `define:vars` para injetar `baseUrl` dinâmico.
+  - **Zero Regressões**: HTML, CSS, JS (data-store + app), dados, offline-first 100% preservados.
+- **Decisões**:
+  - Astro como SSG (Static Site Generator) mantém deployments GitHub Pages.
+  - Client-side: data-store + app.js como scripts tradicionais (sem ilhas Astro necessárias por enquanto).
+  - Base URL `/personalops/` configurado em astro.config; paths reescritos automaticamente.
+- **Validações**:
+  - `npm run build` executa sem erros.
+  - `dist/index.html` verificado com caminhos corretos (`/personalops/assets/...`).
+  - Todos os assets (CSS, JS, JSON, manifest, service-worker) presentes em `dist/`.
+  - Git commit: `1e38c30 refactor: migrate to Astro-first static site generator`.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-Mensagem recomendada para commit:
-`git commit -m "data: add PersonalOps test fixtures"`
-`git push`
+**Última sessão**: Session 008 (2026-06-14)  
+**Branch**: `main` (ahead by 2 commits)  
+**Status**: Astro-first migration completo; pronto para deploy.
+
+Commits pendentes de push:
+- `704f5f5`: Exercise system specification
+- `1e38c30`: Astro-first migration
