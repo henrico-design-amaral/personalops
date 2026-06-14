@@ -225,15 +225,55 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Invariantes de domínio claros
 - **Status**: Consolidação completa; pronta para commit.
 
+### 2026-06-14 — Session 011 — Minimal Data Contracts
+- **Branch**: `main`
+- **Objetivo**: Criar contratos mínimos de dados para as 10 entidades core, sem implementar UI ou banco, preservando Astro-first.
+- **Alterações**:
+  - **Documentação técnica**: Criado `docs/technical/data-contracts.md` (v1.0, contratos mínimos).
+  - **10 Entidades documentadas** com:
+    - Campos mínimos (MVP-ready)
+    - Status possíveis (enum values)
+    - Relações (ForeignKeys, cardinality)
+    - CRUD Permissions (por perfil: Admin, Staff, Professor, Student)
+    - Invariantes (domínio e segurança)
+  - **Entidades**: User, RoleAssignment, AdminProfile, StaffProfile, ProfessorProfile, StudentProfile, ProfessorStudentLink, Invitation, PasswordRecovery, SupportActionLog
+  - **10 Invariantes críticas** documentadas (Student IS User, via Invitation, never hard-delete, etc.)
+  - **Tabelas de permissões CRUD** por perfil
+  - **Diagrama de relações** simplificado
+  - **Cascatas de integridade referencial** documentadas
+  - **Seeds mínimos** documentados (sem implementação)
+  - **Notas sobre implementação**: Technology-agnostic (SQL, NoSQL, Graph, JSON file)
+  - **DECISIONS.md**: Nova entrada Session 011 com contratos.
+  - **PROJECT_CONTROL.md**: Entry Session 011.
+- **Decisões**:
+  - Contratos não implementam banco (apenas especificação)
+  - Contratos technology-agnostic (SQL, NoSQL, Graph, etc.)
+  - StudentProfile.status: 5 valores (convidado, habilitado, pausado, arquivado, bloqueado)
+  - ProfessorStudentLink.status: 3 valores (ativo, pausado, arquivado)
+  - Invitation.token e PasswordRecovery.token: 32+ chars hex, unique, immutable
+  - Invitation.tokenExpiresAt: 30 dias; PasswordRecovery.tokenExpiresAt: 24 horas
+  - SupportActionLog: imutável, auditoria de ações técnicas
+  - Professor não vê/define/reseta User.password de aluno
+  - Admin só dispara PasswordRecovery (form pública), não define manualmente
+  - Nenhum hard delete no MVP (soft delete apenas)
+- **Validações**:
+  - Contratos não contradizem RBAC_AND_OPERATIONAL_MODEL.md
+  - Ownership professor-aluno claro (ProfessorStudentLink único por student)
+  - Suporte técnico separado de operação (Admin/Staff → SupportActionLog, Professor → operação)
+  - Contratos prontos para virar schema (SQL DDL, Mongoose models, etc.)
+  - Build continua passando
+  - Documento agnóstico de tecnologia
+- **Status**: Contratos completos; prontos para schema design.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 010 (2026-06-14)  
+**Última sessão**: Session 011 (2026-06-14)  
 **Branch**: `main` (working tree clean)  
-**Status**: Especificação RBAC consolidada e expandida; pronta para commit.
+**Status**: Contratos mínimos de dados criados e documentados; prontos para implementação de schema.
 
 Arquivos modificados nesta sessão:
-- `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (expandido)
-- `DECISIONS.md` (atualizado com Session 010)
-- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 010)
+- `docs/technical/data-contracts.md` (novo)
+- `DECISIONS.md` (atualizado com Session 011)
+- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 011)

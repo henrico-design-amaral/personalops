@@ -111,3 +111,35 @@
   - Admin vê professor → alunos, mas NÃO vê treinos, prescrições ou execuções
 
 - **Documentação**: `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (v1.0, expandido para 1700+ linhas, 19 seções)
+
+### Data Contracts — Minimal Entity Contracts for MVP
+
+- **Contratos mínimos para 10 entidades**:
+  - User (autenticação base, email + password hashed, isActive)
+  - RoleAssignment (atribuição de papel: admin, staff, professor)
+  - AdminProfile (identidade admin, gerencia exercícios, suporte)
+  - StaffProfile (identidade staff/suporte, reenviar, desbloquear, resetar)
+  - ProfessorProfile (identidade professor, gerencia alunos, prescrições)
+  - StudentProfile (identidade aluno, 5 status: convidado, habilitado, pausado, arquivado, bloqueado)
+  - ProfessorStudentLink (vínculo operacional, 3 status: ativo, pausado, arquivado, permanente até arquivo)
+  - Invitation (convite com token 32-char, 4 status: pendente, ativado, expirado, cancelado, 30-dia expiration)
+  - PasswordRecovery (recuperação de acesso com token, 4 status: solicitado, usado, expirado, cancelado, 24-hora expiration)
+  - SupportActionLog (auditoria imutável de ações técnicas: reenviar, desbloquear, resetar, resolver)
+
+- **Para cada entidade**: campos mínimos, status possíveis, relações (ForeignKeys, cardinality), CRUD permissions por perfil, invariantes
+
+- **10 invariantes críticas**:
+  1. Student IS User (never non-user)
+  2. Student via Invitation (never direct creation)
+  3. Student never hard-deleted (soft via status)
+  4. Professor owns Student (1 link per student)
+  5. Professor no password control (view/set/reset)
+  6. Admin no student creation (only support)
+  7. Admin no operational editing (no workouts, no feedback)
+  8. Support action audit (immutable log)
+  9. Token security (32+ chars, cryptographically secure)
+  10. No hard delete MVP (soft only via status/isActive)
+
+- **Technology-agnostic**: Contracts ready for SQL, NoSQL, Graph, or file-based implementation
+
+- **Documentação**: `docs/technical/data-contracts.md` (v1.0, contracts com CRUD permissions, invariantes, diagramas)
