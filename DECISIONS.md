@@ -41,3 +41,31 @@
 - Service Worker registration inline com `baseUrl` via `define:vars`.
 - Sem regressões: HTML, CSS, JS, dados e funcionalidade 100% preservados.
 - Deploy: GitHub Pages estático (sem mudanças no DEPLOY_GITHUB_PAGES.md).
+
+### RBAC & Operational Model — Identity, Roles, Permissions
+
+**Distinção fundamental**:
+- **Usuário** (User) = entidade de autenticação (email + senha), pode ter múltiplos papéis
+- **Aluno** (Student) = entidade operacional, **propriedade exclusiva do professor**, não é usuário do sistema
+- Um aluno pertence a um e apenas um professor; não tem login
+
+**Papéis**:
+- **AdminProfile**: Gerencia exercícios base, métricas agregadas, profissionais. NÃO cria alunos. Dashboard desktop-only.
+- **ProfessorProfile**: Gerencia alunos próprios, prescreve agenda semanal, acompanha execução. Onboarding obrigatório no primeiro login.
+- **StudentProfile**: Executa treinos, registra séries, envia feedback. Vê apenas dados próprios.
+
+**Agenda semanal prescritiva**:
+- Tipos: workout, cardio, rest, check-in, assessment
+- Prescrição obrigatória quando tipo requer detalhe (workout/cardio/assessment)
+- Modal de seleção para cada tipo
+
+**Gestão de alunos**:
+- Professor cria aluno: nome, email, modo, vencimento, plano
+- Estados: ativo → [pausar ↔ ativo] → arquivar (soft-delete)
+
+**Financeiro**:
+- Admin Platform: cobranças de **professores**
+- Professor: cobranças de **seus alunos**
+- Mockado, sem processamento real
+
+**Documentação**: `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (v1.0)

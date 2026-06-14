@@ -1,0 +1,732 @@
+# RBAC & Operational Model — PersonalOps V1.5
+
+**Data**: 2026-06-14  
+**Versão**: 1.0 — Especificação Funcional  
+**Status**: Estrutura de papéis, permissões e modelo operacional  
+
+---
+
+## 1. MODELO DE IDENTIDADES
+
+### Distinção Fundamental: Usuário ≠ Aluno
+
+**Usuário**
+- Entidade de autenticação (email + senha)
+- Pode ter múltiplos papéis (Admin, Professor, Aluno)
+- Cada papel é um **Profile** separado associado ao usuário
+- Exemplos:
+  - `user@personalops.test` com AdminProfile (acesso admin)
+  - `professor@personalops.test` com ProfessorProfile (acesso professor)
+  - `aluno@personalops.test` com StudentProfile próprio
+
+**Aluno**
+- Entidade operacional de treino
+- **Propriedade exclusiva do professor** que o criou
+- Um aluno existe apenas dentro do workspace de um professor
+- Um professor pode criar múltiplos alunos
+- Um aluno não pode existir sem professor
+- Um aluno não é um usuário do sistema (não tem login)
+
+**Exemplo de relacionamento**:
+```
+User: professor@personalops.test
+  ├── ProfessorProfile (prof-01)
+      ├── Student: João Silva (aluno de prof-01)
+      ├── Student: Maria Santos (aluno de prof-01)
+      └── Student: Pedro Costa (aluno de prof-01)
+
+User: aluno@personalops.test
+  └── StudentProfile (std-01)
+      └── (pode executar treinos de qualquer professor que o prescreveu)
+```
+
+---
+
+## 2. PAPÉIS E PERMISSÕES
+
+### 2.1 Administrador da Plataforma (Platform Admin)
+
+**Identidade**: `AdminProfile`  
+**Objetivo**: Gerenciar saúde técnica, biblioteca global, métricas agregadas e profissionais (professores).
+
+**Permissões**:
+- ✅ Criar exercícios base na biblioteca global
+- ✅ Editar exercícios base
+- ✅ Arquivar exercícios base
+- ✅ Visualizar métricas agregadas (professores, alunos totais, treinos, feedbacks)
+- ✅ Visualizar profissionais cadastrados
+- ✅ Visualizar cobranças mockadas de profissionais
+- ✅ Visualizar biblioteca global
+- ✅ Visualizar status de mídia/assets pendentes
+- ✅ Visualizar logs técnicos mockados
+- ✅ Criar perfis administrativos internos (outros admins)
+- ✅ Gerenciar permissões de outros admins
+
+**Não pode**:
+- ❌ Criar alunos
+- ❌ Editar alunos
+- ❌ Deletar alunos
+- ❌ Ver dados financeiros de alunos específicos
+- ❌ Acessar workspace de professor
+- ❌ Atribuir treinos
+- ❌ Executar treinos
+
+**Dashboard**: Desktop-only com visão agregada. Mobile com consulta compacta.
+
+---
+
+### 2.2 Professor (Trainer)
+
+**Identidade**: `ProfessorProfile`  
+**Objetivo**: Gerenciar seus alunos, prescrever treinos e acompanhar execução.
+
+**Onboarding inicial** (primeiro login):
+1. Preencher perfil (nome, especialidade, academia/local)
+2. Confirmar workspace pessoal
+3. Aceitar termos de LGPD
+4. Dashboard ativado automaticamente após conclusão
+
+**Permissões operacionais**:
+
+#### Alunos
+- ✅ Criar novo aluno (nome, email, modo de treino, vencimento)
+- ✅ Editar aluno (dados básicos, modo, vencimento)
+- ✅ Pausar aluno (mantém dados, oculta de operação)
+- ✅ Arquivar aluno (soft-delete; dados preservados)
+- ✅ Ver perfil completo do aluno (histórico, feedbacks, financeiro)
+- ✅ Ver alunos inativos (pausados e arquivados)
+- ❌ Deletar aluno permanentemente
+
+#### Biblioteca de Treinos
+- ✅ Visualizar biblioteca global (50+ exercícios base)
+- ✅ Visualizar seus templates de treino
+- ✅ Criar template de treino novo
+- ✅ Editar template de treino
+- ✅ Clonar template (próprio ou da biblioteca)
+- ✅ Arquivar template
+
+#### Prescrição e Agenda Semanal
+- ✅ Atribuir treino específico por dia (segunda, terça, etc.)
+- ✅ Atribuir cardio específico por dia
+- ✅ Marcar dia como descanso
+- ✅ Marcar dia como check-in
+- ✅ Marcar dia como avaliação
+- ✅ Modal de seleção para cada tipo
+- ✅ Não permitir dia genérico sem prescrição
+
+#### Histórico e Acompanhamento
+- ✅ Ver treinos completos do aluno
+- ✅ Ver treinos incompletos/pendentes
+- ✅ Ver histórico simplificado
+- ✅ Ver feedbacks pós-treino
+- ✅ Ver execução de séries por treino
+- ✅ Ver progresso de carga/RPE
+
+#### Financeiro (próprio workspace)
+- ✅ Ver cobranças mockadas dos seus alunos
+- ✅ Ver vencimentos
+- ✅ Ver inadimplentes
+- ✅ Simular Pix mockado (copia e cola falso)
+- ❌ Processar pagamento real
+- ❌ Integrar gateway real
+
+**Não pode**:
+- ❌ Ver exercícios de outros professores
+- ❌ Ver alunos de outros professores
+- ❌ Editar alunos de outro professor
+- ❌ Ver cobranças de outros professores
+- ❌ Criar exercícios base (apenas usar biblioteca global)
+
+---
+
+### 2.3 Aluno (Student)
+
+**Identidade**: `StudentProfile`  
+**Objetivo**: Executar treinos prescritos e enviar feedback.
+
+**Permissões**:
+- ✅ Ver treino de hoje
+- ✅ Ver semana organizada (dias com tipo e prescrição)
+- ✅ Ver todos os treinos da semana (completos e pendentes)
+- ✅ Executar treino prescrito
+- ✅ Registrar série (reps, RPE)
+- ✅ Pular série
+- ✅ Enviar feedback (dor, esforço, humor, comentário)
+- ✅ Ver histórico simplificado
+- ✅ Ver detalhe de exercício
+- ✅ Ver body-figure do exercício
+- ✅ Ver execução visual (quando disponível)
+- ✅ Visualizar dicas de coaching
+- ✅ Ver progressão recomendada
+
+**Não pode**:
+- ❌ Editar prescrição de treino
+- ❌ Criar alunos
+- ❌ Acessar dados de outro aluno
+- ❌ Ver dados financeiros
+- ❌ Acessar dashboard administrativo
+
+---
+
+## 3. ONBOARDING DO PROFESSOR
+
+### Fluxo de Primeiro Login
+
+**Passo 1**: Autenticação
+- Email + senha
+- Sistema detecta: usuário novo com ProfessorProfile
+
+**Passo 2**: Onboarding Modal
+- Título: "Bem-vindo ao PersonalOps"
+- Campos obrigatórios:
+  - Nome completo
+  - Especialidade (select: hipertrofia, emagrecimento, força, funcional, etc.)
+  - Local de atuação (select: academia, estúdio, online, híbrido)
+  - CREF/Certificação (input texto opcional)
+- Botão: "Confirmar e acessar dashboard"
+
+**Passo 3**: Confirmação
+- Exibir: "Seu workspace foi criado. Agora você pode criar seus primeiros alunos."
+- Redirecionar para dashboard do professor
+- Mostrar: dica "Clique em 'Novo aluno' para começar"
+
+**Onboarding nunca se repete** (flag `firstLoginDone: true` no ProfessorProfile)
+
+---
+
+## 4. GESTÃO DE ALUNOS
+
+### Ciclo de Vida
+
+```
+CRIAR → ATIVO → [PAUSAR ↔ ATIVO] → ARQUIVAR
+                                      ↓
+                                   EXCLUÍDO
+```
+
+**Estados**:
+- **Ativo**: Aluno participando ativamente
+- **Pausado**: Temporariamente inativo (férias, lesão, pausa)
+- **Arquivado**: Inativo permanentemente ou cancelado
+- **Excluído**: Soft-delete (dados preservados para auditoria)
+
+### Criar Aluno
+
+**Formulário**:
+- Nome completo (obrigatório)
+- Email (opcional, para contato)
+- Data de nascimento (opcional)
+- Modo de treino (select): presencial, online, híbrido
+- Data de início (obrigatório)
+- Data de vencimento (obrigatório)
+- Plano (select): básico, premium, elite
+- Notas iniciais (textarea opcional)
+
+**Resultado**: Novo aluno criado com status "ativo"
+
+### Editar Aluno
+
+**Campos editáveis**:
+- Nome
+- Email
+- Modo de treino
+- Vencimento
+- Plano
+- Notas
+
+**Campos read-only**:
+- Data de criação
+- ID
+- Professor (owner)
+- Estado (ativo/pausado/arquivado)
+
+---
+
+## 5. BIBLIOTECA DE TREINOS E CARDIO
+
+### Estrutura
+
+**Treino (WorkoutTemplate)**
+- ID único
+- Nome
+- Categoria (peito, costas, perna, full-body, etc.)
+- Objetivo (hipertrofia, força, emagrecimento, funcional)
+- Nível (iniciante, intermediário, avançado)
+- Duração estimada (minutos)
+- Exercícios (array de exercícios com séries, reps, descanso)
+- Criado por: sistema (biblioteca) ou professor
+
+**Cardio (CardioTemplate)**
+- ID único
+- Nome
+- Tipo (corrida, bicicleta, elíptico, natação, jump, etc.)
+- Intensidade (baixa, moderada, alta)
+- Duração (minutos)
+- Descrição (ex: "30 min moderado" ou "20 min HIIT")
+- Criado por: sistema ou professor
+
+**Uso**:
+- Professor seleciona treino/cardio da biblioteca
+- Atribui a dia específico (segunda, terça, etc.)
+- Sistema armazena prescrição na agenda do aluno
+
+---
+
+## 6. AGENDA SEMANAL PRESCRITIVA
+
+### Modelo de DayAssignment
+
+**Estrutura de dia na semana**:
+```javascript
+{
+  studentId: "std-01",
+  weekDay: "monday",  // monday, tuesday, wednesday, thursday, friday, saturday, sunday
+  dayType: "workout", // workout, cardio, rest, check-in, assessment
+  
+  // Quando dayType === "workout"
+  workoutId: "tpl-01",
+  workoutName: "Peito + Bíceps",
+  workoutDuration: 60,
+  
+  // Quando dayType === "cardio"
+  cardioId: "cardio-02",
+  cardioName: "Corrida leve",
+  cardioDuration: 30,
+  
+  // Quando dayType === "assessment"
+  assessmentType: "body-composition", // body-composition, 1rm, movement-quality
+  
+  // Meta
+  notes: "Nota do professor",
+  prescribedDate: "2026-06-10",
+  updatedDate: "2026-06-12"
+}
+```
+
+### Tipos de Dia
+
+| Tipo | Requer Prescrição Específica? | Dados | Exibição |
+|------|------|-------|----------|
+| **workout** | ✅ Sim | workoutId, workoutName, duration | "Peito + Bíceps · 60 min" |
+| **cardio** | ✅ Sim | cardioId, cardioName, duration | "Corrida leve · 30 min" |
+| **rest** | ❌ Não | (vazio) | "Descanso" |
+| **check-in** | ❌ Não | (vazio) | "Check-in com professor" |
+| **assessment** | ✅ Sim | assessmentType | "Avaliação: Bioimpedância" |
+
+### Modal de Seleção
+
+**Ao clicar em um dia**:
+1. Modal abre com 5 botões de tipo
+2. Seleciona tipo
+3. Se tipo requer prescrição:
+   - Abre sub-modal de seleção (lista de treinos/cardios)
+   - Professor escolhe
+   - Confirma
+4. Dia atualizado na agenda
+
+**Validação**:
+- Não permitir salvar dia com tipo que requer prescrição mas sem selection
+- Mensagem: "Selecione o treino para segunda-feira"
+
+---
+
+## 7. VISÃO DO ALUNO
+
+### Tela Principal: Minha Semana
+
+**Cards por dia**:
+- Dia da semana
+- Tipo (Treino · 60 min | Cardio · 30 min | Descanso | Check-in)
+- Status (Completo, Pendente, Hoje)
+- Se hoje: botão "Iniciar treino"
+- Se completo: "✓ Concluído"
+- Se futuro: "Aguardando"
+
+### Treino de Hoje
+
+- Nome do treino
+- Duração estimada
+- Número de exercícios
+- Botão "Executar"
+
+### Tela de Execução
+
+Para cada exercício:
+- Nome
+- Músculos envolvidos (body-figure SVG)
+- Sets prescritos: 4 × 8-10
+- Descanso: 90s
+- Dica de coaching
+- Registro de série: reps, RPE
+
+Após último exercício:
+- Modal de feedback: dor (0-10), esforço (1-10), humor, comentário
+- "Enviar feedback"
+
+### Histórico Simplificado
+
+- Últimos 10 treinos
+- Data, nome, status (completo/incompleto)
+- RPE médio
+- Treinos completados (%) esta semana
+
+### Dashboard de Objetivo
+
+- Objetivo atual (ex: "Ganhar massa muscular")
+- Progresso visual (% de aderência)
+- Próxima avaliação em: X dias
+- Dica personalizada baseada no plano
+
+---
+
+## 8. FINANCEIRO
+
+### Separação de Escopo
+
+**Platform Admin**:
+- Controla cobranças de **professores** (não de alunos)
+- Ver professores com assinatura ativa/vencida
+- Ver receita mockada prevista
+- Dashboard de cobranças platform-wide
+
+**Professor**:
+- Controla cobranças de **seus alunos** (não de outros)
+- Alunos têm vencimento (data limite do plano)
+- Cobranças mockadas Pix por aluno
+- Fluxo de caixa do seu workspace
+
+**Aluno**:
+- Vê apenas seu próprio plano/vencimento
+- Não controla cobranças
+- Recebe notificação quando vencimento se aproxima
+
+### Modelo de Cobrança
+
+**Professor → Aluno**:
+```javascript
+{
+  id: "charge-01",
+  professionalId: "prof-01",
+  studentId: "std-01",
+  studentName: "João Silva",
+  planName: "Premium",
+  amount: 150.00,
+  dueDate: "2026-07-10",
+  status: "pending", // pending, overdue, paid, cancelled
+  pixQrCode: null,   // null (mockado não gera real)
+  pixCopyPaste: "00020126580014br.gov.bcb.brcode..."  // fake copy-paste
+}
+```
+
+**Fluxos mockados**:
+- Professor clica "Gerar Pix" → copia QR Code fake
+- Aluno vê "Pix disponível" → copia copia-e-cola fake
+- Status muda para "paid" após simulação
+- **Sem processamento real de pagamento**
+
+---
+
+## 9. MODELO CONCEITUAL DE ENTIDADES
+
+### User (Autenticação)
+```
+User
+├── id: string
+├── email: string (unique)
+├── password: string (hashed)
+├── profiles: AdminProfile[] | ProfessorProfile[] | StudentProfile[]
+└── createdAt: timestamp
+```
+
+### AdminProfile
+```
+AdminProfile
+├── id: string
+├── userId: string (FK)
+├── role: "admin"
+├── isFirstLogin: boolean
+├── createdAt: timestamp
+└── permissions: ["create_exercises", "view_metrics", "manage_professionals"]
+```
+
+### ProfessorProfile
+```
+ProfessorProfile
+├── id: string
+├── userId: string (FK)
+├── role: "professor"
+├── name: string
+├── specialty: string
+├── location: string
+├── cref: string (optional)
+├── isFirstLoginDone: boolean
+├── students: StudentProfile[] (FK)
+├── templates: WorkoutTemplate[] (FK)
+├── cardioTemplates: CardioTemplate[] (FK)
+├── createdAt: timestamp
+└── workspace: {
+    filesCount: number,
+    storageUsed: number,
+    studentsActive: number
+  }
+```
+
+### StudentProfile
+```
+StudentProfile
+├── id: string
+├── userId: string (FK, if user = aluno himself)
+├── professorId: string (FK, owner)
+├── name: string
+├── email: string (optional)
+├── mode: "presencial" | "online" | "híbrido"
+├── startDate: timestamp
+├── expiresAt: timestamp
+├── plan: "básico" | "premium" | "elite"
+├── status: "ativo" | "pausado" | "arquivado"
+├── notes: string
+├── schedule: DayAssignment[] (FK)
+├── workoutSessions: WorkoutSession[] (FK)
+├── feedbacks: PostWorkoutFeedback[] (FK)
+└── createdAt: timestamp
+```
+
+### Exercise
+```
+Exercise
+├── id: string
+├── name: string
+├── category: string (muscle group)
+├── primaryMuscle: string
+├── secondaryMuscles: string[]
+├── difficulty: "iniciante" | "intermediário" | "avançado"
+├── defaultSets: number
+├── defaultReps: string (e.g., "8-10")
+├── defaultRest: number (seconds)
+├── coachingCues: string[]
+├── commonMistakes: string[]
+├── safetyNotes: string
+├── progressionPath: ExerciseId[] (next exercises)
+├── isSystemLibrary: boolean
+└── createdBy: ProfessorId | null
+```
+
+### WorkoutTemplate
+```
+WorkoutTemplate
+├── id: string
+├── professionalId: string (FK, creator)
+├── name: string
+├── category: string
+├── objective: string
+├── level: string
+├── estimatedDuration: number (minutes)
+├── exercises: {
+    exerciseId: string,
+    order: number,
+    sets: number,
+    reps: string,
+    rest: number,
+    notes: string
+  }[]
+├── isSystemLibrary: boolean
+└── createdAt: timestamp
+```
+
+### CardioTemplate
+```
+CardioTemplate
+├── id: string
+├── professionalId: string (FK, creator)
+├── name: string
+├── type: "corrida" | "bicicleta" | "elíptico" | etc.
+├── intensity: "baixa" | "moderada" | "alta"
+├── duration: number (minutes)
+├── description: string
+├── isSystemLibrary: boolean
+└── createdAt: timestamp
+```
+
+### DayAssignment
+```
+DayAssignment
+├── id: string
+├── studentId: string (FK)
+├── weekDay: string (monday-sunday)
+├── dayType: "workout" | "cardio" | "rest" | "check-in" | "assessment"
+├── workoutId: string | null (FK, if workout)
+├── cardioId: string | null (FK, if cardio)
+├── assessmentType: string | null (if assessment)
+├── notes: string
+├── prescribedDate: timestamp
+└── updatedDate: timestamp
+```
+
+### WorkoutSession
+```
+WorkoutSession
+├── id: string
+├── studentId: string (FK)
+├── workoutId: string (FK)
+├── startTime: timestamp
+├── endTime: timestamp
+├── setExecutions: SetExecution[] (FK)
+├── completionStatus: "completo" | "incompleto" | "não iniciado"
+└── feedback: PostWorkoutFeedback (FK)
+```
+
+### SetExecution
+```
+SetExecution
+├── id: string
+├── workoutSessionId: string (FK)
+├── exerciseId: string (FK)
+├── setNumber: number
+├── repsTarget: number
+├── repsCompleted: number
+├── rpe: number (1-10)
+├── duration: number (seconds)
+└── notes: string
+```
+
+### PostWorkoutFeedback
+```
+PostWorkoutFeedback
+├── id: string
+├── studentId: string (FK)
+├── workoutSessionId: string (FK)
+├── workoutRating: number (1-5)
+├── perceivedEffort: number (1-10)
+├── painLevel: number (0-10)
+├── mood: "ótimo" | "bom" | "normal" | "ruim"
+├── feedback: string
+├── isCritical: boolean (pain > 5 or rating < 3)
+└── createdAt: timestamp
+```
+
+### PaymentRecord
+```
+PaymentRecord
+├── id: string
+├── professorId: string (FK)
+├── studentId: string (FK)
+├── studentName: string
+├── planName: string
+├── amount: number
+├── dueDate: timestamp
+├── paidDate: timestamp | null
+├── status: "pendente" | "vencido" | "pago" | "cancelado"
+├── pixQrCode: string | null (mockado)
+├── pixCopyPaste: string | null (mockado)
+└── createdAt: timestamp
+```
+
+### PlatformSubscription
+```
+PlatformSubscription
+├── id: string
+├── professionalId: string (FK)
+├── planName: string
+├── price: number
+├── billingPeriod: "mensal" | "anual"
+├── startDate: timestamp
+├── expiresAt: timestamp
+├── status: "ativa" | "vencida" | "cancelada"
+└── createdAt: timestamp
+```
+
+---
+
+## 10. FLUXOS OPERACIONAIS PRINCIPAIS
+
+### Fluxo 1: Professor Cria Aluno e Prescreve Semana
+
+```
+1. Professor → "Novo aluno"
+2. Preenche: nome, modo, vencimento, plano
+3. Aluno criado com status "ativo"
+4. Professor → Perfil do aluno → "Editar semana"
+5. Para cada dia (seg-dom):
+   a. Clica no dia
+   b. Modal: seleciona tipo (treino, cardio, rest, check-in, assessment)
+   c. Se tipo requer prescrição:
+      - Sub-modal: lista de treinos/cardios
+      - Seleciona
+   d. Dia atualizado
+6. Semana salva
+```
+
+### Fluxo 2: Aluno Executa Treino e Envia Feedback
+
+```
+1. Aluno → "Minha semana"
+2. Vê segunda com "Peito + Bíceps · 60 min"
+3. Clica "Iniciar treino"
+4. Para cada exercício:
+   a. Vê nome + body-figure
+   b. Dica de coaching
+   c. Registra série 1: 10 reps, RPE 7
+   d. Descanso inicia (countdown 90s)
+   e. Série 2, 3, 4...
+5. Último exercício → Modal feedback
+6. Seleciona: dor 2, esforço 8, humor "bom", comenta
+7. "Enviar feedback"
+8. Sistema marca treino como "concluído"
+```
+
+### Fluxo 3: Professor Acompanha Progresso e Sugerи Progressão
+
+```
+1. Professor → "João Silva" (aluno)
+2. Vê: últimos 5 treinos, RPE trend, carga atual
+3. Vê exercício "Supino": 80 kg, RPE médio 7, 83% completude
+4. Sistema sugere: "Pronto para progredir para 85 kg"
+5. Professor clica "Aceitar progressão"
+6. Prescrição atualizada para próximo treino
+```
+
+---
+
+## 11. REGRAS DE INTEGRIDADE
+
+### Dados
+- ❌ Nunca expor StudentProfile como login (aluno não é usuário)
+- ❌ Nunca permitir aluno ver dados de outro aluno
+- ❌ Nunca permitir professor editar aluno de outro professor
+- ✅ Sempre preservar histórico (soft-delete, nunca hard-delete)
+
+### Acesso
+- ❌ Nunca permitir admin criar/editar aluno
+- ❌ Nunca permitir professor acessar dados de outro professor
+- ✅ Sempre validar permissão antes de ação
+
+### Financeiro
+- ❌ Nunca processar pagamento real
+- ❌ Nunca expor dados bancários reais
+- ✅ Sempre usar mockados para Pix/cobranças
+
+---
+
+## 12. CRITÉRIOS DE ACEITE
+
+- ✅ Documento deixa claro que usuário e aluno são entidades diferentes
+- ✅ Documento deixa claro que aluno pertence ao professor
+- ✅ Documento deixa claro que admin não gerencia aluno
+- ✅ Documento define como o professor atribui treino exato por dia
+- ✅ Documento define como cardio específico é atribuído
+- ✅ Documento define a visão do aluno
+- ✅ Documento define o escopo financeiro de admin e professor sem misturar
+- ✅ Nenhuma tela é implementada (apenas especificação)
+- ✅ Nenhum asset externo é criado
+- ✅ Nenhuma publicação é feita
+
+---
+
+**Próximas ações:**
+1. ✅ Especificação completa criada
+2. ⏳ Atualizar DECISIONS.md com decisão de RBAC
+3. ⏳ Atualizar PROJECT_CONTROL.md com Session 009
+4. ⏳ Commit e push com validação local
+5. 🎯 Implementação de papéis/permissões (Session 010+)
+
+**Status**: 🔷 Especificação pronta para revisão

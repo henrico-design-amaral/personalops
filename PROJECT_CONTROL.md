@@ -138,14 +138,42 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Todos os assets (CSS, JS, JSON, manifest, service-worker) presentes em `dist/`.
   - Git commit: `1e38c30 refactor: migrate to Astro-first static site generator`.
 
+### 2026-06-14 — Session 009 — RBAC & Operational Model
+- **Branch**: `main`
+- **Objetivo**: Definir o modelo operacional correto de papéis, permissões, identidades, onboarding e gestão de alunos.
+- **Alterações**:
+  - **Documentação**: Criado `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (v1.0, 500+ linhas).
+  - **Modelo de identidades**: Distinção clara entre User (autenticação) e Student (entidade operacional, propriedade do professor).
+  - **Papéis e permissões**: AdminProfile (plataforma), ProfessorProfile (trainer), StudentProfile (aluno).
+  - **Onboarding professor**: Fluxo obrigatório no primeiro login com campos: nome, especialidade, local, CREF.
+  - **Gestão de alunos**: Ciclo de vida (criar → ativo → pausado/ativo → arquivar → excluído).
+  - **Agenda semanal prescritiva**: Tipos de dia (workout, cardio, rest, check-in, assessment) com prescrição obrigatória.
+  - **Biblioteca**: Treinos e cardio com templates sistema e personalizados.
+  - **Financeiro separado**: Admin controla professores; professor controla seus alunos; sem integração real.
+  - **Modelo conceitual**: 14 entidades principais (User, Profiles, Exercise, Templates, StudentPlan, DayAssignment, Sessions, Feedback, Payments).
+- **Decisões**:
+  - User ≠ Student: distinguir claramente identidade de autenticação de entidade operacional.
+  - Aluno pertence exclusivamente ao professor que o criou.
+  - Admin não cria/edita alunos; professor cria alunos próprios.
+  - Prescrição obrigatória por dia quando tipo requer detalhe (modal de seleção).
+  - Soft-delete para alunos (preservar dados para auditoria).
+  - Mockado sem integrações reais de pagamento.
+- **Validações**:
+  - Documentação revisada e completa; 12 critérios de aceite atendidos.
+  - Nenhuma tela implementada (conforme restrição).
+  - Nenhum asset externo (conforme restrição).
+- **Status**: Especificação pronta para revisão.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 008 (2026-06-14)  
-**Branch**: `main` (ahead by 2 commits)  
-**Status**: Astro-first migration completo; pronto para deploy.
+**Última sessão**: Session 009 (2026-06-14)  
+**Branch**: `main` (working tree clean)  
+**Status**: RBAC & Operational Model especificado; pronto para commit.
 
-Commits pendentes de push:
-- `704f5f5`: Exercise system specification
+Arquivos modificados nesta sessão:
+- `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (novo)
+- `DECISIONS.md` (atualizado)
+- `PROJECT_CONTROL.md` (este arquivo, atualizado)
 - `1e38c30`: Astro-first migration
