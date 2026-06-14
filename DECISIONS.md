@@ -71,3 +71,43 @@
 - Mockado, sem processamento real
 
 **Documentação**: `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (v1.0)
+
+### RBAC & Operational Model — Consolidation of Identity, Invitation, Access, and Technical Support
+
+- Especificação completa expandida com **8 entidades de identidade e acesso**:
+  - **User**: Base de autenticação com múltiplos RoleAssignments
+  - **RoleAssignment**: Atribuição de papel (admin, staff, professor)
+  - **ProfessorProfile**: Perfil operacional do professor
+  - **StudentProfile**: Perfil operacional do aluno com status (convidado, habilitado, pausado, arquivado, bloqueado)
+  - **ProfessorStudentLink**: Vínculo operacional entre professor e aluno (status: ativo, pausado, arquivado)
+  - **Invitation**: Convite com token, fluxo de ativação e expiração (30 dias)
+  - **PasswordRecovery**: Recuperação de acesso com token (24 horas) e auditoria de IP/timestamp
+  - **SupportActionLog**: Auditoria imutável de ações técnicas (reenviar convite, desbloquear, resetar senha)
+
+- **7 seções documentadas**:
+  - Seção 3: Fluxo de convite (professor informa → sistema cria → e-mail enviado → aluno ativa → User + StudentProfile criado)
+  - Seção 4: Recuperação de acesso (aluno clica "esqueci senha" → token → novo acesso; admin pode reenviar)
+  - Seção 5: Visão administrativa (dashboard por professor-aluno, status técnico, ações de suporte)
+  - Seção 6: Visão do professor (convida alunos, vê status, reenvia convites, pausar/arquivar, prescreve treinos)
+  - Seção 7: Visão do aluno (portal limitado: executa treinos, envia feedback, edita dados próprios, troca senha)
+  - Seção 8: Regra de domínio (admin governa plataforma + suporte; professor governa operação do aluno; aluno governa dados próprios)
+  - Seção 9: Entidades de identidade, convite e acesso técnico (modelos detalhados com schemas)
+
+- **Invariantes de domínio**:
+  - Student É usuário limitado (não-admin) do sistema
+  - Student criado exclusivamente pelo professor via Invitation
+  - Professor controla operação: prescrição, pausa, arquivamento (via ProfessorStudentLink)
+  - Admin NÃO cria alunos; admin atua apenas em suporte técnico (reenviar, desbloquear, resetar)
+  - Vínculo professor-aluno é permanente até arquivamento (não há transferência)
+  - Pausar vínculo não afeta User/StudentProfile (apenas oculta de operação)
+  - Cada ação técnica é auditada em SupportActionLog (imutável)
+
+- **Clarificações finais**:
+  - Student status `convidado` significa: Invitation pendente, User ainda não criado
+  - Student status `habilitado` significa: User criado com senha, pode fazer login
+  - Student status `bloqueado` significa: Acesso técnico suspenso (ação de suporte)
+  - Invitation.token = 32 caracteres criptograficamente seguros
+  - PasswordRecovery.token = 32 caracteres criptograficamente seguros
+  - Admin vê professor → alunos, mas NÃO vê treinos, prescrições ou execuções
+
+- **Documentação**: `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (v1.0, expandido para 1700+ linhas, 19 seções)

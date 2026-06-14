@@ -187,16 +187,53 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Está claro: aluno sem acesso administrativo.
 - **Status**: Correção concluída; pronta para commit.
 
+### 2026-06-14 — Session 010 — Identity, Invitation, Access & Technical Support Consolidation
+- **Branch**: `main`
+- **Objetivo**: Consolidar e expandir a especificação RBAC para documentar claramente: aluno como usuário autenticado, convidado pelo professor, fluxo de convite, recuperação de acesso, e suporte técnico administrativo.
+- **Alterações**:
+  - **Documentação RBAC**: Expandida de 752 linhas para 1700+ linhas com 19 seções.
+  - **Novas seções 3-8**: Fluxo de convite, recuperação de acesso, visão administrativa, visão do professor, visão do aluno, regra de domínio.
+  - **Seção 9**: Entidades de identidade, convite e acesso técnico (8 modelos completos):
+    - User (autenticação base)
+    - RoleAssignment (atribuição de papel)
+    - ProfessorProfile (perfil operacional do professor)
+    - StudentProfile (perfil operacional do aluno, status: convidado/habilitado/pausado/arquivado/bloqueado)
+    - ProfessorStudentLink (vínculo professor-aluno, status: ativo/pausado/arquivado)
+    - Invitation (convite com token, fluxo de ativação, 30 dias)
+    - PasswordRecovery (recuperação de acesso com token, 24 horas, auditoria)
+    - SupportActionLog (auditoria imutável de ações técnicas)
+  - **Renumeração**: Seções originais 3-12 renumeradas para 10-19.
+  - **DECISIONS.md**: Novo entry Session 010 documentando 8 entidades, 7 seções, invariantes de domínio, e clarificações finais.
+  - **PROJECT_CONTROL.md**: Entry Session 010 registrando consolidação completa.
+- **Decisões**:
+  - Student STATUS `convidado` = Invitation pendente, User não criado ainda
+  - Student STATUS `habilitado` = User criado com senha, pode login
+  - Student STATUS `bloqueado` = Acesso técnico suspenso (ação de suporte)
+  - ProfessorStudentLink é permanente até arquivamento (sem transferência)
+  - Admin governa plataforma + suporte técnico; NÃO cria/edita alunos
+  - Professor governa operação do aluno (prescrição, pausa, arquivamento)
+  - Aluno governa dados próprios (perfil, senha, dados de contato)
+- **Validações**:
+  - Documento deixa claro: student É usuário autenticado, criado pelo professor
+  - Documento deixa claro: student convidado via email, ativa via token
+  - Documento deixa claro: admin atua apenas em suporte técnico, não em operação
+  - Documento deixa claro: professor controla relação operacional com aluno
+  - Todas as 8 entidades documentadas com schemas completos
+  - Fluxo de convite completo (5 passos)
+  - Fluxo de recuperação completo (5 passos)
+  - Visões de admin, professor e aluno documentadas
+  - Invariantes de domínio claros
+- **Status**: Consolidação completa; pronta para commit.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 009 (2026-06-14)  
+**Última sessão**: Session 010 (2026-06-14)  
 **Branch**: `main` (working tree clean)  
-**Status**: RBAC & Operational Model especificado; pronto para commit.
+**Status**: Especificação RBAC consolidada e expandida; pronta para commit.
 
 Arquivos modificados nesta sessão:
-- `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (novo)
-- `DECISIONS.md` (atualizado)
-- `PROJECT_CONTROL.md` (este arquivo, atualizado)
-- `1e38c30`: Astro-first migration
+- `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (expandido)
+- `DECISIONS.md` (atualizado com Session 010)
+- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 010)

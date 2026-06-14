@@ -171,7 +171,497 @@ User: professor@personalops.test (Usuário Professor — acesso próprio)
 
 ---
 
-## 3. ONBOARDING DO PROFESSOR
+## 3. FLUXO DE CONVITE DO ALUNO
+
+### Convite Criado pelo Professor
+
+**Passo 1**: Professor informa dados do aluno
+- Nome completo
+- E-mail
+- Modo de treino (presencial/online/híbrido)
+- Data de início
+- Plano (básico/premium/elite)
+
+**Passo 2**: Sistema cria Invitation
+- Gera link único com token
+- Armazena: invitedEmail, professorId, status: "pendente"
+- Define expiração (ex: 30 dias)
+
+**Passo 3**: Sistema envia e-mail
+- "Você foi convidado para PersonalOps"
+- Link: `personalops.test/convite?token=xyz`
+- Instruções: "Clique para criar sua senha"
+- **Mockado**: sem envio real
+
+### Ativação do Convite
+
+**Passo 1**: Aluno acessa link do e-mail
+- Sistema valida token (não expirado, não usado)
+- Mostra form: "Complete seu cadastro"
+
+**Passo 2**: Aluno cria senha
+- Campo: Senha (mínimo 8 caracteres)
+- Campo: Confirmar senha
+- Botão: "Criar conta"
+
+**Passo 3**: Aluno completa perfil
+- Nome (pré-preenchido)
+- E-mail (somente leitura)
+- Data de nascimento (opcional)
+- Foto (opcional)
+- Botão: "Ativar conta"
+
+**Passo 4**: Sistema cria User + StudentProfile
+- `User.email` = emailDoConvite
+- `User.password` = hash(senhaInformada)
+- `StudentProfile.status` = "habilitado"
+- `Invitation.status` = "usado"
+- `Invitation.activatedAt` = now()
+
+**Passo 5**: Professor vê aluno como "ativo"
+- Lista de alunos mostra: João Silva (convidado) → João Silva (ativo)
+- Status muda automaticamente
+
+---
+
+## 4. RECUPERAÇÃO DE ACESSO
+
+### Fluxo "Esqueci a Senha"
+
+**Passo 1**: Aluno clica "Esqueci a senha"
+- Campo: E-mail registrado
+- Botão: "Enviar link de recuperação"
+
+**Passo 2**: Sistema valida e-mail
+- Se User existe: cria PasswordRecovery
+- Se User não existe: mensagem genérica (segurança)
+
+**Passo 3**: Sistema envia e-mail
+- "Recupere sua senha no PersonalOps"
+- Link: `personalops.test/recuperar?token=abc`
+- Token expira em 24 horas
+- **Mockado**: sem envio real
+
+**Passo 4**: Aluno acessa link
+- Form: "Nova senha"
+- Confirmar senha
+- Botão: "Atualizar senha"
+
+**Passo 5**: Sistema atualiza User
+- `User.password` = hash(novaSenha)
+- `PasswordRecovery.status` = "usado"
+- `PasswordRecovery.usedAt` = now()
+
+### Reenvio de Convite (Suporte Técnico)
+
+**Quem**: Admin ou Staff (suporte técnico)
+- Professor NÃO pode reenviar convites
+- Professor NÃO vê senhas do aluno
+
+**Ação**: Admin → Aluno → "Reenviar convite"
+- Gera novo token de Invitation
+- Envia novo e-mail com link
+- Registra em SupportActionLog
+
+---
+
+## 5. VISÃO ADMINISTRATIVA
+
+### Dashboard Admin
+
+**Nível 1**: Lista de Professores
+- Professor
+- Status (ativo/pausado/suspenso)
+- Alunos vinculados (total)
+- Últimas atividades
+
+**Nível 2**: Dentro de cada Professor
+- **Alunos e Status Técnico**
+  - Nome
+  - E-mail
+  - Status: convidado, habilitado, pausado, arquivado, bloqueado
+  - Data de convite
+  - Data de ativação
+  - Ações: reenviar convite, desbloquear, resetar senha (via suporte técnico)
+
+- **Métricas Agregadas**
+  - Treinos executados esta semana
+  - Feedbacks críticos (dor > 5, rating < 3)
+  - Alunos com acesso expirado
+
+### Ações de Suporte Técnico
+
+Admin **pode**:
+- ✅ Reenviar convite (novo token, novo e-mail)
+- ✅ Desbloquear aluno (status: bloqueado → habilitado)
+- ✅ Resetar senha (cria novo PasswordRecovery)
+- ✅ Ver logs de ação (SupportActionLog)
+- ✅ Visualizar status técnico do aluno
+
+Admin **não pode**:
+- ❌ Editar treino, prescrição ou execução do aluno
+- ❌ Ver fotos ou feedback físico do aluno
+- ❌ Mudar vencimento do plano
+- ❌ Editar dados de contato do aluno (além de desbloquear acesso)
+- ❌ Deletar aluno (apenas arquivar)
+
+---
+
+## 6. VISÃO DO PROFESSOR
+
+### Convidando Alunos
+
+**Fluxo**:
+1. Professor → "Novo aluno"
+2. Form: Nome, E-mail, Modo, Data de início, Plano
+3. Sistema cria Invitation
+4. E-mail é "enviado" (mockado)
+5. Professor vê aluno com status: "Convite pendente"
+
+**Status do Convite**:
+- "Convite pendente" (aguardando ativação)
+- "Ativo" (aluno ativou e criou senha)
+- "Expirado" (> 30 dias sem ativação)
+
+**Ações do Professor**:
+- ✅ Reenviar convite ("Reenviar" button)
+- ✅ Remover convite (antes de ativação)
+- ✅ Ver data de convite e ativação
+
+### Gerenciando Alunos
+
+**Professor vê**:
+- Lista de alunos (habilitados, pausados, arquivados)
+- Status do acesso: convidado, ativo, pausado, arquivado
+- Não vê: senha, link de recuperação, logs de suporte técnico
+
+**Professor controla**:
+- ✅ Prescrever treinos (semana, dia, tipo)
+- ✅ Pausar/arquivar vínculo
+- ✅ Ver fotos, comentários e feedback enviados pelo aluno
+- ✅ Acompanhar execução de treinos
+- ✅ Editar dados operacionais (vencimento, plano, modo)
+
+**Professor não controla**:
+- ❌ Senha do aluno
+- ❌ Recuperação de acesso
+- ❌ Status técnico (convidado vs. ativo)
+- ❌ Desbloqueio (ação de suporte técnico)
+
+---
+
+## 7. VISÃO DO ALUNO
+
+### Antes de Ativar
+
+**Aluno recebe e-mail** com link de convite
+- Acessa: `personalops.test/convite?token=xyz`
+- Cria senha
+- Completa perfil básico
+- Clica "Ativar conta"
+
+**Após ativação**:
+- Pode fazer login com e-mail + senha
+- Vê "Bem-vindo" e menu principal
+
+### Durante Operação
+
+**Aluno pode**:
+- ✅ Ver treinos prescritos da semana
+- ✅ Ver treino de hoje
+- ✅ Registrar execução: reps, RPE, dor, esforço, humor
+- ✅ Enviar fotos, comentários e feedback
+- ✅ Ver histórico de treinos
+- ✅ Ver detalhe de exercícios
+- ✅ Editar dados próprios permitidos: foto, data de nascimento, telefone
+- ✅ Trocar senha ("Minha conta" → "Mudar senha")
+
+**Aluno não pode**:
+- ❌ Editar treino prescrito
+- ❌ Ver dados de outros alunos
+- ❌ Acessar área administrativa
+- ❌ Ver histórico de pagamentos (financeiro controlado pelo professor)
+- ❌ Mudar professor (relação é unidirecional)
+
+---
+
+## 8. REGRA DE DOMÍNIO
+
+**Governança clara por camada**:
+
+**Admin governa: Plataforma + Suporte Técnico**
+- Cria exercícios base
+- Monitora saúde técnica
+- Atua em suporte técnico (reenviar convites, desbloquear, resetar senhas)
+- Vê organização: Professor → Alunos (sem prescrição)
+- NÃO prescreve treinos
+- NÃO vê execução de treinos
+
+**Professor governa: Operação do Aluno**
+- Convida alunos (cria Invitation)
+- Prescreve treinos (semana, dia, tipo, exercício)
+- Acompanha execução (séries, reps, RPE)
+- Acessa fotos, comentários e feedback do aluno
+- NÃO redefine senhas
+- NÃO vê outros professores
+
+**Aluno governa: Dados Próprios**
+- Cria e altera senha
+- Preenche dados de contato
+- Completa perfil
+- Executa treinos
+- Envia feedback e fotos
+- NÃO vê dados de outros alunos
+
+---
+
+## 9. ENTIDADES DE IDENTIDADE, CONVITE E ACESSO TÉCNICO
+
+### User (Autenticação)
+**Responsabilidade**: Entidade base de autenticação para qualquer ator no sistema.
+
+```
+User
+├── id: string (unique)
+├── email: string (unique, validado)
+├── password: string (hashed com bcrypt ou similar)
+├── profiles: RoleAssignment[] (FK)
+│   └── Pode ter múltiplos RoleAssignment (admin, staff, professor em contas separadas)
+├── isActive: boolean (controla login geral)
+├── createdAt: timestamp
+├── updatedAt: timestamp
+└── metadata: {
+    lastLoginAt: timestamp | null,
+    loginCount: number,
+    failedLoginAttempts: number
+  }
+```
+
+**Valores típicos**:
+- Admin: `admin@personalops.test` com 1+ RoleAssignment
+- Professor: `professor@personalops.test` com 1+ RoleAssignment
+- Student: `joao.silva@email.com` com 1 StudentProfile (via ProfessorStudentLink)
+
+---
+
+### RoleAssignment (Atribuição de Papel)
+**Responsabilidade**: Define qual papel um usuário tem no sistema.
+
+```
+RoleAssignment
+├── id: string (unique)
+├── userId: string (FK → User)
+├── role: "admin" | "staff" | "professor" (string enum)
+├── profileId: string (FK → AdminProfile | StaffProfile | ProfessorProfile)
+├── assignedAt: timestamp
+├── assignedBy: string (userId de quem atribuiu)
+└── isActive: boolean (permite revogar papel sem deletar)
+```
+
+**Exemplo de múltiplos papéis**:
+```
+User: joao@personalops.test
+├── RoleAssignment (admin) → AdminProfile (prof-admin-01)
+└── RoleAssignment (staff) → StaffProfile (prof-staff-01)
+```
+
+---
+
+### ProfessorProfile (Perfil do Professor)
+**Responsabilidade**: Identidade operacional do professor no contexto de alunos e treinos.
+
+```
+ProfessorProfile
+├── id: string (unique)
+├── userId: string (FK → User, unique)
+├── role: "professor" (string literal)
+├── name: string
+├── specialty: string (ex: hipertrofia, emagrecimento, força)
+├── location: string (ex: academia, estúdio, online)
+├── cref: string | null (certificação profissional)
+├── bio: string | null (descrição profissional)
+├── isFirstLoginDone: boolean (onboarding concluído?)
+├── students: ProfessorStudentLink[] (FK)
+│   └── Array de links professor-aluno
+├── templates: WorkoutTemplate[] (FK)
+│   └── Seus treinos criados
+├── cardioTemplates: CardioTemplate[] (FK)
+├── invitations: Invitation[] (FK)
+│   └── Convites que criou
+├── workspace: {
+    filesCount: number,
+    storageUsed: number,
+    studentsActive: number,
+    studentsTotal: number
+  }
+├── createdAt: timestamp
+└── updatedAt: timestamp
+```
+
+---
+
+### StudentProfile (Perfil do Aluno)
+**Responsabilidade**: Identidade operacional do aluno como participante de treinos.
+
+```
+StudentProfile
+├── id: string (unique)
+├── userId: string (FK → User, unique)
+├── role: "student" (string literal)
+├── name: string
+├── email: string (pode diferir do User.email se email de contato)
+├── dateOfBirth: date | null
+├── photo: string | null (URL ou path de foto)
+├── professorStudentLink: ProfessorStudentLink (FK)
+│   └── Link único para seu professor
+├── schedule: DayAssignment[] (FK)
+│   └── Agenda semanal prescrita
+├── workoutSessions: WorkoutSession[] (FK)
+│   └── Execuções de treino
+├── feedbacks: PostWorkoutFeedback[] (FK)
+│   └── Feedbacks pós-treino
+├── status: "convidado" | "habilitado" | "pausado" | "arquivado" | "bloqueado"
+├── createdAt: timestamp
+└── updatedAt: timestamp
+```
+
+**Estados do StudentProfile**:
+- `convidado`: Convite criado, aguardando ativação (não tem User ativo ainda)
+- `habilitado`: Usuário criou senha, pode fazer login
+- `pausado`: Temporariamente inativo (férias, lesão)
+- `arquivado`: Inativo permanentemente (cancelamento)
+- `bloqueado`: Acesso técnico bloqueado (suporte técnico)
+
+---
+
+### ProfessorStudentLink (Vínculo Operacional)
+**Responsabilidade**: Representa a relação entre professor e aluno, controlada pelo professor.
+
+```
+ProfessorStudentLink
+├── id: string (unique)
+├── professorId: string (FK → ProfessorProfile)
+├── studentId: string (FK → StudentProfile)
+├── studentName: string (cópia desnormalizada para performance)
+├── studentEmail: string (cópia desnormalizada)
+├── mode: "presencial" | "online" | "híbrido"
+├── plan: "básico" | "premium" | "elite"
+├── startDate: date
+├── expiresAt: date (vencimento do plano)
+├── status: "ativo" | "pausado" | "arquivado"
+├── notes: string | null (notas do professor)
+├── pausedAt: timestamp | null (quando foi pausado)
+├── pausedBy: string (userId de quem pausou)
+├── pausedUntil: date | null (previsão de retorno)
+├── archivedAt: timestamp | null
+├── archivedReason: string | null
+├── createdAt: timestamp
+└── updatedAt: timestamp
+```
+
+**Invariantes**:
+- Cada StudentProfile tem exatamente um ProfessorStudentLink ativo ou pausado
+- Quando ProfessorStudentLink é arquivado, StudentProfile.status muda para arquivado
+- Pausar ProfessorStudentLink não afeta User ou StudentProfile (apenas oculta de operação)
+- Professor NÃO pode transferir aluno (vínculo é permanente até arquivamento)
+
+---
+
+### Invitation (Convite)
+**Responsabilidade**: Rastreia o convite de aluno e seu processo de ativação.
+
+```
+Invitation
+├── id: string (unique)
+├── token: string (unique, cryptographically secure, ex: 32 caracteres hex)
+├── professionalId: string (FK → ProfessorProfile)
+├── invitedEmail: string
+├── invitedName: string
+├── mode: "presencial" | "online" | "híbrido"
+├── plan: "básico" | "premium" | "elite"
+├── startDate: date
+├── expiresAt: date (vencimento do plano)
+├── status: "pendente" | "ativado" | "expirado" | "cancelado"
+├── tokenExpiresAt: timestamp (ex: now() + 30 dias)
+├── activatedAt: timestamp | null (quando o aluno ativou)
+├── activationIp: string | null (IP de ativação para auditoria)
+├── studentProfileId: string | null (FK → StudentProfile após ativação)
+├── createdAt: timestamp
+└── updatedAt: timestamp
+```
+
+**Fluxo de vida**:
+1. `pendente` → Professor cria: token gerado, e-mail "enviado" (mockado)
+2. `pendente` → Aluno ativa via link: cria senha, completa perfil
+3. `ativado` → Token consumido, StudentProfile criado
+4. `expirado` → Token > tokenExpiresAt e status ainda `pendente`
+5. `cancelado` → Professor remove convite antes de ativação
+
+---
+
+### PasswordRecovery (Recuperação de Acesso)
+**Responsabilidade**: Rastreia tentativas de recuperação de senha com segurança.
+
+```
+PasswordRecovery
+├── id: string (unique)
+├── token: string (unique, cryptographically secure)
+├── userId: string (FK → User)
+├── userEmail: string (cópia para auditoria)
+├── status: "solicitado" | "usado" | "expirado" | "cancelado"
+├── tokenExpiresAt: timestamp (ex: now() + 24 horas)
+├── usedAt: timestamp | null (quando foi consumido)
+├── usedIp: string | null (IP de uso para auditoria)
+├── requestedAt: timestamp
+└── createdAt: timestamp
+```
+
+**Fluxo de vida**:
+1. `solicitado` → Aluno clica "Esqueci senha": token gerado, e-mail "enviado"
+2. `solicitado` → Aluno acessa link: form de nova senha
+3. `usado` → Password atualizado no User, token consumido
+4. `expirado` → Token > tokenExpiresAt e status ainda `solicitado`
+5. `cancelado` → Admin/suporte cancela (ex: múltiplas tentativas suspeitas)
+
+---
+
+### SupportActionLog (Log de Ações Técnicas)
+**Responsabilidade**: Auditoria de ações de suporte técnico executadas por admin/staff.
+
+```
+SupportActionLog
+├── id: string (unique)
+├── actionType: "reenviar_convite" | "desbloquear" | "resetar_senha" | "resolver_tecnico"
+├── performedBy: string (FK → User, quem fez a ação)
+├── performedByRole: "admin" | "staff"
+├── targetUser: string | null (FK → User, quem foi afetado)
+├── targetStudent: string | null (FK → StudentProfile, se aluno)
+├── targetProfessor: string | null (FK → ProfessorProfile, se professor)
+├── details: {
+    reason: string,
+    notes: string | null,
+    resultingInvitationId: string | null (se reenviar_convite),
+    resultingPasswordRecoveryId: string | null (se resetar_senha)
+  }
+├── ipAddress: string | null
+├── userAgent: string | null
+├── timestamp: timestamp
+└── createdAt: timestamp
+```
+
+**Ações típicas**:
+- `reenviar_convite`: Admin gera novo Invitation, novo e-mail "enviado"
+- `desbloquear`: Admin muda StudentProfile.status de bloqueado para habilitado
+- `resetar_senha`: Admin cria novo PasswordRecovery, novo e-mail "enviado"
+- `resolver_tecnico`: Admin documenta resolução de problema técnico
+
+**Invariante**:
+- Cada ação é imutável (não editável, apenas inserção)
+- Quem tem acesso: Admin + Staff podem ler logs de suas próprias ações; Admin Super pode ler todos
+
+---
+
+## 10. ONBOARDING DO PROFESSOR
 
 ### Fluxo de Primeiro Login
 
@@ -197,7 +687,7 @@ User: professor@personalops.test (Usuário Professor — acesso próprio)
 
 ---
 
-## 4. GESTÃO DE ALUNOS
+## 11. GESTÃO DE ALUNOS
 
 ### Ciclo de Vida
 
@@ -245,7 +735,7 @@ CRIAR → ATIVO → [PAUSAR ↔ ATIVO] → ARQUIVAR
 
 ---
 
-## 5. BIBLIOTECA DE TREINOS E CARDIO
+## 12. BIBLIOTECA DE TREINOS E CARDIO
 
 ### Estrutura
 
@@ -275,7 +765,7 @@ CRIAR → ATIVO → [PAUSAR ↔ ATIVO] → ARQUIVAR
 
 ---
 
-## 6. AGENDA SEMANAL PRESCRITIVA
+## 13. AGENDA SEMANAL PRESCRITIVA
 
 ### Modelo de DayAssignment
 
@@ -333,7 +823,7 @@ CRIAR → ATIVO → [PAUSAR ↔ ATIVO] → ARQUIVAR
 
 ---
 
-## 7. VISÃO DO ALUNO
+## 14. VISÃO DO ALUNO
 
 ### Tela Principal: Minha Semana
 
@@ -382,7 +872,7 @@ Após último exercício:
 
 ---
 
-## 8. FINANCEIRO
+## 15. FINANCEIRO
 
 ### Separação de Escopo
 
@@ -429,7 +919,7 @@ Após último exercício:
 
 ---
 
-## 9. MODELO CONCEITUAL DE ENTIDADES
+## 16. MODELO CONCEITUAL DE ENTIDADES
 
 ### User (Autenticação)
 ```
@@ -653,7 +1143,7 @@ PlatformSubscription
 
 ---
 
-## 10. FLUXOS OPERACIONAIS PRINCIPAIS
+## 17. FLUXOS OPERACIONAIS PRINCIPAIS
 
 ### Fluxo 1: Professor Cria Aluno e Prescreve Semana
 
@@ -703,7 +1193,7 @@ PlatformSubscription
 
 ---
 
-## 11. REGRAS DE INTEGRIDADE
+## 18. REGRAS DE INTEGRIDADE
 
 ### Dados
 - ❌ Nunca permitir usuário aluno acessar dados de outro aluno
@@ -723,7 +1213,7 @@ PlatformSubscription
 
 ---
 
-## 12. CRITÉRIOS DE ACEITE
+## 19. CRITÉRIOS DE ACEITE
 
 - ✅ Documento deixa claro que aluno É usuário limitado do sistema
 - ✅ Documento deixa claro que aluno pertence exclusivamente ao professor
