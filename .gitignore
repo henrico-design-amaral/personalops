@@ -1,17 +1,34 @@
-﻿node_modules/
-.next/
-out/
+# Dependencies
+node_modules/
+
+# Build outputs
 dist/
 build/
+out/
+.next/
+.astro/
+
+# Environment
 .env
 .env.local
 .env.*.local
+
+# Logs
 *.log
+npm-debug.log*
+
+# OS
 .DS_Store
 Thumbs.db
+
+# IDE
 .vscode/
 .idea/
+
+# Testing
 coverage/
-.prisma/
+
+# Database
 dev.db
 dev.db-journal
+.prisma/

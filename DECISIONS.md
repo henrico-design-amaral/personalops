@@ -28,3 +28,16 @@
 - Substituição manual: personal evolui exercício; sistema filtra contra-indicações e sugere regressões.
 - Vídeos são apenas referência visual (Pinterest/YouTube); não são assets. Placeholders CSS/SVG até futuro 3D.
 - Documentação em `docs/product/exercise-system.md` (especificação v1.0 estável).
+
+### Architecture Modernization — Astro-First Migration
+
+- PersonalOps migrado de **protótipo HTML/CSS/JS vanilla** para **Astro-first SSG**.
+- Astro como framework base (coerência com Portfolio e ecossistema Henrico).
+- Estrutura: `src/pages/`, `src/layouts/`, `public/assets/`.
+- **Offline-first preservado**: Service Worker, Data Store JS, JSON fixtures mantidos intactos.
+- Client-side: `data-store.js` + `app.js` carregados como scripts tradicionais (sem ilhas Astro necessárias).
+- Build output: `dist/` com asset rewriting correto para GitHub Pages (`/personalops/`).
+- Base URL: `/personalops/` configurado em `astro.config.mjs` com rewrite de caminhos.
+- Service Worker registration inline com `baseUrl` via `define:vars`.
+- Sem regressões: HTML, CSS, JS, dados e funcionalidade 100% preservados.
+- Deploy: GitHub Pages estático (sem mudanças no DEPLOY_GITHUB_PAGES.md).
