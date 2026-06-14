@@ -1,0 +1,50 @@
+[
+  {
+    "id": "std-01",
+    "userId": "std-01",
+    "role": "student",
+    "name": "Aluno Um",
+    "email": "aluno.um@email.com",
+    "dateOfBirth": "1995-05-15",
+    "photo": null,
+    "status": "habilitado",
+    "createdAt": "2026-03-01T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "std-02",
+    "userId": "std-02",
+    "role": "student",
+    "name": "Aluno Dois",
+    "email": "aluno.dois@email.com",
+    "dateOfBirth": "1990-08-20",
+    "photo": null,
+    "status": "pausado",
+    "createdAt": "2026-03-05T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "std-03",
+    "userId": "std-03",
+    "role": "student",
+    "name": "Aluno Três",
+    "email": "aluno.tres@email.com",
+    "dateOfBirth": "1988-12-10",
+    "photo": null,
+    "status": "arquivado",
+    "createdAt": "2026-03-10T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "std-04",
+    "userId": "std-04",
+    "role": "student",
+    "name": "Aluno Quatro",
+    "email": "aluno.quatro@email.com",
+    "dateOfBirth": "1992-03-25",
+    "photo": null,
+    "status": "habilitado",
+    "createdAt": "2026-04-01T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  }
+]

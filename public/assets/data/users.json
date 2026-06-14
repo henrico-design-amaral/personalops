@@ -1,0 +1,66 @@
+[
+  {
+    "id": "admin-1",
+    "email": "admin@personalops.test",
+    "password": "$2b$10$mocked.hash.admin.for.testing.only.do.not.use.in.production",
+    "isActive": true,
+    "createdAt": "2026-01-01T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "staff-1",
+    "email": "staff@personalops.test",
+    "password": "$2b$10$mocked.hash.staff.for.testing.only.do.not.use.in.production",
+    "isActive": true,
+    "createdAt": "2026-01-05T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "prof-a",
+    "email": "joao.silva@personaltrainer.com",
+    "password": "$2b$10$mocked.hash.prof.a.for.testing.only.do.not.use.in.production",
+    "isActive": true,
+    "createdAt": "2026-02-01T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "prof-b",
+    "email": "maria.santos@personaltrainer.com",
+    "password": "$2b$10$mocked.hash.prof.b.for.testing.only.do.not.use.in.production",
+    "isActive": true,
+    "createdAt": "2026-02-15T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "std-01",
+    "email": "aluno.um@email.com",
+    "password": "$2b$10$mocked.hash.std.01.for.testing.only.do.not.use.in.production",
+    "isActive": true,
+    "createdAt": "2026-03-01T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "std-02",
+    "email": "aluno.dois@email.com",
+    "password": "$2b$10$mocked.hash.std.02.for.testing.only.do.not.use.in.production",
+    "isActive": true,
+    "createdAt": "2026-03-05T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "std-03",
+    "email": "aluno.tres@email.com",
+    "password": "$2b$10$mocked.hash.std.03.for.testing.only.do.not.use.in.production",
+    "isActive": true,
+    "createdAt": "2026-03-10T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "std-04",
+    "email": "aluno.quatro@email.com",
+    "password": "$2b$10$mocked.hash.std.04.for.testing.only.do.not.use.in.production",
+    "isActive": true,
+    "createdAt": "2026-04-01T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  }
+]

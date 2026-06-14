@@ -1,0 +1,12 @@
+[
+  {
+    "id": "staff-1",
+    "userId": "staff-1",
+    "role": "staff",
+    "name": "Suporte Técnico",
+    "department": "technical-support",
+    "isFirstLoginDone": true,
+    "createdAt": "2026-01-05T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  }
+]

@@ -143,3 +143,44 @@
 - **Technology-agnostic**: Contracts ready for SQL, NoSQL, Graph, or file-based implementation
 
 - **Documentação**: `docs/technical/data-contracts.md` (v1.0, contracts com CRUD permissions, invariantes, diagramas)
+
+### Fixture Scenarios — Minimal Test Data for Access Control
+
+- **10 fixture JSON files** em `public/assets/data/`:
+  - `users.json`: 8 users (admin-1, staff-1, prof-a, prof-b, std-01..04)
+  - `role-assignments.json`: 8 role assignments (admin, staff, professor, student)
+  - `admin-profiles.json`: 1 admin (admin-1)
+  - `staff-profiles.json`: 1 staff (staff-1, technical-support)
+  - `professor-profiles.json`: 2 professors (prof-a: hipertrofia, prof-b: emagrecimento)
+  - `student-profiles.json`: 4 students (status: habilitado, pausado, arquivado, habilitado)
+  - `professor-student-links.json`: 4 links (prof-a→std-01/02/03, prof-b→std-04)
+  - `invitations.json`: 2 invites (pending, expired)
+  - `password-recoveries.json`: 1 recovery (requested)
+  - `support-action-logs.json`: 1 log (reenviar_convite via staff-1)
+
+- **Test scenarios created**:
+  - Cenário 1: Aluno Ativo (std-01 com prof-a)
+  - Cenário 2: Aluno Pausado (std-02 com prof-a, paused 2026-06-10)
+  - Cenário 3: Aluno Arquivado (std-03 com prof-a, archived 2026-06-10)
+  - Cenário 4: Convite Pendente (inv-01, token válido até 2026-07-14)
+  - Cenário 5: Convite Expirado (inv-02, token expirou 2026-06-14)
+  - Cenário 6: Isolamento de Alunos (prof-a vs prof-b, sem cross-access)
+  - Cenário 7: Logs de Suporte (sal-01, staff-1 reenviou inv-02)
+
+- **Access Control Rules Validated**:
+  - Admin vê professores e status técnico, não edita operação
+  - Professor vê apenas seus alunos, não acessa aluno de outro professor
+  - Aluno vê apenas seus dados, não acessa outro aluno
+  - Professor não visualiza/define senha do aluno
+  - Admin dispara PasswordRecovery (form pública), não define manualmente
+  - Pausa vs Arquivamento diferenciados (status StudentProfile vs ProfessorStudentLink)
+
+- **Invariantes preservados**:
+  1. Student é usuário autenticado (User + StudentProfile + RoleAssignment)
+  2. Student via Invitation (não criado direto)
+  3. Professor controla aluno (ProfessorStudentLink único)
+  4. Admin não cria aluno (apenas prof convida)
+  5. Sem hard delete (soft delete via status)
+  6. Suporte técnico auditado (SupportActionLog imutável)
+
+- **Documentação**: `docs/technical/fixture-scenarios.md` (v1.0, 7 cenários, access control rules, invariantes)

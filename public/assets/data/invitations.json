@@ -1,0 +1,36 @@
+[
+  {
+    "id": "inv-01",
+    "token": "abc123def456ghi789jkl012mno345pqr",
+    "professorId": "prof-a",
+    "invitedEmail": "novo.aluno.a@email.com",
+    "invitedName": "Novo Aluno A",
+    "mode": "presencial",
+    "plan": "premium",
+    "startDate": "2026-06-15",
+    "expiresAt": "2026-12-15",
+    "status": "pendente",
+    "tokenExpiresAt": "2026-07-14T10:00:00Z",
+    "activatedAt": null,
+    "studentProfileId": null,
+    "createdAt": "2026-06-14T15:00:00Z",
+    "updatedAt": "2026-06-14T15:00:00Z"
+  },
+  {
+    "id": "inv-02",
+    "token": "xyz789abc123def456ghi789jkl012mno",
+    "professorId": "prof-b",
+    "invitedEmail": "novo.aluno.b@email.com",
+    "invitedName": "Novo Aluno B",
+    "mode": "online",
+    "plan": "básico",
+    "startDate": "2026-05-15",
+    "expiresAt": "2026-11-15",
+    "status": "expirado",
+    "tokenExpiresAt": "2026-06-14T10:00:00Z",
+    "activatedAt": null,
+    "studentProfileId": null,
+    "createdAt": "2026-05-15T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  }
+]

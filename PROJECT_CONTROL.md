@@ -265,15 +265,69 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Documento agnóstico de tecnologia
 - **Status**: Contratos completos; prontos para schema design.
 
+### 2026-06-14 — Session 012 — Minimal Fixtures & Access Control Scenarios
+- **Branch**: `main`
+- **Objetivo**: Criar fixtures mínimas por perfil para validar acesso sem implementar backend real ou UI complexa.
+- **Alterações**:
+  - **10 arquivos fixture JSON** criados em `public/assets/data/`:
+    - users.json (8 users: admin-1, staff-1, prof-a, prof-b, std-01..04)
+    - role-assignments.json (8 role assignments)
+    - admin-profiles.json (1 admin)
+    - staff-profiles.json (1 staff com department: technical-support)
+    - professor-profiles.json (2 professors: prof-a hipertrofia, prof-b emagrecimento)
+    - student-profiles.json (4 students: status habilitado/pausado/arquivado/habilitado)
+    - professor-student-links.json (4 links: prof-a→std-01/02/03, prof-b→std-04, status ativo/pausado/arquivado/ativo)
+    - invitations.json (2 convites: inv-01 pendente até 2026-07-14, inv-02 expirado)
+    - password-recoveries.json (1 recovery solicitado para std-02)
+    - support-action-logs.json (1 log: staff-1 reenviou inv-02)
+  - **Documentação técnica**: Criado `docs/technical/fixture-scenarios.md` (v1.0, 7 cenários de teste).
+  - **7 Cenários de teste definidos**:
+    1. Aluno Ativo (std-01 com prof-a, habilitado)
+    2. Aluno Pausado (std-02 com prof-a, pausado desde 2026-06-10)
+    3. Aluno Arquivado (std-03 com prof-a, arquivado desde 2026-06-10)
+    4. Convite Pendente (inv-01, token válido até 2026-07-14)
+    5. Convite Expirado (inv-02, token expirado 2026-06-14)
+    6. Isolamento de Alunos (prof-a não vê std-04, prof-b não vê std-01/02/03)
+    7. Logs de Suporte (sal-01: staff-1 reenviou inv-02)
+  - **DECISIONS.md**: Nova entrada Session 012 com fixtures e cenários.
+  - **PROJECT_CONTROL.md**: Entry Session 012.
+- **Decisões**:
+  - Fixtures refletem data-contracts.md (10 entidades, campos mínimos, status válidos)
+  - Nenhum aluno sem ProfessorStudentLink (invariante preservada)
+  - Nenhum professor acessando aluno de outro professor (teste de isolamento)
+  - Nenhum aluno acessando dados de outro aluno (teste de isolamento)
+  - Nenhum admin operando prescrição de aluno (roles separadas)
+  - Cenários cobrem: convite pendente, expirado, aluno ativo, pausado, arquivado
+  - Pausa vs Arquivamento diferenciados (status StudentProfile vs ProfessorStudentLink)
+  - SupportActionLog imutável, registra staff-1 reenviando inv-02
+- **Validações**:
+  - npm run build: successful
+  - JSON fixtures válidos (estrutura JSON correta)
+  - Fixtures refletem contratos de dados
+  - Nenhum aluno sem vínculo professor-aluno
+  - Nenhuma violação de acesso em fixtures
+  - Cenários prontos para testes de segurança
+- **Status**: Fixtures e cenários completos; prontos para validação de acesso.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 011 (2026-06-14)  
+**Última sessão**: Session 012 (2026-06-14)  
 **Branch**: `main` (working tree clean)  
-**Status**: Contratos mínimos de dados criados e documentados; prontos para implementação de schema.
+**Status**: Fixtures mínimas e cenários de teste criados; prontos para validação de acesso por perfil.
 
 Arquivos modificados nesta sessão:
-- `docs/technical/data-contracts.md` (novo)
-- `DECISIONS.md` (atualizado com Session 011)
-- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 011)
+- `public/assets/data/users.json` (novo)
+- `public/assets/data/role-assignments.json` (novo)
+- `public/assets/data/admin-profiles.json` (novo)
+- `public/assets/data/staff-profiles.json` (novo)
+- `public/assets/data/professor-profiles.json` (novo)
+- `public/assets/data/student-profiles.json` (novo)
+- `public/assets/data/professor-student-links.json` (novo)
+- `public/assets/data/invitations.json` (novo)
+- `public/assets/data/password-recoveries.json` (novo)
+- `public/assets/data/support-action-logs.json` (novo)
+- `docs/technical/fixture-scenarios.md` (novo)
+- `DECISIONS.md` (atualizado com Session 012)
+- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 012)

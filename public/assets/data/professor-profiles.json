@@ -1,0 +1,26 @@
+[
+  {
+    "id": "prof-a",
+    "userId": "prof-a",
+    "role": "professor",
+    "name": "João Silva",
+    "specialty": "hipertrofia",
+    "location": "academia",
+    "cref": "CREF 1234567890",
+    "isFirstLoginDone": true,
+    "createdAt": "2026-02-01T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  },
+  {
+    "id": "prof-b",
+    "userId": "prof-b",
+    "role": "professor",
+    "name": "Maria Santos",
+    "specialty": "emagrecimento",
+    "location": "estúdio",
+    "cref": "CREF 9876543210",
+    "isFirstLoginDone": true,
+    "createdAt": "2026-02-15T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  }
+]

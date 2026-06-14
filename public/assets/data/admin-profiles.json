@@ -1,0 +1,11 @@
+[
+  {
+    "id": "admin-1",
+    "userId": "admin-1",
+    "role": "admin",
+    "name": "Administrador PersonalOps",
+    "isFirstLoginDone": true,
+    "createdAt": "2026-01-01T10:00:00Z",
+    "updatedAt": "2026-06-14T10:00:00Z"
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "sal-01",
+    "actionType": "reenviar_convite",
+    "performedBy": "staff-1",
+    "performedByRole": "staff",
+    "targetUser": null,
+    "targetStudent": null,
+    "targetProfessor": "prof-b",
+    "details": {
+      "reason": "Aluno não recebeu convite original",
+      "notes": "Novo token gerado e enviado (mockado)",
+      "resultingInvitationId": "inv-02",
+      "resultingPasswordRecoveryId": null
+    },
+    "ipAddress": "192.168.1.100",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "timestamp": "2026-06-14T14:00:00Z",
+    "createdAt": "2026-06-14T14:00:00Z"
+  }
+]

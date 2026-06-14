@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ra-admin-1",
+    "userId": "admin-1",
+    "role": "admin",
+    "profileId": "admin-1",
+    "isActive": true,
+    "assignedAt": "2026-01-01T10:00:00Z",
+    "createdAt": "2026-01-01T10:00:00Z"
+  },
+  {
+    "id": "ra-staff-1",
+    "userId": "staff-1",
+    "role": "staff",
+    "profileId": "staff-1",
+    "isActive": true,
+    "assignedAt": "2026-01-05T10:00:00Z",
+    "createdAt": "2026-01-05T10:00:00Z"
+  },
+  {
+    "id": "ra-prof-a",
+    "userId": "prof-a",
+    "role": "professor",
+    "profileId": "prof-a",
+    "isActive": true,
+    "assignedAt": "2026-02-01T10:00:00Z",
+    "createdAt": "2026-02-01T10:00:00Z"
+  },
+  {
+    "id": "ra-prof-b",
+    "userId": "prof-b",
+    "role": "professor",
+    "profileId": "prof-b",
+    "isActive": true,
+    "assignedAt": "2026-02-15T10:00:00Z",
+    "createdAt": "2026-02-15T10:00:00Z"
+  },
+  {
+    "id": "ra-std-01",
+    "userId": "std-01",
+    "role": "student",
+    "profileId": "std-01",
+    "isActive": true,
+    "assignedAt": "2026-03-01T10:00:00Z",
+    "createdAt": "2026-03-01T10:00:00Z"
+  },
+  {
+    "id": "ra-std-02",
+    "userId": "std-02",
+    "role": "student",
+    "profileId": "std-02",
+    "isActive": true,
+    "assignedAt": "2026-03-05T10:00:00Z",
+    "createdAt": "2026-03-05T10:00:00Z"
+  },
+  {
+    "id": "ra-std-03",
+    "userId": "std-03",
+    "role": "student",
+    "profileId": "std-03",
+    "isActive": true,
+    "assignedAt": "2026-03-10T10:00:00Z",
+    "createdAt": "2026-03-10T10:00:00Z"
+  },
+  {
+    "id": "ra-std-04",
+    "userId": "std-04",
+    "role": "student",
+    "profileId": "std-04",
+    "isActive": true,
+    "assignedAt": "2026-04-01T10:00:00Z",
+    "createdAt": "2026-04-01T10:00:00Z"
+  }
+]
