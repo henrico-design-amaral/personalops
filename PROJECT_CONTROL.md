@@ -143,26 +143,49 @@ Antes de realizar qualquer mudança estrutural ou codificação:
 - **Objetivo**: Definir o modelo operacional correto de papéis, permissões, identidades, onboarding e gestão de alunos.
 - **Alterações**:
   - **Documentação**: Criado `docs/product/RBAC_AND_OPERATIONAL_MODEL.md` (v1.0, 500+ linhas).
-  - **Modelo de identidades**: Distinção clara entre User (autenticação) e Student (entidade operacional, propriedade do professor).
-  - **Papéis e permissões**: AdminProfile (plataforma), ProfessorProfile (trainer), StudentProfile (aluno).
+  - **Modelo de identidades**: User Admin/Staff/Professor vs User Student (limitado, não-admin).
+  - **Papéis e permissões**: AdminProfile, StaffProfile, ProfessorProfile, StudentProfile (usuário aluno).
   - **Onboarding professor**: Fluxo obrigatório no primeiro login com campos: nome, especialidade, local, CREF.
-  - **Gestão de alunos**: Ciclo de vida (criar → ativo → pausado/ativo → arquivar → excluído).
+  - **Gestão de alunos**: Ciclo de vida (criar → habilitado → pausado/habilitado → arquivado → desabilitado).
   - **Agenda semanal prescritiva**: Tipos de dia (workout, cardio, rest, check-in, assessment) com prescrição obrigatória.
   - **Biblioteca**: Treinos e cardio com templates sistema e personalizados.
   - **Financeiro separado**: Admin controla professores; professor controla seus alunos; sem integração real.
-  - **Modelo conceitual**: 14 entidades principais (User, Profiles, Exercise, Templates, StudentPlan, DayAssignment, Sessions, Feedback, Payments).
+  - **Modelo conceitual**: 15 entidades (User, AdminProfile, StaffProfile, Profiles, Exercise, Templates, Plans, Assignments, Sessions, Executions, Feedback, Payments, Subscriptions).
 - **Decisões**:
-  - User ≠ Student: distinguir claramente identidade de autenticação de entidade operacional.
+  - Student IS a limited user (não-admin) created, enabled, paused, archived, disabled by Professor exclusively.
   - Aluno pertence exclusivamente ao professor que o criou.
-  - Admin não cria/edita alunos; professor cria alunos próprios.
+  - Admin não cria/edita alunos; professor cria usuários alunos.
   - Prescrição obrigatória por dia quando tipo requer detalhe (modal de seleção).
-  - Soft-delete para alunos (preservar dados para auditoria).
+  - Soft-delete para usuário aluno (preservar dados para auditoria).
   - Mockado sem integrações reais de pagamento.
 - **Validações**:
   - Documentação revisada e completa; 12 critérios de aceite atendidos.
   - Nenhuma tela implementada (conforme restrição).
   - Nenhum asset externo (conforme restrição).
 - **Status**: Especificação pronta para revisão.
+
+### 2026-06-14 — Session 009B — RBAC Model Correction (Student as Limited User)
+- **Branch**: `main`
+- **Objetivo**: Corrigir o modelo de identidades para refletir corretamente que aluno É usuário limitado do sistema, não entidade não-usuário.
+- **Alterações**:
+  - **Seção 1 (Modelo de Identidades)**: Reescrita completa para deixar claro: aluno É usuário limitado, criado pelo professor.
+  - **Perfis**: Adicionado StaffProfile ao modelo conceitual (15 entidades totais).
+  - **Seção 11 (Regras de Integridade)**: Removido "aluno não é usuário"; adicionado "admin não cria/edita aluno".
+  - **Seção 12 (Critérios de Aceite)**: Atualizado para refletir student as limited user, not non-user.
+  - **DECISIONS.md**: Corrigida decisão fundamental sobre User vs Student.
+- **Decisões corrigidas**:
+  - Student is a limited user (não-admin) do sistema.
+  - Criado, habilitado, pausado, arquivado, desabilitado exclusivamente pelo professor.
+  - Admin não cria alunos (nunca).
+  - Professor cria usuários alunos e controla acesso.
+  - Usuário aluno acessa apenas seu próprio portal, treinos, histórico.
+- **Validações**:
+  - Nenhuma seção do documento afirma "aluno não é usuário".
+  - Está claro: student é usuário limitado.
+  - Está claro: professor controla aluno.
+  - Está claro: admin não controla aluno.
+  - Está claro: aluno sem acesso administrativo.
+- **Status**: Correção concluída; pronta para commit.
 
 ---
 

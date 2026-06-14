@@ -8,36 +8,39 @@
 
 ## 1. MODELO DE IDENTIDADES
 
-### Distinção Fundamental: Usuário ≠ Aluno
+### Distinção Fundamental: Usuário Administrativo vs Usuário Aluno (Limitado)
 
-**Usuário**
-- Entidade de autenticação (email + senha)
-- Pode ter múltiplos papéis (Admin, Professor, Aluno)
+**Usuário Administrativo/Operacional** (Admin, Staff, Professor)
+- Entidade de autenticação própria (email + senha criado durante onboarding)
+- Acesso direto ao sistema
+- Podem ter múltiplos papéis (Admin, Staff, Professor)
 - Cada papel é um **Profile** separado associado ao usuário
 - Exemplos:
-  - `user@personalops.test` com AdminProfile (acesso admin)
+  - `admin@personalops.test` com AdminProfile (acesso admin)
   - `professor@personalops.test` com ProfessorProfile (acesso professor)
-  - `aluno@personalops.test` com StudentProfile próprio
 
-**Aluno**
-- Entidade operacional de treino
+**Usuário Aluno** (Usuário com permissões limitadas)
+- **É um usuário do sistema** com autenticação (email + senha)
+- **Criado, habilitado, pausado e controlado exclusivamente pelo professor**
+- Admin NÃO cria, edita ou gerencia alunos
+- Usuário aluno é usuário **não-administrativo** (sem permissões admin)
+- Acesso limitado apenas ao seu próprio portal, treinos, histórico e feedback
 - **Propriedade exclusiva do professor** que o criou
-- Um aluno existe apenas dentro do workspace de um professor
-- Um professor pode criar múltiplos alunos
-- Um aluno não pode existir sem professor
-- Um aluno não é um usuário do sistema (não tem login)
+- Um usuário aluno existe apenas dentro do workspace de um professor
+- Um professor pode criar múltiplos usuários alunos
+- Um usuário aluno não pode existir sem professor (não há criação direta por usuário)
+- Estados do usuário aluno: **habilitado → [pausa ↔ habilitado] → arquivado → desabilitado**
 
 **Exemplo de relacionamento**:
 ```
-User: professor@personalops.test
+User: professor@personalops.test (Usuário Professor — acesso próprio)
   ├── ProfessorProfile (prof-01)
-      ├── Student: João Silva (aluno de prof-01)
-      ├── Student: Maria Santos (aluno de prof-01)
-      └── Student: Pedro Costa (aluno de prof-01)
-
-User: aluno@personalops.test
-  └── StudentProfile (std-01)
-      └── (pode executar treinos de qualquer professor que o prescreveu)
+      ├── User: joao.silva@email.com (Usuário Aluno — criado por prof-01)
+      │   └── StudentProfile (std-01, status: habilitado)
+      ├── User: maria.santos@email.com (Usuário Aluno — criado por prof-01)
+      │   └── StudentProfile (std-02, status: habilitado)
+      └── User: pedro.costa@email.com (Usuário Aluno — criado por prof-01)
+          └── StudentProfile (std-03, status: pausado)
 ```
 
 ---
@@ -446,7 +449,20 @@ AdminProfile
 ├── role: "admin"
 ├── isFirstLogin: boolean
 ├── createdAt: timestamp
-└── permissions: ["create_exercises", "view_metrics", "manage_professionals"]
+└── permissions: ["create_exercises", "view_metrics", "manage_professionals", "create_admins", "create_staff"]
+```
+
+### StaffProfile
+```
+StaffProfile
+├── id: string
+├── userId: string (FK)
+├── role: "staff"
+├── name: string
+├── department: string (optional)
+├── isFirstLogin: boolean
+├── createdAt: timestamp
+└── permissions: ["view_exercises", "view_metrics", "moderate_content", "support_users"]
 ```
 
 ### ProfessorProfile
@@ -690,10 +706,10 @@ PlatformSubscription
 ## 11. REGRAS DE INTEGRIDADE
 
 ### Dados
-- ❌ Nunca expor StudentProfile como login (aluno não é usuário)
-- ❌ Nunca permitir aluno ver dados de outro aluno
+- ❌ Nunca permitir usuário aluno acessar dados de outro aluno
 - ❌ Nunca permitir professor editar aluno de outro professor
-- ✅ Sempre preservar histórico (soft-delete, nunca hard-delete)
+- ❌ Nunca permitir admin criar/editar/deletar aluno (exclusivamente do professor)
+- ✅ Sempre preservar histórico de usuário aluno (soft-delete, nunca hard-delete)
 
 ### Acesso
 - ❌ Nunca permitir admin criar/editar aluno
@@ -709,13 +725,16 @@ PlatformSubscription
 
 ## 12. CRITÉRIOS DE ACEITE
 
-- ✅ Documento deixa claro que usuário e aluno são entidades diferentes
-- ✅ Documento deixa claro que aluno pertence ao professor
-- ✅ Documento deixa claro que admin não gerencia aluno
+- ✅ Documento deixa claro que aluno É usuário limitado do sistema
+- ✅ Documento deixa claro que aluno pertence exclusivamente ao professor
+- ✅ Documento deixa claro que admin NÃO cria/edita/gerencia alunos
+- ✅ Documento deixa claro que professor controla acesso e estado do aluno
 - ✅ Documento define como o professor atribui treino exato por dia
 - ✅ Documento define como cardio específico é atribuído
-- ✅ Documento define a visão do aluno
-- ✅ Documento define o escopo financeiro de admin e professor sem misturar
+- ✅ Documento define a visão do aluno (portal limitado)
+- ✅ Documento define o escopo financeiro (admin → professores, professor → alunos)
+- ✅ Documento não afirma que aluno não é usuário
+- ✅ Modelo conceitual inclui AdminProfile, StaffProfile, ProfessorProfile, StudentProfile
 - ✅ Nenhuma tela é implementada (apenas especificação)
 - ✅ Nenhum asset externo é criado
 - ✅ Nenhuma publicação é feita

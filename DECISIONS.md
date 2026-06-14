@@ -44,10 +44,12 @@
 
 ### RBAC & Operational Model — Identity, Roles, Permissions
 
-**Distinção fundamental**:
-- **Usuário** (User) = entidade de autenticação (email + senha), pode ter múltiplos papéis
-- **Aluno** (Student) = entidade operacional, **propriedade exclusiva do professor**, não é usuário do sistema
-- Um aluno pertence a um e apenas um professor; não tem login
+**Distinção fundamental (CORRIGIDA)**:
+- **Usuário Administrativo/Operacional** (Admin, Staff, Professor) = entidade de autenticação própria (email + senha), acesso direto
+- **Usuário Aluno** (Student User) = **É usuário do sistema** com autenticação limitada (email + senha criado pelo professor)
+- Usuário aluno é **não-administrativo**: sem permissões admin, acesso apenas ao próprio portal
+- Usuário aluno pertence a um e apenas um professor; **criado, habilitado, pausado e controlado exclusivamente pelo professor**
+- Admin NÃO cria alunos; professor cria alunos como usuários limitados
 
 **Papéis**:
 - **AdminProfile**: Gerencia exercícios base, métricas agregadas, profissionais. NÃO cria alunos. Dashboard desktop-only.
