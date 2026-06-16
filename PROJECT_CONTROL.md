@@ -504,14 +504,83 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Access control enforced por canViewStudent() na lógica de renderização
 - **Status**: Professor Workspace funcional; testes passando; pronto para commit.
 
+### 2026-06-15 — Session 017 — First Offline-First Weekly Prescription Workflow
+- **Branch**: `main`
+- **Objetivo**: Criar a primeira versão offline-first da agenda semanal prescritiva, permitindo que professor atribua treino/cardio específico por dia e aluno visualize sua semana.
+- **Alterações**:
+  - **3 novos fixtures JSON** em `public/assets/data/`:
+    - `workout-templates.json`: 6 templates sistema (Peito/Tríceps, Costas/Bíceps, Perna Full, Ombro/Braço, Core/Funcional) + 1 personalizado prof-a
+      * Campos: id, ownerType, professorId, name, focus, goal, level, estimatedDuration, exercisesPlaceholder
+      * ownerType: 'system' ou 'professor' para controle de acesso
+    - `cardio-templates.json`: 5 templates sistema (bike, treadmill, walk_outdoor, elliptical, hiit) + 1 personalizado prof-a
+      * Tipos: bike, treadmill, walk_indoor, walk_outdoor, elliptical, stairs, hiit
+      * Intensidades: baixo, moderado, alto, muito-alto
+    - `day-assignments.json`: 21 assignments (7 dias × 3 alunos)
+      * std-01 (prof-a): Mon-Fri workouts/cardio, Sat cardio, Sun rest
+      * std-02 (prof-a): Mix de workouts, cardio, rest days
+      * std-04 (prof-b): HIIT, strength, cardio, rest
+      * Campos: studentId, professorId, weekday, type, assignedWorkoutId, assignedCardioId, notes
+      * Tipos: workout, cardio, rest, check_in, assessment
+  - **Fixtures Loader expandido** (`src/lib/fixtures-loader.js`):
+    - Carregar novos fixtures (workoutTemplates, cardioTemplates, dayAssignments)
+    - getStudentWeekSchedule(studentId) — fetch 7-day schedule com templates populados
+    - getWorkoutTemplate(workoutId) — buscar template específico
+    - getCardioTemplate(cardioId) — buscar template específico
+    - getDayAssignment(studentId, weekday) — buscar assignment para dia
+    - getProfessorAvailableWorkouts(professorId) — system + custom templates
+    - getProfessorAvailableCardios(professorId) — system + custom templates
+  - **Professor View expandido** (`src/pages/shell.astro`):
+    - Professor student profile mostra "Weekly Schedule" seção
+    - Grid de 7 dias (Monday-Sunday) com informações de cada dia
+    - Cada dia mostra: weekday, tipo (workout/cardio/rest), nome, duração, intensidade
+    - Cores semanticamente codificadas: cyan (workout), green (cardio), orange (rest)
+    - Notas para cada assignment visíveis
+    - Botão "Edit Week" mockad para futura edição
+  - **Student View expandido** (`src/pages/shell.astro`):
+    - Seção "This Week's Training" com grid responsivo 7 colunas
+    - Cada célula: weekday label, workout/cardio name, duration
+    - Today's cell destacado com cyan border (JS date logic mockada)
+    - Layout compacto responsive para mobile
+    - Placeholder para "Start Workout" do dia
+  - **Validação expandida** (`scripts/validate-fixtures.mjs`):
+    - validateWorkoutTemplates(): ownerType, professorId, level enum
+    - validateCardioTemplates(): ownerType, type, intensity enums
+    - validateDayAssignments(): todas referências valid, type matches ID, professor-student link verified
+    - DayAssignment.type=workout → assignedWorkoutId obrigatório (não null)
+    - DayAssignment.type=cardio → assignedCardioId obrigatório (não null)
+  - **Validações confirmadas**:
+    - npm run validate:fixtures: ✓ passed (1 warning: archived student)
+    - npm run test:access: ✓ 50/50 tests passed
+    - npm run build: ✓ successful (2 pages, all assets correct)
+  - **Isolamento de dados verificado**:
+    - Professor A vê schedule para std-01, std-02 apenas
+    - Professor B vê schedule para std-04 apenas
+    - Aluno vê apenas seu próprio schedule
+    - Admin tem read-only (sem Edit Week button)
+    - Nenhum template ID exposado; nomes apenas
+- **Decisões**:
+  - WorkoutTemplate.ownerType e CardioTemplate.ownerType = 'system' | 'professor' (ownership model)
+  - DayAssignment.type requer assignedWorkoutId/assignedCardioId (no generic days without details)
+  - Professor vê schedule completo sem poder editar (Edit Week mockad para futuro)
+  - Student vê schedule em grid compacto (7-col responsive)
+  - Admin vê schedule como read-only (não edita)
+  - Fixtures offline-first (JSON local, sem calls a backend)
+  - Mockad "today" detection por JS Date.getDay() (para highlight de hoje)
+- **Status**: Weekly Prescription Workflow completo; todas validações passando; commit 578f84c.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 016 (2026-06-14)  
+**Última sessão**: Session 017 (2026-06-15)  
 **Branch**: `main` (working tree clean)  
-**Status**: Professor Workspace criado com dashboard, lista de alunos e perfis operacionais.
+**Status**: Weekly Prescription Workflow (templates + assignments + UI) implementado.
 
-Arquivos modificados nesta sessão:
-- `src/pages/shell.astro` (expandido com Professor Workspace)
-- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 016)
+Arquivos modificados/criados nesta sessão:
+- `public/assets/data/workout-templates.json` (novo, 6 system + 1 custom)
+- `public/assets/data/cardio-templates.json` (novo, 5 system + 1 custom)
+- `public/assets/data/day-assignments.json` (novo, 21 assignments)
+- `src/lib/fixtures-loader.js` (expandido com funções de schedule)
+- `src/pages/shell.astro` (expandido com weekly schedule UI)
+- `scripts/validate-fixtures.mjs` (expandido com validação de prescriptions)
+- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 017)
