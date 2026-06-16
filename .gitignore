@@ -32,3 +32,35 @@ coverage/
 dev.db
 dev.db-journal
 .prisma/
+
+# Local development (Claude IDE, AI memory)
+.claude/
+ai-memory/
+
+# Build/asset temporaries
+public/index.html.backup
+
+# Future phase assets (beyond Sessions 010-020)
+public/assets/css/
+public/assets/js/
+public/manifest.webmanifest
+public/service-worker.js
+public/assets/data/assessments.json
+public/assets/data/attendance-events.json
+public/assets/data/exercises.json
+public/assets/data/feedbacks.json
+public/assets/data/invoices.json
+public/assets/data/notification-*.json
+public/assets/data/payment-*.json
+public/assets/data/plans.json
+public/assets/data/platform-metrics.json
+public/assets/data/post-workout-feedbacks.json
+public/assets/data/prescribed-workouts.json
+public/assets/data/professionals.json
+public/assets/data/progress-snapshots.json
+public/assets/data/students.json
+public/assets/data/subscriptions.json
+public/assets/data/voice-drafts.json
+public/assets/data/weekly-schedules.json
+public/assets/data/workout-events.json
+public/assets/data/workout-library.json
