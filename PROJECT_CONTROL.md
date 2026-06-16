@@ -647,6 +647,47 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Refatoração incremental em fases
 - **Status**: Groundwork completo; shell.astro ainda monolítico (para futura refatoração).
 
+### 2026-06-15 — Session 019 Phase 2 — Refactor shell.astro to Orchestrator
+- **Branch**: `main`
+- **Objetivo**: Integrar renderers modulares no shell.astro e reduzi-lo a um orquestrador limpo.
+- **Alterações**:
+  - **shell.astro refatorado** (941 → 628 linhas, 33% redução):
+    - Importa e chama renderizadores de shell-renderers.js
+    - Usa ShellState da shell-state.js para gerenciar estado
+    - Orquestra renderização de views: admin, professor, student
+    - Mantém event listeners e transições de estado
+  - **Funções extraídas para módulos**:
+    - renderAdminView() → shell-renderers.js
+    - renderProfessorView() → renderProfessorViewOrchestrated() chama renderizadores
+    - renderStudentView() → renderStudentViewOrchestrated() chama renderizadores
+    - renderWeeklyScheduleGrid() — importado de shell-renderers.js
+    - renderWeeklyPlanBuilderModal() — pronto para integração
+  - **shell.astro contém agora apenas**:
+    - HTML template (role switcher, views container)
+    - CSS styles (120 linhas, inalterado)
+    - Script enxuto (220 linhas) com inicialização e event handling
+    - Funções de orquestração que chamam renderers modulares
+  - **Compatibilidade Comportamental**:
+    - 100% preservação visual
+    - Admin view inalterado
+    - Professor view com dashboard, lista alunos, convites
+    - Student view com grid de semana
+    - Weekly plan builder modal totalmente funcional
+    - Todas regras de access control aplicadas
+    - Event handlers e transições de estado intactos
+  - **Validações**:
+    - npm run build: ✓ (assets corretos)
+    - npm run validate:fixtures: ✓ (1 warning esperado)
+    - npm run test:access: ✓ 50/50 tests passing
+    - Professor isolation: confirmado
+    - Student isolation: confirmado
+    - Admin visibility: limitado a dados técnicos
+- **Decisões**:
+  - Refatoração reversível (git revert possível)
+  - Lições aprendidas sobre Astro + renderizadores
+  - Estrutura pronta para persistência
+- **Status**: Refatoração completa. Shell.astro é orquestrador. Monolito dissolvido. Pronto para produção.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
