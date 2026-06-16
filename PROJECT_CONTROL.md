@@ -905,6 +905,46 @@ Antes de realizar qualquer mudança estrutural ou codificação:
 
 ---
 
+### 2026-06-16 — Session 024 — Fix Demo Login Flow
+- **Branch**: `main`
+- **Objetivo**: Corrigir os botões de demo login para que funcionem sem erro "E-mail ou senha incorretos". Demo access deve funcionar trivialmente em protótipo offline-first.
+- **Alterações**:
+  - **users.json** (8 users):
+    * Substituir senhas mockadas por plain-text de demo
+    * admin@personalops.test: admin123
+    * joao.silva@personaltrainer.com: prof123
+    * aluno.um@email.com: aluno123
+    * (e outros usuários com senhas genéricas de demo)
+  
+  - **assets/js/app.js** (demo pills):
+    * Atualizar botões para referenciar emails reais:
+      - Administrativo: admin@personalops.test / admin123 ✓
+      - Professor: joao.silva@personaltrainer.com / prof123 ✓
+      - Aluno: aluno.um@email.com / aluno123 ✓
+  
+  - **Lógica de Login** (não alterada):
+    * app.js linha 404: `user.password !== pass` plain-text comparison
+    * data-store.js fallbacks: plain-text credentials com mesmo resultado
+  
+  - **Validações**:
+    - ✓ npm run validate:fixtures: All valid
+    - ✓ npm run test:access: 50/50 RBAC scenarios passing
+    - ✓ npm run build: 2 pages generated
+    - ✓ Manual credential test: All 3 demo buttons valid
+    - ✓ Demo login logic verified (admin123, prof123, aluno123)
+  
+  - **Commit**:
+    - f11468b: fix: Demo login buttons now use valid user credentials
+  
+  - **Decisões**:
+    - Plain-text demo passwords são apropriadas para protótipo offline estático
+    - Demo buttons referenciam usuários reais em fixtures (não mais emails fictícios)
+    - Login validation continua simples (plain-text comparison) conforme design existente
+  
+- **Status**: ✅ COMPLETE — Demo login flow funcional. Botões de Admin, Professor e Aluno podem ser clicados para acesso imediato sem erros de credenciais.
+
+---
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
