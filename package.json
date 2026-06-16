@@ -7,7 +7,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "validate:fixtures": "node scripts/validate-fixtures.mjs",
+    "test:access": "node scripts/test-access-control.mjs"
   },
   "dependencies": {
     "astro": "^4.0.0"
