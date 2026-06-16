@@ -87,5 +87,16 @@ export class ShellState {
 }
 
 export function createShellState() {
-  return new ShellState();
+  const state = new ShellState();
+
+  // Check sessionStorage for demo userId (set by demo button click in app.js)
+  if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+    const userId = sessionStorage.getItem('personalops_demo_userId');
+    if (userId) {
+      state.currentUserId = userId;
+      sessionStorage.removeItem('personalops_demo_userId'); // Clear after read
+    }
+  }
+
+  return state;
 }

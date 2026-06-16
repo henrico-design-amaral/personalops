@@ -44,14 +44,17 @@ const baseUrl = import.meta.env.BASE_URL;
     </script>
   </head>
   <body>
-    <!-- App Shell -->
-    <div id="app" class="app-shell"></div>
+    <!-- Page content slot (for shell.astro and others) or app shell (for index.astro) -->
+    <slot>
+      <!-- Default: App Shell for index.astro -->
+      <div id="app" class="app-shell"></div>
 
-    <!-- Data Store (global) -->
-    <script src={baseUrl + 'assets/js/data-store.js'} defer></script>
+      <!-- Data Store (global) -->
+      <script src={baseUrl + 'assets/js/data-store.js'} defer></script>
 
-    <!-- App Main (client-side island) -->
-    <script src={baseUrl + 'assets/js/app.js'} defer></script>
+      <!-- App Main (client-side island) -->
+      <script src={baseUrl + 'assets/js/app.js'} defer></script>
+    </slot>
   </body>
 </html>
 

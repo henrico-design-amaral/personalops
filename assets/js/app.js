@@ -425,10 +425,17 @@ const App = {
   bindDemoPills() {
     document.querySelectorAll('.demo-pill').forEach(pill => {
       pill.addEventListener('click', () => {
-        DOM.loginEmail.value = pill.dataset.email;
-        DOM.loginPass.value  = pill.dataset.pass;
-        DOM.loginError.classList.add('hidden');
-        DOM.formLogin.dispatchEvent(new Event('submit'));
+        // Save userId to sessionStorage for shell to read, then redirect
+        if (pill.dataset.userid) {
+          sessionStorage.setItem('personalops_demo_userId', pill.dataset.userid);
+          window.location.href = '/personalops/shell/';
+        } else {
+          // Fallback: fill form and submit (original behavior)
+          DOM.loginEmail.value = pill.dataset.email;
+          DOM.loginPass.value  = pill.dataset.pass;
+          DOM.loginError.classList.add('hidden');
+          DOM.formLogin.dispatchEvent(new Event('submit'));
+        }
       });
     });
   },
@@ -2437,9 +2444,9 @@ function renderApp() {
     <div class="login-demos">
       <p class="demos-label">Acessos demo</p>
       <div class="demo-pills">
-        <button class="demo-pill" data-email="admin@personalops.test" data-pass="admin123">Administrativo</button>
-        <button class="demo-pill" data-email="joao.silva@personaltrainer.com" data-pass="prof123">Professor</button>
-        <button class="demo-pill" data-email="aluno.um@email.com" data-pass="aluno123">Aluno</button>
+        <button class="demo-pill" data-userid="admin-1" data-email="admin@personalops.test" data-pass="admin123">Administrativo</button>
+        <button class="demo-pill" data-userid="prof-a" data-email="joao.silva@personaltrainer.com" data-pass="prof123">Professor</button>
+        <button class="demo-pill" data-userid="std-01" data-email="aluno.um@email.com" data-pass="aluno123">Aluno</button>
       </div>
     </div>
 
