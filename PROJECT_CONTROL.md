@@ -466,14 +466,52 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Documentation deixa claro para futuros devs
 - **Status**: Hardening audit completo; shell validado como seguro para seu escopo demo/prototipo.
 
+### 2026-06-14 — Session 016 — First Functional Professor Workspace
+- **Branch**: `main`
+- **Objetivo**: Criar Professor Workspace funcional com dashboard, lista detalhada de alunos, perfis operacionais e gestão de convites.
+- **Alterações**:
+  - **Professor Dashboard expandido** em src/pages/shell.astro:
+    - Resumo com 4 cards: alunos ativos, pausados, arquivados e convites pendentes
+    - Lista de alunos com acesso a perfil operacional
+    - Each student card mostra: nome, status, modo, plano, vencimento, último acesso mockado
+    - Botões de ação: View Profile, Prescribe Week, View Feedback
+  - **Perfil Operacional do Aluno**:
+    - Dados básicos: nome, email, DOB, status
+    - Detalhes do vínculo: modo, plano, datas, acesso
+    - Placeholder areas: Workout Prescription, Assessment, Photos/Comments, Payments
+    - Botões de ação: Prescribe This Week, Pause Link, Activate, Archive
+    - Navegação: volta ao dashboard
+  - **Gestão de Convites expandida**:
+    - Lista com data de convite e expiração
+    - Botões: Resend Invite, Copy Link, Cancel (vermelho)
+    - Status visual com badges (pendente, expirado, etc.)
+  - **Isolamento de dados verificado**:
+    - Professor A vê apenas seus alunos (confirmed por access-control tests)
+    - Professor não vê alunos de outro professor (50/50 tests passing)
+    - Nenhum token renderizado na UI
+    - Nenhum campo sensível exposto
+  - **Validações confirmadas**:
+    - npm run validate:fixtures: ✓ passed
+    - npm run test:access: ✓ 50/50 passed
+    - npm run build: ✓ successful
+  - **PROJECT_CONTROL.md**: Entry Session 016.
+- **Decisões**:
+  - Professor workspace com navegação professor → student profile
+  - UI patterns consistentes com shell existente
+  - Mockad data com acessos, datas e status realisticos
+  - Global selectStudent() function para navegação dentro da view
+  - No backend calls; tudo offline-first
+  - Access control enforced por canViewStudent() na lógica de renderização
+- **Status**: Professor Workspace funcional; testes passando; pronto para commit.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 015 (2026-06-14)  
+**Última sessão**: Session 016 (2026-06-14)  
 **Branch**: `main` (working tree clean)  
-**Status**: Operating Shell auditado e endurecido; documentação de segurança criada.
+**Status**: Professor Workspace criado com dashboard, lista de alunos e perfis operacionais.
 
 Arquivos modificados nesta sessão:
-- `docs/SECURITY_HARDENING.md` (novo)
-- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 015)
+- `src/pages/shell.astro` (expandido com Professor Workspace)
+- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 016)
