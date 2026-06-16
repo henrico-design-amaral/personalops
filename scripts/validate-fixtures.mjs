@@ -27,6 +27,9 @@ const fixtures = {
   invitations: loadJSON('invitations.json'),
   passwordRecoveries: loadJSON('password-recoveries.json'),
   supportActionLogs: loadJSON('support-action-logs.json'),
+  workoutTemplates: loadJSON('workout-templates.json'),
+  cardioTemplates: loadJSON('cardio-templates.json'),
+  dayAssignments: loadJSON('day-assignments.json'),
 };
 
 function loadJSON(filename) {
@@ -290,6 +293,124 @@ function validateRoleAssignments() {
   });
 }
 
+function validateWorkoutTemplates() {
+  fixtures.workoutTemplates.forEach((template) => {
+    // Validate ownerType
+    const validOwnerTypes = ['system', 'professor'];
+    if (!validOwnerTypes.includes(template.ownerType)) {
+      errors.push(`WorkoutTemplate ${template.id}: Invalid ownerType "${template.ownerType}"`);
+    }
+
+    // If ownerType is professor, professorId must exist
+    if (template.ownerType === 'professor') {
+      const professor = fixtures.professorProfiles.find((p) => p.id === template.professorId);
+      if (!professor) {
+        errors.push(`WorkoutTemplate ${template.id}: Professor ${template.professorId} not found`);
+      }
+    }
+
+    // Validate level
+    const validLevels = ['iniciante', 'intermediário', 'avançado'];
+    if (!validLevels.includes(template.level)) {
+      errors.push(`WorkoutTemplate ${template.id}: Invalid level "${template.level}"`);
+    }
+  });
+}
+
+function validateCardioTemplates() {
+  fixtures.cardioTemplates.forEach((template) => {
+    // Validate ownerType
+    const validOwnerTypes = ['system', 'professor'];
+    if (!validOwnerTypes.includes(template.ownerType)) {
+      errors.push(`CardioTemplate ${template.id}: Invalid ownerType "${template.ownerType}"`);
+    }
+
+    // If ownerType is professor, professorId must exist
+    if (template.ownerType === 'professor') {
+      const professor = fixtures.professorProfiles.find((p) => p.id === template.professorId);
+      if (!professor) {
+        errors.push(`CardioTemplate ${template.id}: Professor ${template.professorId} not found`);
+      }
+    }
+
+    // Validate type
+    const validTypes = ['bike', 'treadmill', 'walk_indoor', 'walk_outdoor', 'elliptical', 'stairs', 'hiit'];
+    if (!validTypes.includes(template.type)) {
+      errors.push(`CardioTemplate ${template.id}: Invalid type "${template.type}"`);
+    }
+
+    // Validate intensity
+    const validIntensities = ['baixo', 'moderado', 'alto', 'muito-alto'];
+    if (!validIntensities.includes(template.intensity)) {
+      errors.push(`CardioTemplate ${template.id}: Invalid intensity "${template.intensity}"`);
+    }
+  });
+}
+
+function validateDayAssignments() {
+  fixtures.dayAssignments.forEach((assignment) => {
+    // Assignment must reference existing Student
+    const student = fixtures.studentProfiles.find((s) => s.id === assignment.studentId);
+    if (!student) {
+      errors.push(`DayAssignment ${assignment.id}: Student ${assignment.studentId} not found`);
+    }
+
+    // Assignment must reference existing Professor
+    const professor = fixtures.professorProfiles.find((p) => p.id === assignment.professorId);
+    if (!professor) {
+      errors.push(`DayAssignment ${assignment.id}: Professor ${assignment.professorId} not found`);
+    }
+
+    // Validate weekday
+    const validWeekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    if (!validWeekdays.includes(assignment.weekday)) {
+      errors.push(`DayAssignment ${assignment.id}: Invalid weekday "${assignment.weekday}"`);
+    }
+
+    // Validate type
+    const validTypes = ['workout', 'cardio', 'rest', 'check_in', 'assessment'];
+    if (!validTypes.includes(assignment.type)) {
+      errors.push(`DayAssignment ${assignment.id}: Invalid type "${assignment.type}"`);
+    }
+
+    // If type is workout, assignedWorkoutId must exist
+    if (assignment.type === 'workout' && assignment.assignedWorkoutId) {
+      const workout = fixtures.workoutTemplates.find((w) => w.id === assignment.assignedWorkoutId);
+      if (!workout) {
+        errors.push(`DayAssignment ${assignment.id}: WorkoutTemplate ${assignment.assignedWorkoutId} not found`);
+      }
+    }
+
+    // If type is cardio, assignedCardioId must exist
+    if (assignment.type === 'cardio' && assignment.assignedCardioId) {
+      const cardio = fixtures.cardioTemplates.find((c) => c.id === assignment.assignedCardioId);
+      if (!cardio) {
+        errors.push(`DayAssignment ${assignment.id}: CardioTemplate ${assignment.assignedCardioId} not found`);
+      }
+    }
+
+    // If type is workout, assignedWorkoutId should not be null
+    if (assignment.type === 'workout' && !assignment.assignedWorkoutId) {
+      errors.push(`DayAssignment ${assignment.id}: type is 'workout' but assignedWorkoutId is null`);
+    }
+
+    // If type is cardio, assignedCardioId should not be null
+    if (assignment.type === 'cardio' && !assignment.assignedCardioId) {
+      errors.push(`DayAssignment ${assignment.id}: type is 'cardio' but assignedCardioId is null`);
+    }
+
+    // Student must belong to Professor (via ProfessorStudentLink)
+    const link = fixtures.professorStudentLinks.find(
+      (l) => l.studentId === assignment.studentId && l.professorId === assignment.professorId
+    );
+    if (!link) {
+      errors.push(
+        `DayAssignment ${assignment.id}: Student ${assignment.studentId} does not belong to Professor ${assignment.professorId}`
+      );
+    }
+  });
+}
+
 // Run all validations
 console.log('Validating PersonalOps fixtures...\n');
 
@@ -302,6 +423,9 @@ validateProfessorStudentLinks();
 validateInvitations();
 validatePasswordRecoveries();
 validateSupportActionLogs();
+validateWorkoutTemplates();
+validateCardioTemplates();
+validateDayAssignments();
 validateNoHardDeletes();
 
 // Report results

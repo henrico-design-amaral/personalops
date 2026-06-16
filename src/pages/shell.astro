@@ -318,7 +318,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <script>
   import { getActorContext, canViewStudent, canManageStudentOperational, canEditWorkoutPrescription } from '../lib/access-control.js';
-  import { loadFixtures, getProfessorStudents, getProfessorInvitations, getAllProfessorsWithStudents } from '../lib/fixtures-loader.js';
+  import { loadFixtures, getProfessorStudents, getProfessorInvitations, getAllProfessorsWithStudents, getStudentWeekSchedule, getProfessorAvailableWorkouts, getProfessorAvailableCardios } from '../lib/fixtures-loader.js';
 
   let fixtures = null;
   let currentUserId = 'admin-1';
@@ -584,6 +584,46 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
 
     const lastAccess = new Date(Date.now() - Math.random() * 86400000).toLocaleDateString();
+    const schedule = getStudentWeekSchedule(student.id, fixtures);
+
+    let scheduleHtml = '';
+    const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const weekdayLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    weekdays.forEach((day, idx) => {
+      const assignment = schedule.find(s => s.weekday === day);
+      if (assignment) {
+        let itemName = '';
+        let itemDetails = '';
+        let statusBadgeColor = '#a0a0a0';
+
+        if (assignment.type === 'workout' && assignment.assignedWorkout) {
+          itemName = assignment.assignedWorkout.name;
+          itemDetails = `${assignment.assignedWorkout.focus} • ${assignment.assignedWorkout.estimatedDuration} min`;
+          statusBadgeColor = '#64c8ff';
+        } else if (assignment.type === 'cardio' && assignment.assignedCardio) {
+          itemName = `Cardio: ${assignment.assignedCardio.type}`;
+          itemDetails = `${assignment.assignedCardio.intensity} • ${assignment.assignedCardio.duration} min`;
+          statusBadgeColor = '#64c864';
+        } else if (assignment.type === 'rest') {
+          itemName = 'Rest Day';
+          itemDetails = 'Recovery day';
+          statusBadgeColor = '#ffc864';
+        }
+
+        scheduleHtml += `
+          <div style="background: rgba(0, 0, 0, 0.2); border-left: 4px solid ${statusBadgeColor}; padding: 12px; border-radius: 4px; margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="color: ${statusBadgeColor}; font-weight: bold;">${weekdayLabels[idx]}</span>
+              <span style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">${assignment.type}</span>
+            </div>
+            <div style="color: #d0d0d0; font-size: 13px;">${itemName}</div>
+            <div style="color: #a0a0a0; font-size: 11px; margin-top: 4px;">${itemDetails}</div>
+            ${assignment.notes ? `<div style="color: #808080; font-size: 10px; margin-top: 4px; font-style: italic;">Note: ${assignment.notes}</div>` : ''}
+          </div>
+        `;
+      }
+    });
 
     let html = `
       <div class="view active">
@@ -614,12 +654,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <div style="margin-top: 10px; font-size: 12px; color: #808080;">Last access: ${lastAccess}</div>
             </div>
           </div>
+        </div>
 
-          <div class="portal-section">
-            <h3>Workout Prescription</h3>
-            <div class="placeholder">Weekly workout templates and assignments will appear here</div>
-          </div>
+        <div class="portal-section" style="margin-top: 20px;">
+          <h3>Weekly Schedule</h3>
+          ${scheduleHtml || '<div class="placeholder">No schedule assigned yet</div>'}
+        </div>
 
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
           <div class="portal-section">
             <h3>Assessment & Progress</h3>
             <div class="placeholder">Assessment forms and progress tracking will appear here</div>
@@ -634,10 +676,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <h3>Payments</h3>
             <div class="placeholder">Payment history and invoices will appear here</div>
           </div>
+
+          <div class="portal-section">
+            <h3>Feedback</h3>
+            <div class="placeholder">Post-workout feedback will appear here</div>
+          </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
-          <button class="button" style="padding: 10px; background: rgba(100, 150, 255, 0.2);">Prescribe This Week</button>
+          <button class="button" style="padding: 10px; background: rgba(100, 150, 255, 0.2);">Edit Week</button>
           <button class="button" style="padding: 10px; background: rgba(255, 200, 100, 0.2); color: #ffc864;">Pause Link</button>
           <button class="button" style="padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;">Activate</button>
           <button class="button" style="padding: 10px; background: rgba(200, 100, 100, 0.2); color: #ff6464;">Archive</button>
@@ -652,6 +699,46 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const student = actor.studentProfile;
     const link = fixtures.professorStudentLinks.find(l => l.studentId === student.id);
     const professor = fixtures.professorProfiles.find(p => p.id === link?.professorId);
+    const schedule = getStudentWeekSchedule(student.id, fixtures);
+
+    let scheduleHtml = '';
+    const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const today = new Date().getDay();
+    const todayMap = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 }; // Sunday=6, adjust to 0-6
+
+    weekdays.forEach((day, idx) => {
+      const assignment = schedule.find(s => s.weekday === day);
+      const isToday = todayMap[today] === idx;
+      const dayBg = isToday ? 'rgba(100, 150, 255, 0.3)' : 'rgba(0, 0, 0, 0.2)';
+      const dayBorder = isToday ? '#64c8ff' : 'rgba(100, 200, 255, 0.1)';
+
+      if (assignment) {
+        let itemName = '';
+        let itemShort = '';
+
+        if (assignment.type === 'workout' && assignment.assignedWorkout) {
+          itemName = assignment.assignedWorkout.name;
+          itemShort = `${assignment.assignedWorkout.estimatedDuration}m`;
+        } else if (assignment.type === 'cardio' && assignment.assignedCardio) {
+          itemName = `Cardio: ${assignment.assignedCardio.type}`;
+          itemShort = `${assignment.assignedCardio.duration}m`;
+        } else if (assignment.type === 'rest') {
+          itemName = 'Rest';
+          itemShort = '—';
+        }
+
+        scheduleHtml += `
+          <div style="background: ${dayBg}; border: 1px solid ${dayBorder}; padding: 10px; border-radius: 4px; text-align: center; flex: 1;">
+            <div style="color: ${isToday ? '#64c8ff' : '#a0a0a0'}; font-size: 11px; font-weight: bold; margin-bottom: 4px;">${weekdayLabels[idx]}</div>
+            <div style="color: #d0d0d0; font-size: 12px; line-height: 1.3; min-height: 40px; display: flex; align-items: center; justify-content: center;">
+              <span>${itemName}</span>
+            </div>
+            <div style="color: #a0a0a0; font-size: 10px; margin-top: 4px;">${itemShort}</div>
+          </div>
+        `;
+      }
+    });
 
     let html = `
       <div class="view active">
@@ -672,7 +759,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
           <div class="portal-section">
             <h3>This Week's Training</h3>
-            <div class="placeholder">Monday: Peito + Bíceps (60 min)<br/>Tuesday: Cardio Leve (30 min)<br/>... (6 more days)</div>
+            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 10px;">
+              ${scheduleHtml || '<div class="placeholder" style="grid-column: 1 / -1;">No schedule assigned yet</div>'}
+            </div>
           </div>
 
           <div class="portal-section">

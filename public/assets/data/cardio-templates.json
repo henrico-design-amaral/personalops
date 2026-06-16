@@ -1,0 +1,56 @@
+[
+  {
+    "id": "ct-01",
+    "ownerType": "system",
+    "professorId": null,
+    "type": "bike",
+    "duration": 30,
+    "intensity": "moderado",
+    "notes": "Bicicleta ergométrica - ritmo constante"
+  },
+  {
+    "id": "ct-02",
+    "ownerType": "system",
+    "professorId": null,
+    "type": "treadmill",
+    "duration": 25,
+    "intensity": "alto",
+    "notes": "Esteira - alta intensidade com intervalos"
+  },
+  {
+    "id": "ct-03",
+    "ownerType": "system",
+    "professorId": null,
+    "type": "walk_outdoor",
+    "duration": 40,
+    "intensity": "baixo",
+    "notes": "Caminhada ao ar livre - ritmo leve"
+  },
+  {
+    "id": "ct-04",
+    "ownerType": "system",
+    "professorId": null,
+    "type": "elliptical",
+    "duration": 30,
+    "intensity": "moderado",
+    "notes": "Elíptico - resistência média"
+  },
+  {
+    "id": "ct-05",
+    "ownerType": "system",
+    "professorId": null,
+    "type": "hiit",
+    "duration": 20,
+    "intensity": "muito-alto",
+    "notes": "Treino intervalado alta intensidade"
+  },
+  {
+    "id": "ct-prof-a-01",
+    "ownerType": "professor",
+    "professorId": "prof-a",
+    "type": "bike",
+    "duration": 45,
+    "intensity": "alto",
+    "notes": "Bicicleta personalizada Prof A - resistência alta"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "wt-01",
+    "ownerType": "system",
+    "professorId": null,
+    "name": "Peito e Tríceps",
+    "focus": "Peito e tríceps",
+    "goal": "Hipertrofia",
+    "level": "intermediário",
+    "estimatedDuration": 50,
+    "exercisesPlaceholder": [
+      { "order": 1, "exerciseName": "Supino Reto com Barra", "sets": 4, "reps": "8-10" },
+      { "order": 2, "exerciseName": "Supino Inclinado Halteres", "sets": 3, "reps": "10-12" },
+      { "order": 3, "exerciseName": "Rosca Tríceps Corda", "sets": 3, "reps": "10-12" }
+    ]
+  },
+  {
+    "id": "wt-02",
+    "ownerType": "system",
+    "professorId": null,
+    "name": "Costas e Bíceps",
+    "focus": "Costas e bíceps",
+    "goal": "Força",
+    "level": "avançado",
+    "estimatedDuration": 55,
+    "exercisesPlaceholder": [
+      { "order": 1, "exerciseName": "Puxada Frontal", "sets": 4, "reps": "6-8" },
+      { "order": 2, "exerciseName": "Rosca Direta com Barra", "sets": 4, "reps": "6-8" },
+      { "order": 3, "exerciseName": "Remada Curvada", "sets": 3, "reps": "8-10" }
+    ]
+  },
+  {
+    "id": "wt-03",
+    "ownerType": "system",
+    "professorId": null,
+    "name": "Perna Full",
+    "focus": "Pernas completo",
+    "goal": "Hipertrofia",
+    "level": "intermediário",
+    "estimatedDuration": 60,
+    "exercisesPlaceholder": [
+      { "order": 1, "exerciseName": "Agachamento Livre", "sets": 4, "reps": "6-8" },
+      { "order": 2, "exerciseName": "Leg Press", "sets": 3, "reps": "8-10" },
+      { "order": 3, "exerciseName": "Rosca Perna", "sets": 3, "reps": "10-12" },
+      { "order": 4, "exerciseName": "Extensora", "sets": 3, "reps": "12-15" }
+    ]
+  },
+  {
+    "id": "wt-04",
+    "ownerType": "system",
+    "professorId": null,
+    "name": "Ombro e Braço",
+    "focus": "Ombro e braços",
+    "goal": "Definição",
+    "level": "iniciante",
+    "estimatedDuration": 45,
+    "exercisesPlaceholder": [
+      { "order": 1, "exerciseName": "Desenvolvimento com Halteres", "sets": 3, "reps": "10-12" },
+      { "order": 2, "exerciseName": "Elevação Lateral", "sets": 3, "reps": "12-15" },
+      { "order": 3, "exerciseName": "Rosca Indireta", "sets": 3, "reps": "10-12" }
+    ]
+  },
+  {
+    "id": "wt-05",
+    "ownerType": "system",
+    "professorId": null,
+    "name": "Core e Funcional",
+    "focus": "Core e funcional",
+    "goal": "Resistência",
+    "level": "iniciante",
+    "estimatedDuration": 35,
+    "exercisesPlaceholder": [
+      { "order": 1, "exerciseName": "Prancha Frontal", "sets": 3, "reps": "30-60s" },
+      { "order": 2, "exerciseName": "Abdominal Supra", "sets": 3, "reps": "15-20" },
+      { "order": 3, "exerciseName": "Flexão Dinâmica", "sets": 3, "reps": "10-15" }
+    ]
+  },
+  {
+    "id": "wt-prof-a-01",
+    "ownerType": "professor",
+    "professorId": "prof-a",
+    "name": "Peito Personalizado Prof A",
+    "focus": "Hipertrofia de peito com foco em amplitude",
+    "goal": "Hipertrofia",
+    "level": "avançado",
+    "estimatedDuration": 60,
+    "exercisesPlaceholder": [
+      { "order": 1, "exerciseName": "Supino Inclinado Barra", "sets": 4, "reps": "6-8" },
+      { "order": 2, "exerciseName": "Fly com Halteres", "sets": 4, "reps": "8-10" }
+    ]
+  }
+]
