@@ -1,35 +1,16 @@
 ---
-// PersonalOps Operating Shell
+// PersonalOps Operating Shell - Orchestrator
 // Offline-first shell with role-based views and access control
 // This is a demonstration/prototype page - shows different views based on selected role
 
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { renderRoleSwitcher } from '../lib/shell-renderers.js';
 ---
 
 <BaseLayout title="PersonalOps - Operating Shell">
   <div class="shell-container">
-    <!-- Role Switcher -->
-    <div class="role-switcher">
-      <h1>PersonalOps Operating Shell</h1>
-      <div class="switcher-controls">
-        <label for="role-select">Switch Role (Demo):</label>
-        <select id="role-select">
-          <option value="admin-1">Admin - Administrator</option>
-          <option value="prof-a">Professor - João Silva (Hipertrofia)</option>
-          <option value="prof-b">Professor - Maria Santos (Emagrecimento)</option>
-          <option value="std-01">Student - Aluno Um (Active)</option>
-          <option value="std-02">Student - Aluno Dois (Paused)</option>
-          <option value="std-04">Student - Aluno Quatro (Active, Prof B)</option>
-        </select>
-      </div>
-      <p class="disclaimer">
-        💡 This is a demonstration shell. Select different roles to see how access control filters data.
-      </p>
-    </div>
-
-    <!-- Views Container -->
+    {renderRoleSwitcher && renderRoleSwitcher()}
     <div id="views-container" class="views-container">
-      <!-- Loading indicator -->
       <div id="loading" class="loading">
         <p>Loading fixtures and access control...</p>
       </div>
@@ -102,7 +83,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     padding: 40px;
   }
 
-  /* View Styles */
   .view {
     display: none;
   }
@@ -131,7 +111,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin: 0;
   }
 
-  /* Admin View */
   .admin-professors {
     display: grid;
     gap: 20px;
@@ -191,7 +170,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: #a0a0a0;
   }
 
-  /* Professor View */
   .professor-students {
     display: grid;
     gap: 15px;
@@ -235,7 +213,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-color: rgba(100, 200, 255, 0.6);
   }
 
-  /* Student View */
   .student-portal {
     display: grid;
     gap: 20px;
@@ -264,7 +241,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border: 1px dashed rgba(100, 200, 255, 0.2);
   }
 
-  /* Access Denied */
   .access-denied {
     background: rgba(200, 100, 100, 0.2);
     border: 2px solid rgba(200, 100, 100, 0.5);
@@ -283,7 +259,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin: 0;
   }
 
-  /* Invitations Section */
   .invitations-list {
     margin-top: 10px;
   }
@@ -317,11 +292,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </style>
 
 <script>
-  import { getActorContext, canViewStudent, canManageStudentOperational, canEditWorkoutPrescription } from '../lib/access-control.js';
-  import { loadFixtures, getProfessorStudents, getProfessorInvitations, getAllProfessorsWithStudents, getStudentWeekSchedule, getProfessorAvailableWorkouts, getProfessorAvailableCardios } from '../lib/fixtures-loader.js';
+  import { createShellState } from '../lib/shell-state.js';
+  import {
+    renderAccessDenied,
+    renderAdminView,
+    renderProfessorView,
+    renderStudentView,
+    renderWeeklyScheduleGrid,
+    renderWeeklyPlanBuilderModal,
+    renderStudentWeeklyGrid
+  } from '../lib/shell-renderers.js';
+  import { getActorContext } from '../lib/access-control.js';
+  import {
+    loadFixtures,
+    getProfessorStudents,
+    getProfessorInvitations,
+    getStudentWeekSchedule,
+    getProfessorAvailableWorkouts,
+    getProfessorAvailableCardios
+  } from '../lib/fixtures-loader.js';
 
+  // Centralized state
+  const state = createShellState();
   let fixtures = null;
-  let currentUserId = 'admin-1';
 
   async function initShell() {
     try {
@@ -334,150 +327,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   function renderView() {
-    const actor = getActorContext(currentUserId, fixtures);
+    const actor = getActorContext(state.currentUserId, fixtures);
 
     if (!actor) {
-      renderAccessDenied('User not found');
+      document.getElementById('views-container').innerHTML = renderAccessDenied('User not found');
       return;
     }
 
+    let html = '';
     if (actor.roles.includes('admin')) {
-      renderAdminView(actor);
+      html = renderAdminView(actor, fixtures);
     } else if (actor.roles.includes('professor')) {
-      renderProfessorView(actor);
+      html = renderProfessorViewOrchestrated(actor);
     } else if (actor.roles.includes('student')) {
-      renderStudentView(actor);
+      html = renderStudentViewOrchestrated(actor);
     } else {
-      renderAccessDenied('Unknown role');
+      html = renderAccessDenied('Unknown role');
     }
-  }
-
-  function renderAdminView(actor) {
-    const professorsWithStudents = getAllProfessorsWithStudents(fixtures);
-    const invitations = fixtures.invitations;
-    const logs = fixtures.supportActionLogs;
-
-    let html = `
-      <div class="view active">
-        <div class="view-header">
-          <h2>Admin Dashboard</h2>
-          <p class="info">User: ${currentUserId} | Role: Admin</p>
-        </div>
-
-        <h3 style="color: #64c8ff; margin-top: 0;">Professors & Students</h3>
-        <div class="admin-professors">
-    `;
-
-    professorsWithStudents.forEach(prof => {
-      html += `
-        <div class="professor-card">
-          <div class="professor-header">
-            <span>${prof.name}</span>
-            <span style="color: #a0a0a0; font-size: 12px;">${prof.studentCount} students</span>
-          </div>
-          <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">
-            ${prof.specialty} • ${prof.location}
-          </div>
-          <div class="student-list">
-      `;
-
-      prof.students.forEach(link => {
-        const statusClass = `status-${link.student.status}`;
-        html += `
-          <div class="student-item">
-            <span>${link.student.name}</span>
-            <span class="student-status ${statusClass}">${link.student.status}</span>
-          </div>
-          <div style="color: #808080; font-size: 10px; margin-left: 0; margin-top: 4px; margin-bottom: 8px;">
-            ${link.plan} • Expires: ${link.expiresAt}
-          </div>
-        `;
-      });
-
-      html += `
-          </div>
-        </div>
-      `;
-    });
-
-    html += `
-        </div>
-
-        <h3 style="color: #64c8ff; margin-top: 30px;">Pending & Expired Invitations</h3>
-        <div class="admin-professors">
-    `;
-
-    const filteredInvitations = invitations.filter(i => i.status === 'pendente' || i.status === 'expirado');
-    if (filteredInvitations.length === 0) {
-      html += '<p style="color: #a0a0a0;">No pending or expired invitations</p>';
-    } else {
-      filteredInvitations.forEach(inv => {
-        const prof = fixtures.professorProfiles.find(p => p.id === inv.professorId);
-        html += `
-          <div class="professor-card">
-            <div class="professor-header">
-              <span>${inv.invitedName} → ${prof?.name || 'Unknown'}</span>
-              <span class="student-status ${inv.status === 'pendente' ? '' : 'expired'}">${inv.status}</span>
-            </div>
-            <div style="color: #a0a0a0; font-size: 12px;">Email: ${inv.invitedEmail}</div>
-          </div>
-        `;
-      });
-    }
-
-    html += `
-        </div>
-
-        <h3 style="color: #64c8ff; margin-top: 30px;">Recent Support Actions</h3>
-        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 15px;">
-    `;
-
-    if (logs.length === 0) {
-      html += '<p style="color: #a0a0a0;">No support actions</p>';
-    } else {
-      logs.forEach(log => {
-        const actor = fixtures.users.find(u => u.id === log.performedBy);
-        html += `
-          <div class="student-item">
-            <span>${log.actionType} by ${actor?.email || 'unknown'}</span>
-            <span style="color: #a0a0a0; font-size: 11px;">${new Date(log.timestamp).toLocaleDateString()}</span>
-          </div>
-        `;
-      });
-    }
-
-    html += `
-        </div>
-      </div>
-    `;
 
     document.getElementById('views-container').innerHTML = html;
   }
 
-  let selectedStudentId = null;
-  let editingWeekDay = null; // mondaymon, tuesday, etc.
-  let editingStudent = null; // id of student being edited
-
-  function openWeeklyPlanEditor(studentId, weekday) {
-    editingWeekDay = weekday;
-    editingStudent = studentId;
-    renderProfessorStudentProfile(getActorContext(currentUserId, fixtures));
-  }
-
-  function closeWeeklyPlanEditor() {
-    editingWeekDay = null;
-    editingStudent = null;
-    renderProfessorStudentProfile(getActorContext(currentUserId, fixtures));
-  }
-
-  function renderProfessorView(actor) {
-    if (selectedStudentId) {
-      return renderProfessorStudentProfile(actor);
+  function renderProfessorViewOrchestrated(actor) {
+    if (state.selectedStudentId) {
+      return renderProfessorStudentProfileOrchestrated(actor);
     }
 
     const students = getProfessorStudents(actor.professorProfile.id, fixtures);
     const invitations = getProfessorInvitations(actor.professorProfile.id, fixtures);
-
     const activeStudents = students.filter(s => s.status === 'ativo').length;
     const pausedStudents = students.filter(s => s.status === 'pausado').length;
     const archivedStudents = students.filter(s => s.status === 'arquivado').length;
@@ -487,7 +364,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="view active">
         <div class="view-header">
           <h2>Professor Dashboard</h2>
-          <p class="info">User: ${currentUserId} | Professor: ${actor.professorProfile.name}</p>
+          <p class="info">User: ${state.currentUserId} | Professor: ${actor.professorProfile.name}</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px;">
@@ -578,165 +455,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     html += `
         </div>
-
-        <h3 style="color: #64c8ff; margin-top: 30px;">Workout Prescription</h3>
-        <div class="placeholder">Select a student profile to prescribe weekly workouts</div>
       </div>
     `;
 
-    document.getElementById('views-container').innerHTML = html;
+    return html;
   }
 
-  function renderWeeklyPlanBuilderModal(student, weekday, schedule, actor) {
-    const weekdayLabels = { 'monday': 'Monday', 'tuesday': 'Tuesday', 'wednesday': 'Wednesday', 'thursday': 'Thursday', 'friday': 'Friday', 'saturday': 'Saturday', 'sunday': 'Sunday' };
-    const currentAssignment = schedule.find(s => s.weekday === weekday);
-    const availableWorkouts = getProfessorAvailableWorkouts(actor.professorProfile.id, fixtures);
-    const availableCardios = getProfessorAvailableCardios(actor.professorProfile.id, fixtures);
-
-    let typeOptions = '<option value="workout">Workout (requires template)</option><option value="cardio">Cardio (requires template)</option><option value="rest">Rest Day (no template)</option><option value="check_in">Check-in</option><option value="assessment">Assessment</option>';
-    let selectedType = currentAssignment?.type || 'workout';
-
-    let templateOptions = '';
-    if (selectedType === 'workout') {
-      templateOptions = availableWorkouts.map(w => `<option value="${w.id}" ${currentAssignment?.assignedWorkoutId === w.id ? 'selected' : ''}>${w.name}</option>`).join('');
-    } else if (selectedType === 'cardio') {
-      templateOptions = availableCardios.map(c => `<option value="${c.id}" ${currentAssignment?.assignedCardioId === c.id ? 'selected' : ''}>${c.type} (${c.intensity}, ${c.duration}min)</option>`).join('');
-    }
-
-    let previewHtml = '';
-    const selectedWorkoutId = document.getElementById('selected-workout')?.value;
-    const selectedCardioId = document.getElementById('selected-cardio')?.value;
-
-    if (selectedType === 'workout' && selectedWorkoutId) {
-      const workout = availableWorkouts.find(w => w.id === selectedWorkoutId);
-      if (workout) {
-        previewHtml = `<div style="background: rgba(100, 150, 255, 0.2); border-left: 4px solid #64c8ff; padding: 12px; border-radius: 4px; margin-top: 10px;">
-          <div style="color: #64c8ff; font-weight: bold;">${workout.name}</div>
-          <div style="color: #a0a0a0; font-size: 12px; margin-top: 4px;">${workout.focus} • ${workout.estimatedDuration} min • ${workout.level}</div>
-        </div>`;
-      }
-    } else if (selectedType === 'cardio' && selectedCardioId) {
-      const cardio = availableCardios.find(c => c.id === selectedCardioId);
-      if (cardio) {
-        previewHtml = `<div style="background: rgba(100, 200, 100, 0.2); border-left: 4px solid #64c864; padding: 12px; border-radius: 4px; margin-top: 10px;">
-          <div style="color: #64c864; font-weight: bold;">Cardio: ${cardio.type}</div>
-          <div style="color: #a0a0a0; font-size: 12px; margin-top: 4px;">${cardio.intensity} • ${cardio.duration} min</div>
-        </div>`;
-      }
-    } else if (selectedType === 'rest') {
-      previewHtml = `<div style="background: rgba(255, 200, 100, 0.2); border-left: 4px solid #ffc864; padding: 12px; border-radius: 4px; margin-top: 10px;">
-        <div style="color: #ffc864; font-weight: bold;">Rest Day</div>
-        <div style="color: #a0a0a0; font-size: 12px; margin-top: 4px;">Recovery day</div>
-      </div>`;
-    }
-
-    return `
-      <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); z-index: 1000; display: flex; align-items: center; justify-content: center;">
-        <div style="background: #1a1a1a; border: 1px solid rgba(100, 200, 255, 0.3); border-radius: 8px; padding: 30px; max-width: 400px; width: 90%;">
-          <h3 style="color: #64c8ff; margin: 0 0 20px 0;">Edit ${weekdayLabels[weekday]}</h3>
-
-          <div style="margin-bottom: 15px;">
-            <label style="color: #a0a0a0; font-size: 12px; display: block; margin-bottom: 5px;">Day Type</label>
-            <select id="day-type" style="width: 100%; padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(100, 200, 255, 0.3); color: #64c8ff; border-radius: 4px; font-size: 13px;" onchange="this.closest('div').parentElement.querySelector('[id^=selected-]').style.display = (this.value === 'workout' || this.value === 'cardio') ? 'block' : 'none';">
-              <option value="workout" ${selectedType === 'workout' ? 'selected' : ''}>Workout</option>
-              <option value="cardio" ${selectedType === 'cardio' ? 'selected' : ''}>Cardio</option>
-              <option value="rest" ${selectedType === 'rest' ? 'selected' : ''}>Rest Day</option>
-              <option value="check_in" ${selectedType === 'check_in' ? 'selected' : ''}>Check-in</option>
-              <option value="assessment" ${selectedType === 'assessment' ? 'selected' : ''}>Assessment</option>
-            </select>
-          </div>
-
-          ${(selectedType === 'workout' || selectedType === 'cardio') ? `
-            <div style="margin-bottom: 15px; display: ${selectedType === 'workout' || selectedType === 'cardio' ? 'block' : 'none'};">
-              <label style="color: #a0a0a0; font-size: 12px; display: block; margin-bottom: 5px;">${selectedType === 'workout' ? 'Workout Template' : 'Cardio Template'}</label>
-              <select id="selected-${selectedType}" style="width: 100%; padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(100, 200, 255, 0.3); color: #64c8ff; border-radius: 4px; font-size: 13px;">
-                <option value="">-- Select ${selectedType === 'workout' ? 'Workout' : 'Cardio'} --</option>
-                ${selectedType === 'workout' ? availableWorkouts.map(w => `<option value="${w.id}" ${currentAssignment?.assignedWorkoutId === w.id ? 'selected' : ''}>${w.name}</option>`).join('') : ''}
-                ${selectedType === 'cardio' ? availableCardios.map(c => `<option value="${c.id}" ${currentAssignment?.assignedCardioId === c.id ? 'selected' : ''}>${c.type} (${c.intensity}, ${c.duration}min)</option>`).join('') : ''}
-              </select>
-            </div>
-          ` : ''}
-
-          <div id="preview-area">
-            ${previewHtml}
-          </div>
-
-          <div style="margin-top: 20px; display: flex; gap: 10px;">
-            <button class="button" style="flex: 1; padding: 10px; background: rgba(100, 150, 255, 0.2);" onclick="window.closeWeeklyPlanEditor()">Cancel</button>
-            <button class="button" style="flex: 1; padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;" onclick="alert('✓ Simulated: Changes preview only (no persistence yet)'); window.closeWeeklyPlanEditor();">Apply (Simulated)</button>
-          </div>
-
-          <div style="color: #a0a0a0; font-size: 11px; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(100, 200, 255, 0.1);">
-            💡 This is a simulation. Changes are not persisted to the database.
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderProfessorStudentProfile(actor) {
-    const student = fixtures.studentProfiles.find(s => s.id === selectedStudentId);
+  function renderProfessorStudentProfileOrchestrated(actor) {
+    const student = fixtures.studentProfiles.find(s => s.id === state.selectedStudentId);
     if (!student) {
-      selectedStudentId = null;
-      return renderProfessorView(actor);
+      state.selectStudent(null);
+      return renderProfessorViewOrchestrated(actor);
     }
 
     const link = fixtures.professorStudentLinks.find(l => l.studentId === student.id && l.professorId === actor.professorProfile.id);
     if (!link) {
-      selectedStudentId = null;
-      return renderProfessorView(actor);
+      state.selectStudent(null);
+      return renderProfessorViewOrchestrated(actor);
     }
 
     const lastAccess = new Date(Date.now() - Math.random() * 86400000).toLocaleDateString();
     const schedule = getStudentWeekSchedule(student.id, fixtures);
+    const scheduleGrid = renderWeeklyScheduleGrid(schedule, actor, student);
 
-    let scheduleHtml = '';
-    const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    const weekdayLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-    if (editingWeekDay && editingStudent === student.id) {
-      // Show editor for the selected day
-      scheduleHtml = renderWeeklyPlanBuilderModal(student, editingWeekDay, schedule, actor);
-    } else {
-      // Show schedule with clickable days
-      weekdays.forEach((day, idx) => {
-        const assignment = schedule.find(s => s.weekday === day);
-        if (assignment) {
-          let itemName = '';
-          let itemDetails = '';
-          let statusBadgeColor = '#a0a0a0';
-
-          if (assignment.type === 'workout' && assignment.assignedWorkout) {
-            itemName = assignment.assignedWorkout.name;
-            itemDetails = `${assignment.assignedWorkout.focus} • ${assignment.assignedWorkout.estimatedDuration} min`;
-            statusBadgeColor = '#64c8ff';
-          } else if (assignment.type === 'cardio' && assignment.assignedCardio) {
-            itemName = `Cardio: ${assignment.assignedCardio.type}`;
-            itemDetails = `${assignment.assignedCardio.intensity} • ${assignment.assignedCardio.duration} min`;
-            statusBadgeColor = '#64c864';
-          } else if (assignment.type === 'rest') {
-            itemName = 'Rest Day';
-            itemDetails = 'Recovery day';
-            statusBadgeColor = '#ffc864';
-          }
-
-          scheduleHtml += `
-            <div style="background: rgba(0, 0, 0, 0.2); border-left: 4px solid ${statusBadgeColor}; padding: 12px; border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(0, 0, 0, 0.4)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.2)'" onclick="window.openWeeklyPlanEditor('${student.id}', '${day}')">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <span style="color: ${statusBadgeColor}; font-weight: bold;">${weekdayLabels[idx]}</span>
-                <span style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">${assignment.type}</span>
-              </div>
-              <div style="color: #d0d0d0; font-size: 13px;">${itemName}</div>
-              <div style="color: #a0a0a0; font-size: 11px; margin-top: 4px;">${itemDetails}</div>
-              ${assignment.notes ? `<div style="color: #808080; font-size: 10px; margin-top: 4px; font-style: italic;">Note: ${assignment.notes}</div>` : ''}
-              <div style="color: #64c8ff; font-size: 10px; margin-top: 8px; font-weight: bold;">👁️ Click to edit</div>
-            </div>
-          `;
-        }
-      });
-    }
-
-    let html = `
+    return `
       <div class="view active">
         <div class="view-header">
           <h2>${student.name} - Operational Profile</h2>
@@ -769,7 +511,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         <div class="portal-section" style="margin-top: 20px;">
           <h3>Weekly Schedule</h3>
-          ${scheduleHtml || '<div class="placeholder">No schedule assigned yet</div>'}
+          ${scheduleGrid || '<div class="placeholder">No schedule assigned yet</div>'}
+        </div>
+
+        <div style="color: #a0a0a0; font-size: 12px; margin-top: 20px; padding: 15px; background: rgba(100, 150, 255, 0.1); border-radius: 4px; margin-bottom: 20px;">
+          💡 Click any day above to edit the weekly schedule and assign workouts/cardio.
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
@@ -794,67 +540,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <div style="color: #a0a0a0; font-size: 12px; margin-top: 20px; padding: 15px; background: rgba(100, 150, 255, 0.1); border-radius: 4px; margin-bottom: 20px;">
-          💡 Click any day above to edit the weekly schedule and assign workouts/cardio.
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
           <button class="button" style="padding: 10px; background: rgba(255, 200, 100, 0.2); color: #ffc864;">Pause Link</button>
           <button class="button" style="padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;">Activate</button>
           <button class="button" style="padding: 10px; background: rgba(200, 100, 100, 0.2); color: #ff6464;">Archive</button>
         </div>
       </div>
     `;
-
-    document.getElementById('views-container').innerHTML = html;
   }
 
-  function renderStudentView(actor) {
+  function renderStudentViewOrchestrated(actor) {
     const student = actor.studentProfile;
     const link = fixtures.professorStudentLinks.find(l => l.studentId === student.id);
     const professor = fixtures.professorProfiles.find(p => p.id === link?.professorId);
     const schedule = getStudentWeekSchedule(student.id, fixtures);
+    const scheduleGrid = renderStudentWeeklyGrid(schedule, actor);
 
-    let scheduleHtml = '';
-    const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    const weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const today = new Date().getDay();
-    const todayMap = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 }; // Sunday=6, adjust to 0-6
-
-    weekdays.forEach((day, idx) => {
-      const assignment = schedule.find(s => s.weekday === day);
-      const isToday = todayMap[today] === idx;
-      const dayBg = isToday ? 'rgba(100, 150, 255, 0.3)' : 'rgba(0, 0, 0, 0.2)';
-      const dayBorder = isToday ? '#64c8ff' : 'rgba(100, 200, 255, 0.1)';
-
-      if (assignment) {
-        let itemName = '';
-        let itemShort = '';
-
-        if (assignment.type === 'workout' && assignment.assignedWorkout) {
-          itemName = assignment.assignedWorkout.name;
-          itemShort = `${assignment.assignedWorkout.estimatedDuration}m`;
-        } else if (assignment.type === 'cardio' && assignment.assignedCardio) {
-          itemName = `Cardio: ${assignment.assignedCardio.type}`;
-          itemShort = `${assignment.assignedCardio.duration}m`;
-        } else if (assignment.type === 'rest') {
-          itemName = 'Rest';
-          itemShort = '—';
-        }
-
-        scheduleHtml += `
-          <div style="background: ${dayBg}; border: 1px solid ${dayBorder}; padding: 10px; border-radius: 4px; text-align: center; flex: 1;">
-            <div style="color: ${isToday ? '#64c8ff' : '#a0a0a0'}; font-size: 11px; font-weight: bold; margin-bottom: 4px;">${weekdayLabels[idx]}</div>
-            <div style="color: #d0d0d0; font-size: 12px; line-height: 1.3; min-height: 40px; display: flex; align-items: center; justify-content: center;">
-              <span>${itemName}</span>
-            </div>
-            <div style="color: #a0a0a0; font-size: 10px; margin-top: 4px;">${itemShort}</div>
-          </div>
-        `;
-      }
-    });
-
-    let html = `
+    return `
       <div class="view active">
         <div class="view-header">
           <h2>My Portal</h2>
@@ -874,7 +576,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div class="portal-section">
             <h3>This Week's Training</h3>
             <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 10px;">
-              ${scheduleHtml || '<div class="placeholder" style="grid-column: 1 / -1;">No schedule assigned yet</div>'}
+              ${scheduleGrid || '<div class="placeholder" style="grid-column: 1 / -1;">No schedule assigned yet</div>'}
             </div>
           </div>
 
@@ -897,45 +599,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
     `;
-
-    document.getElementById('views-container').innerHTML = html;
   }
 
-  function renderAccessDenied(reason) {
-    const html = `
-      <div class="view active">
-        <div class="access-denied">
-          <h2>Access Denied</h2>
-          <p>${reason}</p>
-        </div>
-      </div>
-    `;
-    document.getElementById('views-container').innerHTML = html;
-  }
-
-  // Global functions for student and weekly plan editing
+  // Global functions
   window.selectStudent = function(studentId) {
-    selectedStudentId = studentId;
-    editingWeekDay = null;
-    editingStudent = null;
+    state.selectStudent(studentId);
     renderView();
   };
 
   window.openWeeklyPlanEditor = function(studentId, weekday) {
-    openWeeklyPlanEditor(studentId, weekday);
+    state.openWeeklyPlanEditor(studentId, weekday);
+    renderView();
   };
 
   window.closeWeeklyPlanEditor = function() {
-    closeWeeklyPlanEditor();
+    state.closeWeeklyPlanEditor();
+    renderView();
   };
 
   // Event listeners
   document.getElementById('role-select').addEventListener('change', (e) => {
-    currentUserId = e.target.value;
-    selectedStudentId = null;
+    state.setCurrentUser(e.target.value);
     renderView();
   });
 
-  // Initialize on load
+  // Initialize
   window.addEventListener('DOMContentLoaded', initShell);
 </script>
