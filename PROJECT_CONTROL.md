@@ -812,6 +812,97 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   
 - **Status**: Fluxos operacionais completos, offline-first, mockados, sem backend real.
 
+### 2026-06-16 — Session 023 — Complete Workout Builder & Workout Details Flow
+- **Branch**: `main`
+- **Objetivo**: Implementar fluxo real (não apenas placeholder) de criação de treino para Professor e detalhe de treino para Aluno.
+- **Alterações**:
+  - **Professor Workout Builder** (render-professor.js: 315 → 357 lines):
+    - Seção "Create Workout" com form real (não apenas botão)
+    - Escolher origem: Blank, Clone System, Clone Own
+    - Exercise picker dinâmico com 44+ exercícios da biblioteca global
+    - Workout builder modal com:
+      * Campos: name, focus, goal, estimatedDuration
+      * Add/remove exercises dinamicamente
+      * Set sets, reps, rest, load suggestion por exercício
+      * Live preview do treino montado completo
+      * Botão "Save (Simulated)" com alerta
+      * Label claro: "not persisted to database"
+    - Display de workouts criados pelo professor (lista por professor)
+    - RBAC: Professor vê apenas seus treinos, usa biblioteca global
+  
+  - **Student Workout Details** (render-student.js: 182 → 289 lines):
+    - Botão "View Details" em cada workout na seção "My Workouts"
+    - Modal de detalhe mostrando:
+      * Nome, focus, goal, estimated duration
+      * Lista completa de exercícios com:
+        - Sets × Reps format
+        - Rest time entre sets
+        - Load suggestions
+      * Botão "Start This Workout" (mockup)
+    - Student não consegue editar treino
+    - RBAC: Student vê apenas treinos assignados pelo professor
+  
+  - **Shell State Expansion** (shell-state.js: +44 lines):
+    - Track workoutBuilder state (name, focus, goal, estimatedDuration, exercises)
+    - Track creatingWorkout e selectedWorkoutDetail boolean
+    - Methods:
+      * openWorkoutBuilder(), closeWorkoutBuilder()
+      * addExerciseToWorkout(), removeExerciseFromWorkout()
+      * updateWorkoutBuilder()
+      * openWorkoutDetail(), closeWorkoutDetail()
+  
+  - **Workout Builder Modal** (schedule-utils.js: +81 lines):
+    - renderWorkoutBuilderModal() function com form real
+    - Exercise dropdown with 44+ options (pipe-delimited format)
+    - Add/Remove exercise buttons with dynamic indices
+    - Input fields para workout details
+    - Preview de exercises montados
+    - Cancel, Clone Template, Save buttons
+  
+  - **Workout Detail Modal** (render-student.js novo):
+    - renderWorkoutDetailModal() com detalhe completo
+    - Dinâmico baseado em professor-workouts.json
+    - Formatação clara de sets, reps, rest, load
+    - "Back to Schedule" e "Start This Workout" buttons
+  
+  - **Global Window Functions** (shell.astro: +46 lines):
+    - openWorkoutBuilder(), closeWorkoutBuilder()
+    - updateWorkoutBuilder(updates)
+    - addSelectedExercise() (lê dropdown, chama state, renderiza)
+    - removeExerciseFromWorkout(index)
+    - openWorkoutDetail(workoutId), closeWorkoutDetail()
+  
+  - **Fixtures & Loaders**:
+    - Create professor-workouts.json com 2 exemplos (prof-a, prof-b)
+    - Cada workout tem exercises array com order, exerciseId, sets, reps, rest, loadSuggestion
+    - Helpers: getProfessorCreatedWorkouts(), getProfessorAllAvailableWorkouts(), getExerciseDetails()
+  
+  - **Validation Expanded** (validate-fixtures.mjs: +26 lines):
+    - Load professor-workouts fixture
+    - validateProfessorWorkouts() com checks:
+      * Professor reference exists
+      * Exercise references (warn if missing)
+  
+  - **Commit**:
+    - 7ccc19b: feat: Implement complete workout creation flow (402 insertions, 39 deletions)
+  
+  - **Decisões**:
+    - Modal overlay (position: fixed) para workout builder
+    - Dropdown com pipe-delimited values (id|name|category|equipment|difficulty)
+    - Exercise objects na memoria: { exerciseId, exerciseName, sets, reps, restSeconds, loadSuggestion }
+    - Treinos criados salvariam em professor-workouts.json (mockado, sem backend)
+    - Professor vê sistema templates (workout-templates.json) + seus treinos (professor-workouts.json)
+    - Aluno vê detalhes de treino específico (abrir modal, sem editar)
+    - Confirmação clara: "not persisted to database"
+  
+  - **Validações**:
+    - ✓ npm run build: 2 pages generated (2.59s)
+    - ✓ npm run validate:fixtures: All valid (1 expected warning)
+    - ✓ npm run test:access: 50/50 RBAC scenarios passing
+    - ✓ GitHub Pages: ✅ Live (200 OK)
+  
+- **Status**: ✅ COMPLETE — Fluxo real de criação de treino e detalhe implementados, sem apenas placeholders.
+
 ---
 
 ---
