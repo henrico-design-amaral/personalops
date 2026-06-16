@@ -425,15 +425,55 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Visual mantém design existente (cores dark theme, layout grid)
 - **Status**: Operating Shell funcional; todas validações passando; pronto para verifi cação.
 
+### 2026-06-14 — Session 015 — Hardening Audit of Offline-First Operating Shell
+- **Branch**: `main`
+- **Objetivo**: Auditar segurança do protótipo, validar rotas, sanitizar dados sensíveis, verificar isolamento visual e responsividade.
+- **Alterações**:
+  - **Documentação de hardening**: Criado `docs/SECURITY_HARDENING.md`
+    - Documenta scope e limitações do shell de protótipo
+    - Lista checklist de hardening (data sanitization, route validation, access control, visual isolation, responsiveness)
+    - Audita exposição de dados sensíveis: tokens, passwords, support logs
+    - Mapeia rotas corretas (dev, build, preview, GitHub Pages)
+    - Testa routing: /personalops/shell/ em todos ambientes
+    - Valida isolamento: Prof A não vê Prof B, Students isolados, Admin sem prescrição
+    - Valida responsividade: desktop, tablet, mobile, dark theme preservado
+    - Registra que fixtures públicas são assumidamente mockadas
+    - Define responsabilidade de segurança: MVP = client-side simulation; produção = server-side enforcement
+  - **Validações confirmadas**:
+    - npm run validate:fixtures: ✓ passed
+    - npm run test:access: ✓ 50/50 passed
+    - npm run build: ✓ 2 pages generated (index, shell) com routes corretas
+    - npm run dev: ✓ shell acessível em /personalops/shell/
+  - **Audit findings**:
+    - ✅ Nenhum token/password exposto na UI
+    - ✅ Dados públicos são mockados
+    - ✅ Isolamento de perfil funcional
+    - ✅ Sem chamadas de backend
+    - ✅ Service Worker ativo
+    - ✅ Asset paths corretos com base path
+  - **Recomendações documentadas**:
+    - Backend authentication (real user/password, sessions)
+    - Server-side RBAC enforcement
+    - Data encryption (at rest, in transit)
+    - Compliance (LGPD, GDPR)
+    - Infrastructure (WAF, DDoS, intrusion detection)
+  - **PROJECT_CONTROL.md**: Entry Session 015.
+- **Decisões**:
+  - Shell é protótipo/simulação, não produção
+  - Client-side access control é válido para MVP e demo
+  - Fixtures públicas são seguras porque mockadas
+  - Responsabilidade real de segurança começa no backend
+  - Documentation deixa claro para futuros devs
+- **Status**: Hardening audit completo; shell validado como seguro para seu escopo demo/prototipo.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 014 (2026-06-14)  
+**Última sessão**: Session 015 (2026-06-14)  
 **Branch**: `main` (working tree clean)  
-**Status**: Operating Shell criado com views por perfil; todas validações e build passando.
+**Status**: Operating Shell auditado e endurecido; documentação de segurança criada.
 
 Arquivos modificados nesta sessão:
-- `src/lib/fixtures-loader.js` (novo)
-- `src/pages/shell.astro` (novo)
-- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 014)
+- `docs/SECURITY_HARDENING.md` (novo)
+- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 015)
