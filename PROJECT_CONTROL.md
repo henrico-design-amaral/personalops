@@ -690,11 +690,70 @@ Antes de realizar qualquer mudança estrutural ou codificação:
 
 ---
 
+### 2026-06-15 — Session 020 — Shell Modularization by Domain
+- **Branch**: `main`
+- **Objetivo**: Separar shell-renderers.js em módulos por domínio (admin, professor, student, shared, schedule)
+- **Alterações**:
+  - **Criação de src/lib/shell/ directory** com 6 módulos:
+    - `render-shared.js` (36 lines) — RoleSwitcher, AccessDenied
+    - `render-admin.js` (107 lines) — AdminView
+    - `render-professor.js` (217 lines) — Professor views (dashboard + student profile)
+    - `render-student.js` (76 lines) — StudentView
+    - `schedule-utils.js` (134 lines) — Weekly grids, plan builder modal
+    - `view-models.js` (50 lines) — Data transformation helpers
+  - **shell.astro refactored** (628 → 328 lines, 48% redução):
+    - Imports from modular renderers
+    - Acts as pure orchestrator
+    - No domain-specific logic
+  - **shell-renderers.js deletado**
+  - **.gitignore atualizado** para excluir arquivos locais (.claude/, ai-memory/) e future-phase assets
+  - **Validações**:
+    - npm run build: ✓ (2 pages, 686ms)
+    - npm run validate:fixtures: ✓ (1 expected warning)
+    - npm run test:access: ✓ 50/50 passing
+- **Decisões**:
+  - Separação clara de responsabilidades por domínio
+  - Redução agressiva de shell.astro sem quebrar comportamento
+- **Status**: Modularization complete. Shell.astro < 450 lines target achieved (328 lines).
+
+### 2026-06-15 — Session 021+ — Comprehensive View Expansions
+- **Branch**: `main`
+- **Objetivo**: Expandir Admin, Professor e Student views para parecerem completos como plataforma/operação/portal
+- **Alterações**:
+  - **Admin Dashboard Expansion** (render-admin.js: 107 → 145 lines):
+    - Metrics grid: professionals, students, weekly sessions, system health
+    - Platform overview section
+  - **Professor Dashboard Expansion** (render-professor.js: 217 → 237 lines):
+    - Assessment & Feedback section with status
+    - Workout Library section showing templates/exercises
+    - Complete student profile with library access
+  - **Student Portal Expansion** (render-student.js: 76 → 138 lines):
+    - Today's Workout section with start/view buttons
+    - Recent Activity timeline (4-week history)
+    - Professor Feedback display
+    - Account Actions (password, recovery, data download)
+  - **Total shell code**: 720 lines (balanced across 3 renderers)
+  - **Validações**:
+    - npm run build: ✓ (702ms)
+    - npm run validate:fixtures: ✓ (1 expected warning)
+    - npm run test:access: ✓ 50/50 RBAC passing
+    - npm run preview: ✓ (/personalops/ and /personalops/shell/ load correctly)
+  - **Commits**:
+    - 9596e00: Admin dashboard metrics
+    - eda117a: Professor + Student complete expansions
+  - **Decisões**:
+    - Expansões mantêm 100% RBAC compliance
+    - Visual design coerente (dark theme, consistent colors)
+    - Offline-first mockado sem backend
+- **Status**: Comprehensive offline-first dashboards complete for all three roles.
+
+---
+
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 019 Phase 1 (2026-06-15)  
-**Branch**: `main` (working tree clean after Session 019)  
-**Status**: Shell refactoring groundwork established; behavior 100% preserved.
+**Última sessão**: Session 021+ (2026-06-15)  
+**Branch**: `main` (synced with origin/main, 2 commits pushed: 9596e00, eda117a)  
+**Status**: Comprehensive view expansions complete. Admin, Professor, Student dashboards feature-complete and demo/prototype-ready.
 
 Commits desta sessão:
 - `f0da502` — refactor: Session 019 Phase 1 — Modular shell architecture groundwork
