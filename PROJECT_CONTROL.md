@@ -945,34 +945,58 @@ Antes de realizar qualquer mudança estrutural ou codificação:
 
 ---
 
+### 2026-06-16 — Session 025 — Fix Operating Shell Initialization
+- **Branch**: `main`
+- **Objetivo**: Corrigir a inicialização da Operating Shell (`/personalops/shell/`) que estava travada em "Loading fixtures and access control...".
+- **Alterações**:
+  - **shell.astro**:
+    * Alterado `{renderRoleSwitcher && renderRoleSwitcher()}` para `{renderRoleSwitcher && <Fragment set:html={renderRoleSwitcher()} />}` para evitar o escape automático do HTML pelo Astro.
+    * Movido o registro do listener de evento `'change'` do `#role-select` para dentro de `initShell()`, garantindo que o elemento exista no DOM e sincronizando-o com `state.currentUserId` logo após o carregamento das fixtures.
+  - **Validações**:
+    - ✓ `npm run validate:fixtures`: Passou com sucesso (1 warning esperado para `std-03`).
+    - ✓ `npm run test:access`: 50/50 cenários de RBAC passando.
+    - ✓ `npm run build`: Build executado e gerado com sucesso.
+    - ✓ Testes locais via browser agent confirmam que o Role Switcher e os dashboards do Admin, Professor (incluindo o perfil do aluno e o Workout Builder modal) e Aluno renderizam e funcionam sem erros de console.
+- **Decisões**:
+  - Manter o controle client-side seguro no carregamento assíncrono das fixtures.
+  - O uso do `<Fragment set:html={...} />` do Astro é o método correto e seguro para injetar strings de templates de renderizadores reutilizáveis do client-side.
+- **Status**: ✅ CONCLUÍDO — Inicialização corrigida e fluxos da shell restabelecidos.
+
+---
+
+### 2026-06-16 — Session 026 — Restore Layout and Styling
+- **Branch**: `main`
+- **Objetivo**: Restaurar o layout anterior da Operating Shell (sidebar, dark theme, cards, botões, badges, grids, espaçamentos) sem perder as novas funcionalidades.
+- **Alterações**:
+  - **shell.astro**:
+    * Substituído o layout customizado da sessão anterior pelo layout oficial com sidebar e topbar do `app.css` (`#screen-app`, `.sidebar`, `.topbar`, `.main-content`).
+    * Alterado `<style>` para `<style is:global>` para garantir a estilização dos elementos HTML gerados dinamicamente via JS client-side.
+    * Restabelecidos os estilos originais para cards, botões, inputs, placeholders e badges de status do histórico Git (`shell_head.astro`).
+    * Implementado script client-side para sincronizar dinamicamente o menu, avatar, nome e função na sidebar com o papel ativo do Role Switcher.
+  - **Validações**:
+    - ✓ `npm run validate:fixtures`: Passou (1 warning esperado para `std-03`).
+    - ✓ `npm run test:access`: 50/50 testes de RBAC passando.
+    - ✓ `npm run build`: Compilado com sucesso.
+- **Status**: ✅ CONCLUÍDO — Operating Shell com visual dark premium restaurado com sidebar e total paridade de recursos.
+
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 021+ (2026-06-15)  
-**Branch**: `main` (synced with origin/main, 2 commits pushed: 9596e00, eda117a)  
-**Status**: Comprehensive view expansions complete. Admin, Professor, Student dashboards feature-complete and demo/prototype-ready.
+**Última sessão**: Session 026 (2026-06-16)  
+**Branch**: `main`  
+**Status**: Operating Shell corrigida, build e testes passando com sucesso. Todos os perfis operam livremente em ambiente demo client-side.
 
 Commits desta sessão:
-- `f0da502` — refactor: Session 019 Phase 1 — Modular shell architecture groundwork
+- [A ser gerado após o commit]
 
-Arquivos criados:
-- `src/lib/shell-state.js` (+47 lines)
-  - ShellState class for centralized state management
-  - Methods for student selection and weekly plan editor control
-- `src/lib/shell-renderers.js` (+317 lines)
-  - Pure rendering functions for all shell views
-  - Admin, professor, student view renderers
-  - Modal and grid renderers
-  - No side effects, testable logic
+Arquivos modificados:
+- `src/pages/shell.astro`
 
 Validações:
-- `npm run validate:fixtures`: ✓ (expected warning: archived student std-03)
-- `npm run test:access`: ✓ 50/50 passing
-- `npm run build`: ✓ successful (modules created, not yet integrated into shell.astro)
+- `npm run validate:fixtures`: ✓ Passou (1 warning esperado para `std-03` arquivado)
+- `npm run test:access`: ✓ 50/50 testes passando
+- `npm run build`: ✓ Build concluído com sucesso
+- Browser subagent: ✓ Role Switcher e visualizações testadas sem falhas
 
-Next Phase:
-- Refactor shell.astro to import and use renderer functions
-- Create utility modules for data transformations
-- Extract view-specific rendering logic to separate files
-- Reduce shell.astro from 941 lines to ~300 lines (orquestrator role)
