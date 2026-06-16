@@ -385,8 +385,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         const statusClass = `status-${link.student.status}`;
         html += `
           <div class="student-item">
-            <span>${link.student.name} (${link.mode})</span>
+            <span>${link.student.name}</span>
             <span class="student-status ${statusClass}">${link.student.status}</span>
+          </div>
+          <div style="color: #808080; font-size: 10px; margin-left: 0; margin-top: 4px; margin-bottom: 8px;">
+            ${link.plan} • Expires: ${link.expiresAt}
           </div>
         `;
       });
@@ -452,6 +455,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   let selectedStudentId = null;
+  let editingWeekDay = null; // mondaymon, tuesday, etc.
+  let editingStudent = null; // id of student being edited
+
+  function openWeeklyPlanEditor(studentId, weekday) {
+    editingWeekDay = weekday;
+    editingStudent = studentId;
+    renderProfessorStudentProfile(getActorContext(currentUserId, fixtures));
+  }
+
+  function closeWeeklyPlanEditor() {
+    editingWeekDay = null;
+    editingStudent = null;
+    renderProfessorStudentProfile(getActorContext(currentUserId, fixtures));
+  }
 
   function renderProfessorView(actor) {
     if (selectedStudentId) {
@@ -570,6 +587,93 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     document.getElementById('views-container').innerHTML = html;
   }
 
+  function renderWeeklyPlanBuilderModal(student, weekday, schedule, actor) {
+    const weekdayLabels = { 'monday': 'Monday', 'tuesday': 'Tuesday', 'wednesday': 'Wednesday', 'thursday': 'Thursday', 'friday': 'Friday', 'saturday': 'Saturday', 'sunday': 'Sunday' };
+    const currentAssignment = schedule.find(s => s.weekday === weekday);
+    const availableWorkouts = getProfessorAvailableWorkouts(actor.professorProfile.id, fixtures);
+    const availableCardios = getProfessorAvailableCardios(actor.professorProfile.id, fixtures);
+
+    let typeOptions = '<option value="workout">Workout (requires template)</option><option value="cardio">Cardio (requires template)</option><option value="rest">Rest Day (no template)</option><option value="check_in">Check-in</option><option value="assessment">Assessment</option>';
+    let selectedType = currentAssignment?.type || 'workout';
+
+    let templateOptions = '';
+    if (selectedType === 'workout') {
+      templateOptions = availableWorkouts.map(w => `<option value="${w.id}" ${currentAssignment?.assignedWorkoutId === w.id ? 'selected' : ''}>${w.name}</option>`).join('');
+    } else if (selectedType === 'cardio') {
+      templateOptions = availableCardios.map(c => `<option value="${c.id}" ${currentAssignment?.assignedCardioId === c.id ? 'selected' : ''}>${c.type} (${c.intensity}, ${c.duration}min)</option>`).join('');
+    }
+
+    let previewHtml = '';
+    const selectedWorkoutId = document.getElementById('selected-workout')?.value;
+    const selectedCardioId = document.getElementById('selected-cardio')?.value;
+
+    if (selectedType === 'workout' && selectedWorkoutId) {
+      const workout = availableWorkouts.find(w => w.id === selectedWorkoutId);
+      if (workout) {
+        previewHtml = `<div style="background: rgba(100, 150, 255, 0.2); border-left: 4px solid #64c8ff; padding: 12px; border-radius: 4px; margin-top: 10px;">
+          <div style="color: #64c8ff; font-weight: bold;">${workout.name}</div>
+          <div style="color: #a0a0a0; font-size: 12px; margin-top: 4px;">${workout.focus} • ${workout.estimatedDuration} min • ${workout.level}</div>
+        </div>`;
+      }
+    } else if (selectedType === 'cardio' && selectedCardioId) {
+      const cardio = availableCardios.find(c => c.id === selectedCardioId);
+      if (cardio) {
+        previewHtml = `<div style="background: rgba(100, 200, 100, 0.2); border-left: 4px solid #64c864; padding: 12px; border-radius: 4px; margin-top: 10px;">
+          <div style="color: #64c864; font-weight: bold;">Cardio: ${cardio.type}</div>
+          <div style="color: #a0a0a0; font-size: 12px; margin-top: 4px;">${cardio.intensity} • ${cardio.duration} min</div>
+        </div>`;
+      }
+    } else if (selectedType === 'rest') {
+      previewHtml = `<div style="background: rgba(255, 200, 100, 0.2); border-left: 4px solid #ffc864; padding: 12px; border-radius: 4px; margin-top: 10px;">
+        <div style="color: #ffc864; font-weight: bold;">Rest Day</div>
+        <div style="color: #a0a0a0; font-size: 12px; margin-top: 4px;">Recovery day</div>
+      </div>`;
+    }
+
+    return `
+      <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+        <div style="background: #1a1a1a; border: 1px solid rgba(100, 200, 255, 0.3); border-radius: 8px; padding: 30px; max-width: 400px; width: 90%;">
+          <h3 style="color: #64c8ff; margin: 0 0 20px 0;">Edit ${weekdayLabels[weekday]}</h3>
+
+          <div style="margin-bottom: 15px;">
+            <label style="color: #a0a0a0; font-size: 12px; display: block; margin-bottom: 5px;">Day Type</label>
+            <select id="day-type" style="width: 100%; padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(100, 200, 255, 0.3); color: #64c8ff; border-radius: 4px; font-size: 13px;" onchange="this.closest('div').parentElement.querySelector('[id^=selected-]').style.display = (this.value === 'workout' || this.value === 'cardio') ? 'block' : 'none';">
+              <option value="workout" ${selectedType === 'workout' ? 'selected' : ''}>Workout</option>
+              <option value="cardio" ${selectedType === 'cardio' ? 'selected' : ''}>Cardio</option>
+              <option value="rest" ${selectedType === 'rest' ? 'selected' : ''}>Rest Day</option>
+              <option value="check_in" ${selectedType === 'check_in' ? 'selected' : ''}>Check-in</option>
+              <option value="assessment" ${selectedType === 'assessment' ? 'selected' : ''}>Assessment</option>
+            </select>
+          </div>
+
+          ${(selectedType === 'workout' || selectedType === 'cardio') ? `
+            <div style="margin-bottom: 15px; display: ${selectedType === 'workout' || selectedType === 'cardio' ? 'block' : 'none'};">
+              <label style="color: #a0a0a0; font-size: 12px; display: block; margin-bottom: 5px;">${selectedType === 'workout' ? 'Workout Template' : 'Cardio Template'}</label>
+              <select id="selected-${selectedType}" style="width: 100%; padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(100, 200, 255, 0.3); color: #64c8ff; border-radius: 4px; font-size: 13px;">
+                <option value="">-- Select ${selectedType === 'workout' ? 'Workout' : 'Cardio'} --</option>
+                ${selectedType === 'workout' ? availableWorkouts.map(w => `<option value="${w.id}" ${currentAssignment?.assignedWorkoutId === w.id ? 'selected' : ''}>${w.name}</option>`).join('') : ''}
+                ${selectedType === 'cardio' ? availableCardios.map(c => `<option value="${c.id}" ${currentAssignment?.assignedCardioId === c.id ? 'selected' : ''}>${c.type} (${c.intensity}, ${c.duration}min)</option>`).join('') : ''}
+              </select>
+            </div>
+          ` : ''}
+
+          <div id="preview-area">
+            ${previewHtml}
+          </div>
+
+          <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <button class="button" style="flex: 1; padding: 10px; background: rgba(100, 150, 255, 0.2);" onclick="window.closeWeeklyPlanEditor()">Cancel</button>
+            <button class="button" style="flex: 1; padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;" onclick="alert('✓ Simulated: Changes preview only (no persistence yet)'); window.closeWeeklyPlanEditor();">Apply (Simulated)</button>
+          </div>
+
+          <div style="color: #a0a0a0; font-size: 11px; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(100, 200, 255, 0.1);">
+            💡 This is a simulation. Changes are not persisted to the database.
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function renderProfessorStudentProfile(actor) {
     const student = fixtures.studentProfiles.find(s => s.id === selectedStudentId);
     if (!student) {
@@ -590,40 +694,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     const weekdayLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-    weekdays.forEach((day, idx) => {
-      const assignment = schedule.find(s => s.weekday === day);
-      if (assignment) {
-        let itemName = '';
-        let itemDetails = '';
-        let statusBadgeColor = '#a0a0a0';
+    if (editingWeekDay && editingStudent === student.id) {
+      // Show editor for the selected day
+      scheduleHtml = renderWeeklyPlanBuilderModal(student, editingWeekDay, schedule, actor);
+    } else {
+      // Show schedule with clickable days
+      weekdays.forEach((day, idx) => {
+        const assignment = schedule.find(s => s.weekday === day);
+        if (assignment) {
+          let itemName = '';
+          let itemDetails = '';
+          let statusBadgeColor = '#a0a0a0';
 
-        if (assignment.type === 'workout' && assignment.assignedWorkout) {
-          itemName = assignment.assignedWorkout.name;
-          itemDetails = `${assignment.assignedWorkout.focus} • ${assignment.assignedWorkout.estimatedDuration} min`;
-          statusBadgeColor = '#64c8ff';
-        } else if (assignment.type === 'cardio' && assignment.assignedCardio) {
-          itemName = `Cardio: ${assignment.assignedCardio.type}`;
-          itemDetails = `${assignment.assignedCardio.intensity} • ${assignment.assignedCardio.duration} min`;
-          statusBadgeColor = '#64c864';
-        } else if (assignment.type === 'rest') {
-          itemName = 'Rest Day';
-          itemDetails = 'Recovery day';
-          statusBadgeColor = '#ffc864';
-        }
+          if (assignment.type === 'workout' && assignment.assignedWorkout) {
+            itemName = assignment.assignedWorkout.name;
+            itemDetails = `${assignment.assignedWorkout.focus} • ${assignment.assignedWorkout.estimatedDuration} min`;
+            statusBadgeColor = '#64c8ff';
+          } else if (assignment.type === 'cardio' && assignment.assignedCardio) {
+            itemName = `Cardio: ${assignment.assignedCardio.type}`;
+            itemDetails = `${assignment.assignedCardio.intensity} • ${assignment.assignedCardio.duration} min`;
+            statusBadgeColor = '#64c864';
+          } else if (assignment.type === 'rest') {
+            itemName = 'Rest Day';
+            itemDetails = 'Recovery day';
+            statusBadgeColor = '#ffc864';
+          }
 
-        scheduleHtml += `
-          <div style="background: rgba(0, 0, 0, 0.2); border-left: 4px solid ${statusBadgeColor}; padding: 12px; border-radius: 4px; margin-bottom: 8px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <span style="color: ${statusBadgeColor}; font-weight: bold;">${weekdayLabels[idx]}</span>
-              <span style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">${assignment.type}</span>
+          scheduleHtml += `
+            <div style="background: rgba(0, 0, 0, 0.2); border-left: 4px solid ${statusBadgeColor}; padding: 12px; border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(0, 0, 0, 0.4)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.2)'" onclick="window.openWeeklyPlanEditor('${student.id}', '${day}')">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="color: ${statusBadgeColor}; font-weight: bold;">${weekdayLabels[idx]}</span>
+                <span style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">${assignment.type}</span>
+              </div>
+              <div style="color: #d0d0d0; font-size: 13px;">${itemName}</div>
+              <div style="color: #a0a0a0; font-size: 11px; margin-top: 4px;">${itemDetails}</div>
+              ${assignment.notes ? `<div style="color: #808080; font-size: 10px; margin-top: 4px; font-style: italic;">Note: ${assignment.notes}</div>` : ''}
+              <div style="color: #64c8ff; font-size: 10px; margin-top: 8px; font-weight: bold;">👁️ Click to edit</div>
             </div>
-            <div style="color: #d0d0d0; font-size: 13px;">${itemName}</div>
-            <div style="color: #a0a0a0; font-size: 11px; margin-top: 4px;">${itemDetails}</div>
-            ${assignment.notes ? `<div style="color: #808080; font-size: 10px; margin-top: 4px; font-style: italic;">Note: ${assignment.notes}</div>` : ''}
-          </div>
-        `;
-      }
-    });
+          `;
+        }
+      });
+    }
 
     let html = `
       <div class="view active">
@@ -683,8 +794,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
-          <button class="button" style="padding: 10px; background: rgba(100, 150, 255, 0.2);">Edit Week</button>
+        <div style="color: #a0a0a0; font-size: 12px; margin-top: 20px; padding: 15px; background: rgba(100, 150, 255, 0.1); border-radius: 4px; margin-bottom: 20px;">
+          💡 Click any day above to edit the weekly schedule and assign workouts/cardio.
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <button class="button" style="padding: 10px; background: rgba(255, 200, 100, 0.2); color: #ffc864;">Pause Link</button>
           <button class="button" style="padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;">Activate</button>
           <button class="button" style="padding: 10px; background: rgba(200, 100, 100, 0.2); color: #ff6464;">Archive</button>
@@ -799,10 +913,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     document.getElementById('views-container').innerHTML = html;
   }
 
-  // Global function for student selection
+  // Global functions for student and weekly plan editing
   window.selectStudent = function(studentId) {
     selectedStudentId = studentId;
+    editingWeekDay = null;
+    editingStudent = null;
     renderView();
+  };
+
+  window.openWeeklyPlanEditor = function(studentId, weekday) {
+    openWeeklyPlanEditor(studentId, weekday);
+  };
+
+  window.closeWeeklyPlanEditor = function() {
+    closeWeeklyPlanEditor();
   };
 
   // Event listeners
