@@ -747,6 +747,73 @@ Antes de realizar qualquer mudança estrutural ou codificação:
     - Offline-first mockado sem backend
 - **Status**: Comprehensive offline-first dashboards complete for all three roles.
 
+### 2026-06-15 — Session 022+ — Operational Workflows (Exercise, Workout, Cashflow)
+- **Branch**: `main`
+- **Objetivo**: Implementar fluxos operacionais faltantes: Admin criar exercícios, Professor criar treinos e controlar caixa, Aluno ver todos treinos.
+- **Alterações**:
+  - **Admin Exercise Library** (render-admin.js: 145 → 194 lines):
+    - Listar exercícios base (44+ exercises)
+    - Metrics por categoria (peito, costas, perna, ombro, braço, core)
+    - Formulário mockado para criar novo exercício
+    - Ações mockadas: Save Exercise (Simulated), Cancel
+  
+  - **Professor Workout Operations** (render-professor.js: 237 → 315 lines):
+    - **Workout Library Section**:
+      * Contar templates disponíveis (system + custom)
+      * Listar exercícios base (44 total)
+      * Botão: "+ Create New Workout"
+      * Botão: "Browse Exercise Library"
+    - **Cashflow Control Dashboard**:
+      * Revenue Received (R$) + % of expected
+      * Pending Revenue (R$) + open invoices count
+      * Month Progress bar with percentage
+      * List of students with expiring access (próximos 30 dias)
+      * Botão: "View Full Cashflow Report"
+      * Professor vê apenas dados dos próprios alunos (RBAC enforced)
+  
+  - **Student My Workouts** (render-student.js: 138 → 182 lines):
+    - Seção "My Workouts" com 12 treinos mockados
+    - Filter buttons: Today's (1), This Week (5), All (12), Completed (8)
+    - Workout cards com foco, duração, exercises count
+    - Botão "View Details" por treino
+    - Cards de exemplo: Peito e Tríceps, Cardio Bicicleta, Costas e Bíceps
+    - Aluno vê apenas seus treinos (RBAC enforced)
+  
+  - **Fixtures & Data Loading**:
+    - ✅ Carregar exercises.json (44+ exercícios base)
+    - ✅ Carregar invoices.json (professor-student billing)
+    - ✅ Carregar payment-events.json (payment history)
+    - ✅ Criar professor-cashflow.json (financial summary)
+      * expectedRevenue, receivedRevenue, pendingRevenue, overdueRevenue
+      * activeStudents, invoiceCount, openInvoices, dueInvoices
+      * studentsWithUpcomingExpiry (array com daysUntilExpiry)
+      * lastPaymentDate, nextExpectedPayment
+    - ✅ 4 novos helper functions em fixtures-loader.js:
+      * getAllExercises(), getExercisesByCategory(), getProfessorInvoices()
+      * getProfessorCashflow()
+  
+  - **Validation & Testing**:
+    - ✅ npm run validate:fixtures: Adicionar validadores para exercises, invoices, cashflow
+    - ✅ npm run test:access: ✓ 50/50 RBAC scenarios passing
+    - ✅ npm run build: ✓ 2 pages generated (1.36s)
+    - ✅ RBAC isolation: Admin não edita prescrição, Professor vê apenas seus alunos/financeiro, Aluno vê apenas seus treinos
+  
+  - **Commit**:
+    - 6a8a73b: feat: Implement missing operational workflows (343 insertions)
+  
+  - **Decisões**:
+    - Fixtures offline-first: exercises, invoices, cashflow todos versionados em JSON
+    - Cashflow mockado: prof-a tem 2 pagamentos pendentes, prof-b tem 1 aberto
+    - My Workouts é mockup simples sem persistência (conforme scope)
+    - All fixtures optional (warnings se não encontrados, não errors)
+    - Professor vê financeiro agregado (receita prevista, recebida, pendente)
+    - Aluno vê treinos em abas filtráveis (Today/Week/All/Completed)
+    - Admin vê bibliotecas mas não edita prescrição individual
+  
+- **Status**: Fluxos operacionais completos, offline-first, mockados, sem backend real.
+
+---
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
