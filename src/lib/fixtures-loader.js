@@ -32,6 +32,7 @@ export async function loadFixtures() {
     invoices: await fetch(`${baseUrl}assets/data/invoices.json`).then(r => r.json()),
     paymentEvents: await fetch(`${baseUrl}assets/data/payment-events.json`).then(r => r.json()),
     professorCashflow: await fetch(`${baseUrl}assets/data/professor-cashflow.json`).then(r => r.json()),
+    professorWorkouts: await fetch(`${baseUrl}assets/data/professor-workouts.json`).then(r => r.json()),
   };
 
   cachedFixtures = fixtures;
@@ -182,4 +183,27 @@ export function getProfessorPaymentEvents(professorId, fixtures) {
  */
 export function getProfessorCashflow(professorId, fixtures) {
   return fixtures.professorCashflow?.find(cf => cf.professorId === professorId);
+}
+
+/**
+ * Get all workouts created by professor
+ */
+export function getProfessorCreatedWorkouts(professorId, fixtures) {
+  return fixtures.professorWorkouts?.filter(w => w.professorId === professorId) || [];
+}
+
+/**
+ * Get all available templates for creating/cloning (system + own)
+ */
+export function getProfessorAllAvailableWorkouts(professorId, fixtures) {
+  const systemTemplates = getProfessorAvailableWorkouts(professorId, fixtures);
+  const ownWorkouts = getProfessorCreatedWorkouts(professorId, fixtures);
+  return [...systemTemplates, ...ownWorkouts];
+}
+
+/**
+ * Get exercise details with full information
+ */
+export function getExerciseDetails(exerciseId, fixtures) {
+  return fixtures.exercises?.find(e => e.id === exerciseId);
 }

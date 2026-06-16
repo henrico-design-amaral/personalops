@@ -2,7 +2,7 @@
  * Student view renderer
  */
 
-import { getStudentWeekSchedule } from '../fixtures-loader.js';
+import { getStudentWeekSchedule, getProfessorCreatedWorkouts, getExerciseDetails } from '../fixtures-loader.js';
 
 export function renderStudentWeeklyGrid(schedule, actor) {
   const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -47,12 +47,73 @@ export function renderStudentWeeklyGrid(schedule, actor) {
   return scheduleHtml;
 }
 
-export function renderStudentView(actor, fixtures) {
+export function renderWorkoutDetailModal(workoutId, fixtures) {
+  const allWorkouts = fixtures.professorWorkouts || [];
+  const workout = allWorkouts.find(w => w.id === workoutId);
+
+  if (!workout) {
+    return '';
+  }
+
+  const exercisesHtml = workout.exercises.map((ex, idx) => `
+    <div style="background: rgba(0, 0, 0, 0.3); border-left: 4px solid #64c8ff; padding: 12px; margin-bottom: 10px; border-radius: 4px;">
+      <div style="color: #d0d0d0; font-weight: bold; margin-bottom: 6px;">${ex.order}. ${ex.exerciseName}</div>
+      <div style="color: #a0a0a0; font-size: 12px; line-height: 1.6;">
+        <div><strong>Sets × Reps:</strong> ${ex.sets} × ${ex.reps}</div>
+        <div><strong>Rest:</strong> ${ex.restSeconds}s between sets</div>
+        <div><strong>Load Suggestion:</strong> ${ex.loadSuggestion}</div>
+      </div>
+    </div>
+  `).join('');
+
+  return `
+    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+      <div style="background: rgba(0, 0, 0, 0.95); border: 2px solid rgba(100, 200, 255, 0.3); border-radius: 12px; padding: 25px; max-width: 600px; max-height: 90vh; overflow-y: auto; width: 90%;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="color: #64c8ff; margin: 0; font-size: 18px;">${workout.name}</h2>
+          <button style="background: none; border: none; color: #a0a0a0; font-size: 24px; cursor: pointer;" onclick="window.closeWorkoutDetail()">✕</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+          <div style="background: rgba(100, 150, 255, 0.1); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px;">
+            <div style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">Focus</div>
+            <div style="color: #64c8ff; font-size: 14px; font-weight: bold; margin-top: 6px;">${workout.focus}</div>
+          </div>
+          <div style="background: rgba(100, 200, 100, 0.1); border: 1px solid rgba(100, 200, 100, 0.2); border-radius: 4px; padding: 12px;">
+            <div style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">Duration</div>
+            <div style="color: #64c864; font-size: 14px; font-weight: bold; margin-top: 6px;">${workout.estimatedDuration} min</div>
+          </div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 4px; padding: 12px; margin-bottom: 20px;">
+          <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 6px;"><strong>Goal:</strong></div>
+          <div style="color: #d0d0d0; font-size: 13px;">${workout.goal}</div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <h3 style="color: #64c8ff; margin: 0 0 12px 0; font-size: 14px;">Exercises (${workout.exercises.length})</h3>
+          ${exercisesHtml}
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <button class="button" style="padding: 10px; background: rgba(100, 150, 255, 0.2); color: #64c8ff; font-size: 12px;" onclick="window.closeWorkoutDetail()">Back to Schedule</button>
+          <button class="button" style="padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864; font-size: 12px;">Start This Workout</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+export function renderStudentView(actor, fixtures, state) {
   const student = actor.studentProfile;
   const link = fixtures.professorStudentLinks.find(l => l.studentId === student.id);
   const professor = fixtures.professorProfiles.find(p => p.id === link?.professorId);
   const schedule = getStudentWeekSchedule(student.id, fixtures);
   const scheduleGrid = renderStudentWeeklyGrid(schedule, actor);
+
+  if (state && state.selectedWorkoutDetail) {
+    return renderWorkoutDetailModal(state.selectedWorkoutDetail, fixtures);
+  }
 
   return `
     <div class="view active">
@@ -119,32 +180,22 @@ export function renderStudentView(actor, fixtures) {
         </div>
 
         <div style="display: grid; gap: 10px;">
-          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(100, 200, 100, 0.2); border-radius: 4px; padding: 12px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <div style="color: #d0d0d0; font-weight: bold;">Peito e Tríceps</div>
-              <span style="background: rgba(100, 200, 100, 0.2); color: #64c864; padding: 2px 8px; border-radius: 2px; font-size: 10px;">Mon</span>
-            </div>
-            <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">Hipertrofia • 50 min • 3 exercises</div>
-            <button class="button" style="width: 100%; padding: 6px; font-size: 12px;">View Details</button>
-          </div>
-
-          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <div style="color: #d0d0d0; font-weight: bold;">Cardio: Bicicleta</div>
-              <span style="background: rgba(100, 150, 255, 0.2); color: #64c8ff; padding: 2px 8px; border-radius: 2px; font-size: 10px;">Tue</span>
-            </div>
-            <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">Moderado • 30 min</div>
-            <button class="button" style="width: 100%; padding: 6px; font-size: 12px;">View Details</button>
-          </div>
-
-          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <div style="color: #d0d0d0; font-weight: bold;">Costas e Bíceps</div>
-              <span style="background: rgba(100, 150, 255, 0.2); color: #64c8ff; padding: 2px 8px; border-radius: 2px; font-size: 10px;">Wed</span>
-            </div>
-            <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">Força • 55 min • 3 exercises</div>
-            <button class="button" style="width: 100%; padding: 6px; font-size: 12px;">View Details</button>
-          </div>
+          ${(() => {
+            const professorWorkouts = getProfessorCreatedWorkouts(professor?.id || '', fixtures);
+            if (professorWorkouts.length === 0) {
+              return '<div style="color: #a0a0a0; font-size: 12px; padding: 10px; text-align: center;">No workouts assigned yet</div>';
+            }
+            return professorWorkouts.slice(0, 3).map((w, idx) => `
+              <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <div style="color: #d0d0d0; font-weight: bold;">${w.name}</div>
+                  <span style="background: rgba(100, 150, 255, 0.2); color: #64c8ff; padding: 2px 8px; border-radius: 2px; font-size: 10px;">${w.exercises.length} ex</span>
+                </div>
+                <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">${w.focus} • ${w.estimatedDuration} min</div>
+                <button class="button" style="width: 100%; padding: 6px; font-size: 12px;" onclick="window.openWorkoutDetail('${w.id}')">View Details</button>
+              </div>
+            `).join('');
+          })()}
         </div>
       </div>
 

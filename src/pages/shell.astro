@@ -268,6 +268,7 @@ import { renderRoleSwitcher } from '../lib/shell/render-shared.js';
   import { renderStudentView } from '../lib/shell/render-student.js';
   import { getActorContext } from '../lib/access-control.js';
   import { loadFixtures } from '../lib/fixtures-loader.js';
+  import { renderWorkoutBuilderModal } from '../lib/shell/schedule-utils.js';
 
   const state = createShellState();
   let fixtures = null;
@@ -296,9 +297,13 @@ import { renderRoleSwitcher } from '../lib/shell/render-shared.js';
     } else if (actor.roles.includes('professor')) {
       html = renderProfessorView(actor, fixtures, state);
     } else if (actor.roles.includes('student')) {
-      html = renderStudentView(actor, fixtures);
+      html = renderStudentView(actor, fixtures, state);
     } else {
       html = renderAccessDenied('Unknown role');
+    }
+
+    if (state.creatingWorkout && actor.roles.includes('professor')) {
+      html += renderWorkoutBuilderModal(state, fixtures, actor);
     }
 
     document.getElementById('views-container').innerHTML = html;
@@ -316,6 +321,45 @@ import { renderRoleSwitcher } from '../lib/shell/render-shared.js';
 
   window.closeWeeklyPlanEditor = function() {
     state.closeWeeklyPlanEditor();
+    renderView();
+  };
+
+  window.openWorkoutBuilder = function() {
+    state.openWorkoutBuilder();
+    renderView();
+  };
+
+  window.closeWorkoutBuilder = function() {
+    state.closeWorkoutBuilder();
+    renderView();
+  };
+
+  window.updateWorkoutBuilder = function(updates) {
+    state.updateWorkoutBuilder(updates);
+  };
+
+  window.addSelectedExercise = function() {
+    const select = document.getElementById('exercise-select');
+    if (!select || !select.value) return;
+
+    const [id, name, category, equipment, difficulty] = select.value.split('|');
+    state.addExerciseToWorkout({ exerciseId: id, exerciseName: name, category, equipment, difficulty });
+    select.value = '';
+    renderView();
+  };
+
+  window.removeExerciseFromWorkout = function(index) {
+    state.removeExerciseFromWorkout(index);
+    renderView();
+  };
+
+  window.openWorkoutDetail = function(workoutId) {
+    state.openWorkoutDetail(workoutId);
+    renderView();
+  };
+
+  window.closeWorkoutDetail = function() {
+    state.closeWorkoutDetail();
     renderView();
   };
 

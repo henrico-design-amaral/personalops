@@ -1,0 +1,71 @@
+[
+  {
+    "id": "pw-prof-a-01",
+    "professorId": "prof-a",
+    "name": "Peito Full - Custom Prof A",
+    "focus": "Peito completo",
+    "goal": "Hipertrofia e força",
+    "level": "avançado",
+    "estimatedDuration": 65,
+    "createdAt": "2026-06-10",
+    "exercises": [
+      {
+        "order": 1,
+        "exerciseId": "ex-01",
+        "exerciseName": "Supino Reto com Barra",
+        "sets": 4,
+        "reps": "8-10",
+        "restSeconds": 90,
+        "loadSuggestion": "Carga moderada-alta"
+      },
+      {
+        "order": 2,
+        "exerciseId": "ex-02",
+        "exerciseName": "Supino Inclinado com Halteres",
+        "sets": 3,
+        "reps": "10-12",
+        "restSeconds": 75,
+        "loadSuggestion": "Carga moderada"
+      },
+      {
+        "order": 3,
+        "exerciseId": "ex-04",
+        "exerciseName": "Peck Deck",
+        "sets": 3,
+        "reps": "12-15",
+        "restSeconds": 60,
+        "loadSuggestion": "Carga leve-moderada"
+      }
+    ]
+  },
+  {
+    "id": "pw-prof-b-01",
+    "professorId": "prof-b",
+    "name": "Cardio + Força - Prof B",
+    "focus": "Emagrecimento",
+    "goal": "Queimar gordura com ganho muscular",
+    "level": "intermediário",
+    "estimatedDuration": 45,
+    "createdAt": "2026-06-12",
+    "exercises": [
+      {
+        "order": 1,
+        "exerciseId": "ex-20",
+        "exerciseName": "Agachamento Livre",
+        "sets": 3,
+        "reps": "10-15",
+        "restSeconds": 60,
+        "loadSuggestion": "Carga moderada"
+      },
+      {
+        "order": 2,
+        "exerciseId": "ex-25",
+        "exerciseName": "Prancha Frontal",
+        "sets": 3,
+        "reps": "30-45s",
+        "restSeconds": 45,
+        "loadSuggestion": "Sem carga"
+      }
+    ]
+  }
+]

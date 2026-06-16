@@ -9,9 +9,10 @@ import {
   getProfessorInvoices,
   getProfessorCashflow,
   getAllExercises,
-  getProfessorAvailableWorkouts
+  getProfessorAvailableWorkouts,
+  getProfessorCreatedWorkouts
 } from '../fixtures-loader.js';
-import { renderWeeklyScheduleGrid, renderWeeklyPlanBuilderModal } from './schedule-utils.js';
+import { renderWeeklyScheduleGrid, renderWeeklyPlanBuilderModal, renderWorkoutBuilderModal } from './schedule-utils.js';
 
 export function renderProfessorDashboard(actor, fixtures, state) {
   const students = getProfessorStudents(actor.professorProfile.id, fixtures);
@@ -117,7 +118,7 @@ export function renderProfessorDashboard(actor, fixtures, state) {
   html += `
       </div>
 
-      ${renderWorkoutLibrarySection(actor, fixtures)}
+      ${renderCreateWorkoutSection(actor, fixtures)}
 
       ${renderCashflowSection(actor, fixtures)}
     </div>
@@ -237,25 +238,46 @@ export function renderProfessorStudentProfile(actor, fixtures, state) {
   `;
 }
 
-export function renderWorkoutLibrarySection(actor, fixtures) {
-  const workouts = getProfessorAvailableWorkouts(actor.professorProfile.id, fixtures);
+export function renderCreateWorkoutSection(actor, fixtures) {
+  const systemWorkouts = getProfessorAvailableWorkouts(actor.professorProfile.id, fixtures);
+  const ownWorkouts = getProfessorCreatedWorkouts(actor.professorProfile.id, fixtures);
   const exerciseCount = getAllExercises(fixtures).length;
+
+  let ownWorkoutsHtml = '';
+  if (ownWorkouts.length > 0) {
+    ownWorkoutsHtml = `
+      <div style="margin-top: 15px;">
+        <h4 style="color: #64c8ff; margin: 0 0 10px 0; font-size: 13px;">Your Created Workouts (${ownWorkouts.length})</h4>
+        <div style="display: grid; gap: 8px;">
+          ${ownWorkouts.map(w => `
+            <div style="background: rgba(0, 0, 0, 0.3); border-left: 4px solid #64c864; border-radius: 4px; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+              <div style="color: #d0d0d0; font-size: 12px;">${w.name}</div>
+              <div style="color: #a0a0a0; font-size: 11px;">${w.exercises.length} exercises</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
 
   return `
     <div class="portal-section" style="margin-top: 20px;">
-      <h3>Workout Library</h3>
+      <h3>Create Workout</h3>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
         <div style="background: rgba(100, 200, 100, 0.1); border: 1px solid rgba(100, 200, 100, 0.2); border-radius: 4px; padding: 12px; text-align: center;">
-          <div style="color: #64c864; font-size: 20px; font-weight: bold;">${workouts.length}</div>
-          <div style="color: #a0a0a0; font-size: 12px;">Available Workouts</div>
+          <div style="color: #64c864; font-size: 20px; font-weight: bold;">${systemWorkouts.length}</div>
+          <div style="color: #a0a0a0; font-size: 12px;">System Templates</div>
         </div>
         <div style="background: rgba(100, 150, 255, 0.1); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px; text-align: center;">
           <div style="color: #64c8ff; font-size: 20px; font-weight: bold;">${exerciseCount}</div>
           <div style="color: #a0a0a0; font-size: 12px;">Exercises Base</div>
         </div>
       </div>
-      <button class="button" style="width: 100%; padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;">+ Create New Workout</button>
-      <button class="button" style="width: 100%; padding: 10px; margin-top: 8px; background: rgba(100, 150, 255, 0.2); color: #64c8ff;">Browse Exercise Library</button>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
+        <button class="button" style="width: 100%; padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864; font-size: 12px;" onclick="window.openWorkoutBuilder()">+ Create Blank</button>
+        <button class="button" style="width: 100%; padding: 10px; background: rgba(100, 150, 255, 0.2); color: #64c8ff; font-size: 12px;">Clone System</button>
+      </div>
+      ${ownWorkoutsHtml}
     </div>
   `;
 }

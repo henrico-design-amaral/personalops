@@ -34,6 +34,7 @@ const fixtures = {
   invoices: loadJSON('invoices.json'),
   paymentEvents: loadJSON('payment-events.json'),
   professorCashflow: loadJSON('professor-cashflow.json'),
+  professorWorkouts: loadJSON('professor-workouts.json'),
 };
 
 function loadJSON(filename) {
@@ -464,6 +465,30 @@ function validateProfessorCashflow() {
   }
 }
 
+function validateProfessorWorkouts() {
+  // Validate professor workouts reference professors and exercises
+  if (!fixtures.professorWorkouts || fixtures.professorWorkouts.length === 0) {
+    warnings.push('No professor workouts found in fixtures');
+  } else {
+    fixtures.professorWorkouts.forEach((workout) => {
+      const professor = fixtures.professorProfiles.find((p) => p.id === workout.professorId);
+      if (!professor) {
+        errors.push(`ProfessorWorkout ${workout.id}: Professor ${workout.professorId} not found`);
+      }
+
+      // Validate exercises in workout
+      if (workout.exercises && Array.isArray(workout.exercises)) {
+        workout.exercises.forEach((ex) => {
+          const exercise = fixtures.exercises?.find((e) => e.id === ex.exerciseId);
+          if (!exercise) {
+            warnings.push(`ProfessorWorkout ${workout.id}: Exercise ${ex.exerciseId} referenced but may not exist`);
+          }
+        });
+      }
+    });
+  }
+}
+
 // Run all validations
 console.log('Validating PersonalOps fixtures...\n');
 
@@ -482,6 +507,7 @@ validateDayAssignments();
 validateExercises();
 validateInvoices();
 validateProfessorCashflow();
+validateProfessorWorkouts();
 validateNoHardDeletes();
 
 // Report results
