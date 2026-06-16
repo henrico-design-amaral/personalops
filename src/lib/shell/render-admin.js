@@ -1,5 +1,5 @@
 /**
- * Admin view renderer
+ * Admin view renderer — Platform dashboard with metrics, professional management, billing
  */
 
 import { getAllProfessorsWithStudents } from '../fixtures-loader.js';
@@ -9,14 +9,52 @@ export function renderAdminView(actor, fixtures) {
   const invitations = fixtures.invitations;
   const logs = fixtures.supportActionLogs;
 
+  // Calculate metrics
+  const totalProfessors = fixtures.professorProfiles?.length || 0;
+  const totalStudents = fixtures.studentProfiles?.length || 0;
+  const activeStudents = fixtures.studentProfiles?.filter(s => s.status === 'ativo').length || 0;
+  const activeLinks = fixtures.professorStudentLinks?.length || 0;
+  const pendingInvites = invitations.filter(i => i.status === 'pendente').length;
+  const expiredInvites = invitations.filter(i => i.status === 'expirado').length;
+  const totalSessions = Math.floor(Math.random() * 500) + 200; // Mockado: treinos na semana
+  const criticalFeedbacks = Math.floor(Math.random() * 5) + 1; // Mockado: feedbacks críticos
+
   let html = `
     <div class="view active">
       <div class="view-header">
-        <h2>Admin Dashboard</h2>
-        <p class="info">User: ${actor.user.id} | Role: Admin</p>
+        <h2>Platform Dashboard</h2>
+        <p class="info">Admin: ${actor.user.id} | PersonalOps Operations</p>
       </div>
 
-      <h3 style="color: #64c8ff; margin-top: 0;">Professors & Students</h3>
+      <!-- METRICS GRID -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 30px;">
+        <div style="background: rgba(100, 200, 100, 0.1); border-left: 4px solid #64c864; padding: 15px; border-radius: 4px;">
+          <div style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">Active Professionals</div>
+          <div style="color: #64c864; font-size: 24px; font-weight: bold; margin-top: 5px;">${totalProfessors}</div>
+          <div style="color: #808080; font-size: 10px; margin-top: 3px;">Teaching students</div>
+        </div>
+
+        <div style="background: rgba(100, 200, 100, 0.1); border-left: 4px solid #64c864; padding: 15px; border-radius: 4px;">
+          <div style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">Total Students</div>
+          <div style="color: #64c864; font-size: 24px; font-weight: bold; margin-top: 5px;">${totalStudents}</div>
+          <div style="color: #808080; font-size: 10px; margin-top: 3px;">${activeStudents} active</div>
+        </div>
+
+        <div style="background: rgba(100, 150, 255, 0.1); border-left: 4px solid #64c8ff; padding: 15px; border-radius: 4px;">
+          <div style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">This Week</div>
+          <div style="color: #64c8ff; font-size: 24px; font-weight: bold; margin-top: 5px;">${totalSessions}</div>
+          <div style="color: #808080; font-size: 10px; margin-top: 3px;">Workouts executed</div>
+        </div>
+
+        <div style="background: rgba(255, 150, 100, 0.1); border-left: 4px solid #ff9664; padding: 15px; border-radius: 4px;">
+          <div style="color: #a0a0a0; font-size: 11px; text-transform: uppercase;">System Health</div>
+          <div style="color: #64c864; font-size: 24px; font-weight: bold; margin-top: 5px;">✓</div>
+          <div style="color: #808080; font-size: 10px; margin-top: 3px;">All systems normal</div>
+        </div>
+      </div>
+
+      <!-- PLATFORM OVERVIEW -->
+      <h3 style="color: #64c8ff; margin-top: 0;">Platform Overview</h3>
       <div class="admin-professors">
   `;
 
