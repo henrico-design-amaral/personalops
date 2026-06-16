@@ -570,17 +570,68 @@ Antes de realizar qualquer mudança estrutural ou codificação:
 
 ---
 
+### 2026-06-15 — Session 018 — Weekly Plan Builder & Admin Visibility Hardening
+- **Branch**: `main`
+- **Objetivo**: Completar fluxo offline-first da agenda semanal com builder mockado e ajustar visibilidade do admin.
+- **Alterações**:
+  - **Weekly Plan Builder Modal** em `src/pages/shell.astro`:
+    - Dias da semana clicáveis no Professor View
+    - Modal overlay com seletor de tipo: workout, cardio, rest, check_in, assessment
+    - Template picker dinâmico (filtra por tipo)
+    - Live preview do workout/cardio selecionado
+    - Botões mockados: Cancel, Apply (Simulated)
+    - Mensagem clara: "Simulated, not persisted to database"
+  - **State Management**:
+    - `editingWeekDay`: rastreia qual dia está sendo editado
+    - `editingStudent`: rastreia qual aluno está sendo editado
+    - `openWeeklyPlanEditor()` e `closeWeeklyPlanEditor()` functions
+    - Global window functions para modal control
+  - **Professor Schedule View Updates**:
+    - Dias agora clicáveis com cursor pointer e hover effect
+    - Indicador "👁️ Click to edit" abaixo de cada dia
+    - Modal renderizado inline dentro da seção Weekly Schedule
+    - Hint: "Click any day above to edit the weekly schedule"
+  - **Admin View Visibility Adjustment**:
+    - Admin NÃO vê modo (presencial/online/híbrido) em lista de alunos
+    - Admin vê apenas: nome, status, plano, expiração (dados técnicos)
+    - Admin NÃO vê workout templates, cardio details ou edit controls
+    - Admin tem view read-only de relacionamentos professor-aluno
+  - **Auditoria da Session 017 Confirmada**:
+    - Expected warning documentado: std-03 (arquivado) sem links e sem assignments (correto)
+    - 21 assignments explicado: 7 dias × 3 alunos ativos (std-01, std-02, std-04)
+    - std-03 (arquivado) com 0 assignments (correto, não deve ter prescrição)
+    - Alunos ativos nunca ficam sem semana
+  - **Validações confirmadas**:
+    - npm run validate:fixtures: ✓ (1 expected warning)
+    - npm run test:access: ✓ 50/50 tests passing
+    - npm run build: ✓ no syntax errors
+- **Decisões**:
+  - Modal é simulado (sem persistência real)
+  - Botão "Apply" mostra alerta sim/não de simulação
+  - Days clicáveis melhor UX que "Edit Week" button
+  - Admin não vê detalhes operacionais (segurança, princípio least privilege)
+  - Fixtures não mudam (day-assignments.json imutável para Session 018)
+- **Status**: Weekly Plan Builder funcional e mockado; admin visibility corrigida; todas validações passando.
+
+---
+
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 017 (2026-06-15)  
-**Branch**: `main` (working tree clean)  
-**Status**: Weekly Prescription Workflow (templates + assignments + UI) implementado.
+**Última sessão**: Session 018 (2026-06-15)  
+**Branch**: `main` (working tree clean after Session 018)  
+**Status**: Weekly Prescription Workflow completo com builder modal e admin hardening.
 
-Arquivos modificados/criados nesta sessão:
-- `public/assets/data/workout-templates.json` (novo, 6 system + 1 custom)
-- `public/assets/data/cardio-templates.json` (novo, 5 system + 1 custom)
-- `public/assets/data/day-assignments.json` (novo, 21 assignments)
-- `src/lib/fixtures-loader.js` (expandido com funções de schedule)
-- `src/pages/shell.astro` (expandido com weekly schedule UI)
-- `scripts/validate-fixtures.mjs` (expandido com validação de prescriptions)
-- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 017)
+Commits desta sessão:
+- `bcd4a6c` — feat: Session 018 — Weekly Plan Builder and Admin Visibility Hardening
+
+Arquivos modificados:
+- `src/pages/shell.astro` (+161 lines, -37 lines = +124 net)
+  - Weekly plan builder modal function
+  - Interactive schedule days with click handlers
+  - Admin view visibility adjustments
+  - Global editor state management
+
+Validações:
+- `npm run validate:fixtures`: ✓ (expected warning: archived student std-03)
+- `npm run test:access`: ✓ 50/50 passing
+- `npm run build`: ✓ successful
