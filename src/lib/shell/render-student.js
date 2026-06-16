@@ -71,6 +71,48 @@ export function renderStudentView(actor, fixtures) {
       <div style="color: #a0a0a0; font-size: 12px; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 4px;">
         <p>💡 This is your weekly training schedule. Follow the plan set by your professor.</p>
       </div>
+
+      <!-- TODAY'S WORKOUT -->
+      <div style="margin-top: 20px; background: rgba(100, 150, 255, 0.1); border-left: 4px solid #64c8ff; padding: 15px; border-radius: 4px;">
+        <h3 style="color: #64c8ff; margin: 0 0 10px 0;">Today's Workout</h3>
+        <div style="color: #d0d0d0; font-size: 13px;">
+          <div><strong>Type:</strong> Upper Body Strength</div>
+          <div style="margin-top: 8px; color: #a0a0a0; font-size: 12px;">Estimated: 50 minutes</div>
+          <button class="button" style="margin-top: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;">Start Workout</button>
+          <button class="button" style="background: rgba(100, 150, 255, 0.2); color: #64c8ff;">View Exercises</button>
+        </div>
+      </div>
+
+      <!-- ACTIVITY & FEEDBACK -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+        <div class="portal-section">
+          <h3>Recent Activity</h3>
+          <div style="color: #a0a0a0; font-size: 11px; line-height: 1.8;">
+            <div>✓ Jun 14 — Completed workout (52 min)</div>
+            <div>✓ Jun 13 — Completed workout (48 min)</div>
+            <div>○ Jun 12 — Rest day</div>
+            <div>✓ Jun 11 — Completed cardio (35 min)</div>
+          </div>
+        </div>
+
+        <div class="portal-section">
+          <h3>Feedback & Notes</h3>
+          <div style="color: #a0a0a0; font-size: 11px; line-height: 1.8;">
+            <div style="color: #64c8ff;">Your Professor says:</div>
+            <div style="margin-top: 5px;">Great effort this week! Keep the intensity.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE & ACCOUNT -->
+      <div style="margin-top: 20px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 15px;">
+        <h3 style="color: #a0a0a0; font-size: 12px; margin: 0 0 10px 0; text-transform: uppercase;">Account</h3>
+        <div style="display: grid; gap: 8px;">
+          <button class="button" style="width: 100%; text-align: left;">🔒 Change Password</button>
+          <button class="button" style="width: 100%; text-align: left;">🔑 Request Account Recovery</button>
+          <button class="button" style="width: 100%; text-align: left;">📋 Download My Data</button>
+        </div>
+      </div>
     </div>
   `;
 }

@@ -198,6 +198,26 @@ export function renderProfessorStudentProfile(actor, fixtures, state) {
         </div>
       </div>
 
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+        <div class="portal-section">
+          <h3>Assessment & Feedback</h3>
+          <div style="color: #a0a0a0; font-size: 12px; line-height: 1.6;">
+            <div>Status: <span style="color: #64c864;">✓ On track</span></div>
+            <div>Last feedback: 2 days ago</div>
+            <div>Next assessment: 5 days</div>
+          </div>
+        </div>
+
+        <div class="portal-section">
+          <h3>Workout Library</h3>
+          <div style="color: #a0a0a0; font-size: 12px; line-height: 1.6;">
+            <div>✓ System templates: 6</div>
+            <div>✓ Custom templates: 2</div>
+            <div>✓ Base exercises: 45</div>
+          </div>
+        </div>
+      </div>
+
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
         <button class="button" style="padding: 10px; background: rgba(255, 200, 100, 0.2); color: #ffc864;">Pause Link</button>
         <button class="button" style="padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;">Activate</button>
