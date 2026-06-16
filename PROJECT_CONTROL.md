@@ -613,25 +613,68 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Fixtures não mudam (day-assignments.json imutável para Session 018)
 - **Status**: Weekly Plan Builder funcional e mockado; admin visibility corrigida; todas validações passando.
 
+### 2026-06-15 — Session 019 Phase 1 — Shell Refactoring Groundwork
+- **Branch**: `main`
+- **Objetivo**: Iniciar refatoração da Operating Shell (941 linhas) em componentes e módulos reutilizáveis, sem alterar comportamento.
+- **Alterações**:
+  - **Shell State Management** (`src/lib/shell-state.js`, +47 linhas):
+    - ShellState class com métodos centralizados
+    - Gerencia: currentUserId, selectedStudentId, editingWeekDay, editingStudent
+    - Métodos: selectStudent(), openWeeklyPlanEditor(), closeWeeklyPlanEditor(), setCurrentUser(), reset()
+    - Preparação para futura integração de persistência offline
+  - **Shell Renderers** (`src/lib/shell-renderers.js`, +317 linhas):
+    - Funções puras que retornam HTML strings
+    - renderRoleSwitcher() — dropdown de seleção de papel (6 contas mockadas)
+    - renderAccessDenied(reason) — view de acesso negado
+    - renderAdminView(actor, fixtures) — dashboard admin com professores/alunos/convites/logs
+    - renderWeeklyScheduleGrid() — grid de semana clicável (professor edita)
+    - renderWeeklyPlanBuilderModal() — modal de seleção de tipo e template
+    - renderStudentWeeklyGrid() — grid de semana do aluno (view-only)
+  - **Architecture Plan Documented**:
+    - Phase 1 (current): Extract rendering logic ✓
+    - Phase 2: Utility functions for data transformations
+    - Phase 3: Refactor shell.astro to import renderers
+    - Phase 4: Extract admin/professor/student views
+    - Phase 5: Create Astro components if needed
+  - **Validações**:
+    - npm run build: ✓ (modules imported, not used yet)
+    - npm run validate:fixtures: ✓
+    - npm run test:access: ✓ 50/50 passing
+- **Decisões**:
+  - Estado centralizado para futura persistência
+  - Funções puras permitem unit testing
+  - Preservar 100% do comportamento atual
+  - Refatoração incremental em fases
+- **Status**: Groundwork completo; shell.astro ainda monolítico (para futura refatoração).
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 018 (2026-06-15)  
-**Branch**: `main` (working tree clean after Session 018)  
-**Status**: Weekly Prescription Workflow completo com builder modal e admin hardening.
+**Última sessão**: Session 019 Phase 1 (2026-06-15)  
+**Branch**: `main` (working tree clean after Session 019)  
+**Status**: Shell refactoring groundwork established; behavior 100% preserved.
 
 Commits desta sessão:
-- `bcd4a6c` — feat: Session 018 — Weekly Plan Builder and Admin Visibility Hardening
+- `f0da502` — refactor: Session 019 Phase 1 — Modular shell architecture groundwork
 
-Arquivos modificados:
-- `src/pages/shell.astro` (+161 lines, -37 lines = +124 net)
-  - Weekly plan builder modal function
-  - Interactive schedule days with click handlers
-  - Admin view visibility adjustments
-  - Global editor state management
+Arquivos criados:
+- `src/lib/shell-state.js` (+47 lines)
+  - ShellState class for centralized state management
+  - Methods for student selection and weekly plan editor control
+- `src/lib/shell-renderers.js` (+317 lines)
+  - Pure rendering functions for all shell views
+  - Admin, professor, student view renderers
+  - Modal and grid renderers
+  - No side effects, testable logic
 
 Validações:
 - `npm run validate:fixtures`: ✓ (expected warning: archived student std-03)
 - `npm run test:access`: ✓ 50/50 passing
-- `npm run build`: ✓ successful
+- `npm run build`: ✓ successful (modules created, not yet integrated into shell.astro)
+
+Next Phase:
+- Refactor shell.astro to import and use renderer functions
+- Create utility modules for data transformations
+- Extract view-specific rendering logic to separate files
+- Reduce shell.astro from 941 lines to ~300 lines (orquestrator role)
