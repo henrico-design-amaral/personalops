@@ -104,6 +104,50 @@ export function renderStudentView(actor, fixtures) {
         </div>
       </div>
 
+      <!-- MY WORKOUTS SECTION -->
+      <div style="margin-top: 20px;">
+        <h3 style="color: #64c8ff; margin-top: 0; display: flex; justify-content: space-between; align-items: center;">
+          My Workouts
+          <span style="color: #a0a0a0; font-size: 12px; font-weight: normal;">12 total</span>
+        </h3>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 20px;">
+          <button class="button" style="padding: 8px; background: rgba(100, 200, 100, 0.2); border-color: rgba(100, 200, 100, 0.4); color: #64c864; text-align: center;">Today's (1)</button>
+          <button class="button" style="padding: 8px; background: rgba(100, 150, 255, 0.2); border-color: rgba(100, 150, 255, 0.4); color: #64c8ff; text-align: center;">This Week (5)</button>
+          <button class="button" style="padding: 8px; background: rgba(200, 200, 100, 0.2); border-color: rgba(200, 200, 100, 0.4); color: #ffc864; text-align: center;">All (12)</button>
+          <button class="button" style="padding: 8px; background: rgba(100, 200, 100, 0.2); border-color: rgba(100, 200, 100, 0.4); color: #64c864; text-align: center;">Completed (8)</button>
+        </div>
+
+        <div style="display: grid; gap: 10px;">
+          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(100, 200, 100, 0.2); border-radius: 4px; padding: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="color: #d0d0d0; font-weight: bold;">Peito e Tríceps</div>
+              <span style="background: rgba(100, 200, 100, 0.2); color: #64c864; padding: 2px 8px; border-radius: 2px; font-size: 10px;">Mon</span>
+            </div>
+            <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">Hipertrofia • 50 min • 3 exercises</div>
+            <button class="button" style="width: 100%; padding: 6px; font-size: 12px;">View Details</button>
+          </div>
+
+          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="color: #d0d0d0; font-weight: bold;">Cardio: Bicicleta</div>
+              <span style="background: rgba(100, 150, 255, 0.2); color: #64c8ff; padding: 2px 8px; border-radius: 2px; font-size: 10px;">Tue</span>
+            </div>
+            <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">Moderado • 30 min</div>
+            <button class="button" style="width: 100%; padding: 6px; font-size: 12px;">View Details</button>
+          </div>
+
+          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="color: #d0d0d0; font-weight: bold;">Costas e Bíceps</div>
+              <span style="background: rgba(100, 150, 255, 0.2); color: #64c8ff; padding: 2px 8px; border-radius: 2px; font-size: 10px;">Wed</span>
+            </div>
+            <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">Força • 55 min • 3 exercises</div>
+            <button class="button" style="width: 100%; padding: 6px; font-size: 12px;">View Details</button>
+          </div>
+        </div>
+      </div>
+
       <!-- PROFILE & ACCOUNT -->
       <div style="margin-top: 20px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 15px;">
         <h3 style="color: #a0a0a0; font-size: 12px; margin: 0 0 10px 0; text-transform: uppercase;">Account</h3>

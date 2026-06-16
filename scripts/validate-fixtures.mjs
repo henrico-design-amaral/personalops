@@ -30,6 +30,10 @@ const fixtures = {
   workoutTemplates: loadJSON('workout-templates.json'),
   cardioTemplates: loadJSON('cardio-templates.json'),
   dayAssignments: loadJSON('day-assignments.json'),
+  exercises: loadJSON('exercises.json'),
+  invoices: loadJSON('invoices.json'),
+  paymentEvents: loadJSON('payment-events.json'),
+  professorCashflow: loadJSON('professor-cashflow.json'),
 };
 
 function loadJSON(filename) {
@@ -411,6 +415,55 @@ function validateDayAssignments() {
   });
 }
 
+function validateExercises() {
+  // Basic validation: exercises should have id and name
+  if (!fixtures.exercises || fixtures.exercises.length === 0) {
+    warnings.push('No exercises found in fixtures');
+  } else {
+    fixtures.exercises.forEach((exercise) => {
+      if (!exercise.id) {
+        errors.push('Exercise missing id field');
+      }
+      if (!exercise.name) {
+        errors.push(`Exercise ${exercise.id}: missing name field`);
+      }
+    });
+  }
+}
+
+function validateInvoices() {
+  // Basic validation: invoices should reference professor and student
+  if (!fixtures.invoices || fixtures.invoices.length === 0) {
+    warnings.push('No invoices found in fixtures');
+  } else {
+    fixtures.invoices.forEach((invoice) => {
+      if (!invoice.id) {
+        errors.push('Invoice missing id field');
+      }
+      if (!invoice.professionalId) {
+        errors.push(`Invoice ${invoice.id}: missing professionalId`);
+      }
+      if (!invoice.studentId) {
+        errors.push(`Invoice ${invoice.id}: missing studentId`);
+      }
+    });
+  }
+}
+
+function validateProfessorCashflow() {
+  // Validate cashflow references professors
+  if (!fixtures.professorCashflow || fixtures.professorCashflow.length === 0) {
+    warnings.push('No professor cashflow found in fixtures');
+  } else {
+    fixtures.professorCashflow.forEach((cashflow) => {
+      const professor = fixtures.professorProfiles.find((p) => p.id === cashflow.professorId);
+      if (!professor) {
+        errors.push(`ProfessorCashflow ${cashflow.id}: Professor ${cashflow.professorId} not found`);
+      }
+    });
+  }
+}
+
 // Run all validations
 console.log('Validating PersonalOps fixtures...\n');
 
@@ -426,6 +479,9 @@ validateSupportActionLogs();
 validateWorkoutTemplates();
 validateCardioTemplates();
 validateDayAssignments();
+validateExercises();
+validateInvoices();
+validateProfessorCashflow();
 validateNoHardDeletes();
 
 // Report results

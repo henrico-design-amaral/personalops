@@ -1,0 +1,62 @@
+[
+  {
+    "id": "cf-prof-a",
+    "professorId": "prof-a",
+    "month": "2026-06",
+    "expectedRevenue": 749.70,
+    "receivedRevenue": 249.90,
+    "pendingRevenue": 499.80,
+    "overdueRevenue": 0,
+    "activeStudents": 3,
+    "invoiceCount": 3,
+    "openInvoices": 2,
+    "dueInvoices": 1,
+    "overdueInvoices": 0,
+    "averagePaymentTime": 5,
+    "paymentRate": 33.3,
+    "studentsWithUpcomingExpiry": [
+      {
+        "studentId": "std-01",
+        "studentName": "João Silva",
+        "expiresAt": "2026-07-01",
+        "daysUntilExpiry": 16
+      },
+      {
+        "studentId": "std-02",
+        "studentName": "Maria Santos",
+        "expiresAt": "2026-07-15",
+        "daysUntilExpiry": 30
+      }
+    ],
+    "lastPaymentDate": "2026-06-05",
+    "nextExpectedPayment": "2026-06-18",
+    "updatedAt": "2026-06-15T22:00:00Z"
+  },
+  {
+    "id": "cf-prof-b",
+    "professorId": "prof-b",
+    "month": "2026-06",
+    "expectedRevenue": 249.90,
+    "receivedRevenue": 0,
+    "pendingRevenue": 249.90,
+    "overdueRevenue": 0,
+    "activeStudents": 1,
+    "invoiceCount": 1,
+    "openInvoices": 1,
+    "dueInvoices": 0,
+    "overdueInvoices": 0,
+    "averagePaymentTime": 0,
+    "paymentRate": 0,
+    "studentsWithUpcomingExpiry": [
+      {
+        "studentId": "std-04",
+        "studentName": "Pedro Costa",
+        "expiresAt": "2026-07-10",
+        "daysUntilExpiry": 25
+      }
+    ],
+    "lastPaymentDate": null,
+    "nextExpectedPayment": "2026-06-20",
+    "updatedAt": "2026-06-15T22:00:00Z"
+  }
+]

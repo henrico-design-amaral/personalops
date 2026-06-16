@@ -2,7 +2,7 @@
  * Admin view renderer — Platform dashboard with metrics, professional management, billing
  */
 
-import { getAllProfessorsWithStudents } from '../fixtures-loader.js';
+import { getAllProfessorsWithStudents, getAllExercises, getExercisesByCategory } from '../fixtures-loader.js';
 
 export function renderAdminView(actor, fixtures) {
   const professorsWithStudents = getAllProfessorsWithStudents(fixtures);
@@ -137,6 +137,53 @@ export function renderAdminView(actor, fixtures) {
   }
 
   html += `
+      </div>
+
+      <h3 style="color: #64c8ff; margin-top: 30px;">Exercise Library</h3>
+      <div style="background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 15px;">
+          <div style="background: rgba(100, 200, 100, 0.1); border: 1px solid rgba(100, 200, 100, 0.2); border-radius: 4px; padding: 12px; text-align: center;">
+            <div style="color: #64c864; font-size: 24px; font-weight: bold;">${getAllExercises(fixtures).length}</div>
+            <div style="color: #a0a0a0; font-size: 11px;">Total Exercises</div>
+          </div>
+          <div style="background: rgba(100, 150, 255, 0.1); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px; text-align: center;">
+            <div style="color: #64c8ff; font-size: 24px; font-weight: bold;">${getExercisesByCategory('peito', fixtures).length}</div>
+            <div style="color: #a0a0a0; font-size: 11px;">Chest</div>
+          </div>
+          <div style="background: rgba(200, 100, 100, 0.1); border: 1px solid rgba(200, 100, 100, 0.2); border-radius: 4px; padding: 12px; text-align: center;">
+            <div style="color: #ff8080; font-size: 24px; font-weight: bold;">${getExercisesByCategory('costas', fixtures).length}</div>
+            <div style="color: #a0a0a0; font-size: 11px;">Back</div>
+          </div>
+          <div style="background: rgba(100, 200, 100, 0.1); border: 1px solid rgba(100, 200, 100, 0.2); border-radius: 4px; padding: 12px; text-align: center;">
+            <div style="color: #64c864; font-size: 24px; font-weight: bold;">${getExercisesByCategory('perna', fixtures).length}</div>
+            <div style="color: #a0a0a0; font-size: 11px;">Legs</div>
+          </div>
+        </div>
+
+        <button class="button" style="width: 100%; padding: 10px; background: rgba(100, 200, 100, 0.2); border-color: rgba(100, 200, 100, 0.4); color: #64c864; margin-bottom: 8px;">+ Create New Exercise</button>
+        <button class="button" style="width: 100%; padding: 10px; background: rgba(100, 150, 255, 0.2); border-color: rgba(100, 150, 255, 0.4); color: #64c8ff;">View Library Details</button>
+      </div>
+
+      <div style="background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 15px;">
+        <h3 style="color: #a0a0a0; font-size: 12px; margin: 0 0 10px 0; text-transform: uppercase;">Create Exercise (Mockup)</h3>
+        <div style="display: grid; gap: 8px;">
+          <input type="text" placeholder="Exercise name (e.g., Barbell Bench Press)" style="padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(100, 200, 255, 0.2); color: #d0d0d0; border-radius: 4px; font-size: 12px;" />
+          <select style="padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(100, 200, 255, 0.2); color: #d0d0d0; border-radius: 4px; font-size: 12px;">
+            <option>Select category...</option>
+            <option>Chest</option>
+            <option>Back</option>
+            <option>Legs</option>
+            <option>Shoulders</option>
+            <option>Arms</option>
+            <option>Core</option>
+          </select>
+          <input type="text" placeholder="Primary muscle group" style="padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(100, 200, 255, 0.2); color: #d0d0d0; border-radius: 4px; font-size: 12px;" />
+          <input type="text" placeholder="Equipment needed" style="padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(100, 200, 255, 0.2); color: #d0d0d0; border-radius: 4px; font-size: 12px;" />
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button class="button" style="background: rgba(100, 200, 100, 0.2); color: #64c864;">Save Exercise (Simulated)</button>
+            <button class="button" style="background: rgba(200, 100, 100, 0.2); color: #ff8080;">Cancel</button>
+          </div>
+        </div>
       </div>
     </div>
   `;

@@ -28,6 +28,10 @@ export async function loadFixtures() {
     workoutTemplates: await fetch(`${baseUrl}assets/data/workout-templates.json`).then(r => r.json()),
     cardioTemplates: await fetch(`${baseUrl}assets/data/cardio-templates.json`).then(r => r.json()),
     dayAssignments: await fetch(`${baseUrl}assets/data/day-assignments.json`).then(r => r.json()),
+    exercises: await fetch(`${baseUrl}assets/data/exercises.json`).then(r => r.json()),
+    invoices: await fetch(`${baseUrl}assets/data/invoices.json`).then(r => r.json()),
+    paymentEvents: await fetch(`${baseUrl}assets/data/payment-events.json`).then(r => r.json()),
+    professorCashflow: await fetch(`${baseUrl}assets/data/professor-cashflow.json`).then(r => r.json()),
   };
 
   cachedFixtures = fixtures;
@@ -129,4 +133,53 @@ export function getProfessorAvailableCardios(professorId, fixtures) {
   return fixtures.cardioTemplates.filter(c =>
     c.ownerType === 'system' || c.professorId === professorId
   );
+}
+
+/**
+ * Get all exercises (base library)
+ */
+export function getAllExercises(fixtures) {
+  return fixtures.exercises || [];
+}
+
+/**
+ * Get exercise by ID
+ */
+export function getExercise(exerciseId, fixtures) {
+  return fixtures.exercises?.find(e => e.id === exerciseId);
+}
+
+/**
+ * Get exercises by category/muscle group
+ */
+export function getExercisesByCategory(category, fixtures) {
+  return fixtures.exercises?.filter(e => e.category === category) || [];
+}
+
+/**
+ * Get invoices for professor's students
+ */
+export function getProfessorInvoices(professorId, fixtures) {
+  return fixtures.invoices?.filter(inv => inv.professionalId === professorId) || [];
+}
+
+/**
+ * Get invoice by ID
+ */
+export function getInvoice(invoiceId, fixtures) {
+  return fixtures.invoices?.find(inv => inv.id === invoiceId);
+}
+
+/**
+ * Get payment events for professor's students
+ */
+export function getProfessorPaymentEvents(professorId, fixtures) {
+  return fixtures.paymentEvents?.filter(evt => evt.professionalId === professorId) || [];
+}
+
+/**
+ * Get cashflow summary for professor
+ */
+export function getProfessorCashflow(professorId, fixtures) {
+  return fixtures.professorCashflow?.find(cf => cf.professorId === professorId);
 }

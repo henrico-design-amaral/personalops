@@ -5,7 +5,11 @@
 import {
   getProfessorStudents,
   getProfessorInvitations,
-  getStudentWeekSchedule
+  getStudentWeekSchedule,
+  getProfessorInvoices,
+  getProfessorCashflow,
+  getAllExercises,
+  getProfessorAvailableWorkouts
 } from '../fixtures-loader.js';
 import { renderWeeklyScheduleGrid, renderWeeklyPlanBuilderModal } from './schedule-utils.js';
 
@@ -112,6 +116,10 @@ export function renderProfessorDashboard(actor, fixtures, state) {
 
   html += `
       </div>
+
+      ${renderWorkoutLibrarySection(actor, fixtures)}
+
+      ${renderCashflowSection(actor, fixtures)}
     </div>
   `;
 
@@ -225,6 +233,74 @@ export function renderProfessorStudentProfile(actor, fixtures, state) {
       </div>
 
       ${modalHtml}
+    </div>
+  `;
+}
+
+export function renderWorkoutLibrarySection(actor, fixtures) {
+  const workouts = getProfessorAvailableWorkouts(actor.professorProfile.id, fixtures);
+  const exerciseCount = getAllExercises(fixtures).length;
+
+  return `
+    <div class="portal-section" style="margin-top: 20px;">
+      <h3>Workout Library</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+        <div style="background: rgba(100, 200, 100, 0.1); border: 1px solid rgba(100, 200, 100, 0.2); border-radius: 4px; padding: 12px; text-align: center;">
+          <div style="color: #64c864; font-size: 20px; font-weight: bold;">${workouts.length}</div>
+          <div style="color: #a0a0a0; font-size: 12px;">Available Workouts</div>
+        </div>
+        <div style="background: rgba(100, 150, 255, 0.1); border: 1px solid rgba(100, 150, 255, 0.2); border-radius: 4px; padding: 12px; text-align: center;">
+          <div style="color: #64c8ff; font-size: 20px; font-weight: bold;">${exerciseCount}</div>
+          <div style="color: #a0a0a0; font-size: 12px;">Exercises Base</div>
+        </div>
+      </div>
+      <button class="button" style="width: 100%; padding: 10px; background: rgba(100, 200, 100, 0.2); color: #64c864;">+ Create New Workout</button>
+      <button class="button" style="width: 100%; padding: 10px; margin-top: 8px; background: rgba(100, 150, 255, 0.2); color: #64c8ff;">Browse Exercise Library</button>
+    </div>
+  `;
+}
+
+export function renderCashflowSection(actor, fixtures) {
+  const cashflow = getProfessorCashflow(actor.professorProfile.id, fixtures);
+  if (!cashflow) return '';
+
+  const receivedPercentage = Math.round((cashflow.receivedRevenue / cashflow.expectedRevenue) * 100);
+
+  return `
+    <div class="portal-section" style="margin-top: 20px;">
+      <h3 style="color: #64c8ff;">Cashflow Control</h3>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px;">
+        <div style="background: rgba(100, 200, 100, 0.1); border: 1px solid rgba(100, 200, 100, 0.2); border-radius: 4px; padding: 10px;">
+          <div style="color: #a0a0a0; font-size: 10px; text-transform: uppercase; margin-bottom: 3px;">Received</div>
+          <div style="color: #64c864; font-size: 16px; font-weight: bold;">R$ ${cashflow.receivedRevenue.toFixed(2)}</div>
+          <div style="color: #a0a0a0; font-size: 9px; margin-top: 3px;">${receivedPercentage}% of expected</div>
+        </div>
+        <div style="background: rgba(255, 150, 100, 0.1); border: 1px solid rgba(255, 150, 100, 0.2); border-radius: 4px; padding: 10px;">
+          <div style="color: #a0a0a0; font-size: 10px; text-transform: uppercase; margin-bottom: 3px;">Pending</div>
+          <div style="color: #ff9664; font-size: 16px; font-weight: bold;">R$ ${cashflow.pendingRevenue.toFixed(2)}</div>
+          <div style="color: #a0a0a0; font-size: 9px; margin-top: 3px;">${cashflow.openInvoices} open invoices</div>
+        </div>
+      </div>
+
+      <div style="background: rgba(0, 0, 0, 0.3); border-radius: 4px; padding: 12px; margin-bottom: 15px;">
+        <div style="color: #a0a0a0; font-size: 11px; margin-bottom: 8px;">Month Progress</div>
+        <div style="background: rgba(0, 0, 0, 0.5); border-radius: 2px; height: 8px; overflow: hidden;">
+          <div style="background: linear-gradient(90deg, #64c864, #64c8ff); width: ${receivedPercentage}%; height: 100%;"></div>
+        </div>
+        <div style="color: #a0a0a0; font-size: 10px; margin-top: 8px;">
+          R$ ${cashflow.receivedRevenue.toFixed(2)} / R$ ${cashflow.expectedRevenue.toFixed(2)}
+        </div>
+      </div>
+
+      <div style="color: #a0a0a0; font-size: 12px; line-height: 1.8; margin-bottom: 15px;">
+        <div><strong>Students with expiring access:</strong></div>
+        ${cashflow.studentsWithUpcomingExpiry.map(s =>
+          `<div style="padding: 5px 0; color: #d0d0d0;">• ${s.studentName} (${s.daysUntilExpiry} days)</div>`
+        ).join('')}
+      </div>
+
+      <button class="button" style="width: 100%; padding: 10px; background: rgba(100, 150, 255, 0.2); color: #64c8ff;">View Full Cashflow Report</button>
     </div>
   `;
 }

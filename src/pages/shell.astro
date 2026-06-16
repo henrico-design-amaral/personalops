@@ -291,11 +291,11 @@ import { renderRoleSwitcher } from '../lib/shell/render-shared.js';
     }
 
     let html = '';
-    if (actor.isAdmin) {
+    if (actor.roles.includes('admin')) {
       html = renderAdminView(actor, fixtures);
-    } else if (actor.isProfessor) {
+    } else if (actor.roles.includes('professor')) {
       html = renderProfessorView(actor, fixtures, state);
-    } else if (actor.isStudent) {
+    } else if (actor.roles.includes('student')) {
       html = renderStudentView(actor, fixtures);
     } else {
       html = renderAccessDenied('Unknown role');
