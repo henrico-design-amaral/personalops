@@ -2438,8 +2438,8 @@ function renderApp() {
       <p class="demos-label">Acessos demo</p>
       <div class="demo-pills">
         <button class="demo-pill" data-email="admin@personalops.test" data-pass="admin123">Administrativo</button>
-        <button class="demo-pill" data-email="professor@personalops.test" data-pass="prof123">Professor</button>
-        <button class="demo-pill" data-email="aluno@personalops.test" data-pass="aluno123">Aluno</button>
+        <button class="demo-pill" data-email="joao.silva@personaltrainer.com" data-pass="prof123">Professor</button>
+        <button class="demo-pill" data-email="aluno.um@email.com" data-pass="aluno123">Aluno</button>
       </div>
     </div>
 
