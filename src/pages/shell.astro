@@ -1,0 +1,598 @@
+---
+// PersonalOps Operating Shell
+// Offline-first shell with role-based views and access control
+// This is a demonstration/prototype page - shows different views based on selected role
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="PersonalOps - Operating Shell">
+  <div class="shell-container">
+    <!-- Role Switcher -->
+    <div class="role-switcher">
+      <h1>PersonalOps Operating Shell</h1>
+      <div class="switcher-controls">
+        <label for="role-select">Switch Role (Demo):</label>
+        <select id="role-select">
+          <option value="admin-1">Admin - Administrator</option>
+          <option value="prof-a">Professor - João Silva (Hipertrofia)</option>
+          <option value="prof-b">Professor - Maria Santos (Emagrecimento)</option>
+          <option value="std-01">Student - Aluno Um (Active)</option>
+          <option value="std-02">Student - Aluno Dois (Paused)</option>
+          <option value="std-04">Student - Aluno Quatro (Active, Prof B)</option>
+        </select>
+      </div>
+      <p class="disclaimer">
+        💡 This is a demonstration shell. Select different roles to see how access control filters data.
+      </p>
+    </div>
+
+    <!-- Views Container -->
+    <div id="views-container" class="views-container">
+      <!-- Loading indicator -->
+      <div id="loading" class="loading">
+        <p>Loading fixtures and access control...</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .shell-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .role-switcher {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+
+  .role-switcher h1 {
+    color: #64c8ff;
+    margin: 0 0 20px 0;
+    font-size: 24px;
+  }
+
+  .switcher-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .switcher-controls label {
+    color: #a0a0a0;
+    font-size: 14px;
+  }
+
+  .switcher-controls select {
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    color: #64c8ff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .switcher-controls select:hover {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: rgba(100, 200, 255, 0.6);
+  }
+
+  .disclaimer {
+    color: #a0a0a0;
+    font-size: 12px;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .views-container {
+    min-height: 400px;
+  }
+
+  .loading {
+    text-align: center;
+    color: #a0a0a0;
+    padding: 40px;
+  }
+
+  /* View Styles */
+  .view {
+    display: none;
+  }
+
+  .view.active {
+    display: block;
+  }
+
+  .view-header {
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 4px solid #64c8ff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .view-header h2 {
+    color: #64c8ff;
+    margin: 0 0 5px 0;
+    font-size: 20px;
+  }
+
+  .view-header .info {
+    color: #a0a0a0;
+    font-size: 12px;
+    margin: 0;
+  }
+
+  /* Admin View */
+  .admin-professors {
+    display: grid;
+    gap: 20px;
+  }
+
+  .professor-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    border-radius: 8px;
+    padding: 15px;
+  }
+
+  .professor-header {
+    color: #64c8ff;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .student-list {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(100, 200, 255, 0.1);
+  }
+
+  .student-item {
+    color: #d0d0d0;
+    padding: 8px 0;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .student-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+  }
+
+  .status-habilitado {
+    background: rgba(100, 200, 100, 0.3);
+    color: #64c864;
+  }
+
+  .status-pausado {
+    background: rgba(255, 200, 100, 0.3);
+    color: #ffc864;
+  }
+
+  .status-arquivado {
+    background: rgba(150, 150, 150, 0.3);
+    color: #a0a0a0;
+  }
+
+  /* Professor View */
+  .professor-students {
+    display: grid;
+    gap: 15px;
+  }
+
+  .student-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    border-radius: 8px;
+    padding: 15px;
+  }
+
+  .student-name {
+    color: #64c8ff;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .student-details {
+    color: #a0a0a0;
+    font-size: 12px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(100, 200, 255, 0.2);
+    border: 1px solid rgba(100, 200, 255, 0.4);
+    color: #64c8ff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 8px;
+    transition: all 0.2s;
+  }
+
+  .button:hover {
+    background: rgba(100, 200, 255, 0.3);
+    border-color: rgba(100, 200, 255, 0.6);
+  }
+
+  /* Student View */
+  .student-portal {
+    display: grid;
+    gap: 20px;
+  }
+
+  .portal-section {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    border-radius: 8px;
+    padding: 15px;
+  }
+
+  .portal-section h3 {
+    color: #64c8ff;
+    margin: 0 0 10px 0;
+    font-size: 14px;
+  }
+
+  .placeholder {
+    color: #a0a0a0;
+    font-size: 12px;
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border: 1px dashed rgba(100, 200, 255, 0.2);
+  }
+
+  /* Access Denied */
+  .access-denied {
+    background: rgba(200, 100, 100, 0.2);
+    border: 2px solid rgba(200, 100, 100, 0.5);
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+  }
+
+  .access-denied h2 {
+    color: #ff6464;
+    margin: 0 0 10px 0;
+  }
+
+  .access-denied p {
+    color: #a0a0a0;
+    margin: 0;
+  }
+
+  /* Invitations Section */
+  .invitations-list {
+    margin-top: 10px;
+  }
+
+  .invitation-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #d0d0d0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .invitation-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
+    background: rgba(100, 150, 255, 0.3);
+    color: #64c8ff;
+  }
+
+  .invitation-status.expired {
+    background: rgba(150, 150, 150, 0.3);
+    color: #a0a0a0;
+  }
+</style>
+
+<script>
+  import { getActorContext, canViewStudent, canManageStudentOperational, canEditWorkoutPrescription } from '../lib/access-control.js';
+  import { loadFixtures, getProfessorStudents, getProfessorInvitations, getAllProfessorsWithStudents } from '../lib/fixtures-loader.js';
+
+  let fixtures = null;
+  let currentUserId = 'admin-1';
+
+  async function initShell() {
+    try {
+      fixtures = await loadFixtures();
+      renderView();
+    } catch (error) {
+      console.error('Failed to load fixtures:', error);
+      document.getElementById('loading').innerHTML = '<p style="color: #ff6464;">Error loading fixtures</p>';
+    }
+  }
+
+  function renderView() {
+    const actor = getActorContext(currentUserId, fixtures);
+
+    if (!actor) {
+      renderAccessDenied('User not found');
+      return;
+    }
+
+    if (actor.roles.includes('admin')) {
+      renderAdminView(actor);
+    } else if (actor.roles.includes('professor')) {
+      renderProfessorView(actor);
+    } else if (actor.roles.includes('student')) {
+      renderStudentView(actor);
+    } else {
+      renderAccessDenied('Unknown role');
+    }
+  }
+
+  function renderAdminView(actor) {
+    const professorsWithStudents = getAllProfessorsWithStudents(fixtures);
+    const invitations = fixtures.invitations;
+    const logs = fixtures.supportActionLogs;
+
+    let html = `
+      <div class="view active">
+        <div class="view-header">
+          <h2>Admin Dashboard</h2>
+          <p class="info">User: ${currentUserId} | Role: Admin</p>
+        </div>
+
+        <h3 style="color: #64c8ff; margin-top: 0;">Professors & Students</h3>
+        <div class="admin-professors">
+    `;
+
+    professorsWithStudents.forEach(prof => {
+      html += `
+        <div class="professor-card">
+          <div class="professor-header">
+            <span>${prof.name}</span>
+            <span style="color: #a0a0a0; font-size: 12px;">${prof.studentCount} students</span>
+          </div>
+          <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">
+            ${prof.specialty} • ${prof.location}
+          </div>
+          <div class="student-list">
+      `;
+
+      prof.students.forEach(link => {
+        const statusClass = `status-${link.student.status}`;
+        html += `
+          <div class="student-item">
+            <span>${link.student.name} (${link.mode})</span>
+            <span class="student-status ${statusClass}">${link.student.status}</span>
+          </div>
+        `;
+      });
+
+      html += `
+          </div>
+        </div>
+      `;
+    });
+
+    html += `
+        </div>
+
+        <h3 style="color: #64c8ff; margin-top: 30px;">Pending & Expired Invitations</h3>
+        <div class="admin-professors">
+    `;
+
+    const filteredInvitations = invitations.filter(i => i.status === 'pendente' || i.status === 'expirado');
+    if (filteredInvitations.length === 0) {
+      html += '<p style="color: #a0a0a0;">No pending or expired invitations</p>';
+    } else {
+      filteredInvitations.forEach(inv => {
+        const prof = fixtures.professorProfiles.find(p => p.id === inv.professorId);
+        html += `
+          <div class="professor-card">
+            <div class="professor-header">
+              <span>${inv.invitedName} → ${prof?.name || 'Unknown'}</span>
+              <span class="student-status ${inv.status === 'pendente' ? '' : 'expired'}">${inv.status}</span>
+            </div>
+            <div style="color: #a0a0a0; font-size: 12px;">Email: ${inv.invitedEmail}</div>
+          </div>
+        `;
+      });
+    }
+
+    html += `
+        </div>
+
+        <h3 style="color: #64c8ff; margin-top: 30px;">Recent Support Actions</h3>
+        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 15px;">
+    `;
+
+    if (logs.length === 0) {
+      html += '<p style="color: #a0a0a0;">No support actions</p>';
+    } else {
+      logs.forEach(log => {
+        const actor = fixtures.users.find(u => u.id === log.performedBy);
+        html += `
+          <div class="student-item">
+            <span>${log.actionType} by ${actor?.email || 'unknown'}</span>
+            <span style="color: #a0a0a0; font-size: 11px;">${new Date(log.timestamp).toLocaleDateString()}</span>
+          </div>
+        `;
+      });
+    }
+
+    html += `
+        </div>
+      </div>
+    `;
+
+    document.getElementById('views-container').innerHTML = html;
+  }
+
+  function renderProfessorView(actor) {
+    const students = getProfessorStudents(actor.professorProfile.id, fixtures);
+    const invitations = getProfessorInvitations(actor.professorProfile.id, fixtures);
+
+    let html = `
+      <div class="view active">
+        <div class="view-header">
+          <h2>Professor Dashboard</h2>
+          <p class="info">User: ${currentUserId} | Professor: ${actor.professorProfile.name}</p>
+        </div>
+
+        <h3 style="color: #64c8ff; margin-top: 0;">My Students</h3>
+        <div class="professor-students">
+    `;
+
+    if (students.length === 0) {
+      html += '<p style="color: #a0a0a0;">No students</p>';
+    } else {
+      students.forEach(link => {
+        const student = link.student;
+        html += `
+          <div class="student-card">
+            <div class="student-name">${student.name}</div>
+            <div class="student-details">
+              <div>Status: <span class="student-status status-${student.status}">${student.status}</span></div>
+              <div>Mode: ${link.mode} • Plan: ${link.plan}</div>
+              <div>Expires: ${link.expiresAt}</div>
+            </div>
+            <div>
+              <button class="button">View Details</button>
+              <button class="button">Prescribe Week</button>
+              <button class="button">View Feedback</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    html += `
+        </div>
+
+        <h3 style="color: #64c8ff; margin-top: 30px;">Invitations</h3>
+        <div class="admin-professors">
+    `;
+
+    if (invitations.length === 0) {
+      html += '<p style="color: #a0a0a0;">No invitations</p>';
+    } else {
+      invitations.forEach(inv => {
+        html += `
+          <div class="professor-card">
+            <div class="professor-header">
+              <span>${inv.invitedName}</span>
+              <span class="student-status ${inv.status === 'pendente' ? '' : 'expired'}">${inv.status}</span>
+            </div>
+            <div style="color: #a0a0a0; font-size: 12px; margin-bottom: 8px;">${inv.invitedEmail}</div>
+            <button class="button">Resend Invite</button>
+            <button class="button">Cancel</button>
+          </div>
+        `;
+      });
+    }
+
+    html += `
+        </div>
+
+        <h3 style="color: #64c8ff; margin-top: 30px;">Workout Prescription (Coming Soon)</h3>
+        <div class="placeholder">Workout templates and weekly schedule will appear here</div>
+      </div>
+    `;
+
+    document.getElementById('views-container').innerHTML = html;
+  }
+
+  function renderStudentView(actor) {
+    const student = actor.studentProfile;
+    const link = fixtures.professorStudentLinks.find(l => l.studentId === student.id);
+    const professor = fixtures.professorProfiles.find(p => p.id === link?.professorId);
+
+    let html = `
+      <div class="view active">
+        <div class="view-header">
+          <h2>My Portal</h2>
+          <p class="info">Student: ${student.name} | Professor: ${professor?.name || 'Unknown'}</p>
+        </div>
+
+        <div class="student-portal">
+          <div class="portal-section">
+            <h3>My Profile</h3>
+            <div class="student-details">
+              <div>Status: <span class="student-status status-${student.status}">${student.status}</span></div>
+              <div>Mode: ${link?.mode || 'N/A'} • Plan: ${link?.plan || 'N/A'}</div>
+              <div>Expires: ${link?.expiresAt || 'N/A'}</div>
+            </div>
+          </div>
+
+          <div class="portal-section">
+            <h3>This Week's Training</h3>
+            <div class="placeholder">Monday: Peito + Bíceps (60 min)<br/>Tuesday: Cardio Leve (30 min)<br/>... (6 more days)</div>
+          </div>
+
+          <div class="portal-section">
+            <h3>Today's Workout</h3>
+            <div class="placeholder">
+              <button class="button">Start Workout</button>
+            </div>
+          </div>
+
+          <div class="portal-section">
+            <h3>Recent Feedback & Photos</h3>
+            <div class="placeholder">Your submitted feedback and workout photos will appear here</div>
+          </div>
+
+          <div class="portal-section">
+            <h3>History</h3>
+            <div class="placeholder">Last 10 workouts and progress will appear here</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('views-container').innerHTML = html;
+  }
+
+  function renderAccessDenied(reason) {
+    const html = `
+      <div class="view active">
+        <div class="access-denied">
+          <h2>Access Denied</h2>
+          <p>${reason}</p>
+        </div>
+      </div>
+    `;
+    document.getElementById('views-container').innerHTML = html;
+  }
+
+  // Event listeners
+  document.getElementById('role-select').addEventListener('change', (e) => {
+    currentUserId = e.target.value;
+    renderView();
+  });
+
+  // Initialize on load
+  window.addEventListener('DOMContentLoaded', initShell);
+</script>

@@ -373,17 +373,67 @@ Antes de realizar qualquer mudança estrutural ou codificação:
   - Todos cenários de isolamento comprovados
 - **Status**: Validação de acesso completa; pronta para commit.
 
+### 2026-06-14 — Session 014 — First Operating Shell with Role-Based Views
+- **Branch**: `main`
+- **Objetivo**: Criar primeiro Operating Shell offline-first com navegação por perfil, dados filtrados por access-control, sem backend real.
+- **Alterações**:
+  - **Fixtures Loader**: Criado `src/lib/fixtures-loader.js`
+    - loadFixtures() — carrega todos JSON locais em cache
+    - getProfessorStudents() — filtra alunos de professor
+    - getProfessorInvitations() — filtra convites de professor
+    - getAllProfessorsWithStudents() — lista professores com contagem de alunos
+    - Offline-first: usa fetch local baseUrl (/personalops/ ou relativo)
+  - **Operating Shell Page**: Criado `src/pages/shell.astro`
+    - Role switcher mockado (6 opções: admin, 2 professores, 3 alunos)
+    - 3 views principais: Admin, Professor, Student
+    - Admin View:
+      * Lista todos professores com contagem de alunos
+      * Mostra alunos abaixo de cada professor com status técnico
+      * Mostra convites pendentes e expirados
+      * Mostra logs de ações de suporte técnico
+      * NÃO mostra controles de prescrição
+    - Professor View:
+      * Mostra apenas alunos do professor logado
+      * Alunos ativos, pausados e arquivados (status badge)
+      * Botões de ação: View Details, Prescribe Week, View Feedback
+      * Mostra convites com opções Resend/Cancel
+      * Área futura para Workout Prescription
+    - Student View:
+      * Mostra apenas dados do próprio aluno
+      * Portal com seções: Profile, This Week, Today, Feedback, History
+      * Botão Start Workout
+      * Placeholders para fotos, comentários, histórico
+    - Access Denied State:
+      * Mostrado se usuário não encontrado ou role desconhecido
+    - Dados filtrados por access-control:
+      * Admin só vê dados públicos (sem senhas)
+      * Professor só vê seus alunos
+      * Aluno só vê seu próprio portal
+      * Sem expor tokens, senhas ou informações sensíveis
+  - **Validações confirmadas**:
+    - npm run validate:fixtures: ✓ passed (1 expected warning)
+    - npm run test:access: ✓ 50/50 passed
+    - npm run build: ✓ successful (agora 2 pages: index.astro, shell.astro)
+  - **PROJECT_CONTROL.md**: Entry Session 014.
+- **Decisões**:
+  - Offline-first: fixtures carregados via fetch local (público)
+  - Role switcher em HTML puro + JavaScript vanilla (sem componentes)
+  - Views renderizadas dinamicamente baseado em currentUserId
+  - Access-control functions integradas no script da página
+  - Sem backend: tudo cliente-side
+  - Sem autenticação real: apenas mock de seletor
+  - Visual mantém design existente (cores dark theme, layout grid)
+- **Status**: Operating Shell funcional; todas validações passando; pronto para verifi cação.
+
 ---
 
 ## 5. RECONCILIAÇÃO E ENCERRAMENTO DE SESSÃO
 
-**Última sessão**: Session 013 (2026-06-14)  
+**Última sessão**: Session 014 (2026-06-14)  
 **Branch**: `main` (working tree clean)  
-**Status**: Validação mínima de acesso e integridade criada; todos testes passando.
+**Status**: Operating Shell criado com views por perfil; todas validações e build passando.
 
 Arquivos modificados nesta sessão:
-- `scripts/validate-fixtures.mjs` (novo)
-- `src/lib/access-control.js` (novo)
-- `scripts/test-access-control.mjs` (novo)
-- `package.json` (atualizado com scripts)
-- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 013)
+- `src/lib/fixtures-loader.js` (novo)
+- `src/pages/shell.astro` (novo)
+- `PROJECT_CONTROL.md` (este arquivo, atualizado com Session 014)
