@@ -1,7 +1,7 @@
 {
   "name": "personalops",
-  "version": "1.4.0",
-  "description": "PersonalOps: Operational prototype for personal trainer workflows",
+  "version": "1.5.0",
+  "description": "PersonalOps: Astro front-end reconstruction for personal operating workflows",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -12,7 +12,7 @@
     "test:access": "node scripts/test-access-control.mjs"
   },
   "dependencies": {
-    "astro": "^4.0.0"
+    "astro": "^5.0.6"
   },
   "devDependencies": {}
 }
