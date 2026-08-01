@@ -1,0 +1,112 @@
+{
+  "totalProfessionals": 2,
+  "activeProfessionals": 2,
+  "totalStudents": 16,
+  "activeStudents": 14,
+  "lowAdherenceStudents": 1,
+  "workoutsThisWeek": 54,
+  "completedWorkoutsThisWeek": 6,
+  "missedWorkoutsThisWeek": 12,
+  "feedbacksThisWeek": 30,
+  "criticalFeedbacks": 24,
+  "openInvoices": 9,
+  "overdueInvoices": 2,
+  "scheduledNotifications": 12,
+  "offlineEventsPending": 4,
+  "exercisesRegistered": 50,
+  "workoutsInLibrary": 16,
+  "mediaAssetsPending": 9,
+  "mostUsedExercises": [
+    {
+      "exerciseId": "ex-01",
+      "name": "Supino Reto com Barra",
+      "usesThisWeek": 42
+    },
+    {
+      "exerciseId": "ex-02",
+      "name": "Supino Inclinado com Halteres",
+      "usesThisWeek": 38
+    },
+    {
+      "exerciseId": "ex-03",
+      "name": "Crucifixo Inclinado com Halteres",
+      "usesThisWeek": 34
+    },
+    {
+      "exerciseId": "ex-04",
+      "name": "Crossover na Polia",
+      "usesThisWeek": 30
+    },
+    {
+      "exerciseId": "ex-05",
+      "name": "Flexao de Braco",
+      "usesThisWeek": 26
+    },
+    {
+      "exerciseId": "ex-06",
+      "name": "Puxada Alta Frente",
+      "usesThisWeek": 22
+    }
+  ],
+  "mostClonedWorkouts": [
+    {
+      "workoutId": "lib-01",
+      "name": "Peito + Biceps",
+      "clonesThisWeek": 18
+    },
+    {
+      "workoutId": "lib-02",
+      "name": "Costas + Triceps",
+      "clonesThisWeek": 16
+    },
+    {
+      "workoutId": "lib-03",
+      "name": "Pernas + Core",
+      "clonesThisWeek": 14
+    },
+    {
+      "workoutId": "lib-04",
+      "name": "Ombros + Abdomen",
+      "clonesThisWeek": 12
+    },
+    {
+      "workoutId": "lib-05",
+      "name": "Superior completo",
+      "clonesThisWeek": 10
+    },
+    {
+      "workoutId": "lib-06",
+      "name": "Inferior completo",
+      "clonesThisWeek": 8
+    }
+  ],
+  "systemHealthMock": {
+    "staticHosting": "ok",
+    "serviceWorkerCache": "personalops-v1-cache-006",
+    "jsonFixtures": "ok",
+    "auth": "mocked-client-only",
+    "paymentGateway": "pix-manual-mock",
+    "whatsapp": "not-implemented",
+    "openFinance": "not-implemented"
+  },
+  "logsMock": [
+    {
+      "id": "log-001",
+      "level": "info",
+      "message": "Service worker cache atualizado para fixtures V1.3.",
+      "createdAt": "2026-06-10T09:00:00-03:00"
+    },
+    {
+      "id": "log-002",
+      "level": "warn",
+      "message": "5 midias de exercicio aguardam ativo proprio ou licenca.",
+      "createdAt": "2026-06-10T09:15:00-03:00"
+    },
+    {
+      "id": "log-003",
+      "level": "info",
+      "message": "Feedback pos-treino salvo em fila local mockada.",
+      "createdAt": "2026-06-10T09:40:00-03:00"
+    }
+  ]
+}

@@ -1,0 +1,1562 @@
+[
+  {
+    "id": "ex-01",
+    "name": "Supino Reto com Barra",
+    "category": "peito",
+    "primaryMuscle": "peito",
+    "secondaryMuscles": [
+      "triceps",
+      "ombros"
+    ],
+    "equipment": "Barra e banco",
+    "difficulty": "intermediario",
+    "movementPattern": "empurrar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-02",
+      "ex-03"
+    ],
+    "visualType": "future-3d-placeholder",
+    "visualStatus": "future-owned-asset"
+  },
+  {
+    "id": "ex-02",
+    "name": "Supino Inclinado com Halteres",
+    "category": "peito",
+    "primaryMuscle": "peito",
+    "secondaryMuscles": [
+      "triceps",
+      "ombros"
+    ],
+    "equipment": "Halteres e banco inclinado",
+    "difficulty": "intermediario",
+    "movementPattern": "empurrar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-03",
+      "ex-04"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-03",
+    "name": "Crucifixo Inclinado com Halteres",
+    "category": "peito",
+    "primaryMuscle": "peito",
+    "secondaryMuscles": [
+      "ombros"
+    ],
+    "equipment": "Halteres e banco",
+    "difficulty": "intermediario",
+    "movementPattern": "empurrar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-04",
+      "ex-05"
+    ],
+    "visualType": "licensed-gif-placeholder",
+    "visualStatus": "needs-license"
+  },
+  {
+    "id": "ex-04",
+    "name": "Crossover na Polia",
+    "category": "peito",
+    "primaryMuscle": "peito",
+    "secondaryMuscles": [
+      "ombros"
+    ],
+    "equipment": "Polia",
+    "difficulty": "intermediario",
+    "movementPattern": "empurrar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-05",
+      "ex-06"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-05",
+    "name": "Flexao de Braco",
+    "category": "peito",
+    "primaryMuscle": "peito",
+    "secondaryMuscles": [
+      "triceps",
+      "core"
+    ],
+    "equipment": "Peso corporal",
+    "difficulty": "iniciante",
+    "movementPattern": "empurrar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-06",
+      "ex-07"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-06",
+    "name": "Puxada Alta Frente",
+    "category": "costas",
+    "primaryMuscle": "costas",
+    "secondaryMuscles": [
+      "biceps"
+    ],
+    "equipment": "Polia alta",
+    "difficulty": "iniciante",
+    "movementPattern": "puxar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-07",
+      "ex-08"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-07",
+    "name": "Remada Curvada com Barra",
+    "category": "costas",
+    "primaryMuscle": "costas",
+    "secondaryMuscles": [
+      "biceps",
+      "core"
+    ],
+    "equipment": "Barra",
+    "difficulty": "avancado",
+    "movementPattern": "puxar",
+    "defaultRestSeconds": 120,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-08",
+      "ex-09"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-08",
+    "name": "Remada Baixa",
+    "category": "costas",
+    "primaryMuscle": "costas",
+    "secondaryMuscles": [
+      "biceps"
+    ],
+    "equipment": "Cabo",
+    "difficulty": "iniciante",
+    "movementPattern": "puxar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-09",
+      "ex-10"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-09",
+    "name": "Pulldown Neutro",
+    "category": "costas",
+    "primaryMuscle": "costas",
+    "secondaryMuscles": [
+      "biceps"
+    ],
+    "equipment": "Polia",
+    "difficulty": "intermediario",
+    "movementPattern": "puxar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-10",
+      "ex-11"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-10",
+    "name": "Barra Fixa Assistida",
+    "category": "costas",
+    "primaryMuscle": "costas",
+    "secondaryMuscles": [
+      "biceps",
+      "core"
+    ],
+    "equipment": "Maquina assistida",
+    "difficulty": "intermediario",
+    "movementPattern": "puxar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-11",
+      "ex-12"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-11",
+    "name": "Rosca Direta com Barra",
+    "category": "biceps",
+    "primaryMuscle": "biceps",
+    "secondaryMuscles": [
+      "antebraco"
+    ],
+    "equipment": "Barra W",
+    "difficulty": "iniciante",
+    "movementPattern": "flexao de cotovelo",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-12",
+      "ex-13"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-12",
+    "name": "Rosca Alternada com Halteres",
+    "category": "biceps",
+    "primaryMuscle": "biceps",
+    "secondaryMuscles": [
+      "antebraco"
+    ],
+    "equipment": "Halteres",
+    "difficulty": "iniciante",
+    "movementPattern": "flexao de cotovelo",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-13",
+      "ex-14"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-13",
+    "name": "Rosca Martelo",
+    "category": "biceps",
+    "primaryMuscle": "biceps",
+    "secondaryMuscles": [
+      "antebraco"
+    ],
+    "equipment": "Halteres",
+    "difficulty": "iniciante",
+    "movementPattern": "flexao de cotovelo",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-14",
+      "ex-15"
+    ],
+    "visualType": "licensed-gif-placeholder",
+    "visualStatus": "needs-license"
+  },
+  {
+    "id": "ex-14",
+    "name": "Rosca Scott",
+    "category": "biceps",
+    "primaryMuscle": "biceps",
+    "secondaryMuscles": [
+      "antebraco"
+    ],
+    "equipment": "Banco Scott",
+    "difficulty": "intermediario",
+    "movementPattern": "flexao de cotovelo",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-15",
+      "ex-16"
+    ],
+    "visualType": "future-3d-placeholder",
+    "visualStatus": "future-owned-asset"
+  },
+  {
+    "id": "ex-15",
+    "name": "Rosca Concentrada",
+    "category": "biceps",
+    "primaryMuscle": "biceps",
+    "secondaryMuscles": [
+      "antebraco"
+    ],
+    "equipment": "Halter",
+    "difficulty": "intermediario",
+    "movementPattern": "flexao de cotovelo",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-16",
+      "ex-17"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-16",
+    "name": "Triceps Corda",
+    "category": "triceps",
+    "primaryMuscle": "triceps",
+    "secondaryMuscles": [
+      "ombros"
+    ],
+    "equipment": "Polia",
+    "difficulty": "iniciante",
+    "movementPattern": "extensao de cotovelo",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-17",
+      "ex-18"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-17",
+    "name": "Triceps Testa",
+    "category": "triceps",
+    "primaryMuscle": "triceps",
+    "secondaryMuscles": [
+      "ombros"
+    ],
+    "equipment": "Barra W",
+    "difficulty": "intermediario",
+    "movementPattern": "extensao de cotovelo",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-18",
+      "ex-19"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-18",
+    "name": "Paralelas Assistidas",
+    "category": "triceps",
+    "primaryMuscle": "triceps",
+    "secondaryMuscles": [
+      "peito",
+      "ombros"
+    ],
+    "equipment": "Maquina assistida",
+    "difficulty": "intermediario",
+    "movementPattern": "empurrar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-19",
+      "ex-20"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-19",
+    "name": "Triceps Frances Halter",
+    "category": "triceps",
+    "primaryMuscle": "triceps",
+    "secondaryMuscles": [
+      "core"
+    ],
+    "equipment": "Halter",
+    "difficulty": "intermediario",
+    "movementPattern": "extensao de cotovelo",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-20",
+      "ex-21"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-20",
+    "name": "Supino Fechado",
+    "category": "triceps",
+    "primaryMuscle": "triceps",
+    "secondaryMuscles": [
+      "peito"
+    ],
+    "equipment": "Barra e banco",
+    "difficulty": "avancado",
+    "movementPattern": "empurrar",
+    "defaultRestSeconds": 120,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-21",
+      "ex-22"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-21",
+    "name": "Desenvolvimento com Halteres",
+    "category": "ombros",
+    "primaryMuscle": "ombros",
+    "secondaryMuscles": [
+      "triceps"
+    ],
+    "equipment": "Halteres",
+    "difficulty": "intermediario",
+    "movementPattern": "empurrar vertical",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-22",
+      "ex-23"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-22",
+    "name": "Elevacao Lateral",
+    "category": "ombros",
+    "primaryMuscle": "ombros",
+    "secondaryMuscles": [
+      "trapezio"
+    ],
+    "equipment": "Halteres",
+    "difficulty": "iniciante",
+    "movementPattern": "abducao de ombro",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-23",
+      "ex-24"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-23",
+    "name": "Elevacao Frontal",
+    "category": "ombros",
+    "primaryMuscle": "ombros",
+    "secondaryMuscles": [
+      "peito"
+    ],
+    "equipment": "Halteres",
+    "difficulty": "iniciante",
+    "movementPattern": "flexao de ombro",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-24",
+      "ex-25"
+    ],
+    "visualType": "licensed-gif-placeholder",
+    "visualStatus": "needs-license"
+  },
+  {
+    "id": "ex-24",
+    "name": "Face Pull",
+    "category": "ombros",
+    "primaryMuscle": "ombros",
+    "secondaryMuscles": [
+      "costas"
+    ],
+    "equipment": "Cabo",
+    "difficulty": "iniciante",
+    "movementPattern": "puxar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-25",
+      "ex-26"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-25",
+    "name": "Crucifixo Inverso",
+    "category": "ombros",
+    "primaryMuscle": "ombros",
+    "secondaryMuscles": [
+      "costas"
+    ],
+    "equipment": "Halteres",
+    "difficulty": "intermediario",
+    "movementPattern": "abducao horizontal",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-26",
+      "ex-27"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-26",
+    "name": "Agachamento Livre",
+    "category": "pernas",
+    "primaryMuscle": "pernas",
+    "secondaryMuscles": [
+      "gluteos",
+      "core"
+    ],
+    "equipment": "Barra e rack",
+    "difficulty": "avancado",
+    "movementPattern": "agachar",
+    "defaultRestSeconds": 120,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-27",
+      "ex-28"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-27",
+    "name": "Leg Press 45",
+    "category": "pernas",
+    "primaryMuscle": "pernas",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
+    "equipment": "Leg press",
+    "difficulty": "iniciante",
+    "movementPattern": "agachar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-28",
+      "ex-29"
+    ],
+    "visualType": "future-3d-placeholder",
+    "visualStatus": "future-owned-asset"
+  },
+  {
+    "id": "ex-28",
+    "name": "Cadeira Extensora",
+    "category": "pernas",
+    "primaryMuscle": "pernas",
+    "secondaryMuscles": [],
+    "equipment": "Maquina extensora",
+    "difficulty": "iniciante",
+    "movementPattern": "extensao de joelho",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-29",
+      "ex-30"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-29",
+    "name": "Mesa Flexora",
+    "category": "pernas",
+    "primaryMuscle": "pernas",
+    "secondaryMuscles": [
+      "panturrilhas"
+    ],
+    "equipment": "Mesa flexora",
+    "difficulty": "iniciante",
+    "movementPattern": "flexao de joelho",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-30",
+      "ex-31"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-30",
+    "name": "Passada com Halteres",
+    "category": "pernas",
+    "primaryMuscle": "pernas",
+    "secondaryMuscles": [
+      "gluteos",
+      "core"
+    ],
+    "equipment": "Halteres",
+    "difficulty": "intermediario",
+    "movementPattern": "estocada",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-31",
+      "ex-32"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-31",
+    "name": "Hip Thrust",
+    "category": "gluteos",
+    "primaryMuscle": "gluteos",
+    "secondaryMuscles": [
+      "pernas",
+      "core"
+    ],
+    "equipment": "Banco e barra",
+    "difficulty": "intermediario",
+    "movementPattern": "ponte de quadril",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-32",
+      "ex-33"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-32",
+    "name": "Cadeira Abdutora",
+    "category": "gluteos",
+    "primaryMuscle": "gluteos",
+    "secondaryMuscles": [
+      "quadril"
+    ],
+    "equipment": "Maquina abdutora",
+    "difficulty": "iniciante",
+    "movementPattern": "abducao de quadril",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-33",
+      "ex-34"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-33",
+    "name": "Stiff com Halteres",
+    "category": "gluteos",
+    "primaryMuscle": "gluteos",
+    "secondaryMuscles": [
+      "pernas",
+      "costas"
+    ],
+    "equipment": "Halteres",
+    "difficulty": "intermediario",
+    "movementPattern": "dobradica de quadril",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-34",
+      "ex-35"
+    ],
+    "visualType": "licensed-gif-placeholder",
+    "visualStatus": "needs-license"
+  },
+  {
+    "id": "ex-34",
+    "name": "Gluteo no Cabo",
+    "category": "gluteos",
+    "primaryMuscle": "gluteos",
+    "secondaryMuscles": [
+      "core"
+    ],
+    "equipment": "Cabo",
+    "difficulty": "iniciante",
+    "movementPattern": "extensao de quadril",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-35",
+      "ex-36"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-35",
+    "name": "Agachamento Sumo",
+    "category": "gluteos",
+    "primaryMuscle": "gluteos",
+    "secondaryMuscles": [
+      "pernas"
+    ],
+    "equipment": "Halter",
+    "difficulty": "intermediario",
+    "movementPattern": "agachar",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-36",
+      "ex-37"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-36",
+    "name": "Prancha Frontal",
+    "category": "core",
+    "primaryMuscle": "core",
+    "secondaryMuscles": [
+      "ombros"
+    ],
+    "equipment": "Colchonete",
+    "difficulty": "iniciante",
+    "movementPattern": "anti-extensao",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-37",
+      "ex-38"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-37",
+    "name": "Crunch no Solo",
+    "category": "core",
+    "primaryMuscle": "core",
+    "secondaryMuscles": [],
+    "equipment": "Colchonete",
+    "difficulty": "iniciante",
+    "movementPattern": "flexao de tronco",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-38",
+      "ex-39"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-38",
+    "name": "Dead Bug",
+    "category": "core",
+    "primaryMuscle": "core",
+    "secondaryMuscles": [
+      "quadril"
+    ],
+    "equipment": "Colchonete",
+    "difficulty": "iniciante",
+    "movementPattern": "anti-extensao",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-39",
+      "ex-40"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-39",
+    "name": "Pallof Press",
+    "category": "core",
+    "primaryMuscle": "core",
+    "secondaryMuscles": [
+      "ombros"
+    ],
+    "equipment": "Cabo ou elastico",
+    "difficulty": "intermediario",
+    "movementPattern": "anti-rotacao",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-40",
+      "ex-41"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-40",
+    "name": "Elevacao de Pernas",
+    "category": "core",
+    "primaryMuscle": "core",
+    "secondaryMuscles": [
+      "quadril"
+    ],
+    "equipment": "Banco ou solo",
+    "difficulty": "intermediario",
+    "movementPattern": "flexao de quadril",
+    "defaultRestSeconds": 75,
+    "defaultTempo": "3-0-1-0",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-41",
+      "ex-42"
+    ],
+    "visualType": "future-3d-placeholder",
+    "visualStatus": "future-owned-asset"
+  },
+  {
+    "id": "ex-41",
+    "name": "Caminhada em Esteira",
+    "category": "cardio leve",
+    "primaryMuscle": "cardio leve",
+    "secondaryMuscles": [
+      "pernas"
+    ],
+    "equipment": "Esteira",
+    "difficulty": "iniciante",
+    "movementPattern": "cardio continuo",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "continuo",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-42",
+      "ex-43"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-42",
+    "name": "Bicicleta Ergometica Leve",
+    "category": "cardio leve",
+    "primaryMuscle": "cardio leve",
+    "secondaryMuscles": [
+      "pernas"
+    ],
+    "equipment": "Bicicleta",
+    "difficulty": "iniciante",
+    "movementPattern": "cardio continuo",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "continuo",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-43",
+      "ex-44"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-43",
+    "name": "Eliptico Leve",
+    "category": "cardio leve",
+    "primaryMuscle": "cardio leve",
+    "secondaryMuscles": [
+      "pernas",
+      "ombros"
+    ],
+    "equipment": "Eliptico",
+    "difficulty": "iniciante",
+    "movementPattern": "cardio continuo",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "continuo",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-44",
+      "ex-45"
+    ],
+    "visualType": "licensed-gif-placeholder",
+    "visualStatus": "needs-license"
+  },
+  {
+    "id": "ex-44",
+    "name": "Remo Ergometro Leve",
+    "category": "cardio leve",
+    "primaryMuscle": "cardio leve",
+    "secondaryMuscles": [
+      "costas",
+      "pernas"
+    ],
+    "equipment": "Remo",
+    "difficulty": "intermediario",
+    "movementPattern": "cardio tecnico",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "continuo",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-45",
+      "ex-46"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-45",
+    "name": "Escada Leve",
+    "category": "cardio leve",
+    "primaryMuscle": "cardio leve",
+    "secondaryMuscles": [
+      "gluteos",
+      "pernas"
+    ],
+    "equipment": "Simulador de escada",
+    "difficulty": "intermediario",
+    "movementPattern": "cardio continuo",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "continuo",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-46",
+      "ex-47"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-46",
+    "name": "Mobilidade Toracica",
+    "category": "mobilidade",
+    "primaryMuscle": "mobilidade",
+    "secondaryMuscles": [
+      "costas"
+    ],
+    "equipment": "Colchonete",
+    "difficulty": "iniciante",
+    "movementPattern": "mobilidade",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "controlado",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-47",
+      "ex-48"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-47",
+    "name": "Alongamento Flexores do Quadril",
+    "category": "mobilidade",
+    "primaryMuscle": "mobilidade",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
+    "equipment": "Colchonete",
+    "difficulty": "iniciante",
+    "movementPattern": "mobilidade",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "controlado",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-48",
+      "ex-49"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-48",
+    "name": "Mobilidade de Tornozelo",
+    "category": "mobilidade",
+    "primaryMuscle": "mobilidade",
+    "secondaryMuscles": [
+      "pernas"
+    ],
+    "equipment": "Parede",
+    "difficulty": "iniciante",
+    "movementPattern": "mobilidade",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "controlado",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-49",
+      "ex-50"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-49",
+    "name": "Rotacao Externa com Elastico",
+    "category": "mobilidade",
+    "primaryMuscle": "mobilidade",
+    "secondaryMuscles": [
+      "ombros"
+    ],
+    "equipment": "Elastico",
+    "difficulty": "iniciante",
+    "movementPattern": "pre-ativacao",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "controlado",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-50",
+      "ex-01"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  },
+  {
+    "id": "ex-50",
+    "name": "Agachamento Goblet Tecnico",
+    "category": "mobilidade",
+    "primaryMuscle": "mobilidade",
+    "secondaryMuscles": [
+      "pernas",
+      "gluteos"
+    ],
+    "equipment": "Kettlebell ou halter",
+    "difficulty": "iniciante",
+    "movementPattern": "padrao tecnico",
+    "defaultRestSeconds": 30,
+    "defaultTempo": "controlado",
+    "coachingCues": [
+      "Controle a fase de descida.",
+      "Mantenha postura estavel.",
+      "Pare se houver dor aguda."
+    ],
+    "commonMistakes": [
+      "Usar carga acima da tecnica.",
+      "Perder amplitude controlada.",
+      "Prender a respiracao sem necessidade."
+    ],
+    "safetyNotes": "Exercicio demonstrativo. Ajustes reais exigem avaliacao de profissional habilitado.",
+    "substitutionIds": [
+      "ex-01",
+      "ex-02"
+    ],
+    "visualType": "css-mannequin",
+    "visualStatus": "placeholder"
+  }
+]
