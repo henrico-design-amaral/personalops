@@ -1,28 +1,19 @@
-﻿# Tasks — PersonalOps
+# Estado da reconstrução
 
-## Agora
+## Concluído localmente
 
-- [x] Criar base documental do projeto.
-- [x] Registrar visão inicial.
-- [x] Registrar PDR v0.1.
-- [x] Registrar benchmark notes.
-- [x] Registrar questionários iniciais.
-- [x] Registrar arquitetura offline-first inicial.
-- [x] Registrar estratégia de IA e voz.
-- [x] Registrar riscos LGPD.
+- [x] Inventário, fonte canônica e arquivamento do legado.
+- [x] Astro 7, TypeScript estrito, tokens, fontes e ilha Preact.
+- [x] Supabase Auth, 15 tabelas, constraints, índices, triggers, RLS e tipos.
+- [x] Hoje, prioridades, tarefas, compromissos, rotinas, energia, objetivos, revisões, histórico e configurações.
+- [x] Seed de desenvolvimento e testes reais de isolamento A/B.
+- [x] Unitários, integração, Playwright, acessibilidade e evidências em quatro larguras.
+- [x] Workflow bloqueante de validação e deploy Hostinger.
 
-## Próximo ciclo
+## Gate externo de release
 
-- [ ] Revisar documentos iniciais.
-- [ ] Criar repositório GitHub privado.
-- [ ] Conectar remote origin.
-- [ ] Fazer primeiro commit.
-- [ ] Criar PDR v0.2 com base no benchmark.
-- [ ] Criar planilha/matriz de benchmark.
-- [ ] Aplicar questionário com personal trainers.
-- [ ] Aplicar questionário com alunos.
-- [ ] Analisar respostas.
-- [ ] Definir escopo fechado do MVP.
-- [ ] Criar wireframes de fluxo crítico.
-- [ ] Definir stack técnica.
-- [ ] Iniciar bootstrap técnico.
+- [x] Repository Secrets públicos e E2E registrados sem expor valores.
+- [ ] PR e workflow verdes.
+- [ ] Merge em `main` e deploy Hostinger concluído.
+- [x] Auth URL/redirect de produção confirmado no Supabase.
+- [ ] Fluxos reais, console, rede, mobile e desktop validados no subdomínio.

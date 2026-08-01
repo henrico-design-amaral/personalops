@@ -1,0 +1,222 @@
+[
+  {
+    "id": "fb-001",
+    "studentId": "std-01",
+    "workoutId": "pw-01-monday",
+    "exerciseId": "ex-01",
+    "sentiment": "positivo",
+    "intensity": 1,
+    "message": "Treino concluido com sucesso e carga controlada.",
+    "requiresReview": false,
+    "createdAt": "2026-06-03T08:30:00-03:00"
+  },
+  {
+    "id": "fb-002",
+    "studentId": "std-02",
+    "workoutId": "pw-02-monday",
+    "exerciseId": null,
+    "sentiment": "dor leve",
+    "intensity": 2,
+    "message": "Senti dor leve no ombro durante o supino.",
+    "requiresReview": true,
+    "createdAt": "2026-06-04T09:30:00-03:00"
+  },
+  {
+    "id": "fb-003",
+    "studentId": "std-03",
+    "workoutId": "pw-03-monday",
+    "exerciseId": null,
+    "sentiment": "neutro",
+    "intensity": 3,
+    "message": "Equipamento indisponivel na academia hoje.",
+    "requiresReview": true,
+    "createdAt": "2026-06-05T10:30:00-03:00"
+  },
+  {
+    "id": "fb-004",
+    "studentId": "std-04",
+    "workoutId": "pw-04-monday",
+    "exerciseId": "ex-21",
+    "sentiment": "neutro",
+    "intensity": 4,
+    "message": "Treino ficou longo demais para meu horario.",
+    "requiresReview": true,
+    "createdAt": "2026-06-06T11:30:00-03:00"
+  },
+  {
+    "id": "fb-005",
+    "studentId": "std-05",
+    "workoutId": "pw-05-monday",
+    "exerciseId": null,
+    "sentiment": "neutro",
+    "intensity": 5,
+    "message": "Tive dificuldade de execucao no movimento.",
+    "requiresReview": true,
+    "createdAt": "2026-06-07T12:30:00-03:00"
+  },
+  {
+    "id": "fb-006",
+    "studentId": "std-06",
+    "workoutId": "pw-06-monday",
+    "exerciseId": null,
+    "sentiment": "positivo",
+    "intensity": 6,
+    "message": "Baixa motivacao nesta semana.",
+    "requiresReview": true,
+    "createdAt": "2026-06-08T13:30:00-03:00"
+  },
+  {
+    "id": "fb-007",
+    "studentId": "std-07",
+    "workoutId": "pw-07-monday",
+    "exerciseId": "ex-05",
+    "sentiment": "dor leve",
+    "intensity": 7,
+    "message": "Quero trocar um exercicio por falta de maquina.",
+    "requiresReview": true,
+    "createdAt": "2026-06-09T14:30:00-03:00"
+  },
+  {
+    "id": "fb-008",
+    "studentId": "std-08",
+    "workoutId": "pw-08-monday",
+    "exerciseId": null,
+    "sentiment": "neutro",
+    "intensity": 8,
+    "message": "Duvida sobre qual carga usar.",
+    "requiresReview": true,
+    "createdAt": "2026-06-03T15:30:00-03:00"
+  },
+  {
+    "id": "fb-009",
+    "studentId": "std-09",
+    "workoutId": "pw-09-monday",
+    "exerciseId": null,
+    "sentiment": "neutro",
+    "intensity": 9,
+    "message": "Dificuldade com pausa de descanso.",
+    "requiresReview": true,
+    "createdAt": "2026-06-04T16:30:00-03:00"
+  },
+  {
+    "id": "fb-010",
+    "studentId": "std-10",
+    "workoutId": "pw-10-monday",
+    "exerciseId": "ex-01",
+    "sentiment": "neutro",
+    "intensity": 10,
+    "message": "Consegui concluir tudo com boa tecnica.",
+    "requiresReview": false,
+    "createdAt": "2026-06-05T17:30:00-03:00"
+  },
+  {
+    "id": "fb-011",
+    "studentId": "std-11",
+    "workoutId": "pw-11-monday",
+    "exerciseId": null,
+    "sentiment": "positivo",
+    "intensity": 1,
+    "message": "Treino concluido com sucesso e carga controlada.",
+    "requiresReview": false,
+    "createdAt": "2026-06-06T08:30:00-03:00"
+  },
+  {
+    "id": "fb-012",
+    "studentId": "std-12",
+    "workoutId": "pw-12-monday",
+    "exerciseId": null,
+    "sentiment": "dor leve",
+    "intensity": 2,
+    "message": "Senti dor leve no ombro durante o supino.",
+    "requiresReview": true,
+    "createdAt": "2026-06-07T09:30:00-03:00"
+  },
+  {
+    "id": "fb-013",
+    "studentId": "std-13",
+    "workoutId": "pw-13-monday",
+    "exerciseId": "ex-50",
+    "sentiment": "neutro",
+    "intensity": 3,
+    "message": "Equipamento indisponivel na academia hoje.",
+    "requiresReview": true,
+    "createdAt": "2026-06-08T10:30:00-03:00"
+  },
+  {
+    "id": "fb-014",
+    "studentId": "std-14",
+    "workoutId": "pw-14-monday",
+    "exerciseId": null,
+    "sentiment": "neutro",
+    "intensity": 4,
+    "message": "Treino ficou longo demais para meu horario.",
+    "requiresReview": true,
+    "createdAt": "2026-06-09T11:30:00-03:00"
+  },
+  {
+    "id": "fb-015",
+    "studentId": "std-15",
+    "workoutId": "pw-15-monday",
+    "exerciseId": null,
+    "sentiment": "neutro",
+    "intensity": 5,
+    "message": "Tive dificuldade de execucao no movimento.",
+    "requiresReview": true,
+    "createdAt": "2026-06-03T12:30:00-03:00"
+  },
+  {
+    "id": "fb-016",
+    "studentId": "std-16",
+    "workoutId": "pw-16-monday",
+    "exerciseId": "ex-05",
+    "sentiment": "positivo",
+    "intensity": 6,
+    "message": "Baixa motivacao nesta semana.",
+    "requiresReview": true,
+    "createdAt": "2026-06-04T13:30:00-03:00"
+  },
+  {
+    "id": "fb-017",
+    "studentId": "std-01",
+    "workoutId": "pw-01-monday",
+    "exerciseId": null,
+    "sentiment": "dor leve",
+    "intensity": 7,
+    "message": "Quero trocar um exercicio por falta de maquina.",
+    "requiresReview": true,
+    "createdAt": "2026-06-05T14:30:00-03:00"
+  },
+  {
+    "id": "fb-018",
+    "studentId": "std-02",
+    "workoutId": "pw-02-monday",
+    "exerciseId": null,
+    "sentiment": "neutro",
+    "intensity": 8,
+    "message": "Duvida sobre qual carga usar.",
+    "requiresReview": true,
+    "createdAt": "2026-06-06T15:30:00-03:00"
+  },
+  {
+    "id": "fb-019",
+    "studentId": "std-03",
+    "workoutId": "pw-03-monday",
+    "exerciseId": "ex-26",
+    "sentiment": "neutro",
+    "intensity": 9,
+    "message": "Dificuldade com pausa de descanso.",
+    "requiresReview": true,
+    "createdAt": "2026-06-07T16:30:00-03:00"
+  },
+  {
+    "id": "fb-020",
+    "studentId": "std-04",
+    "workoutId": "pw-04-monday",
+    "exerciseId": null,
+    "sentiment": "neutro",
+    "intensity": 10,
+    "message": "Consegui concluir tudo com boa tecnica.",
+    "requiresReview": false,
+    "createdAt": "2026-06-08T17:30:00-03:00"
+  }
+]

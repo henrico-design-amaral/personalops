@@ -1,0 +1,802 @@
+[
+  {
+    "id": "ws-01",
+    "studentId": "std-01",
+    "professionalId": "prof-01",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-01-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-01-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-01-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-02",
+    "studentId": "std-02",
+    "professionalId": "prof-01",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-02-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-02-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-02-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-03",
+    "studentId": "std-03",
+    "professionalId": "prof-01",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-03-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-03-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-03-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-04",
+    "studentId": "std-04",
+    "professionalId": "prof-01",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-04-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-04-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-04-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-05",
+    "studentId": "std-05",
+    "professionalId": "prof-02",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-05-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-05-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-05-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-06",
+    "studentId": "std-06",
+    "professionalId": "prof-01",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-06-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-06-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-06-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-07",
+    "studentId": "std-07",
+    "professionalId": "prof-02",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-07-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-07-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-07-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-08",
+    "studentId": "std-08",
+    "professionalId": "prof-02",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-08-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-08-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-08-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-09",
+    "studentId": "std-09",
+    "professionalId": "prof-02",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-09-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-09-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-09-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-10",
+    "studentId": "std-10",
+    "professionalId": "prof-01",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-10-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-10-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-10-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-11",
+    "studentId": "std-11",
+    "professionalId": "prof-02",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-11-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-11-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-11-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-12",
+    "studentId": "std-12",
+    "professionalId": "prof-01",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-12-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-12-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-12-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-13",
+    "studentId": "std-13",
+    "professionalId": "prof-02",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-13-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-13-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-13-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-14",
+    "studentId": "std-14",
+    "professionalId": "prof-01",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-14-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-14-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-14-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-15",
+    "studentId": "std-15",
+    "professionalId": "prof-02",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-15-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-15-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-15-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  },
+  {
+    "id": "ws-16",
+    "studentId": "std-16",
+    "professionalId": "prof-02",
+    "weekStartsOn": "2026-06-08",
+    "days": {
+      "sunday": {
+        "type": "rest",
+        "workoutId": null,
+        "title": "Descanso",
+        "notes": "Agenda demonstrativa."
+      },
+      "monday": {
+        "type": "workout",
+        "workoutId": "pw-16-monday",
+        "title": "Peito + Biceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "tuesday": {
+        "type": "cardio",
+        "workoutId": null,
+        "title": "Cardio leve",
+        "notes": "Agenda demonstrativa."
+      },
+      "wednesday": {
+        "type": "workout",
+        "workoutId": "pw-16-wednesday",
+        "title": "Pernas + Core",
+        "notes": "Agenda demonstrativa."
+      },
+      "thursday": {
+        "type": "checkin",
+        "workoutId": null,
+        "title": "Check-in",
+        "notes": "Responder check-in no app."
+      },
+      "friday": {
+        "type": "workout",
+        "workoutId": "pw-16-friday",
+        "title": "Costas + Triceps",
+        "notes": "Agenda demonstrativa."
+      },
+      "saturday": {
+        "type": "assessment",
+        "workoutId": null,
+        "title": "Mobilidade",
+        "notes": "Agenda demonstrativa."
+      }
+    }
+  }
+]

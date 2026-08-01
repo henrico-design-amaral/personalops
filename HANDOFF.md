@@ -1,37 +1,11 @@
-﻿# Handoff — PersonalOps
+# Handoff operacional
 
-## Estado atual
+Branch de reconstrução: `codex/personalops-supabase-rebuild`.
 
-Base documental inicial criada para o projeto PersonalOps.
+Antes de qualquer publicação, execute `npm ci`, `npm run validate`, `npm audit --audit-level=high`, `npm run test:rls` e `npm run test:e2e`. Não use `git add .`; confira o diff e faça staging apenas do lote intencional.
 
-## Direção
+O Supabase canônico é o projeto `personalops`. As migrations locais ficam em `supabase/migrations`; o seed de desenvolvimento não é fonte de produção. Não versionar `.env.local`, `.env.test` ou qualquer credencial.
 
-Produto SaaS/PWA para personal trainers criarem, entregarem e acompanharem treinos com execução assistida, offline-first, IA contextual, voz pragmática e biblioteca visual segura.
+O único destino de publicação é `https://personalops.henrico.works`. O workflow da Hostinger aceita apenas os diretórios PersonalOps aprovados e publica somente o artifact `dist` que passou pelo release gate.
 
-## Próxima ação recomendada
-
-Revisar a fundação documental, criar repositório GitHub privado e fazer o primeiro commit.
-
-## Riscos
-
-- Escopo crescer rápido demais;
-- tentar copiar MFIT em vez de criar diferencial;
-- começar código antes de fechar fluxo crítico;
-- tratar biblioteca visual sem revisar licença;
-- prometer IA ou voz além do viável no MVP;
-- deixar LGPD para depois.
-
-## Comando de retomada sugerido
-
-Read README.md, FOUNDATION_BRIEF.md, docs/product/PDR.md, DECISIONS.md, TASKS.md and QUALITY_GATES.md first.
-
-Task:
-Start a PersonalOps work session.
-
-Before editing:
-1. Run git status -sb.
-2. Run git branch --show-current.
-3. Confirm current branch.
-4. Identify uncommitted files.
-5. Report risks.
-6. Do not edit before reporting.
+O produto fitness anterior está em `legacy/fitness-prototype` e `legacy/pre-rebuild-runtime`. Não reintroduzir seus dados, RBAC simulado ou vocabulário no produto atual.

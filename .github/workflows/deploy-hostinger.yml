@@ -2,50 +2,138 @@ name: Deploy PersonalOps to Hostinger
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
+
+concurrency:
+  group: personalops-production
+  cancel-in-progress: false
 
 permissions:
   contents: read
 
 env:
-  HOSTINGER_HOST: 82.25.73.172
-  HOSTINGER_PORT: 65002
-  HOSTINGER_USER: u326975256
-  HOSTINGER_TARGET: /home/u326975256/domains/henrico.works/public_html/personalops
-  HOSTINGER_SSH_PASSWORD: ${{ secrets.HOSTINGER_SSH_PASSWORD }}
+  PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
+  PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+  PUBLIC_SITE_URL: https://personalops.henrico.works
+  PUBLIC_BASE_PATH: /
+  E2E_USER_A_EMAIL: ${{ secrets.E2E_USER_A_EMAIL }}
+  E2E_USER_A_PASSWORD: ${{ secrets.E2E_USER_A_PASSWORD }}
+  E2E_USER_B_EMAIL: ${{ secrets.E2E_USER_B_EMAIL }}
+  E2E_USER_B_PASSWORD: ${{ secrets.E2E_USER_B_PASSWORD }}
 
 jobs:
-  deploy:
-    name: Build and deploy PersonalOps
+  quality:
+    name: Release gate
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js LTS
+        uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
 
-      - run: npm ci
-      - run: npm run check
-      - run: npm run build
+      - name: Confirm required environment
+        shell: bash
+        run: |
+          for name in PUBLIC_SUPABASE_URL PUBLIC_SUPABASE_PUBLISHABLE_KEY E2E_USER_A_EMAIL E2E_USER_A_PASSWORD E2E_USER_B_EMAIL E2E_USER_B_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "Required repository secret is missing: $name"
+              exit 1
+            fi
+          done
 
-      - name: Deploy dist to Hostinger path
-        if: env.HOSTINGER_SSH_PASSWORD != ''
-        uses: appleboy/scp-action@v0.1.7
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Validate source, tests and migrations
+        run: npm run validate
+
+      - name: Audit production dependencies
+        run: npm audit --audit-level=high
+
+      - name: Prove row-level isolation
+        run: npm run test:rls
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Exercise critical browser flows
+        run: npm run test:e2e
+
+      - name: Package the validated build
+        uses: actions/upload-artifact@v7
         with:
-          host: ${{ env.HOSTINGER_HOST }}
-          username: ${{ env.HOSTINGER_USER }}
-          password: ${{ env.HOSTINGER_SSH_PASSWORD }}
-          port: ${{ env.HOSTINGER_PORT }}
-          source: "dist/*"
-          target: ${{ env.HOSTINGER_TARGET }}
+          name: personalops-dist-${{ github.sha }}
+          path: dist
+          if-no-files-found: error
+          retention-days: 3
+
+  deploy:
+    name: Publish validated dist
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: production
+      url: https://personalops.henrico.works
+    env:
+      HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+      HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+      HOSTINGER_USERNAME: ${{ secrets.HOSTINGER_USERNAME }}
+      HOSTINGER_PASSWORD: ${{ secrets.HOSTINGER_PASSWORD }}
+      HOSTINGER_TARGET_DIR: ${{ secrets.HOSTINGER_TARGET_DIR }}
+    steps:
+      - name: Confirm deployment configuration
+        shell: bash
+        run: |
+          for name in HOSTINGER_HOST HOSTINGER_PORT HOSTINGER_USERNAME HOSTINGER_PASSWORD HOSTINGER_TARGET_DIR; do
+            if [ -z "${!name}" ]; then
+              echo "Required repository secret is missing: $name"
+              exit 1
+            fi
+          done
+          if ! [[ "$HOSTINGER_PORT" =~ ^[0-9]+$ ]]; then
+            echo 'HOSTINGER_PORT must be numeric.'
+            exit 1
+          fi
+          if ! [[ "$HOSTINGER_TARGET_DIR" =~ ^/home/[^/]+/domains/(henrico\.works/public_html/personalops|personalops\.henrico\.works/public_html)/?$ ]]; then
+            echo 'HOSTINGER_TARGET_DIR is outside the approved PersonalOps paths.'
+            exit 1
+          fi
+
+      - name: Download validated build
+        uses: actions/download-artifact@v8
+        with:
+          name: personalops-dist-${{ github.sha }}
+          path: dist
+
+      - name: Publish dist only
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          port: ${{ secrets.HOSTINGER_PORT }}
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          source: 'dist/*'
+          target: ${{ secrets.HOSTINGER_TARGET_DIR }}
           strip_components: 1
           rm: true
 
-      - name: Report skipped deploy
-        if: env.HOSTINGER_SSH_PASSWORD == ''
+      - name: Confirm the new release over HTTPS
+        shell: bash
         run: |
-          echo "HOSTINGER_SSH_PASSWORD secret is missing. Build passed, deploy skipped."
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent --show-error --location https://personalops.henrico.works/ | grep --fixed-strings --quiet 'Clareza antes de velocidade.'; then
+              echo 'Production homepage contains the current release marker.'
+              exit 0
+            fi
+            sleep 10
+          done
+          echo 'Production did not expose the current release marker.'
+          exit 1

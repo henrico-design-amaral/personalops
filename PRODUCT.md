@@ -1,33 +1,32 @@
-# Product
+# Produto — PersonalOps
 
-## Register
+## Tese
 
-product
+PersonalOps organiza decisões pessoais antes de organizar interfaces. Ele responde: o que pede atenção agora, o que realmente é prioridade, quanto cabe no dia, o que bloqueia a execução, o que avançou e qual é o próximo passo concreto.
 
-## Users
+## Vocabulário canônico
 
-Personal trainers, students and the PersonalOps platform admin use this static prototype to validate operational workflows. The trainer needs to decide who requires attention, adjust workouts, monitor feedback and manage mock billing. The student needs to understand the training week, execute the workout, register sets and send post-workout feedback. The admin needs a platform-level view of synthetic usage, billing, library and system health.
+- **Área**: contexto estável da vida, como trabalho, saúde ou casa.
+- **Objetivo**: mudança ou resultado de médio prazo, com progresso observável.
+- **Projeto**: esforço delimitado associado a uma área ou objetivo.
+- **Prioridade**: resultado que merece atenção por impacto e urgência; não é sinônimo de tarefa.
+- **Tarefa**: próximo passo executável, planejado ou em andamento.
+- **Compromisso**: ocupação temporal que disputa capacidade.
+- **Rotina**: comportamento recorrente e suas ocorrências.
+- **Energia**: estado percebido de 1 a 5, registrado por período.
+- **Capacidade**: minutos realmente disponíveis para execução.
+- **Revisão**: leitura do planejado versus realizado, seguida de aprendizado e decisão.
 
-## Product Purpose
+## Promessa operacional
 
-PersonalOps is a client-only validation prototype for a personal trainer operating system. It exists to test whether frequency, progress, workout creation, cloning, post-workout feedback, mock Pix billing and platform monitoring can be understood in one workflow without backend, real payment, real authentication or real user data.
+1. Ler o estado antes de planejar.
+2. Distinguir resultado prioritário de atividade.
+3. Ajustar o plano à energia e à capacidade disponíveis.
+4. Recomendar um próximo passo concreto.
+5. Revisar com evidência, sem gamificação vazia.
 
-## Brand Personality
+## Escopo funcional atual
 
-Operational, clear and premium. The interface should feel focused on decisions, not decoration, and should help users see what deserves attention now.
+Autenticação, perfil e fuso; visão Hoje; CRUD e estados de prioridades e tarefas; rotinas e ocorrências; energia e capacidade; compromissos; objetivos, projetos e progresso; revisões diária, semanal e mensal; histórico e indicadores operacionais.
 
-## Anti-references
-
-Avoid generic fitness visuals, long text-only dashboards, spreadsheet-like student management, decorative motion, real payment language, real financial integrations and any appearance that the prototype stores or processes real personal data.
-
-## Design Principles
-
-- Show priority before history.
-- Turn student management into visible decisions and next actions.
-- Prefer structured controls over free text when the user is choosing from known options.
-- Keep the three profiles distinct: platform admin, trainer operation and student execution.
-- Preserve the static, synthetic and GitHub Pages-safe nature of the prototype.
-
-## Accessibility & Inclusion
-
-Maintain keyboard-accessible buttons, selects, checkboxes and modals. Preserve readable contrast in the dark interface, avoid horizontal overflow on mobile and support reduced motion for non-essential transitions.
+Storage e Realtime não foram ativados porque o produto atual não possui arquivos nem colaboração simultânea que justifiquem essas superfícies de risco.

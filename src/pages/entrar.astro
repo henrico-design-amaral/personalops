@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="Entrar — PersonalOps"
+  description="Acesse seu sistema pessoal."
+  pageClass="auth-page"
+  robots="noindex,nofollow"
+>
+  <main id="conteudo" class="auth-shell" data-base={base}>
+    <a class="wordmark auth-brand" href={base}>personal<span>ops</span></a>
+    <section class="auth-panel" aria-labelledby="auth-title">
+      <div class="auth-copy">
+        <p class="signal-label">Seu sistema pessoal</p>
+        <h1 id="auth-title">Volte ao que precisa de atenção.</h1>
+        <p>Energia, compromissos e próximos passos permanecem no mesmo lugar.</p>
+      </div>
+
+      <div class="auth-form-wrap">
+        <div class="auth-tabs" role="tablist" aria-label="Tipo de acesso">
+          <button type="button" role="tab" aria-selected="true" data-auth-mode="signin"
+            >Entrar</button
+          >
+          <button type="button" role="tab" aria-selected="false" data-auth-mode="signup"
+            >Criar conta</button
+          >
+        </div>
+        <form id="auth-form" novalidate>
+          <div class="field" data-signup-field hidden>
+            <label for="display-name">Como você quer ser chamado</label>
+            <input
+              id="display-name"
+              name="displayName"
+              autocomplete="name"
+              minlength="2"
+              maxlength="80"
+            />
+          </div>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="password">Senha</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              minlength="8"
+              required
+            />
+            <small data-password-help hidden>Use ao menos 8 caracteres.</small>
+          </div>
+          <button class="button button-primary auth-submit" type="submit">Entrar no sistema</button>
+          <p class="form-message" id="auth-message" role="status" aria-live="polite"></p>
+        </form>
+        <a class="text-link reset-link" href={`${base}recuperar/`}>Recuperar acesso</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    import { getSupabase } from '../lib/supabase/client';
+
+    const shell = document.querySelector<HTMLElement>('[data-base]');
+    const form = document.querySelector<HTMLFormElement>('#auth-form');
+    const message = document.querySelector<HTMLElement>('#auth-message');
+    const submit = document.querySelector<HTMLButtonElement>('.auth-submit');
+    const signupField = document.querySelector<HTMLElement>('[data-signup-field]');
+    const passwordHelp = document.querySelector<HTMLElement>('[data-password-help]');
+    const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-auth-mode]'));
+    let mode: 'signin' | 'signup' = 'signin';
+
+    const base = shell?.dataset.base ?? '/';
+    const setMode = (nextMode: 'signin' | 'signup') => {
+      mode = nextMode;
+      tabs.forEach((tab) =>
+        tab.setAttribute('aria-selected', String(tab.dataset.authMode === mode)),
+      );
+      if (signupField) signupField.hidden = mode !== 'signup';
+      if (passwordHelp) passwordHelp.hidden = mode !== 'signup';
+      if (submit)
+        submit.textContent = mode === 'signin' ? 'Entrar no sistema' : 'Criar meu sistema';
+      const password = form?.elements.namedItem('password');
+      if (password instanceof HTMLInputElement)
+        password.autocomplete = mode === 'signin' ? 'current-password' : 'new-password';
+      if (message) message.textContent = '';
+    };
+
+    tabs.forEach((tab) =>
+      tab.addEventListener('click', () => setMode(tab.dataset.authMode as 'signin' | 'signup')),
+    );
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity() || !submit || !message) return;
+      const values = new FormData(form);
+      const email = String(values.get('email') ?? '').trim();
+      const password = String(values.get('password') ?? '');
+      const displayName = String(values.get('displayName') ?? '').trim();
+      submit.disabled = true;
+      submit.textContent = 'Salvando…';
+      message.textContent = '';
+
+      try {
+        const client = getSupabase();
+        if (mode === 'signin') {
+          const { error } = await client.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+        } else {
+          if (displayName.length < 2) throw new Error('Informe como você quer ser chamado.');
+          const { data, error } = await client.auth.signUp({
+            email,
+            password,
+            options: { data: { display_name: displayName } },
+          });
+          if (error) throw error;
+          if (!data.session) {
+            message.textContent = 'Conta criada. Confirme o e-mail para continuar.';
+            submit.disabled = false;
+            submit.textContent = 'Criar meu sistema';
+            return;
+          }
+        }
+        window.location.assign(`${base}app/hoje/`);
+      } catch (error) {
+        message.textContent =
+          error instanceof Error ? error.message : 'Não foi possível concluir o acesso.';
+        submit.disabled = false;
+        submit.textContent = mode === 'signin' ? 'Entrar no sistema' : 'Criar meu sistema';
+      }
+    });
+
+    getSupabase()
+      .auth.getSession()
+      .then(({ data }) => {
+        if (data.session) window.location.assign(`${base}app/hoje/`);
+      });
+  </script>
+</BaseLayout>

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "vd-001",
+    "professionalId": "prof-01",
+    "studentId": "std-16",
+    "rawTranscript": "Criar treino de segunda para Bruno. Peito e biceps. Supino inclinado, tres series de doze, descanso de noventa segundos. Supino reto, quatro de dez. Rosca direta, tres de doze.",
+    "parsedResult": {
+      "day": "monday",
+      "workoutTitle": "Peito e biceps",
+      "exercises": [
+        {
+          "name": "Supino inclinado",
+          "sets": 3,
+          "reps": "12",
+          "restSeconds": 90
+        },
+        {
+          "name": "Supino reto",
+          "sets": 4,
+          "reps": "10",
+          "restSeconds": 90
+        },
+        {
+          "name": "Rosca direta",
+          "sets": 3,
+          "reps": "12",
+          "restSeconds": 60
+        }
+      ],
+      "notes": "Revisar antes de publicar."
+    },
+    "confidence": 0.84,
+    "needsReview": true,
+    "createdAt": "2026-06-10T09:00:00-03:00"
+  },
+  {
+    "id": "vd-002",
+    "professionalId": "prof-01",
+    "studentId": "std-01",
+    "rawTranscript": "Ajustar quarta do Carlos para pernas e core com carga moderada.",
+    "parsedResult": {
+      "day": "wednesday",
+      "workoutTitle": "Pernas e core moderado",
+      "exercises": [
+        {
+          "name": "Leg press",
+          "sets": 4,
+          "reps": "10",
+          "restSeconds": 90
+        },
+        {
+          "name": "Prancha",
+          "sets": 3,
+          "reps": "40 segundos",
+          "restSeconds": 45
+        }
+      ],
+      "notes": "Checar restricao de ombro nao impacta."
+    },
+    "confidence": 0.78,
+    "needsReview": true,
+    "createdAt": "2026-06-10T10:20:00-03:00"
+  },
+  {
+    "id": "vd-003",
+    "professionalId": "prof-02",
+    "studentId": "std-05",
+    "rawTranscript": "Treino em casa para Luiza sem impacto no joelho.",
+    "parsedResult": {
+      "day": "friday",
+      "workoutTitle": "Casa sem impacto",
+      "exercises": [
+        {
+          "name": "Ponte de quadril",
+          "sets": 3,
+          "reps": "15",
+          "restSeconds": 60
+        },
+        {
+          "name": "Dead bug",
+          "sets": 3,
+          "reps": "10 cada lado",
+          "restSeconds": 45
+        }
+      ],
+      "notes": "Evitar flexao profunda de joelho."
+    },
+    "confidence": 0.81,
+    "needsReview": true,
+    "createdAt": "2026-06-09T15:10:00-03:00"
+  }
+]

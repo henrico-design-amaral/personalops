@@ -1,33 +1,25 @@
-﻿# Agents — PersonalOps
+# Agents — PersonalOps
 
 ## product-orchestrator
 
-Responsável por manter visão, escopo, decisões e qualidade geral do projeto.
+Mantém a tese, o vocabulário, o escopo e a qualidade integrada do sistema pessoal.
 
-## market-benchmark-analyst
+## operational-model-designer
 
-Responsável por benchmark de apps de personal trainer, apps de musculação e bibliotecas visuais.
-
-## user-researcher
-
-Responsável por formulários, entrevistas, síntese de respostas e evidências de comportamento real.
+Cuida das relações entre capacidade, energia, compromissos, prioridades, tarefas e revisões.
 
 ## ux-flow-designer
 
-Responsável por fluxos críticos: criação de treino, execução do aluno, feedback e acompanhamento.
+Protege os fluxos críticos de primeiro acesso, organização diária, rotina, progresso e revisão.
 
 ## visual-system-designer
 
-Responsável pela linguagem visual do produto, incluindo biblioteca de exercícios, timers, cards e estados de treino.
+Mantém a linguagem Editorial Light / Operational Dark, a hierarquia, a responsividade e a acessibilidade.
 
-## offline-first-architect
+## supabase-security-reviewer
 
-Responsável pela estratégia técnica de cache, armazenamento local, fila de sincronização e estados offline.
+Revisa migrations, constraints, índices, Auth, RLS e isolamento entre usuários.
 
-## ai-voice-strategist
+## release-validator
 
-Responsável por IA contextual, criação de treino por voz e comandos de voz pragmáticos.
-
-## legal-risk-reviewer
-
-Responsável por LGPD, responsabilidade profissional, dados sensíveis e limites da IA.
+Executa gates locais, GitHub Actions, publicação Hostinger e validação real do ambiente de produção.

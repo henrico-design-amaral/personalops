@@ -1,18 +1,52 @@
 {
   "name": "personalops",
-  "version": "1.5.0",
-  "description": "PersonalOps: Astro front-end reconstruction for personal operating workflows",
+  "version": "2.0.0",
+  "description": "PersonalOps: sistema pessoal para clareza, capacidade e execução diária",
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host 127.0.0.1",
     "build": "astro build",
     "preview": "astro preview",
+    "serve:dist": "node scripts/serve-dist.mjs",
     "check": "astro check",
-    "validate:fixtures": "node scripts/validate-fixtures.mjs",
-    "test:access": "node scripts/test-access-control.mjs"
+    "typecheck": "astro check",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:rls": "node scripts/test-rls.mjs",
+    "pretest:e2e": "npm run build",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "validate:env": "node scripts/validate-env.mjs",
+    "validate:migrations": "node scripts/validate-migrations.mjs",
+    "seed:dev": "node scripts/seed-dev.mjs",
+    "validate": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run validate:env && npm run validate:migrations && npm run build"
   },
   "dependencies": {
-    "astro": "^5.0.6"
+    "@astrojs/preact": "6.0.2",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/syne": "5.3.0",
+    "@supabase/supabase-js": "2.111.0",
+    "astro": "7.1.6",
+    "lucide-preact": "1.28.0",
+    "preact": "10.29.8"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.62.1",
+    "@types/node": "24.10.0",
+    "dotenv": "17.2.3",
+    "eslint": "10.8.0",
+    "eslint-plugin-astro": "3.0.1",
+    "jsdom": "30.0.1",
+    "prettier": "3.6.2",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.65.0",
+    "vite": "8.2.0",
+    "vitest": "4.1.10"
+  }
 }
