@@ -1,28 +1,18 @@
 import { defineConfig } from 'astro/config';
+import preact from '@astrojs/preact';
 
 export default defineConfig({
-  // Astro-first configuration for PersonalOps
-  // Produces static output for GitHub Pages deployment at /personalops/
   output: 'static',
-
-  // GitHub Pages deploys to /personalops/ subdirectory
-  // Astro uses this to rewrite asset paths correctly
-  base: '/personalops/',
-
-  // Build output directory
+  site: process.env.PUBLIC_SITE_URL || 'http://localhost:4321',
+  base: process.env.PUBLIC_BASE_PATH || '/',
+  trailingSlash: 'always',
   outDir: './dist',
-
-  // Public assets directory
   publicDir: './public',
-
-  // Integrations (minimal, offline-first focus)
-  integrations: [],
-
-  // Build-time optimizations
+  integrations: [preact()],
   vite: {
     build: {
       minify: true,
-      sourcemap: false
-    }
-  }
+      sourcemap: false,
+    },
+  },
 });
