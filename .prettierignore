@@ -8,8 +8,6 @@ playwright-report
 test-results
 src/types/database.ts
 package-lock.json
-docs
-*.md
 index.html
 manifest.webmanifest
 service-worker.js
