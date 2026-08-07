@@ -2,31 +2,40 @@
 
 ## Tese
 
-PersonalOps organiza decisões pessoais antes de organizar interfaces. Ele responde: o que pede atenção agora, o que realmente é prioridade, quanto cabe no dia, o que bloqueia a execução, o que avançou e qual é o próximo passo concreto.
+PersonalOps é uma plataforma SaaS de personal training para administrar a relação operacional entre a plataforma, personal trainers/professores e alunos. O produto foi concebido para competir com Mfit e outros sistemas do mercado, ampliando a categoria com uma operação mais completa, visual, inteligente e centrada no trabalho real do personal e na experiência do aluno.
 
-## Vocabulário canônico
+PersonalOps não é um sistema pessoal de produtividade, tarefas, energia ou organização da vida. Essa interpretação foi uma reconstrução posterior equivocada e não define o produto.
 
-- **Área**: contexto estável da vida, como trabalho, saúde ou casa.
-- **Objetivo**: mudança ou resultado de médio prazo, com progresso observável.
-- **Projeto**: esforço delimitado associado a uma área ou objetivo.
-- **Prioridade**: resultado que merece atenção por impacto e urgência; não é sinônimo de tarefa.
-- **Tarefa**: próximo passo executável, planejado ou em andamento.
-- **Compromisso**: ocupação temporal que disputa capacidade.
-- **Rotina**: comportamento recorrente e suas ocorrências.
-- **Energia**: estado percebido de 1 a 5, registrado por período.
-- **Capacidade**: minutos realmente disponíveis para execução.
-- **Revisão**: leitura do planejado versus realizado, seguida de aprendizado e decisão.
+## Perfis canônicos
 
-## Promessa operacional
+- **Admin da plataforma**: administra profissionais, biblioteca global, métricas agregadas, saúde técnica e operação da plataforma. Não administra alunos de professores.
+- **Professor / Personal Trainer**: possui workspace próprio, cria e controla seus alunos, prescreve treinos, acompanha frequência, progresso, feedbacks e operação financeira do próprio workspace.
+- **Aluno**: usuário autenticado e limitado, criado/convidado pelo professor, com acesso ao próprio portal, semana de treino, execução, histórico e feedback.
 
-1. Ler o estado antes de planejar.
-2. Distinguir resultado prioritário de atividade.
-3. Ajustar o plano à energia e à capacidade disponíveis.
-4. Recomendar um próximo passo concreto.
-5. Revisar com evidência, sem gamificação vazia.
+## Núcleo do produto
 
-## Escopo funcional atual
+1. Gestão de professores e operação da plataforma.
+2. Gestão do ciclo de vida dos alunos pelo professor.
+3. Biblioteca global de exercícios e biblioteca de treinos.
+4. Criação, edição, clonagem e prescrição de treinos.
+5. Agenda semanal com treino, cardio, descanso, check-in e avaliação.
+6. Execução assistida de treino, séries, repetições, carga, RPE e timer.
+7. Frequência, faltas, adesão, progresso e histórico.
+8. Feedback pós-treino, dor, esforço, humor e comentários.
+9. Perfil completo do aluno e acompanhamento de evolução.
+10. Cobranças e recebimentos no workspace do professor, evoluindo do mock validado para integrações reais apenas quando aprovadas.
+11. Experiência offline/resiliente onde fizer sentido para execução de treino.
 
-Autenticação, perfil e fuso; visão Hoje; CRUD e estados de prioridades e tarefas; rotinas e ocorrências; energia e capacidade; compromissos; objetivos, projetos e progresso; revisões diária, semanal e mensal; histórico e indicadores operacionais.
+## Princípios operacionais
 
-Storage e Realtime não foram ativados porque o produto atual não possui arquivos nem colaboração simultânea que justifiquem essas superfícies de risco.
+- Admin representa a plataforma; professor representa seu negócio; aluno representa apenas a própria experiência.
+- Aluno pertence ao workspace do professor que o criou e não existe como usuário administrativo.
+- Professor não acessa alunos ou finanças de outros professores.
+- Admin não cria, edita ou prescreve para alunos.
+- Exercício é objeto operacional de treino, não apenas mídia.
+- Prescrição e execução devem produzir histórico útil para decisões do professor e progresso do aluno.
+- A interface deve reduzir atrito em operações frequentes: acompanhar alunos, montar treino e executar treino.
+
+## Visão
+
+PersonalOps deve ser o sistema operacional do personal trainer moderno: uma plataforma única para gestão de alunos, prescrição, execução, acompanhamento, comunicação operacional, progresso e financeiro, com experiência superior para professor e aluno.
