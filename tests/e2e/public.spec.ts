@@ -7,7 +7,7 @@ test('páginas públicas respondem, navegam e não têm violações sérias', as
 }, testInfo) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'Clareza antes de velocidade',
+    'PERSONALOPS / REFLECTIVE SIGNAL',
   );
   await expect(page.getByRole('link', { name: /Abrir meu sistema/i })).toHaveAttribute(
     'href',
