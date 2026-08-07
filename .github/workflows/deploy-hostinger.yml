@@ -129,11 +129,11 @@ jobs:
         shell: bash
         run: |
           for attempt in 1 2 3 4 5; do
-            if curl --fail --silent --show-error --location https://personalops.henrico.works/ | grep --fixed-strings --quiet 'PERSONALOPS / REFLECTIVE SIGNAL'; then
-              echo 'Production homepage contains the restored Reflective Signal marker.'
+            if curl --fail --silent --show-error --location https://personalops.henrico.works/ | grep --fixed-strings --quiet 'PersonalOps organiza decisões antes de organizar listas'; then
+              echo 'Production homepage contains the PersonalOps product thesis marker.'
               exit 0
             fi
             sleep 10
           done
-          echo 'Production did not expose the restored Reflective Signal marker.'
+          echo 'Production did not expose the PersonalOps product thesis marker.'
           exit 1
