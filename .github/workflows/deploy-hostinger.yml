@@ -1,12 +1,14 @@
-name: Deploy PersonalOps to Hostinger
+name: Validate and Deploy PersonalOps
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: personalops-production
+  group: personalops-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -20,33 +22,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-
       - name: Setup Node.js LTS
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
-
       - name: Install locked dependencies
         run: npm ci
-
       - name: Validate JavaScript
         run: |
           node --check assets/js/app.js
           node --check assets/js/data-store.js
-
       - name: Validate fixtures
         run: npm run validate:fixtures
-
       - name: Validate access control
         run: npm run test:access
-
       - name: Build Astro compatibility layer
         env:
           PUBLIC_SITE_URL: https://personalops.henrico.works
           PUBLIC_BASE_PATH: /
         run: npm run build
-
       - name: Package authoritative V1.4 runtime
         shell: bash
         run: |
@@ -56,7 +51,6 @@ jobs:
           cp manifest.webmanifest release/manifest.webmanifest
           cp service-worker.js release/service-worker.js
           cp -R assets release/assets
-
       - name: Upload validated release
         uses: actions/upload-artifact@v7
         with:
@@ -67,6 +61,7 @@ jobs:
 
   deploy:
     name: Publish validated PersonalOps
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -84,20 +79,15 @@ jobs:
         shell: bash
         run: |
           for name in HOSTINGER_HOST HOSTINGER_PORT HOSTINGER_USERNAME HOSTINGER_PASSWORD HOSTINGER_TARGET_DIR; do
-            if [ -z "${!name}" ]; then
-              echo "Required repository secret is missing: $name"
-              exit 1
-            fi
+            if [ -z "${!name}" ]; then echo "Required repository secret is missing: $name"; exit 1; fi
           done
           if ! [[ "$HOSTINGER_PORT" =~ ^[0-9]+$ ]]; then exit 1; fi
           if ! [[ "$HOSTINGER_TARGET_DIR" =~ ^/home/[^/]+/domains/(henrico\.works/public_html/personalops|personalops\.henrico\.works/public_html)/?$ ]]; then exit 1; fi
-
       - name: Download validated release
         uses: actions/download-artifact@v8
         with:
           name: personalops-release-${{ github.sha }}
           path: release
-
       - name: Publish release only
         uses: appleboy/scp-action@v1.0.0
         with:
@@ -109,7 +99,6 @@ jobs:
           target: ${{ secrets.HOSTINGER_TARGET_DIR }}
           strip_components: 1
           rm: true
-
       - name: Confirm restored runtime over HTTPS
         shell: bash
         run: |
