@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import preact from '@astrojs/preact';
 
 export default defineConfig({
   output: 'static',
@@ -8,11 +7,11 @@ export default defineConfig({
   trailingSlash: 'always',
   outDir: './dist',
   publicDir: './public',
-  integrations: [preact()],
+  integrations: [],
   vite: {
     build: {
       minify: true,
-      sourcemap: false,
-    },
-  },
+      sourcemap: false
+    }
+  }
 });

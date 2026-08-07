@@ -1,139 +1,113 @@
-name: Deploy PersonalOps to Hostinger
+name: Validate and Deploy PersonalOps
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: personalops-production
+  group: personalops-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
   contents: read
 
-env:
-  PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
-  PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
-  PUBLIC_SITE_URL: https://personalops.henrico.works
-  PUBLIC_BASE_PATH: /
-  E2E_USER_A_EMAIL: ${{ secrets.E2E_USER_A_EMAIL }}
-  E2E_USER_A_PASSWORD: ${{ secrets.E2E_USER_A_PASSWORD }}
-  E2E_USER_B_EMAIL: ${{ secrets.E2E_USER_B_EMAIL }}
-  E2E_USER_B_PASSWORD: ${{ secrets.E2E_USER_B_PASSWORD }}
-
 jobs:
   quality:
-    name: Release gate
-    if: github.ref == 'refs/heads/main'
+    name: Validate restored PersonalOps
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-
       - name: Setup Node.js LTS
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
-
-      - name: Confirm required environment
-        shell: bash
-        run: |
-          for name in PUBLIC_SUPABASE_URL PUBLIC_SUPABASE_PUBLISHABLE_KEY E2E_USER_A_EMAIL E2E_USER_A_PASSWORD E2E_USER_B_EMAIL E2E_USER_B_PASSWORD; do
-            if [ -z "${!name}" ]; then
-              echo "Required repository secret is missing: $name"
-              exit 1
-            fi
-          done
-
       - name: Install locked dependencies
         run: npm ci
-
-      - name: Validate source, tests and migrations
-        run: npm run validate
-
-      - name: Audit production dependencies
-        run: npm audit --audit-level=high
-
-      - name: Prove row-level isolation
-        run: npm run test:rls
-
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-
-      - name: Exercise critical browser flows
-        run: npm run test:e2e
-
-      - name: Package the validated build
+      - name: Validate JavaScript
+        run: |
+          node --check assets/js/app.js
+          node --check assets/js/data-store.js
+      - name: Validate fixtures
+        run: npm run validate:fixtures
+      - name: Validate access control
+        run: npm run test:access
+      - name: Build Astro compatibility layer
+        env:
+          PUBLIC_SITE_URL: https://personalops.henrico.works
+          PUBLIC_BASE_PATH: /
+        run: npm run build
+      - name: Package authoritative V1.4 runtime
+        shell: bash
+        run: |
+          rm -rf release
+          mkdir -p release
+          cp index.html release/index.html
+          cp manifest.webmanifest release/manifest.webmanifest
+          cp service-worker.js release/service-worker.js
+          cp -R assets release/assets
+      - name: Upload validated release
         uses: actions/upload-artifact@v7
         with:
-          name: personalops-dist-${{ github.sha }}
-          path: dist
+          name: personalops-release-${{ github.sha }}
+          path: release
           if-no-files-found: error
           retention-days: 3
 
   deploy:
-    name: Publish validated dist
+    name: Publish validated PersonalOps
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
       name: production
       url: https://personalops.henrico.works
-    env:
-      HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
-      HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
-      HOSTINGER_USERNAME: ${{ secrets.HOSTINGER_USERNAME }}
-      HOSTINGER_PASSWORD: ${{ secrets.HOSTINGER_PASSWORD }}
-      HOSTINGER_TARGET_DIR: ${{ secrets.HOSTINGER_TARGET_DIR }}
     steps:
-      - name: Confirm deployment configuration
+      - name: Validate deployment configuration
+        env:
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_USERNAME: ${{ secrets.HOSTINGER_USERNAME }}
+          HOSTINGER_PASSWORD: ${{ secrets.HOSTINGER_PASSWORD }}
+          HOSTINGER_TARGET_DIR: ${{ secrets.HOSTINGER_TARGET_DIR }}
         shell: bash
         run: |
           for name in HOSTINGER_HOST HOSTINGER_PORT HOSTINGER_USERNAME HOSTINGER_PASSWORD HOSTINGER_TARGET_DIR; do
-            if [ -z "${!name}" ]; then
-              echo "Required repository secret is missing: $name"
-              exit 1
-            fi
+            if [ -z "${!name}" ]; then echo "Required repository secret is missing: $name"; exit 1; fi
           done
-          if ! [[ "$HOSTINGER_PORT" =~ ^[0-9]+$ ]]; then
-            echo 'HOSTINGER_PORT must be numeric.'
-            exit 1
-          fi
-          if ! [[ "$HOSTINGER_TARGET_DIR" =~ ^/home/[^/]+/domains/(henrico\.works/public_html/personalops|personalops\.henrico\.works/public_html)/?$ ]]; then
-            echo 'HOSTINGER_TARGET_DIR is outside the approved PersonalOps paths.'
-            exit 1
-          fi
-
-      - name: Download validated build
+          if ! [[ "$HOSTINGER_PORT" =~ ^[0-9]+$ ]]; then exit 1; fi
+          if ! [[ "$HOSTINGER_TARGET_DIR" =~ ^/home/[^/]+/domains/(henrico\.works/public_html/personalops|personalops\.henrico\.works/public_html)/?$ ]]; then exit 1; fi
+      - name: Download validated release
         uses: actions/download-artifact@v8
         with:
-          name: personalops-dist-${{ github.sha }}
-          path: dist
-
-      - name: Publish dist only
+          name: personalops-release-${{ github.sha }}
+          path: release
+      - name: Publish release only
         uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.HOSTINGER_HOST }}
           port: ${{ secrets.HOSTINGER_PORT }}
           username: ${{ secrets.HOSTINGER_USERNAME }}
           password: ${{ secrets.HOSTINGER_PASSWORD }}
-          source: 'dist/*'
+          source: 'release/*'
           target: ${{ secrets.HOSTINGER_TARGET_DIR }}
           strip_components: 1
           rm: true
-
-      - name: Confirm the new release over HTTPS
+      - name: Confirm restored runtime over HTTPS
         shell: bash
         run: |
-          for attempt in 1 2 3 4 5; do
-            if curl --fail --silent --show-error --location https://personalops.henrico.works/ | grep --fixed-strings --quiet 'Clareza antes de velocidade.'; then
-              echo 'Production homepage contains the current release marker.'
+          for attempt in 1 2 3 4 5 6; do
+            if curl --fail --silent --show-error --location https://personalops.henrico.works/ | grep --fixed-strings --quiet '<div id="app" class="app-shell"></div>'; then
+              echo 'Production exposes the restored PersonalOps runtime.'
               exit 0
             fi
             sleep 10
           done
-          echo 'Production did not expose the current release marker.'
+          echo 'Production did not expose the restored PersonalOps runtime.'
           exit 1

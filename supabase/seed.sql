@@ -1,3 +1,0 @@
--- O seed automático do banco permanece deliberadamente vazio.
--- Dados de produto exigem um auth.uid() real para atravessar as mesmas políticas RLS
--- da aplicação. Execute `npm run seed:dev` com `.env.local` e `.env.test`.
