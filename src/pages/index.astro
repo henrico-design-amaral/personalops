@@ -2,524 +2,651 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const base = import.meta.env.BASE_URL;
-const weekDays = [
-  { day: 'MON', value: '92%', tone: 'success' },
-  { day: 'TUE', value: '76%', tone: 'violet' },
-  { day: 'WED', value: '88%', tone: 'success' },
-  { day: 'THU', value: '64%', tone: 'gold' },
-  { day: 'FRI', value: '71%', tone: 'violet' },
-  { day: 'SAT', value: '45%', tone: 'gold' },
-  { day: 'SUN', value: '—', tone: 'rest' },
+
+const operatingQuestions = [
+  {
+    code: '01',
+    title: 'O que pede atenção agora?',
+    text: 'O dia começa por estado real: energia, capacidade, compromissos, atrasos e bloqueios.',
+  },
+  {
+    code: '02',
+    title: 'O que é prioridade de verdade?',
+    text: 'Prioridade é resultado com impacto e urgência. Tarefa é apenas o próximo passo executável.',
+  },
+  {
+    code: '03',
+    title: 'Quanto cabe sem mentir?',
+    text: 'O plano se ajusta ao tempo disponível e à energia percebida, não a uma lista infinita.',
+  },
+  {
+    code: '04',
+    title: 'O que avançou e o que muda?',
+    text: 'A revisão compara planejado e realizado, registra evidência e transforma leitura em decisão.',
+  },
+];
+
+const productSurfaces = [
+  'Hoje',
+  'Prioridades',
+  'Tarefas',
+  'Compromissos',
+  'Rotinas',
+  'Energia',
+  'Objetivos',
+  'Revisões',
+  'Histórico',
+  'Configurações',
+];
+
+const vocabulary = [
+  ['Prioridade', 'resultado que merece atenção por impacto e urgência'],
+  ['Tarefa', 'próximo passo executável, planejado ou em andamento'],
+  ['Compromisso', 'ocupação temporal que disputa capacidade'],
+  ['Energia', 'estado percebido de 1 a 5, registrado por período'],
+  ['Revisão', 'leitura do planejado versus realizado, seguida de decisão'],
 ];
 ---
 
 <BaseLayout
-  title="PersonalOps — Reflective Signal"
-  description="A personal system for turning intention into movement through plan, focus, execution and reflection."
-  pageClass="marketing-page reflective-landing"
+  title="PersonalOps — clareza operacional pessoal"
+  description="Sistema pessoal para ler energia, capacidade, prioridades, compromissos e execução antes de transformar o dia em uma lista infinita."
+  pageClass="marketing-page personalops-landing"
 >
-  <header class="site-header reflective-header">
+  <header class="site-header product-header">
     <a class="wordmark" href={base} aria-label="PersonalOps, início">personal<span>ops</span></a>
     <nav aria-label="Navegação principal">
-      <a href="#patterns">Patterns</a>
-      <a href="#tone">Tone</a>
+      <a href="#sistema">O sistema</a>
+      <a href="#produto">Produto</a>
       <a class="header-action" href={`${base}entrar/`}>Entrar</a>
     </nav>
   </header>
 
-  <main id="conteudo" class="guide-shell">
-    <section class="hero-guide" aria-labelledby="reflective-title">
-      <div class="hero-kicker">
-        <span>PersonalOps / System Guide</span>
-        <span>V 1.0 / May 2025</span>
-      </div>
-      <div class="hero-grid">
-        <div>
-          <p class="section-code">01 / Signal</p>
-          <h1 id="reflective-title">PERSONALOPS / REFLECTIVE SIGNAL</h1>
-          <p class="hero-lead">A personal system for turning intention into movement.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href={`${base}entrar/`}>Abrir meu sistema</a>
-            <a class="text-link" href="#patterns">Ver o sistema</a>
-          </div>
+  <main id="conteudo" class="product-shell">
+    <section class="product-hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="product-kicker">PersonalOps / clareza operacional pessoal</p>
+        <h1 id="hero-title">PersonalOps organiza decisões antes de organizar listas.</h1>
+        <p class="hero-lead">
+          Um sistema pessoal para responder o que pede atenção agora, o que realmente é prioridade,
+          quanto cabe no dia, o que bloqueia a execução, o que avançou e qual é o próximo passo
+          concreto.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href={`${base}entrar/`}>Abrir meu sistema</a>
+          <a class="text-link" href="#sistema">Ver como funciona</a>
         </div>
-        <aside class="plan-mark" aria-label="Ritmo PersonalOps">
-          <strong>/</strong>
-          <span>Plan</span>
-          <span>Focus</span>
-          <span>Execute</span>
-          <span>Reflect</span>
-        </aside>
       </div>
-    </section>
 
-    <section class="color-system" aria-labelledby="color-title">
-      <p class="section-code">02 / Color</p>
-      <h2 id="color-title">Color marks intent.</h2>
-      <div class="swatch-row" aria-label="Paleta PersonalOps">
-        <article><i class="ink"></i><strong>Ink</strong><span>#1A1715</span></article>
-        <article><i class="panel"></i><strong>Dark Panel</strong><span>#282321</span></article>
-        <article><i class="surface"></i><strong>Silver</strong><span>#D8D2C9</span></article>
-        <article><i class="violet"></i><strong>Electric Violet</strong><span>#A78BFA</span></article>
-        <article><i class="gold"></i><strong>Solar Gold</strong><span>#FFC83D</span></article>
-      </div>
-      <div class="intent-grid">
-        <div class="intent-band violet-band"><span>Electric Violet / #A78BFA</span><small>Focus · Plan · Reflect · Progress</small></div>
-        <div class="intent-copy"><p>Violet marks plan, focus, reflection, and progress.</p></div>
-        <div class="intent-band gold-band"><span>Solar Gold / #FFC83D</span><small>Priority · Milestone · Commitment</small></div>
-        <div class="intent-copy"><p>Gold marks priority, milestone, and commitment.</p></div>
-      </div>
-    </section>
-
-    <section class="patterns-section" id="patterns" aria-labelledby="patterns-title">
-      <p class="section-code">03 / Personal Patterns</p>
-      <h2 id="patterns-title">Plan with intent. Act with focus. Reflect with honesty.</h2>
-      <div class="pattern-grid">
-        <article class="pattern-card agenda-card">
-          <h3>Daily agenda</h3>
-          <ol>
-            <li><time>06:30</time><span class="dot gold"></span><p>Morning review <small>Hydrate · Move · Breathe</small></p></li>
-            <li><time>08:00</time><span class="dot violet"></span><p>Deep work block 1 <small>Strategy · Planning</small></p></li>
-            <li><time>13:00</time><span class="dot gold"></span><p>Focus block 2 <small>Project execution</small></p></li>
-            <li><time>18:00</time><span class="dot rest"></span><p>Wrap up & plan <small>Reflect · Plan tomorrow</small></p></li>
-          </ol>
-        </article>
-        <article class="pattern-card focus-card">
-          <h3>Focus mode</h3>
-          <button type="button">⚡ Start focus</button>
-          <p>50 min · no distractions</p>
-        </article>
-        <article class="pattern-card progress-card">
-          <h3>Progress</h3>
-          <div class="ring" aria-label="Weekly progress 76 percent"><strong>76</strong><span>%</span></div>
-          <p>Weekly progress<br /><small>Great momentum. Keep going.</small></p>
-        </article>
-        <article class="pattern-card habit-card">
-          <h3>Habit stack</h3>
-          <div class="habit-grid">
-            <span>✓ Meditate</span><span>✓ Workout</span><span>✓ Read</span><span>○ Journal</span>
+      <aside class="ops-card" aria-label="Exemplo de leitura operacional do dia">
+        <header>
+          <div>
+            <span>Hoje</span>
+            <strong>sexta, 1 de agosto</strong>
           </div>
-        </article>
-        <article class="pattern-card energy-card">
-          <h3>Energy</h3>
-          <strong>86%</strong>
-          <p>High energy</p>
-          <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        </article>
-        <article class="pattern-card week-card">
-          <h3>Week overview</h3>
-          <div class="week-row">
-            {weekDays.map((item) => <span class={item.tone}><b>{item.day}</b><em>{item.value}</em></span>)}
+          <span class="capacity-pill">capacidade 3/5</span>
+        </header>
+        <div class="next-step-block">
+          <span>Próximo passo</span>
+          <p>Fechar a decisão pendente antes de abrir uma nova frente.</p>
+        </div>
+        <div class="capacity-grid" aria-label="Resumo operacional">
+          <div><strong>165</strong><span>min disponíveis</span></div>
+          <div><strong>3</strong><span>prioridades reais</span></div>
+          <div><strong>1</strong><span>bloqueio ativo</span></div>
+        </div>
+        <ol class="ops-list">
+          <li><span>01</span><strong>Concluir proposta</strong><small>45 min · prioridade alta</small></li>
+          <li><span>02</span><strong>Revisar agenda da semana</strong><small>20 min · compromisso</small></li>
+          <li><span>03</span><strong>Caminhada leve</strong><small>rotina · energia baixa</small></li>
+        </ol>
+      </aside>
+    </section>
+
+    <section class="thesis-section" id="sistema" aria-labelledby="system-title">
+      <div class="section-header">
+        <p class="product-kicker">Tese operacional</p>
+        <h2 id="system-title">O produto não começa pela interface. Começa pela leitura do dia.</h2>
+        <p>
+          PersonalOps não é uma lista genérica de tarefas. É uma estrutura para separar resultado,
+          ação, tempo, energia e revisão. A interface existe para tornar essa decisão inevitável.
+        </p>
+      </div>
+
+      <div class="question-grid">
+        {operatingQuestions.map((item) => (
+          <article>
+            <span>{item.code}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="model-section" aria-labelledby="model-title">
+      <div>
+        <p class="product-kicker">Vocabulário canônico</p>
+        <h2 id="model-title">Prioridade, tarefa e compromisso não são a mesma coisa.</h2>
+      </div>
+      <dl class="vocabulary-list">
+        {vocabulary.map(([term, definition]) => (
+          <div>
+            <dt>{term}</dt>
+            <dd>{definition}</dd>
           </div>
-        </article>
-        <article class="pattern-card milestone-card">
-          <h3>Milestone</h3>
-          <div class="medal">★</div>
-          <p>Strategy doc complete<br /><small>Clarity leads to momentum.</small></p>
-        </article>
+        ))}
+      </dl>
+    </section>
+
+    <section class="product-section" id="produto" aria-labelledby="product-title">
+      <div class="section-header compact">
+        <p class="product-kicker">Produto real</p>
+        <h2 id="product-title">As superfícies existem para sustentar execução, não para decorar dashboard.</h2>
+        <p>
+          O workspace autenticado já cobre o ciclo diário: estado, planejamento, execução, revisão,
+          histórico e configurações de conta, com persistência real no Supabase.
+        </p>
+      </div>
+      <div class="surface-map" aria-label="Superfícies funcionais do PersonalOps">
+        {productSurfaces.map((surface) => <span>{surface}</span>)}
       </div>
     </section>
 
-    <section class="tone-section" id="tone" aria-labelledby="tone-title">
-      <p class="section-code">04 / Tone</p>
-      <h2 id="tone-title">Calm.<br />Direct.<br />Honest.<br /><span>Non-performative.</span></h2>
-      <div class="tone-list">
-        <p><strong>Clarity over noise</strong><span>We remove friction so decisions become obvious.</span></p>
-        <p><strong>System, not motivation</strong><span>We build reliable patterns, not temporary spikes.</span></p>
-        <p><strong>Intent → Action → Reflection</strong><span>A loop that compounds with time.</span></p>
-        <p><strong>Privacy by design</strong><span>Your system is yours. Always.</span></p>
+    <section class="signal-section" aria-labelledby="signal-title">
+      <div>
+        <p class="product-kicker">Identidade</p>
+        <h2 id="signal-title">Calmo para pensar. Estruturado para decidir. Sinalizado só quando importa.</h2>
+      </div>
+      <div class="ratio-panel" aria-label="Proporção visual de referência 60 30 10">
+        <div class="ratio-surface"><strong>60%</strong><span>superfície calma</span></div>
+        <div class="ratio-structure"><strong>30%</strong><span>estrutura que sustenta</span></div>
+        <div class="ratio-signal"><strong>10%</strong><span>sinal de prioridade</span></div>
       </div>
     </section>
 
-    <section class="ratio-section" aria-label="60 30 10">
-      <div><strong>60%</strong><span>Calm surface</span></div>
-      <div><strong>30%</strong><span>Structure</span></div>
-      <div><strong>10%</strong><span>Luminous signal</span></div>
+    <section class="final-cta" aria-labelledby="cta-title">
+      <p class="product-kicker">Sistema, não motivação</p>
+      <h2 id="cta-title">Seu dia não precisa de mais ruído. Precisa de uma leitura honesta.</h2>
+      <a class="button button-gold" href={`${base}entrar/`}>Começar no PersonalOps</a>
     </section>
   </main>
 
-  <footer class="site-footer reflective-footer">
+  <footer class="site-footer product-footer">
     <a class="wordmark" href={base}>personal<span>ops</span></a>
-    <p>System over everything.</p>
+    <p>Sistema pessoal para clareza operacional.</p>
   </footer>
-
-  <style is:global>
-    :root {
-      --po-ink: #1a1715;
-      --po-panel: #282321;
-      --po-silver: #d8d2c9;
-      --po-surface: #f3f0ea;
-      --po-violet: #a78bfa;
-      --po-gold: #ffc83d;
-      --po-success: #37e38c;
-      --po-warning: #ff9f1c;
-    }
-
-    body.reflective-landing {
-      background: radial-gradient(circle at 92% 8%, rgb(167 139 250 / 10%), transparent 24rem), var(--po-surface);
-      color: var(--po-ink);
-    }
-  </style>
-
-  <style>
-    .reflective-header,
-    .reflective-footer,
-    .guide-shell {
-      width: min(118rem, calc(100% - 5rem));
-      margin-inline: auto;
-    }
-
-    .reflective-header {
-      min-height: 5.6rem;
-      border-color: color-mix(in srgb, var(--po-ink) 18%, transparent);
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-    }
-
-    .reflective-header .wordmark,
-    .reflective-footer .wordmark {
-      font-family: var(--font-ui);
-      font-size: 0.82rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      text-transform: lowercase;
-    }
-
-    .reflective-header .wordmark span,
-    .reflective-footer .wordmark span {
-      color: inherit;
-    }
-
-    .reflective-header nav a {
-      color: var(--po-ink);
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .reflective-header .header-action {
-      background: var(--po-ink);
-      color: var(--po-surface);
-    }
-
-    .hero-guide {
-      padding: clamp(4rem, 7vw, 7rem) 0 clamp(3rem, 6vw, 5rem);
-      border-bottom: 1px solid color-mix(in srgb, var(--po-ink) 18%, transparent);
-    }
-
-    .hero-kicker,
-    .section-code {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      color: var(--po-ink);
-      font-size: clamp(0.7rem, 0.9vw, 0.82rem);
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: clamp(2rem, 8vw, 9rem);
-      align-items: center;
-      margin-top: clamp(4rem, 9vw, 8rem);
-    }
-
-    .hero-grid h1 {
-      max-width: 11ch;
-      margin-top: 1.4rem;
-      font-family: var(--font-display);
-      font-size: clamp(4.8rem, 11vw, 12.5rem);
-      font-weight: 800;
-      letter-spacing: -0.075em;
-      line-height: 0.86;
-      text-transform: uppercase;
-    }
-
-    .hero-lead {
-      max-width: 56ch;
-      margin-top: 2rem;
-      color: color-mix(in srgb, var(--po-ink) 68%, transparent);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: clamp(1rem, 1.4vw, 1.25rem);
-      line-height: 1.8;
-    }
-
-    .hero-actions {
-      margin-top: 2rem;
-    }
-
-    .button-primary {
-      border-radius: 0;
-      background: var(--po-ink);
-      color: var(--po-surface);
-      text-transform: none;
-    }
-
-    .text-link {
-      color: var(--po-ink);
-    }
-
-    .plan-mark {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.15rem 1.4rem;
-      align-items: start;
-      min-width: 12rem;
-      text-transform: uppercase;
-    }
-
-    .plan-mark strong {
-      grid-row: span 4;
-      display: grid;
-      width: 3rem;
-      height: 5rem;
-      place-items: center;
-      background: var(--po-ink);
-      color: var(--po-surface);
-      font-size: 2rem;
-    }
-
-    .plan-mark span {
-      color: color-mix(in srgb, var(--po-ink) 72%, transparent);
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-    }
-
-    .color-system,
-    .patterns-section,
-    .tone-section,
-    .ratio-section {
-      padding: clamp(4rem, 7vw, 7rem) 0;
-      border-bottom: 1px solid color-mix(in srgb, var(--po-ink) 18%, transparent);
-    }
-
-    .color-system h2,
-    .patterns-section h2 {
-      max-width: 18ch;
-      margin-top: 1rem;
-      font-family: var(--font-display);
-      font-size: clamp(2.6rem, 6vw, 6.2rem);
-      font-weight: 760;
-      letter-spacing: -0.06em;
-      line-height: 0.95;
-      text-transform: uppercase;
-    }
-
-    .swatch-row {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: clamp(1rem, 2vw, 1.8rem);
-      margin-top: clamp(2.5rem, 5vw, 4rem);
-    }
-
-    .swatch-row article {
-      display: grid;
-      gap: 0.45rem;
-      min-width: 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      text-transform: uppercase;
-    }
-
-    .swatch-row i {
-      display: block;
-      aspect-ratio: 1;
-      border: 1px solid color-mix(in srgb, var(--po-ink) 12%, transparent);
-    }
-
-    .swatch-row .ink { background: var(--po-ink); }
-    .swatch-row .panel { background: var(--po-panel); }
-    .swatch-row .surface { background: var(--po-silver); }
-    .swatch-row .violet { background: var(--po-violet); }
-    .swatch-row .gold { background: var(--po-gold); }
-    .swatch-row strong { font-size: 0.78rem; letter-spacing: 0.12em; }
-    .swatch-row span { color: color-mix(in srgb, var(--po-ink) 62%, transparent); font-size: 0.75rem; }
-
-    .intent-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.8fr);
-      gap: 1rem clamp(2rem, 5vw, 5rem);
-      margin-top: clamp(3rem, 6vw, 5rem);
-      align-items: center;
-    }
-
-    .intent-band {
-      display: grid;
-      gap: 0.3rem;
-      padding: 1.45rem 2rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      text-transform: uppercase;
-    }
-
-    .violet-band { background: var(--po-violet); color: white; }
-    .gold-band { background: var(--po-gold); color: var(--po-ink); }
-    .intent-band span { font-weight: 900; letter-spacing: 0.12em; }
-    .intent-band small { letter-spacing: 0.08em; opacity: 0.86; }
-    .intent-copy { border-left: 3px solid var(--po-violet); padding-left: 1.2rem; font-size: clamp(1.1rem, 1.7vw, 1.45rem); }
-    .intent-copy:nth-of-type(4) { border-left-color: var(--po-gold); }
-
-    .pattern-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr 0.9fr 1fr;
-      gap: 1.5rem;
-      margin-top: clamp(3rem, 6vw, 5rem);
-    }
-
-    .pattern-card {
-      min-height: 18rem;
-      padding: 1.5rem;
-      border: 1px solid color-mix(in srgb, var(--po-ink) 16%, transparent);
-      background: rgb(255 255 255 / 28%);
-    }
-
-    .pattern-card h3 {
-      margin-bottom: 1.4rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.82rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .agenda-card ol { display: grid; gap: 1rem; list-style: none; padding: 0; }
-    .agenda-card li { display: grid; grid-template-columns: 3.4rem auto 1fr; gap: 0.8rem; align-items: start; }
-    .agenda-card time { color: color-mix(in srgb, var(--po-ink) 56%, transparent); font-variant-numeric: tabular-nums; }
-    .dot { width: 0.85rem; height: 0.85rem; margin-top: 0.35rem; border: 2px solid currentColor; border-radius: 50%; }
-    .dot.gold { color: var(--po-gold); }
-    .dot.violet { color: var(--po-violet); }
-    .dot.rest { color: color-mix(in srgb, var(--po-ink) 32%, transparent); }
-    .agenda-card small, .progress-card small, .milestone-card small { display: block; color: color-mix(in srgb, var(--po-ink) 55%, transparent); }
-
-    .focus-card,
-    .milestone-card {
-      background: var(--po-panel);
-      color: var(--po-surface);
-    }
-
-    .focus-card button {
-      width: 100%;
-      min-height: 5rem;
-      border-radius: 999px;
-      background: var(--po-violet);
-      color: white;
-      cursor: pointer;
-      font-size: 1.3rem;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .focus-card p { margin-top: 1.4rem; color: color-mix(in srgb, white 62%, transparent); text-align: center; text-transform: uppercase; }
-
-    .ring {
-      display: grid;
-      width: 12rem;
-      aspect-ratio: 1;
-      place-items: center;
-      margin: 0 auto 1.2rem;
-      border-radius: 50%;
-      background: conic-gradient(var(--po-success) 0 21%, var(--po-gold) 21% 34%, var(--po-violet) 34% 76%, color-mix(in srgb, var(--po-ink) 12%, transparent) 76% 100%);
-      position: relative;
-    }
-
-    .ring::after {
-      content: '';
-      position: absolute;
-      inset: 1rem;
-      border-radius: inherit;
-      background: var(--po-surface);
-    }
-
-    .ring strong,
-    .ring span {
-      position: relative;
-      z-index: 1;
-    }
-
-    .ring strong { font-size: 3.8rem; line-height: 1; }
-    .ring span { margin-left: 3.2rem; margin-top: -4.8rem; font-size: 1.1rem; }
-    .progress-card p { text-align: center; text-transform: uppercase; }
-
-    .habit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-    .habit-grid span { padding: 0.9rem 1rem; border: 1px solid color-mix(in srgb, var(--po-ink) 14%, transparent); border-radius: 0.35rem; font-weight: 800; text-transform: uppercase; }
-
-    .energy-card strong { display: block; font-size: 4rem; line-height: 1; }
-    .energy-card p { color: var(--po-success); font-weight: 900; text-transform: uppercase; }
-    .bars { display: flex; align-items: end; gap: 0.35rem; height: 5.5rem; margin-top: 1.6rem; }
-    .bars i { flex: 1; background: var(--po-success); }
-    .bars i:nth-child(1) { height: 18%; } .bars i:nth-child(2) { height: 28%; } .bars i:nth-child(3) { height: 42%; } .bars i:nth-child(4) { height: 58%; }
-    .bars i:nth-child(n + 5) { background: var(--po-gold); } .bars i:nth-child(5) { height: 72%; } .bars i:nth-child(6) { height: 88%; } .bars i:nth-child(7) { height: 74%; } .bars i:nth-child(8) { height: 56%; }
-
-    .week-card { grid-column: span 2; }
-    .week-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.8rem; }
-    .week-row span { display: grid; place-items: center; gap: 0.8rem; padding: 1rem 0.4rem; border: 1px solid color-mix(in srgb, var(--po-ink) 14%, transparent); }
-    .week-row b { font-size: 0.8rem; letter-spacing: 0.12em; }
-    .week-row em { font-style: normal; font-size: 1.2rem; }
-    .week-row .success { color: var(--po-success); } .week-row .violet { color: var(--po-violet); } .week-row .gold { color: var(--po-gold); } .week-row .rest { color: color-mix(in srgb, var(--po-ink) 34%, transparent); }
-
-    .medal { width: 7rem; aspect-ratio: 1; display: grid; place-items: center; margin: 0 auto 1.5rem; border-radius: 50%; background: var(--po-gold); color: var(--po-ink); font-size: 3.4rem; }
-    .milestone-card p { text-align: center; color: var(--po-gold); font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
-
-    .tone-section {
-      display: grid;
-      grid-template-columns: minmax(0, 0.78fr) minmax(18rem, 1fr);
-      gap: clamp(3rem, 7vw, 7rem);
-      align-items: end;
-    }
-
-    .tone-section h2 {
-      margin-top: 1rem;
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 7vw, 7rem);
-      font-weight: 720;
-      letter-spacing: -0.06em;
-      line-height: 0.94;
-    }
-
-    .tone-section h2 span { color: var(--po-violet); }
-    .tone-list { border-top: 1px solid color-mix(in srgb, var(--po-ink) 18%, transparent); }
-    .tone-list p { display: grid; grid-template-columns: minmax(10rem, 0.7fr) 1fr; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid color-mix(in srgb, var(--po-ink) 18%, transparent); }
-    .tone-list strong { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.78rem; }
-    .tone-list span { color: color-mix(in srgb, var(--po-ink) 62%, transparent); }
-
-    .ratio-section {
-      display: grid;
-      grid-template-columns: 1.4fr 0.9fr 0.55fr;
-      padding-bottom: 0;
-    }
-
-    .ratio-section div { min-height: 12rem; padding: 2rem; border-right: 1px solid color-mix(in srgb, var(--po-ink) 14%, transparent); }
-    .ratio-section div:nth-child(1) { background: color-mix(in srgb, var(--po-surface) 85%, white); }
-    .ratio-section div:nth-child(2) { background: var(--po-panel); color: var(--po-surface); }
-    .ratio-section div:nth-child(3) { background: var(--po-violet); color: white; }
-    .ratio-section strong { display: block; font-size: clamp(3rem, 5vw, 5rem); line-height: 1; }
-    .ratio-section span { display: block; margin-top: 0.6rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
-
-    .reflective-footer { min-height: 6rem; border-top: 0; color: color-mix(in srgb, var(--po-ink) 62%, transparent); text-transform: uppercase; letter-spacing: 0.12em; }
-
-    @media (max-width: 1024px) {
-      .reflective-header,
-      .reflective-footer,
-      .guide-shell { width: min(100% - 2rem, 118rem); }
-      .hero-grid,
-      .tone-section { grid-template-columns: 1fr; }
-      .plan-mark { justify-self: start; }
-      .swatch-row { grid-template-columns: repeat(3, 1fr); }
-      .intent-grid { grid-template-columns: 1fr; }
-      .pattern-grid { grid-template-columns: 1fr 1fr; }
-      .week-card { grid-column: span 2; }
-    }
-
-    @media (max-width: 640px) {
-      .reflective-header nav a:not(.header-action) { display: none; }
-      .hero-grid h1 { font-size: clamp(4rem, 18vw, 7rem); }
-      .hero-kicker { display: grid; }
-      .swatch-row, .pattern-grid, .week-row, .tone-list p, .ratio-section { grid-template-columns: 1fr; }
-      .week-card { grid-column: auto; }
-      .pattern-card { min-height: auto; }
-      .ratio-section div { min-height: 9rem; border-right: 0; border-bottom: 1px solid color-mix(in srgb, var(--po-ink) 14%, transparent); }
-    }
-  </style>
 </BaseLayout>
+
+<style>
+  .personalops-landing {
+    --surface: #f3f0ea;
+    --ink-local: #1a1715;
+    --panel: #fbfaf7;
+    --structure: #d8d2c9;
+    --structure-dark-local: #282321;
+    --muted: #5f5852;
+    --gold-local: #ffc83d;
+    --gold-ink: #725000;
+  }
+
+  .product-header,
+  .product-footer,
+  .product-shell {
+    width: min(90rem, calc(100% - 3rem));
+    margin-inline: auto;
+  }
+
+  .product-shell {
+    display: grid;
+    gap: clamp(5rem, 9vw, 9rem);
+  }
+
+  .product-hero {
+    display: grid;
+    min-height: calc(100svh - 5rem);
+    grid-template-columns: minmax(0, 0.95fr) minmax(30rem, 1.05fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    align-items: center;
+    padding-block: clamp(4rem, 8vw, 7.5rem);
+  }
+
+  .product-kicker {
+    color: var(--gold-ink);
+    font-size: 0.78rem;
+    font-weight: 780;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .product-hero h1,
+  .thesis-section h2,
+  .model-section h2,
+  .product-section h2,
+  .signal-section h2,
+  .final-cta h2 {
+    font-family: var(--font-display);
+    font-weight: 610;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+  }
+
+  .product-hero h1 {
+    max-width: 11ch;
+    margin-top: 1.15rem;
+    font-size: clamp(3.4rem, 7.6vw, 6.8rem);
+  }
+
+  .hero-lead {
+    max-width: 48ch;
+    margin-top: 1.7rem;
+    color: var(--muted);
+    font-size: clamp(1.05rem, 1.35vw, 1.28rem);
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .ops-card {
+    border: 1px solid var(--structure);
+    background: var(--panel);
+    box-shadow: 0 1.5rem 4rem rgb(26 23 21 / 8%);
+  }
+
+  .ops-card header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--structure);
+  }
+
+  .ops-card header div {
+    display: grid;
+    gap: 0.12rem;
+  }
+
+  .ops-card header span,
+  .ops-card small {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .capacity-pill {
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+    background: #ece6dc;
+    color: var(--structure-dark-local) !important;
+    font-weight: 700;
+  }
+
+  .next-step-block {
+    padding: 1.4rem 1.2rem;
+    background: var(--ink-local);
+    color: var(--surface);
+  }
+
+  .next-step-block span {
+    color: var(--gold-local);
+    font-size: 0.72rem;
+    font-weight: 780;
+    text-transform: uppercase;
+  }
+
+  .next-step-block p {
+    max-width: 34ch;
+    margin-top: 0.5rem;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    line-height: 1.35;
+  }
+
+  .capacity-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--structure);
+  }
+
+  .capacity-grid div {
+    padding: 1rem;
+    border-right: 1px solid var(--structure);
+  }
+
+  .capacity-grid div:last-child {
+    border-right: 0;
+  }
+
+  .capacity-grid strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .capacity-grid span {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  .ops-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .ops-list li {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.2rem 0.85rem;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--structure);
+  }
+
+  .ops-list li:last-child {
+    border-bottom: 0;
+    background: var(--surface);
+  }
+
+  .ops-list li > span {
+    grid-row: span 2;
+    color: var(--gold-ink);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.35fr) minmax(0, 0.95fr) minmax(18rem, 0.7fr);
+    gap: 2rem;
+    align-items: start;
+    padding-top: clamp(4rem, 8vw, 7rem);
+    border-top: 1px solid var(--structure);
+  }
+
+  .section-header.compact {
+    grid-template-columns: minmax(9rem, 0.35fr) minmax(0, 1fr) minmax(18rem, 0.8fr);
+  }
+
+  .section-header h2,
+  .model-section h2,
+  .signal-section h2,
+  .final-cta h2 {
+    font-size: clamp(2.4rem, 5vw, 5rem);
+  }
+
+  .section-header p:last-child,
+  .product-section .section-header p:last-child {
+    max-width: 44ch;
+    color: var(--muted);
+    font-size: 1.03rem;
+    line-height: 1.65;
+  }
+
+  .question-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 4rem;
+    border-top: 1px solid var(--structure);
+    border-bottom: 1px solid var(--structure);
+  }
+
+  .question-grid article {
+    min-height: 20rem;
+    padding: 1.25rem;
+    border-right: 1px solid var(--structure);
+  }
+
+  .question-grid article:last-child {
+    border-right: 0;
+  }
+
+  .question-grid span {
+    color: var(--gold-ink);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .question-grid h3 {
+    margin-top: 7rem;
+    font-size: 1.3rem;
+    letter-spacing: -0.025em;
+  }
+
+  .question-grid p {
+    margin-top: 0.65rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .model-section,
+  .signal-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(28rem, 1.1fr);
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: start;
+    padding-top: clamp(4rem, 8vw, 7rem);
+    border-top: 1px solid var(--structure);
+  }
+
+  .model-section h2,
+  .signal-section h2 {
+    max-width: 12ch;
+    margin-top: 1rem;
+  }
+
+  .vocabulary-list {
+    border-top: 1px solid var(--structure);
+  }
+
+  .vocabulary-list div {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--structure);
+  }
+
+  .vocabulary-list dt {
+    font-weight: 760;
+  }
+
+  .vocabulary-list dd {
+    color: var(--muted);
+  }
+
+  .surface-map {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-top: 3rem;
+    border-top: 1px solid var(--structure);
+    border-left: 1px solid var(--structure);
+  }
+
+  .surface-map span {
+    min-height: 7.5rem;
+    padding: 1rem;
+    border-right: 1px solid var(--structure);
+    border-bottom: 1px solid var(--structure);
+    background: color-mix(in srgb, var(--panel) 64%, var(--surface));
+    font-weight: 720;
+  }
+
+  .ratio-panel {
+    display: grid;
+    grid-template-columns: 6fr 3fr 1fr;
+    min-height: 11rem;
+    border: 1px solid var(--structure);
+  }
+
+  .ratio-panel div {
+    display: grid;
+    align-content: end;
+    padding: 1.2rem;
+  }
+
+  .ratio-panel strong {
+    font-family: var(--font-display);
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    line-height: 1;
+  }
+
+  .ratio-panel span {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 760;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ratio-surface {
+    background: var(--surface);
+  }
+
+  .ratio-structure {
+    background: var(--structure-dark-local);
+    color: var(--surface);
+  }
+
+  .ratio-signal {
+    background: var(--gold-local);
+    color: var(--ink-local);
+  }
+
+  .final-cta {
+    width: min(58rem, 100%);
+    margin-inline: auto;
+    padding-block: clamp(5rem, 10vw, 9rem);
+    text-align: center;
+  }
+
+  .final-cta h2 {
+    margin: 0.65rem auto 2rem;
+  }
+
+  @media (max-width: 1024px) {
+    .product-hero,
+    .model-section,
+    .signal-section {
+      grid-template-columns: 1fr;
+    }
+
+    .ops-card {
+      max-width: 48rem;
+    }
+
+    .section-header,
+    .section-header.compact {
+      grid-template-columns: 1fr 1.5fr;
+    }
+
+    .section-header p:last-child {
+      grid-column: 2;
+    }
+
+    .question-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .question-grid article:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .question-grid article:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--structure);
+    }
+
+    .surface-map {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .product-header,
+    .product-footer,
+    .product-shell {
+      width: min(100% - 2rem, 90rem);
+    }
+
+    .product-header nav a:not(.header-action) {
+      display: none;
+    }
+
+    .product-hero {
+      min-height: auto;
+      padding-block: 4.5rem 5rem;
+    }
+
+    .product-hero h1 {
+      font-size: clamp(3rem, 14vw, 4.8rem);
+    }
+
+    .section-header,
+    .section-header.compact,
+    .model-section,
+    .signal-section {
+      grid-template-columns: 1fr;
+    }
+
+    .section-header p:last-child {
+      grid-column: auto;
+    }
+
+    .question-grid,
+    .surface-map,
+    .capacity-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .question-grid article,
+    .question-grid article:nth-child(2n),
+    .capacity-grid div {
+      border-right: 0;
+      border-bottom: 1px solid var(--structure);
+    }
+
+    .question-grid article:last-child,
+    .capacity-grid div:last-child {
+      border-bottom: 0;
+    }
+
+    .question-grid h3 {
+      margin-top: 3.5rem;
+    }
+
+    .vocabulary-list div {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+
+    .ratio-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .ratio-panel div {
+      min-height: 7rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .hero-actions .text-link {
+      text-align: center;
+    }
+
+    .ops-card header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>
