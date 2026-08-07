@@ -7,7 +7,7 @@ test('páginas públicas respondem, navegam e não têm violações sérias', as
 }, testInfo) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'PERSONALOPS / REFLECTIVE SIGNAL',
+    'PersonalOps organiza decisões antes de organizar listas',
   );
   await expect(page.getByRole('link', { name: /Abrir meu sistema/i })).toHaveAttribute(
     'href',
