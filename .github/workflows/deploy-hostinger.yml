@@ -29,6 +29,11 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
+      - name: Restore canonical fixture mirror
+        shell: bash
+        run: |
+          mkdir -p public/assets/data
+          cp -R assets/data/. public/assets/data/
       - name: Validate JavaScript
         run: |
           node --check assets/js/app.js
