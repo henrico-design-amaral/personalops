@@ -3,18 +3,15 @@ node_modules/
 
 # Build outputs
 dist/
-dist-local/
 build/
 out/
 .next/
 .astro/
-output/
 
 # Environment
 .env
 .env.local
 .env.*.local
-.env.test
 
 # Logs
 *.log
@@ -30,20 +27,15 @@ Thumbs.db
 
 # Testing
 coverage/
-playwright-report/
-test-results/
 
 # Database
 dev.db
 dev.db-journal
 .prisma/
-supabase/.temp/
 
 # Local development (Claude IDE, AI memory)
 .claude/
-.codex/
 ai-memory/
-*.gform
 
 # Build/asset temporaries
 public/index.html.backup
@@ -51,6 +43,7 @@ public/index.html.backup
 # Future phase assets (beyond Sessions 010-020)
 public/assets/css/
 public/assets/js/
+public/manifest.webmanifest
 public/service-worker.js
 public/assets/data/assessments.json
 public/assets/data/attendance-events.json
