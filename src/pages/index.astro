@@ -2,50 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const base = import.meta.env.BASE_URL;
-
-const operatingQuestions = [
-  {
-    code: '01',
-    title: 'O que pede atenção agora?',
-    text: 'O dia começa por estado real: energia, capacidade, compromissos, atrasos e bloqueios.',
-  },
-  {
-    code: '02',
-    title: 'O que é prioridade de verdade?',
-    text: 'Prioridade é resultado com impacto e urgência. Tarefa é apenas o próximo passo executável.',
-  },
-  {
-    code: '03',
-    title: 'Quanto cabe sem mentir?',
-    text: 'O plano se ajusta ao tempo disponível e à energia percebida, não a uma lista infinita.',
-  },
-  {
-    code: '04',
-    title: 'O que avançou e o que muda?',
-    text: 'A revisão compara planejado e realizado, registra evidência e transforma leitura em decisão.',
-  },
-];
-
-const productSurfaces = [
-  'Hoje',
-  'Prioridades',
-  'Tarefas',
-  'Compromissos',
-  'Rotinas',
-  'Energia',
-  'Objetivos',
-  'Revisões',
-  'Histórico',
-  'Configurações',
-];
-
-const vocabulary = [
-  ['Prioridade', 'resultado que merece atenção por impacto e urgência'],
-  ['Tarefa', 'próximo passo executável, planejado ou em andamento'],
-  ['Compromisso', 'ocupação temporal que disputa capacidade'],
-  ['Energia', 'estado percebido de 1 a 5, registrado por período'],
-  ['Revisão', 'leitura do planejado versus realizado, seguida de decisão'],
-];
 ---
 
 <BaseLayout
@@ -91,14 +47,35 @@ const vocabulary = [
           <p>Fechar a decisão pendente antes de abrir uma nova frente.</p>
         </div>
         <div class="capacity-grid" aria-label="Resumo operacional">
-          <div><strong>165</strong><span>min disponíveis</span></div>
-          <div><strong>3</strong><span>prioridades reais</span></div>
-          <div><strong>1</strong><span>bloqueio ativo</span></div>
+          <div>
+            <strong>165</strong>
+            <span>min disponíveis</span>
+          </div>
+          <div>
+            <strong>3</strong>
+            <span>prioridades reais</span>
+          </div>
+          <div>
+            <strong>1</strong>
+            <span>bloqueio ativo</span>
+          </div>
         </div>
         <ol class="ops-list">
-          <li><span>01</span><strong>Concluir proposta</strong><small>45 min · prioridade alta</small></li>
-          <li><span>02</span><strong>Revisar agenda da semana</strong><small>20 min · compromisso</small></li>
-          <li><span>03</span><strong>Caminhada leve</strong><small>rotina · energia baixa</small></li>
+          <li>
+            <span>01</span>
+            <strong>Concluir proposta</strong>
+            <small>45 min · prioridade alta</small>
+          </li>
+          <li>
+            <span>02</span>
+            <strong>Revisar agenda da semana</strong>
+            <small>20 min · compromisso</small>
+          </li>
+          <li>
+            <span>03</span>
+            <strong>Caminhada leve</strong>
+            <small>rotina · energia baixa</small>
+          </li>
         </ol>
       </aside>
     </section>
@@ -114,13 +91,26 @@ const vocabulary = [
       </div>
 
       <div class="question-grid">
-        {operatingQuestions.map((item) => (
-          <article>
-            <span>{item.code}</span>
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-          </article>
-        ))}
+        <article>
+          <span>01</span>
+          <h3>O que pede atenção agora?</h3>
+          <p>O dia começa por estado real: energia, capacidade, compromissos e bloqueios.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>O que é prioridade de verdade?</h3>
+          <p>Prioridade é resultado com impacto e urgência. Tarefa é próximo passo executável.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Quanto cabe sem mentir?</h3>
+          <p>O plano se ajusta ao tempo disponível e à energia percebida, não à lista infinita.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>O que muda depois?</h3>
+          <p>A revisão compara planejado e realizado, registra evidência e transforma leitura em decisão.</p>
+        </article>
       </div>
     </section>
 
@@ -130,38 +120,70 @@ const vocabulary = [
         <h2 id="model-title">Prioridade, tarefa e compromisso não são a mesma coisa.</h2>
       </div>
       <dl class="vocabulary-list">
-        {vocabulary.map(([term, definition]) => (
-          <div>
-            <dt>{term}</dt>
-            <dd>{definition}</dd>
-          </div>
-        ))}
+        <div>
+          <dt>Prioridade</dt>
+          <dd>resultado que merece atenção por impacto e urgência</dd>
+        </div>
+        <div>
+          <dt>Tarefa</dt>
+          <dd>próximo passo executável, planejado ou em andamento</dd>
+        </div>
+        <div>
+          <dt>Compromisso</dt>
+          <dd>ocupação temporal que disputa capacidade</dd>
+        </div>
+        <div>
+          <dt>Energia</dt>
+          <dd>estado percebido de 1 a 5, registrado por período</dd>
+        </div>
+        <div>
+          <dt>Revisão</dt>
+          <dd>leitura do planejado versus realizado, seguida de decisão</dd>
+        </div>
       </dl>
     </section>
 
     <section class="product-section" id="produto" aria-labelledby="product-title">
       <div class="section-header compact">
         <p class="product-kicker">Produto real</p>
-        <h2 id="product-title">As superfícies existem para sustentar execução, não para decorar dashboard.</h2>
+        <h2 id="product-title">As superfícies sustentam execução, não decoram dashboard.</h2>
         <p>
-          O workspace autenticado já cobre o ciclo diário: estado, planejamento, execução, revisão,
+          O workspace autenticado cobre o ciclo diário: estado, planejamento, execução, revisão,
           histórico e configurações de conta, com persistência real no Supabase.
         </p>
       </div>
       <div class="surface-map" aria-label="Superfícies funcionais do PersonalOps">
-        {productSurfaces.map((surface) => <span>{surface}</span>)}
+        <span>Hoje</span>
+        <span>Prioridades</span>
+        <span>Tarefas</span>
+        <span>Compromissos</span>
+        <span>Rotinas</span>
+        <span>Energia</span>
+        <span>Objetivos</span>
+        <span>Revisões</span>
+        <span>Histórico</span>
+        <span>Configurações</span>
       </div>
     </section>
 
     <section class="signal-section" aria-labelledby="signal-title">
       <div>
         <p class="product-kicker">Identidade</p>
-        <h2 id="signal-title">Calmo para pensar. Estruturado para decidir. Sinalizado só quando importa.</h2>
+        <h2 id="signal-title">Calmo para pensar. Estruturado para decidir. Sinalizado quando importa.</h2>
       </div>
       <div class="ratio-panel" aria-label="Proporção visual de referência 60 30 10">
-        <div class="ratio-surface"><strong>60%</strong><span>superfície calma</span></div>
-        <div class="ratio-structure"><strong>30%</strong><span>estrutura que sustenta</span></div>
-        <div class="ratio-signal"><strong>10%</strong><span>sinal de prioridade</span></div>
+        <div class="ratio-surface">
+          <strong>60%</strong>
+          <span>superfície calma</span>
+        </div>
+        <div class="ratio-structure">
+          <strong>30%</strong>
+          <span>estrutura que sustenta</span>
+        </div>
+        <div class="ratio-signal">
+          <strong>10%</strong>
+          <span>sinal de prioridade</span>
+        </div>
       </div>
     </section>
 
@@ -474,7 +496,7 @@ const vocabulary = [
     padding: 1rem;
     border-right: 1px solid var(--structure);
     border-bottom: 1px solid var(--structure);
-    background: color-mix(in srgb, var(--panel) 64%, var(--surface));
+    background: var(--panel);
     font-weight: 720;
   }
 
