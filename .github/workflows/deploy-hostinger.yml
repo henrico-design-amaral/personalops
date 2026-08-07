@@ -129,11 +129,11 @@ jobs:
         shell: bash
         run: |
           for attempt in 1 2 3 4 5; do
-            if curl --fail --silent --show-error --location https://personalops.henrico.works/ | grep --fixed-strings --quiet 'Clareza antes de velocidade.'; then
-              echo 'Production homepage contains the current release marker.'
+            if curl --fail --silent --show-error --location https://personalops.henrico.works/ | grep --fixed-strings --quiet 'PERSONALOPS / REFLECTIVE SIGNAL'; then
+              echo 'Production homepage contains the restored Reflective Signal marker.'
               exit 0
             fi
             sleep 10
           done
-          echo 'Production did not expose the current release marker.'
+          echo 'Production did not expose the restored Reflective Signal marker.'
           exit 1
