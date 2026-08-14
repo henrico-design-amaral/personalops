@@ -67,7 +67,7 @@ jobs:
 
   deploy:
     name: Publish validated PersonalOps
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 10
