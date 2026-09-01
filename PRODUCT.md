@@ -1,10 +1,15 @@
-# Produto — PersonalOps
+# Produto — PersonalTrainerOPS
+
+Status: ACTIVE
+Updated: 2026-09-01
+
+> Nota de portabilidade: o repositório físico continua `henrico-design-amaral/personalops`. Arquivos históricos podem usar `PersonalOps`, mas a nomenclatura semântica canônica atual é `PersonalTrainerOPS`.
 
 ## Tese
 
-PersonalOps é uma plataforma SaaS de personal training para administrar a relação operacional entre a plataforma, personal trainers/professores e alunos. O produto foi concebido para competir com Mfit e outros sistemas do mercado, ampliando a categoria com uma operação mais completa, visual, inteligente e centrada no trabalho real do personal e na experiência do aluno.
+PersonalTrainerOPS é uma plataforma SaaS de personal training para administrar a relação operacional entre a plataforma, personal trainers/professores e alunos. O produto foi concebido para competir com sistemas da categoria, ampliando-a com uma operação mais completa, visual, inteligente e centrada no trabalho real do personal e na experiência do aluno.
 
-PersonalOps não é um sistema pessoal de produtividade, tarefas, energia ou organização da vida. Essa interpretação foi uma reconstrução posterior equivocada e não define o produto.
+PersonalTrainerOPS não é um sistema pessoal de produtividade, tarefas, energia ou organização da vida. Essa interpretação foi uma reconstrução posterior equivocada e não define o produto.
 
 ## Perfis canônicos
 
@@ -38,4 +43,4 @@ PersonalOps não é um sistema pessoal de produtividade, tarefas, energia ou org
 
 ## Visão
 
-PersonalOps deve ser o sistema operacional do personal trainer moderno: uma plataforma única para gestão de alunos, prescrição, execução, acompanhamento, comunicação operacional, progresso e financeiro, com experiência superior para professor e aluno.
+PersonalTrainerOPS deve ser o sistema operacional do personal trainer moderno: uma plataforma única para gestão de alunos, prescrição, execução, acompanhamento, comunicação operacional, progresso e financeiro, com experiência superior para professor e aluno.
