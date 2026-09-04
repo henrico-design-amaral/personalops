@@ -1,0 +1,60 @@
+{
+  "schema": "henricoops.visual-lock.v1",
+  "project": "PersonalTrainerOPS",
+  "status": "PARTIAL",
+  "version": "1.0.0",
+  "authority": {
+    "sources": ["STYLE_GUIDE.md", "DESIGN_SYSTEM.md", "current accepted implementation", "current product/brand decisions", "A11Y.md"],
+    "last_reviewed": "2026-09-04"
+  },
+  "tokens": {
+    "source": "Current accepted implementation; explicit machine-readable token source still pending",
+    "format": "HenricoOPS semantic roles",
+    "generated_targets": []
+  },
+  "identity": {
+    "locked": ["semantic product name PersonalTrainerOPS", "historical PersonalOps is provenance only"],
+    "bounded": ["physical repository/path may remain personalops until separately migrated"],
+    "forbidden": ["propagate PersonalOps as new semantic product naming", "silent rebrand"]
+  },
+  "typography": {
+    "locked": ["current accepted implementation typography and role hierarchy until explicitly superseded"],
+    "bounded": ["validated repeated values may be promoted into reusable role tokens"],
+    "forbidden": ["provider-default fitness typography", "invented type system during documentation migration"]
+  },
+  "color": {
+    "locked": ["current accepted role/status colors until an explicit newer decision supersedes them"],
+    "bounded": ["role/status colors may be promoted into semantic tokens after validation"],
+    "forbidden": ["provider-default neon gym palette", "decorative color used to substitute role/permission clarity"]
+  },
+  "geometry": {
+    "locked": ["role-aware information hierarchy", "mobile training/student surfaces are first-class designed states", "touch/glanceability requirements for execution surfaces"],
+    "bounded": ["spacing/grid/component geometry derived from validated current implementation"],
+    "forbidden": ["compressed desktop admin layout for mobile training", "geometry that blurs Admin/Professor/Student responsibilities"]
+  },
+  "graphic_language": {
+    "locked": ["operational, modern and clear", "training context immediately legible", "exercise/media is functional content rather than decoration", "approved/licensed exercise imagery according to product contracts"],
+    "bounded": ["motion/timers/feedback only when they support training execution and reduced-motion requirements"],
+    "forbidden": ["generic productivity/habits/energy visual language", "provider-default fitness neon/gym aesthetic", "misleading generated anatomical/training guidance", "invented training evidence"]
+  },
+  "composition": {
+    "locked": ["hierarchy reduces friction in student management, training creation and training execution", "Admin/Professor/Student roles remain distinguishable through information and permissions", "training execution prioritizes glanceability, touch operation, timer/state clarity and resilient behavior"],
+    "bounded": ["shared component grammar across roles only when responsibility remains explicit"],
+    "forbidden": ["blank-canvas reinterpretation of accepted role journeys", "visual abstraction that blurs permissions/data responsibility"]
+  },
+  "content_slots": [
+    {"id":"role_content","mode":"BOUNDED","rule":"Content varies by Admin/Professor/Student responsibility; permissions remain product authority."},
+    {"id":"exercise_media","mode":"BOUNDED","rule":"Use approved/licensed/current assets; media is functional instruction content."},
+    {"id":"training_copy","mode":"CONTENT_SLOT","rule":"Practical, specific and role-aware; generic wellness/productivity language is blocked."},
+    {"id":"responsive_layout","mode":"FORMAT_TRANSFORM","rule":"Mobile training/student experiences are purpose-designed transformations, not compressed admin desktop."}
+  ],
+  "format_transforms": [
+    {"id":"admin-desktop","canvas":"responsive product UI","rules":["preserve operational hierarchy", "role permissions/data responsibility remain explicit"]},
+    {"id":"professor-student-mobile","canvas":"mobile product UI","rules":["first-class designed state", "touch/glanceability", "timer/state clarity", "reduced-motion accessibility"]}
+  ],
+  "pattern_masters": [],
+  "baselines": [],
+  "exceptions": [
+    {"status":"OPEN_GAP","reason":"Concrete current palette/type/component values are still resolved from implementation rather than a complete machine-readable token layer; Pattern Masters and Golden Screens are not formally registered.","next_action":"Extract validated current values into semantic tokens, register role-journey Pattern Masters/Golden Screens, then promote lock to READY."}
+  ]
+}
